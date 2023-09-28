@@ -9,14 +9,13 @@ public class FoodManager : GameBehaviour
     public GameObject rawfoodTemp;
     Vector3 startOfConveyerBelt;
 
-    public FoodClass[] foodArray;
-    
-
+   
     // Start is called before the first frame update
     void Start()
     {
         startOfConveyerBelt = GameObject.Find("FoodInstantiationPoint").transform.position;
         InstantiateFood();
+        ExecuteAfterSeconds(2, () => InstantiateFood());
 
     }
 
@@ -29,6 +28,6 @@ public class FoodManager : GameBehaviour
     void InstantiateFood()
     {
         var food = Instantiate(rawfoodTemp, startOfConveyerBelt, Quaternion.identity);
-        food.GetComponent<FoodData>().foodData = foodArray[0];
+        //food.GetComponent<FoodData>().foodData = foodArray[0];
     }
 }

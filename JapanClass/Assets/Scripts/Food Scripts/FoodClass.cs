@@ -14,5 +14,12 @@ public class FoodClass
     public GameObject cookedFood;
 
     public bool needsKneeding;
+
+    public float maxKneedPrepPoints;
     public float kneedPrepPoints;
+
+    public FoodClass()
+    {
+
+    }
 }
