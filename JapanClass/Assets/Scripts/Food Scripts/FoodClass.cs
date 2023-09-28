@@ -9,6 +9,7 @@ public class FoodClass
     public string description;
     public bool isCooked;
     public float value;
+    public float reputationLoss;
 
     public GameObject rawFood;
     public GameObject cookedFood;

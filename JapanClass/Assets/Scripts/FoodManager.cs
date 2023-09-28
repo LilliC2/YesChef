@@ -15,7 +15,6 @@ public class FoodManager : GameBehaviour
     {
         startOfConveyerBelt = GameObject.Find("FoodInstantiationPoint").transform.position;
         InstantiateFood();
-        ExecuteAfterSeconds(2, () => InstantiateFood());
 
     }
 
