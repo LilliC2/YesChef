@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChefManager : GameBehaviour
+public class ChefManager : Singleton<ChefManager>
 {
     public GameObject[] chefArray;
     bool placingChef;
@@ -50,7 +50,7 @@ public class ChefManager : GameBehaviour
         }
     }
 
-    void CreateNewChef(GameObject _chef)
+    public void CreateNewChef(GameObject _chef)
     {
         placingChef = true;
         newChef = Instantiate(Resources.Load<GameObject>("Prefabs/" + _chef.GetComponent<ChefData>().chefData.name));

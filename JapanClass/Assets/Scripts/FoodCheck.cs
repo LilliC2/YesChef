@@ -22,8 +22,12 @@ public class FoodCheck : GameBehaviour
                 print("Food is uncooked");
                 _GM.reputation -= other.gameObject.GetComponent<FoodData>().foodData.reputationLoss;
                 //lose reputation points
+                
 
             }
+
+            _UI.UpdateReputationSlider();
+            _UI.UpdateMoney();
 
             ExecuteAfterSeconds(1, () => Destroy(other.gameObject));
         }

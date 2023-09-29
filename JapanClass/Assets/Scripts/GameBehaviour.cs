@@ -8,6 +8,8 @@ public class GameBehaviour : LC.Behaviour //inherits from
 
     //protected static SceneController _SC { get { return SceneController.INSTANCE; } }
     protected static GameManager _GM { get { return GameManager.INSTANCE; } }
+    protected static UIManager _UI { get { return UIManager.INSTANCE; } }
+    protected static ChefManager _CM { get { return ChefManager.INSTANCE; } }
 
 
 }
