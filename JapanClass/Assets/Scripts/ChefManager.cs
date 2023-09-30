@@ -17,7 +17,6 @@ public class ChefManager : Singleton<ChefManager>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) CreateNewChef(chefArray[0]);
 
         if(placingChef)
         {
@@ -39,6 +38,7 @@ public class ChefManager : Singleton<ChefManager>
                 //place chef
                 placingChef = false;
                 //subtract cost of chef from money
+                _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
                 _UI.UpdateMoney();
 

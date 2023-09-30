@@ -15,6 +15,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject chefMenu;
     public GameObject chefMenuButton;
 
+    public TMP_Text nameChef0;
+    public GameObject cannotAffordChef0;
+
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
     public GameObject selectedChef;
@@ -24,6 +27,12 @@ public class UIManager : Singleton<UIManager>
     [Header("Receipe UI")]
     public GameObject receipeMenu;
     public GameObject receipeMenuButton;
+
+
+    private void Start()
+    {
+        LoadChefData();
+    }
 
     public void UpdateDay()
     {
@@ -43,6 +52,7 @@ public class UIManager : Singleton<UIManager>
     public void OpenChefMenu()
     {
         chefMenu.SetActive(true);
+        CheckWhatPlayerCanAffordChefs();
         chefMenuButton.SetActive(false);
     }
 
@@ -93,6 +103,19 @@ public class UIManager : Singleton<UIManager>
         CloseChefPopUp();
     }
 
+    public void PlayerReady()
+    {
+        _GM.playerReady = true;
+
+        Time.timeScale = 1;
+    }
+
+    public void Speed2X()
+    {
+        Time.timeScale = 2;
+
+    }
+
     public void BuyChef(int _arrayNum)
     {
         var chefToBuy = _CM.chefArray[_arrayNum];
@@ -100,6 +123,8 @@ public class UIManager : Singleton<UIManager>
         if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
         {
             _CM.CreateNewChef(chefToBuy);
+
+            CheckWhatPlayerCanAffordChefs();
         }
         else
         {
@@ -109,5 +134,19 @@ public class UIManager : Singleton<UIManager>
         
 
 
+    }
+
+    public void LoadChefData()
+    {
+        nameChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.name;
+    }
+
+    public void CheckWhatPlayerCanAffordChefs()
+    {
+        if(_GM.money < _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef0.SetActive(true);
+        }
+        else cannotAffordChef0.SetActive(false);
     }
 }
