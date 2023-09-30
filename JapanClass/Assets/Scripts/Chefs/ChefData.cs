@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChefData : MonoBehaviour
+public class ChefData : GameBehaviour
 {
 
     public ChefClass chefData;
@@ -68,5 +68,10 @@ public class ChefData : MonoBehaviour
             }
         }
 
+    }
+
+    private void OnMouseDown()
+    {
+        _UI.OpenChefPopUp(this.gameObject);
     }
 }

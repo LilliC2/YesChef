@@ -40,6 +40,8 @@ public class ChefManager : Singleton<ChefManager>
                 placingChef = false;
                 //subtract cost of chef from money
 
+                _UI.UpdateMoney();
+
             }
             if(Input.GetKeyDown(KeyCode.Mouse1))
             {

@@ -15,6 +15,12 @@ public class UIManager : Singleton<UIManager>
     public GameObject chefMenu;
     public GameObject chefMenuButton;
 
+    [Header("Chef PopUP UI")]
+    public GameObject chefPopUp;
+    public GameObject selectedChef;
+    public TMP_Text chefPopUpName;
+
+
     [Header("Receipe UI")]
     public GameObject receipeMenu;
     public GameObject receipeMenuButton;
@@ -56,6 +62,35 @@ public class UIManager : Singleton<UIManager>
     {
         receipeMenu.SetActive(false);
         receipeMenuButton.SetActive(true);
+    }
+
+    public void OpenChefPopUp(GameObject _chefData)
+    {
+
+        selectedChef = _chefData;
+        chefPopUp.SetActive(true);
+
+        chefPopUpName.text = _chefData.GetComponent<ChefData>().chefData.name;
+    }
+
+    public void CloseChefPopUp()
+    {
+        selectedChef = null;
+        chefPopUp.SetActive(false);
+    }
+
+    public void FireChef()
+    {
+        //give money back to player
+        _GM.money += selectedChef.GetComponent<ChefData>().chefData.hireCost/2;
+
+        UpdateMoney();
+
+        print("Destroy him");
+        //destroy chef
+        Destroy(selectedChef);
+
+        CloseChefPopUp();
     }
 
     public void BuyChef(int _arrayNum)
