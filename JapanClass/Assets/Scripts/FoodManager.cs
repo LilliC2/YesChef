@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FoodManager : Singleton<FoodManager>
 {
-    public int dayCount;
+    public GameObject[] foodArray;
 
     public GameObject rawfoodTemp;
     Vector3 startOfConveyerBelt;
@@ -24,8 +24,10 @@ public class FoodManager : Singleton<FoodManager>
 
     public void InstantiateFood()
     {
+        var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
+
         print("food coming in");
-        var food = Instantiate(rawfoodTemp, startOfConveyerBelt, Quaternion.identity);
+        var food = Instantiate(randomFood, startOfConveyerBelt, Quaternion.identity);
         foodInWave.Add(food);
         //food.GetComponent<FoodData>().foodData = foodArray[0];
     }

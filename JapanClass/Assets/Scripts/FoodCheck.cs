@@ -14,7 +14,7 @@ public class FoodCheck : GameBehaviour
                 //Add money
                 print("Food is cooked");
 
-                _GM.money += other.gameObject.GetComponent<FoodData>().foodData.value;
+                _GM.money += other.gameObject.GetComponent<FoodData>().foodData.orderCost;
 
             }
             else
@@ -25,6 +25,9 @@ public class FoodCheck : GameBehaviour
                 
 
             }
+
+            _FM.foodInWave.Remove(other.gameObject);
+
 
             _UI.UpdateReputationSlider();
             _UI.UpdateMoney();

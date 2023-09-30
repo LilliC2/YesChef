@@ -26,7 +26,6 @@ public class FoodData : GameBehaviour
             //create new gameobject
             var cookedFoodOB = Instantiate(foodData.cookedFood, transform.position, angles,transform);
 
-            _FM.foodInWave.Remove(this.gameObject);
 
             //delete this gameobject
             Destroy(transform.GetChild(0).gameObject);

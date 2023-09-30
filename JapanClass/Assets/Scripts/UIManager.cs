@@ -28,10 +28,23 @@ public class UIManager : Singleton<UIManager>
     public GameObject receipeMenu;
     public GameObject receipeMenuButton;
 
+    [Header("Receipe 0")]
+    public TMP_Text nameReceipe0;
+    public TMP_Text orderCostReceipe0;
+    public GameObject cannotAffordReceipe0;
+    public GameObject soldReceipe0;
+
+    [Header("Receipe 1")]
+    public TMP_Text nameReceipe1;
+    public TMP_Text orderCostReceipe1;
+    public GameObject cannotAffordReceipe1;
+    public GameObject soldReceipe1;
+
 
     private void Start()
     {
         LoadChefData();
+        LoadReceipeData();
     }
 
     public void UpdateDay()
@@ -51,6 +64,7 @@ public class UIManager : Singleton<UIManager>
 
     public void OpenChefMenu()
     {
+
         chefMenu.SetActive(true);
         CheckWhatPlayerCanAffordChefs();
         chefMenuButton.SetActive(false);
@@ -65,6 +79,7 @@ public class UIManager : Singleton<UIManager>
     public void OpenReceipeMenu()
     {
         receipeMenu.SetActive(true);
+        CheckWhatPlayerCanAffordReceipes();
         receipeMenuButton.SetActive(false);
     }
 
@@ -118,27 +133,50 @@ public class UIManager : Singleton<UIManager>
 
     public void BuyChef(int _arrayNum)
     {
-        var chefToBuy = _CM.chefArray[_arrayNum];
-
-        if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
+        if(!_GM.activeWave)
         {
-            _CM.CreateNewChef(chefToBuy);
+            var chefToBuy = _CM.chefArray[_arrayNum];
 
-            CheckWhatPlayerCanAffordChefs();
-        }
-        else
+            if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
+            {
+                _CM.CreateNewChef(chefToBuy);
+
+                CheckWhatPlayerCanAffordChefs();
+            }
+
+        }    
+
+    }
+
+
+    public void BuyReceipe(int _arrayNum)
+    {
+        if(!_GM.activeWave)
         {
-            print("Not enough money");
+            var receipeToBuy = _FM.foodArray[_arrayNum];
+
+            if (receipeToBuy.GetComponent<FoodData>().foodData.unlockCost <= _GM.money)
+            {
+                _GM.receipesUnlocked.Add(receipeToBuy);
+
+                _GM.money -= receipeToBuy.GetComponent<FoodData>().foodData.unlockCost;
+
+                UpdateMoney();
+
+                CheckWhatPlayerCanAffordReceipes();
+            }
         }
-
-        
-
-
     }
 
     public void LoadChefData()
     {
         nameChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.name;
+    }
+
+    public void LoadReceipeData()
+    {
+        nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
+        orderCostReceipe0.text = "$"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
     }
 
     public void CheckWhatPlayerCanAffordChefs()
@@ -148,5 +186,36 @@ public class UIManager : Singleton<UIManager>
             cannotAffordChef0.SetActive(true);
         }
         else cannotAffordChef0.SetActive(false);
+    }
+
+    public void CheckWhatPlayerCanAffordReceipes()
+    {
+        if(_GM.receipesUnlocked.Contains(_FM.foodArray[0]))
+        {
+            soldReceipe0.SetActive(true);
+        }
+        else
+        {
+            if (_GM.money < _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost)
+            {
+                cannotAffordReceipe0.SetActive(true);
+            }
+            else cannotAffordReceipe0.SetActive(false);
+        }
+        
+        if(_GM.receipesUnlocked.Contains(_FM.foodArray[1]))
+        {
+            soldReceipe1.SetActive(true);
+        }
+        else
+        {
+            if (_GM.money < _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost)
+            {
+                cannotAffordReceipe1.SetActive(true);
+            }
+            else cannotAffordReceipe1.SetActive(false);
+        }
+
+        
     }
 }

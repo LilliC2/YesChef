@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     int[] foodPerWave;
     bool waveComplete;
-    bool activeWave;
+    public bool activeWave;
 
     public bool playerReady;
     
@@ -30,10 +30,11 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) playerReady = true;
 
         if(!activeWave)
         {
+            waveComplete = false;
+
             //check if player is ready
             if (playerReady)
             {
@@ -56,6 +57,14 @@ public class GameManager : Singleton<GameManager>
                 waveComplete = true;
                 Time.timeScale = 1; //reset speed
             }
+        }
+
+        //update day
+        if (waveComplete)
+        {
+            dayCount++;
+            _UI.UpdateDay();
+            _UI.UpdateMoney(); //shouldnt need this here but just in case;
         }
     }
 
