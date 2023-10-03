@@ -6,6 +6,11 @@ using TMPro;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("Tutorial UI")]
+    public GameObject recipeCheckOB;
+    bool recipeBought;
+
+
     [Header("HUD")]
     public TMP_Text dayCount;
     public TMP_Text moneyCount;
@@ -44,6 +49,7 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         LoadChefData();
+
         LoadReceipeData();
     }
 
@@ -120,9 +126,15 @@ public class UIManager : Singleton<UIManager>
 
     public void PlayerReady()
     {
-        _GM.playerReady = true;
+        if (!recipeBought) CheckForRecipes();
+        else
+        {
+            _GM.playerReady = true;
 
-        Time.timeScale = 1;
+            Time.timeScale = 1;
+        }
+
+
     }
 
     public void Speed2X()
@@ -217,5 +229,16 @@ public class UIManager : Singleton<UIManager>
         }
 
         
+    }
+
+    public void CheckForRecipes()
+    {
+        if (_GM.receipesUnlocked.Count == 0)
+        {
+            recipeCheckOB.SetActive(true);
+
+            ExecuteAfterSeconds(3, () => recipeCheckOB.SetActive(false));
+        }
+        else recipeBought = true;
     }
 }
