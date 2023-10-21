@@ -9,10 +9,14 @@ public class FoodData : GameBehaviour
     bool isComplete;
     bool updateGameObject;
 
+    GameObject uncookedFood;
+    GameObject cookedFood;
+
     // Start is called before the first frame update
     void Start()
     {
-        foodData.cookedFood = Resources.Load<GameObject>("Prefabs/"+foodData.name + "_CookedFood");
+        uncookedFood = transform.GetChild(0).gameObject;
+        cookedFood = transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -22,15 +26,9 @@ public class FoodData : GameBehaviour
         
         if(foodData.isCooked)
         {
-            var angles = transform.rotation;
-            //create new gameobject
-            var cookedFoodOB = Instantiate(foodData.cookedFood, transform.position, angles,transform);
-
-
-            //delete this gameobject
-            Destroy(transform.GetChild(0).gameObject);
+            uncookedFood.SetActive(false);
+            cookedFood.SetActive(true);
         }
-
     }
 
     bool CheckIfComplete()
@@ -42,6 +40,24 @@ public class FoodData : GameBehaviour
         {
             //check if all skills are complete
             if (foodData.kneedPrepPoints < foodData.maxKneedPrepPoints) isComplete = false;
+        }
+        
+        if(foodData.needsCooking)
+        {
+            //check if all skills are complete
+            if (foodData.cookPrepPoints < foodData.maxCookPrepPoints) isComplete = false;
+        }
+        
+        if(foodData.needsMixing)
+        {
+            //check if all skills are complete
+            if (foodData.mixPrepPoints < foodData.maxMixPrepPoints) isComplete = false;
+        }
+        
+        if(foodData.needsCutting)
+        {
+            //check if all skills are complete
+            if (foodData.cutPrepPoints < foodData.maxCutPrepPoints) isComplete = false;
         }
 
         return isComplete;

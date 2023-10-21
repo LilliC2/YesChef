@@ -12,7 +12,16 @@ public class ChefClass
     public float range;
 
     public bool kneedSkill;
-    public float kneedPrepPoints;
+    public float kneedEffectivness;
+    
+    public bool cutSkill;
+    public float cutEffectivness;
+    
+    public bool mixSkill;
+    public float mixEffectivness;
+
+    public bool cookSkill;
+    public float cookEffectivness;
 
     public ChefClass()
     {

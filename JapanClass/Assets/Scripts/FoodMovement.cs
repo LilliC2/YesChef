@@ -5,32 +5,30 @@ using UnityEngine.AI;
 
 public class FoodMovement : GameBehaviour
 {
-
-    NavMeshAgent agent;
-    Vector3 endOfConveyerBelt;
+    [SerializeField]
+    float foodSpeed;
+    Transform[] conveyerbeltCorners;
+    int index;
 
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        endOfConveyerBelt = GameObject.Find("FoodDestroyPoint").transform.position;
-        agent.destination = endOfConveyerBelt;
+        conveyerbeltCorners = _GM.conveyerbeltPoints;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
-
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if(index < conveyerbeltCorners.Length)
         {
-            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-            {
-                //Reached end of Conveyer Belt
+            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, 0.01f);
 
-                //Call function here to check food status etc.
+            if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
+            {
+                index++;
             }
         }
+        
+
     }
 }

@@ -6,7 +6,6 @@ public class FoodManager : Singleton<FoodManager>
 {
     public GameObject[] foodArray;
 
-    public GameObject rawfoodTemp;
     Vector3 startOfConveyerBelt;
 
     public List<GameObject> foodInWave;
@@ -29,6 +28,5 @@ public class FoodManager : Singleton<FoodManager>
         print("food coming in");
         var food = Instantiate(randomFood, startOfConveyerBelt, Quaternion.identity);
         foodInWave.Add(food);
-        //food.GetComponent<FoodData>().foodData = foodArray[0];
     }
 }

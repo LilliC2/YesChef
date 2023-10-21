@@ -14,7 +14,8 @@ public class GameManager : Singleton<GameManager>
     public bool activeWave;
 
     public bool playerReady;
-    
+
+    public Transform[] conveyerbeltPoints;
 
     public List<GameObject> receipesUnlocked;
 

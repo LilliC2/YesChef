@@ -20,8 +20,21 @@ public class UIManager : Singleton<UIManager>
     public GameObject chefMenu;
     public GameObject chefMenuButton;
 
+    [Header("Chef 0")]
     public TMP_Text nameChef0;
     public GameObject cannotAffordChef0;
+    
+    [Header("Chef 1")]
+    public TMP_Text nameChef1;
+    public GameObject cannotAffordChef1;
+    
+    [Header("Chef 2")]
+    public TMP_Text nameChef2;
+    public GameObject cannotAffordChef2;
+    
+    [Header("Chef 3")]
+    public TMP_Text nameChef3;
+    public GameObject cannotAffordChef3;
 
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
@@ -36,12 +49,14 @@ public class UIManager : Singleton<UIManager>
     [Header("Receipe 0")]
     public TMP_Text nameReceipe0;
     public TMP_Text orderCostReceipe0;
+    public TMP_Text unlockCostReceipe0;
     public GameObject cannotAffordReceipe0;
     public GameObject soldReceipe0;
 
     [Header("Receipe 1")]
     public TMP_Text nameReceipe1;
     public TMP_Text orderCostReceipe1;
+    public TMP_Text unlockCostReceipe1;
     public GameObject cannotAffordReceipe1;
     public GameObject soldReceipe1;
 
@@ -183,12 +198,18 @@ public class UIManager : Singleton<UIManager>
     public void LoadChefData()
     {
         nameChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.name;
+        nameChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.name;
+        nameChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.name;
+        nameChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.name;
     }
 
     public void LoadReceipeData()
     {
         nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe0.text = "$"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        
+        nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
+        orderCostReceipe1.text = "$"+_FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
     }
 
     public void CheckWhatPlayerCanAffordChefs()

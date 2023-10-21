@@ -7,18 +7,27 @@ public class FoodClass
 {
     public string name;
     public string description;
+
     public bool isCooked;
     public float orderCost;
     public float unlockCost;
     public float reputationLoss;
 
-    public GameObject rawFood;
-    public GameObject cookedFood;
-
     public bool needsKneeding;
-
     public float maxKneedPrepPoints;
     public float kneedPrepPoints;
+    
+    public bool needsCutting;
+    public float maxCutPrepPoints;
+    public float cutPrepPoints;
+    
+    public bool needsCooking;
+    public float maxCookPrepPoints;
+    public float cookPrepPoints;
+    
+    public bool needsMixing;
+    public float maxMixPrepPoints;
+    public float mixPrepPoints;
 
     public FoodClass()
     {
