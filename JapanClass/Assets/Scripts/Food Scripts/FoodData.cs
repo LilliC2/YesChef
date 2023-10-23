@@ -7,7 +7,6 @@ public class FoodData : GameBehaviour
 
     public FoodClass foodData;
     bool isComplete;
-    bool updateGameObject;
 
     GameObject uncookedFood;
     GameObject cookedFood;
@@ -28,6 +27,9 @@ public class FoodData : GameBehaviour
         {
             uncookedFood.SetActive(false);
             cookedFood.SetActive(true);
+
+            //change layer to complete food
+            gameObject.layer = 6;
         }
     }
 

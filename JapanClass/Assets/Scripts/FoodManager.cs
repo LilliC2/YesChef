@@ -25,8 +25,8 @@ public class FoodManager : Singleton<FoodManager>
     {
         var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
 
-        print("food coming in");
         var food = Instantiate(randomFood, startOfConveyerBelt, Quaternion.identity);
+        print("Ordered food: " + food.name);
         foodInWave.Add(food);
     }
 }

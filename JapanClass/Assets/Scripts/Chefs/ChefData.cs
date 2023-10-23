@@ -12,6 +12,8 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+    [SerializeField]
+    Collider[] rawFoodInRange;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,7 @@ public class ChefData : GameBehaviour
     {
 
         //check if any raw food are in range
-        var rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
+        rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
 
         //check if chef has compatible skill
         if (!foundFood)
@@ -92,7 +94,7 @@ public class ChefData : GameBehaviour
             else
             {
                 foundFood = false;
-                currentFood = new();
+                currentFood = null;
             }
         }
 

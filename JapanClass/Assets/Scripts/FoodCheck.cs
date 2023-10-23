@@ -12,14 +12,14 @@ public class FoodCheck : GameBehaviour
             if (other.gameObject.GetComponent<FoodData>().foodData.isCooked)
             {
                 //Add money
-                print("Food is cooked");
+                print("Day: " + _GM.dayCount+1 + " Cooked Food!");
 
                 _GM.money += other.gameObject.GetComponent<FoodData>().foodData.orderCost;
 
             }
             else
             {
-                print("Food is uncooked");
+                print("Day: " + _GM.dayCount+1 + " Raw Food!");
                 _GM.reputation -= other.gameObject.GetComponent<FoodData>().foodData.reputationLoss;
                 //lose reputation points
                 

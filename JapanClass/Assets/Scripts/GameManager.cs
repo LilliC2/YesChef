@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
     int[] foodPerWave;
     [SerializeField]
     int[] secondsInBetweenPerWave;
-    public int[] conveyrbeltSpeedPerWave;
+    public float[] conveyrbeltSpeedPerWave;
     bool waveComplete;
     public bool activeWave;
 
@@ -39,6 +39,8 @@ public class GameManager : Singleton<GameManager>
         {
             waveComplete = false;
 
+            print("Player Ready = " + playerReady);
+
             //check if player is ready
             if (playerReady)
             {
@@ -62,6 +64,7 @@ public class GameManager : Singleton<GameManager>
                 print("wave done");
                 activeWave = false;
                 waveComplete = true;
+                playerReady = false;
                 Time.timeScale = 1; //reset speed
             }
         }

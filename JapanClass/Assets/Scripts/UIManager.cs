@@ -84,7 +84,7 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateDay()
     {
-        dayCount.text = "Day " + _GM.dayCount.ToString();
+        dayCount.text = "Day " + (_GM.dayCount +1).ToString();
     }
     
     public void UpdateMoney()
@@ -168,6 +168,7 @@ public class UIManager : Singleton<UIManager>
 
     public void Speed2X()
     {
+        _GM.playerReady = true;
         Time.timeScale = 2;
 
     }
@@ -220,16 +221,21 @@ public class UIManager : Singleton<UIManager>
     public void LoadReceipeData()
     {
         nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe0.text = "$"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        orderCostReceipe0.text = "Cost: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe0.text = "Unlock: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
         
         nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe1.text = "$"+_FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        
+        orderCostReceipe1.text = "Cost: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe1.text = "Unlock: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+
         nameReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe2.text = "$"+_FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        
+        orderCostReceipe2.text = "Cost: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe2.text = "Unlock: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+
         nameReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe3.text = "$"+_FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        orderCostReceipe3.text = "Cost: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe3.text = "Unlock: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+
     }
 
     public void CheckWhatPlayerCanAffordChefs()
