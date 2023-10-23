@@ -10,6 +10,9 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField]
     int[] foodPerWave;
+    [SerializeField]
+    int[] secondsInBetweenPerWave;
+    public int[] conveyrbeltSpeedPerWave;
     bool waveComplete;
     public bool activeWave;
 
@@ -41,8 +44,11 @@ public class GameManager : Singleton<GameManager>
             {
                 playerReady = false;
                 activeWave = true;
+                //set conveyerbelt speed
+
+
                 //spawn wave
-                StartCoroutine(SummonWave(dayCount));
+                StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
 
             }
         }
@@ -69,12 +75,12 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    IEnumerator SummonWave(int _waveNum)
+    IEnumerator SummonWave(int _waveNum, int _timeBetweenFood)
     {
         for (int i = 0; i < foodPerWave[_waveNum]; i++)
         {
             _FM.InstantiateFood();
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(_timeBetweenFood);
         }
     }
 }

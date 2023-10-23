@@ -60,6 +60,20 @@ public class UIManager : Singleton<UIManager>
     public GameObject cannotAffordReceipe1;
     public GameObject soldReceipe1;
 
+    [Header("Receipe 2")]
+    public TMP_Text nameReceipe2;
+    public TMP_Text orderCostReceipe2;
+    public TMP_Text unlockCostReceipe2;
+    public GameObject cannotAffordReceipe2;
+    public GameObject soldReceipe2;
+    
+    [Header("Receipe 3")]
+    public TMP_Text nameReceipe3;
+    public TMP_Text orderCostReceipe3;
+    public TMP_Text unlockCostReceipe3;
+    public GameObject cannotAffordReceipe3;
+    public GameObject soldReceipe3;
+
 
     private void Start()
     {
@@ -210,6 +224,12 @@ public class UIManager : Singleton<UIManager>
         
         nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe1.text = "$"+_FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        
+        nameReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.name;
+        orderCostReceipe2.text = "$"+_FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        
+        nameReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.name;
+        orderCostReceipe3.text = "$"+_FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
     }
 
     public void CheckWhatPlayerCanAffordChefs()

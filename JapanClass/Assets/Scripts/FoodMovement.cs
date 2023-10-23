@@ -19,9 +19,13 @@ public class FoodMovement : GameBehaviour
     // Update is called once per frame
     void Update()
     {
+        //look towards corner
+        transform.LookAt(conveyerbeltCorners[index].position);
+
+        //move towards corner
         if(index < conveyerbeltCorners.Length)
         {
-            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, 0.01f);
+            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.conveyrbeltSpeedPerWave[_GM.dayCount]);
 
             if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
             {

@@ -12,6 +12,7 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class ChefData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //check if any raw food are in range
         var rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
 
@@ -94,6 +96,13 @@ public class ChefData : GameBehaviour
             }
         }
 
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Display the explosion radius when selected
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, chefData.range);
     }
 
     private void OnMouseDown()
