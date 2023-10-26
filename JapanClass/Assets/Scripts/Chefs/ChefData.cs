@@ -26,6 +26,9 @@ public class ChefData : GameBehaviour
     void Update()
     {
 
+        //look at food
+        if (currentFood != null) transform.LookAt(currentFood.transform.position);
+
         //check if any raw food are in range
         rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
 

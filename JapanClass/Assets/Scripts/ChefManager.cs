@@ -23,7 +23,7 @@ public class ChefManager : Singleton<ChefManager>
             //have chef follow mouse
             Vector3 mousePos = Input.mousePosition;
             Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
-            Vector3 chefPos = new Vector3(newMousePos.x, 1, newMousePos.z);
+            Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
 
             newChef.transform.position = chefPos;
 
