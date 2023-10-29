@@ -11,6 +11,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject recipeCheckOB;
     bool recipeBought;
 
+    [Header("Pause")]
+    public GameObject pausePanel;
+    bool pause;
 
     [Header("HUD")]
     public TMP_Text dayCount;
@@ -105,8 +108,25 @@ public class UIManager : Singleton<UIManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+    }
 
 
+    public void Pause()
+    {
+        pause = !pause;
+
+        if(pause)
+        {
+            Time.timeScale = 0;
+            _GM.gameState = GameManager.GameState.Pause;
+            pausePanel.SetActive(pause);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _GM.gameState = GameManager.GameState.Playing;
+            pausePanel.SetActive(pause);
+        }
     }
 
     public void OpenChefMenu()

@@ -37,13 +37,16 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
+        //activate pause
+        if (Input.GetKeyDown(KeyCode.Escape)) _UI.Pause();
 
-        switch(gameState)
+        switch (gameState)
         {
             #region Playing Game State
             case GameState.Playing:
 
                 _UI.gameOverPanel.SetActive(false);
+
 
 
                 if (!activeWave)
@@ -96,8 +99,12 @@ public class GameManager : Singleton<GameManager>
             case GameState.GameOver:
 
                 _UI.gameOverPanel.SetActive(true);
+                break;
+
+            case GameState.Pause:
 
                 break;
+
         }
 
     }
