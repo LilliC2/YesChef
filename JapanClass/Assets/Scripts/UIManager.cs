@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -15,6 +16,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text dayCount;
     public TMP_Text moneyCount;
     public Slider reputationSlider;
+
+    [Header("Game Over")]
+    public GameObject gameOverPanel;
 
     [Header("Chef UI")]
     public GameObject chefMenu;
@@ -95,6 +99,11 @@ public class UIManager : Singleton<UIManager>
     public void UpdateReputationSlider()
     {
         reputationSlider.value = _GM.reputation;
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.L
     }
 
     public void OpenChefMenu()
