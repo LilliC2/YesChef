@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ChefData : GameBehaviour
@@ -26,8 +27,6 @@ public class ChefData : GameBehaviour
     void Update()
     {
 
-        //look at food
-        if (currentFood != null) transform.LookAt(currentFood.transform.position);
 
         //check if any raw food are in range
         rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
@@ -71,11 +70,13 @@ public class ChefData : GameBehaviour
         //when food is found
         else
         {
+
+            //look at food
+            if (currentFood != null) transform.LookAt(currentFood.transform.position);
             print("Found food i can cook");
             //every second, add skillPrepPoints to food skillPrepPoints
 
-            if (Vector3.Distance(transform.position, currentFood.transform.position) < chefData.range 
-                && currentFood != null && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
+            if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
             {
                 print("Cooking");
 

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f5cbfc5972d104c87b3b7aceb994f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodSpeed: 0
 --- !u!195 &-5686137722559735376
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -91,8 +92,6 @@ MonoBehaviour:
     orderCost: 5
     unlockCost: 3
     reputationLoss: 5
-    rawFood: {fileID: 0}
-    cookedFood: {fileID: 0}
     needsKneeding: 0
     maxKneedPrepPoints: 10
     kneedPrepPoints: 0
@@ -332,7 +331,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f5bceaf7b4cfd5740a0bc041d4b5d783, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
