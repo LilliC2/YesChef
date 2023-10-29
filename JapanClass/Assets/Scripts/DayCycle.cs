@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-us
+using DG.Tweening;
 
 public class DayCycle : Singleton<DayCycle>
 {
-    bool beginRotation;
+    public bool beginRotation;
+    float waveTime;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,11 @@ public class DayCycle : Singleton<DayCycle>
             {
                 beginRotation = true;
 
-                transform.
+                transform.DORotate(new Vector3(180, 0, 0), waveTime);
+
             }
         }
+
         
         //calculate time from start of wave until end of wave
 
@@ -47,9 +50,7 @@ public class DayCycle : Singleton<DayCycle>
 
         var travelTime = 40 / _conveyerbeltSpeed;
 
-        var totalTime = timeForFoodToAllSpawn + travelTime;
-
-        print("est time: " + totalTime);
+        waveTime = timeForFoodToAllSpawn + travelTime;
 
 
     }

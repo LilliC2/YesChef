@@ -93,6 +93,10 @@ public class GameManager : Singleton<GameManager>
                 //update day
                 if (waveComplete)
                 {
+                    //reset day cycle
+                    _DC.transform.rotation = new Quaternion(10, 0, 0,0);
+                    _DC.beginRotation = false;
+
                     dayCount++;
                     _UI.UpdateDay();
                     _UI.UpdateMoney(); //shouldnt need this here but just in case;
