@@ -22,6 +22,9 @@ public class GameManager : Singleton<GameManager>
 
     public List<GameObject> receipesUnlocked;
 
+    private float initializationTime;
+    private float timeSinceInitialization;
+
     public enum GameState { Playing, GameOver, Pause}
     public GameState gameState;
 
@@ -31,6 +34,7 @@ public class GameManager : Singleton<GameManager>
         _UI.UpdateDay();
         _UI.UpdateMoney();
         _UI.UpdateReputationSlider();
+        initializationTime = Time.timeSinceLevelLoad;
 
     }
 
@@ -54,6 +58,7 @@ public class GameManager : Singleton<GameManager>
                     waveComplete = false;
 
                     print("Player Ready = " + playerReady);
+                    print(timeSinceInitialization);
 
                     //check if player is ready
                     if (playerReady)
@@ -62,7 +67,7 @@ public class GameManager : Singleton<GameManager>
                         activeWave = true;
                         //set conveyerbelt speed
 
-
+                        _DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                         //spawn wave
                         StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
 
@@ -73,6 +78,8 @@ public class GameManager : Singleton<GameManager>
                 //check if wave is complete
                 if (activeWave)
                 {
+                    timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
+
                     if (_FM.foodInWave.Count == 0)
                     {
                         print("wave done");

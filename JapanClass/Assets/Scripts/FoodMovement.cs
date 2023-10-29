@@ -10,10 +10,14 @@ public class FoodMovement : GameBehaviour
     Transform[] conveyerbeltCorners;
     int index;
 
+    private float initializationTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        initializationTime = Time.timeSinceLevelLoad;
         conveyerbeltCorners = _GM.conveyerbeltPoints;
+
     }
 
     // Update is called once per frame
@@ -22,8 +26,13 @@ public class FoodMovement : GameBehaviour
         //look towards corner
         transform.LookAt(conveyerbeltCorners[index].position);
 
+        float timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
+
+        //print(timeSinceInitialization);
+
+
         //move towards corner
-        if(index < conveyerbeltCorners.Length)
+        if (index < conveyerbeltCorners.Length)
         {
             transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.conveyrbeltSpeedPerWave[_GM.dayCount]);
 
