@@ -103,7 +103,10 @@ public class UIManager : Singleton<UIManager>
 
     public void ReloadScene()
     {
-        SceneManager.L
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+
+
     }
 
     public void OpenChefMenu()

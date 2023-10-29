@@ -22,6 +22,9 @@ public class GameManager : Singleton<GameManager>
 
     public List<GameObject> receipesUnlocked;
 
+    public enum GameState { Playing, GameOver, Pause}
+    public GameState gameState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,47 +38,68 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
 
-        if(!activeWave)
+        switch(gameState)
         {
-            waveComplete = false;
+            #region Playing Game State
+            case GameState.Playing:
 
-            print("Player Ready = " + playerReady);
-
-            //check if player is ready
-            if (playerReady)
-            {
-                playerReady = false;
-                activeWave = true;
-                //set conveyerbelt speed
+                _UI.gameOverPanel.SetActive(false);
 
 
-                //spawn wave
-                StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+                if (!activeWave)
+                {
+                    waveComplete = false;
 
-            }
+                    print("Player Ready = " + playerReady);
+
+                    //check if player is ready
+                    if (playerReady)
+                    {
+                        playerReady = false;
+                        activeWave = true;
+                        //set conveyerbelt speed
+
+
+                        //spawn wave
+                        StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+
+                    }
+                }
+
+
+                //check if wave is complete
+                if (activeWave)
+                {
+                    if (_FM.foodInWave.Count == 0)
+                    {
+                        print("wave done");
+                        activeWave = false;
+                        waveComplete = true;
+                        playerReady = false;
+                        Time.timeScale = 1; //reset speed
+                    }
+                }
+
+                //update day
+                if (waveComplete)
+                {
+                    dayCount++;
+                    _UI.UpdateDay();
+                    _UI.UpdateMoney(); //shouldnt need this here but just in case;
+                }
+
+                //reputation check
+                if (reputation <= 0) gameState = GameState.GameOver;
+
+                break;
+            #endregion
+            case GameState.GameOver:
+
+                _UI.gameOverPanel.SetActive(true);
+
+                break;
         }
-        
 
-        //check if wave is complete
-        if(activeWave)
-        {
-            if(_FM.foodInWave.Count ==0)
-            {
-                print("wave done");
-                activeWave = false;
-                waveComplete = true;
-                playerReady = false;
-                Time.timeScale = 1; //reset speed
-            }
-        }
-
-        //update day
-        if (waveComplete)
-        {
-            dayCount++;
-            _UI.UpdateDay();
-            _UI.UpdateMoney(); //shouldnt need this here but just in case;
-        }
     }
 
     IEnumerator SummonWave(int _waveNum, int _timeBetweenFood)
