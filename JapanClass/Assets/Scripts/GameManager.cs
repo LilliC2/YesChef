@@ -67,7 +67,7 @@ public class GameManager : Singleton<GameManager>
                         activeWave = true;
                         //set conveyerbelt speed
 
-                        _DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
+                        //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                         //spawn wave
                         StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
 
@@ -94,8 +94,8 @@ public class GameManager : Singleton<GameManager>
                 if (waveComplete)
                 {
                     //reset day cycle
-                    _DC.transform.rotation = new Quaternion(10, 0, 0,0);
-                    _DC.beginRotation = false;
+                    //_DC.transform.rotation = new Quaternion(10, 0, 0,0);
+                    //_DC.beginRotation = false;
 
                     dayCount++;
                     _UI.UpdateDay();

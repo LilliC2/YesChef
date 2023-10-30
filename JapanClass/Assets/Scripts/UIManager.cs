@@ -225,19 +225,23 @@ public class UIManager : Singleton<UIManager>
 
     public void BuyReceipe(int _arrayNum)
     {
-        if(!_GM.activeWave)
+        if (!_GM.activeWave)
         {
+            //check if receipe is bought
+
             var receipeToBuy = _FM.foodArray[_arrayNum];
+            if (!_GM.receipesUnlocked.Contains(receipeToBuy))
+            { 
+                if (receipeToBuy.GetComponent<FoodData>().foodData.unlockCost <= _GM.money)
+                {
+                    _GM.receipesUnlocked.Add(receipeToBuy);
 
-            if (receipeToBuy.GetComponent<FoodData>().foodData.unlockCost <= _GM.money)
-            {
-                _GM.receipesUnlocked.Add(receipeToBuy);
+                    _GM.money -= receipeToBuy.GetComponent<FoodData>().foodData.unlockCost;
 
-                _GM.money -= receipeToBuy.GetComponent<FoodData>().foodData.unlockCost;
+                    UpdateMoney();
 
-                UpdateMoney();
-
-                CheckWhatPlayerCanAffordReceipes();
+                    CheckWhatPlayerCanAffordReceipes();
+                }
             }
         }
     }
@@ -305,6 +309,32 @@ public class UIManager : Singleton<UIManager>
                 cannotAffordReceipe1.SetActive(true);
             }
             else cannotAffordReceipe1.SetActive(false);
+        }
+        
+        if(_GM.receipesUnlocked.Contains(_FM.foodArray[2]))
+        {
+            soldReceipe1.SetActive(true);
+        }
+        else
+        {
+            if (_GM.money < _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost)
+            {
+                cannotAffordReceipe2.SetActive(true);
+            }
+            else cannotAffordReceipe2.SetActive(false);
+        }
+        
+        if(_GM.receipesUnlocked.Contains(_FM.foodArray[3]))
+        {
+            soldReceipe1.SetActive(true);
+        }
+        else
+        {
+            if (_GM.money < _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost)
+            {
+                cannotAffordReceipe3.SetActive(true);
+            }
+            else cannotAffordReceipe3.SetActive(false);
         }
 
         
