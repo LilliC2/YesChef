@@ -13,6 +13,8 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+    public bool validPos;
+
     [SerializeField]
     Collider[] rawFoodInRange;
 
@@ -100,6 +102,27 @@ public class ChefData : GameBehaviour
                 foundFood = false;
                 currentFood = null;
             }
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == _CM.collisionMask)
+        {
+            validPos = false;
+        }
+        else
+        {
+            validPos = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == _CM.collisionMask)
+        {
+            validPos = true;
         }
 
     }

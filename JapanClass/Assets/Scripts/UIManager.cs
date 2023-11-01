@@ -198,10 +198,15 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-    public void Speed2X()
+    public void SpeedUp()
     {
-        _GM.playerReady = true;
-        Time.timeScale = 2;
+        if (!recipeBought) CheckForRecipes();
+        else
+        {
+            _GM.playerReady = true;
+            Time.timeScale = 5;
+        }
+            
 
     }
 

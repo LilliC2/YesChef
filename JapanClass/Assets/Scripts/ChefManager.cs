@@ -8,6 +8,9 @@ public class ChefManager : Singleton<ChefManager>
     bool placingChef;
     GameObject newChef;
 
+    bool validPos;
+    public LayerMask collisionMask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,23 +29,36 @@ public class ChefManager : Singleton<ChefManager>
             Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
 
             newChef.transform.position = chefPos;
+            validPos = newChef.GetComponent<ChefData>().validPos;
 
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            if (validPos)
             {
-
                 //check if chef is in a valid posistion
+                print("Can place");
 
                 //check chef is not too close to another chef
 
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
 
-                //place chef
-                placingChef = false;
-                //subtract cost of chef from money
-                _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
-                _UI.UpdateMoney();
+                    newChef.layer = collisionMask;
+                    newChef.GetComponent<CapsuleCollider>().isTrigger = false;
 
+                    //place chef
+                    placingChef = false;
+                    //subtract cost of chef from money
+                    _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
+
+                    _UI.UpdateMoney();
+
+                }
             }
+            else
+            {
+                print("Cannot place");
+            }
+           
             if(Input.GetKeyDown(KeyCode.Mouse1))
             {
                 Destroy(newChef);
