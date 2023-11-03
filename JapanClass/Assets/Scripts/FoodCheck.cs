@@ -8,6 +8,8 @@ public class FoodCheck : GameBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
+
+            print("tag");
             //Check if food is raw
             if (other.gameObject.GetComponent<FoodData>().foodData.isCooked)
             {
@@ -27,6 +29,7 @@ public class FoodCheck : GameBehaviour
             }
 
             _FM.foodInWave.Remove(other.gameObject);
+
 
 
             _UI.UpdateReputationSlider();

@@ -349,6 +349,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (_GM.receipesUnlocked.Count == 0)
         {
+            print("no recipes bought");
             recipeCheckOB.SetActive(true);
 
             ExecuteAfterSeconds(3, () => recipeCheckOB.SetActive(false));

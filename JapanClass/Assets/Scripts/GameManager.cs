@@ -63,6 +63,7 @@ public class GameManager : Singleton<GameManager>
                     //check if player is ready
                     if (playerReady)
                     {
+                        print("player is ready");
                         playerReady = false;
                         activeWave = true;
                         //set conveyerbelt speed
