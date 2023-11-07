@@ -8,6 +8,8 @@ public class GameManager : Singleton<GameManager>
     public float money;
     public float reputation = 100;
 
+    public bool autoPlayEnabled = false;
+
     [SerializeField]
     int[] foodPerWave;
     [SerializeField]
@@ -60,10 +62,26 @@ public class GameManager : Singleton<GameManager>
                     print("Player Ready = " + playerReady);
                     print(timeSinceInitialization);
 
-                    //check if player is ready
-                    if (playerReady)
+                    if(!autoPlayEnabled)
                     {
-                        print("player is ready");
+                        //check if player is ready
+                        if (playerReady)
+                        {
+                            print("player is ready");
+                            playerReady = false;
+                            activeWave = true;
+                            //set conveyerbelt speed
+
+                            //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
+                            //spawn wave
+                            StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+
+                        }
+                    }
+                    else
+                    {
+                        //start wave automatically
+
                         playerReady = false;
                         activeWave = true;
                         //set conveyerbelt speed
@@ -71,8 +89,8 @@ public class GameManager : Singleton<GameManager>
                         //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                         //spawn wave
                         StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
-
                     }
+                    
                 }
 
 

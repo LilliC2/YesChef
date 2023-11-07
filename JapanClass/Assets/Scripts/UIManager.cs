@@ -14,6 +14,7 @@ public class UIManager : Singleton<UIManager>
     [Header("Pause")]
     public GameObject pausePanel;
     bool pause;
+    public TMP_Text autoplayButtonTxt;
 
     [Header("HUD")]
     public TMP_Text dayCount;
@@ -114,18 +115,18 @@ public class UIManager : Singleton<UIManager>
     public void Pause()
     {
         pause = !pause;
-
+        print("clicking dat but");
         if(pause)
         {
             Time.timeScale = 0;
             _GM.gameState = GameManager.GameState.Pause;
-            pausePanel.SetActive(pause);
+            pausePanel.SetActive(true);
         }
         else
         {
             Time.timeScale = 1;
             _GM.gameState = GameManager.GameState.Playing;
-            pausePanel.SetActive(pause);
+            pausePanel.SetActive(false);
         }
     }
 
@@ -208,6 +209,14 @@ public class UIManager : Singleton<UIManager>
         }
             
 
+    }
+
+    public void AutoPlayButton()
+    {
+        _GM.autoPlayEnabled = !_GM.autoPlayEnabled;
+
+        if (_GM.autoPlayEnabled) autoplayButtonTxt.text = "Auto Play Enabled";
+        if (!_GM.autoPlayEnabled) autoplayButtonTxt.text = "Auto Play Disabled";
     }
 
     public void BuyChef(int _arrayNum)
