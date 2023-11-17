@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ChefManager : Singleton<ChefManager>
 {
@@ -8,9 +9,16 @@ public class ChefManager : Singleton<ChefManager>
     bool placingChef;
     GameObject newChef;
 
+    [SerializeField]
+    Ease placingEase;
+    [SerializeField]
+    float placingEaseTime;
+
+
     bool validPos;
     public LayerMask collisionMask;
-
+    public LayerMask ground;
+    Vector3 chefPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,40 +32,52 @@ public class ChefManager : Singleton<ChefManager>
         if(placingChef)
         {
             //have chef follow mouse
-            Vector3 mousePos = Input.mousePosition;
-            Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
-            Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
+            //Vector3 mousePos = Input.mousePosition;
+            //Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
+            //Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
 
-            newChef.transform.position = chefPos;
-            validPos = newChef.GetComponent<ChefData>().validPos;
-
-            if (validPos)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit,100, ground))
             {
-                //check if chef is in a valid posistion
-                print("Can place");
+                chefPos = new Vector3(hit.point.x, hit.point.y+1,hit.point.z);
+                newChef.transform.position = chefPos;
+                validPos = newChef.GetComponent<ChefData>().validPos;
 
-                //check chef is not too close to another chef
-
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (validPos)
                 {
+                    //check if chef is in a valid posistion
+                    print("Can place");
+
+                    //check chef is not too close to another chef
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
 
 
-                    newChef.layer = collisionMask;
-                    newChef.GetComponent<CapsuleCollider>().isTrigger = false;
+                        newChef.layer = collisionMask;
+                        newChef.GetComponent<CapsuleCollider>().isTrigger = false;
 
-                    //place chef
-                    placingChef = false;
-                    //subtract cost of chef from money
-                    _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
+                        //place chef
+                        placingChef = false;
 
-                    _UI.UpdateMoney();
+                        //placing animation
+                        newChef.transform.DOMoveY(0.6f, placingEaseTime).SetEase(placingEase);
 
+                        //subtract cost of chef from money
+                        _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
+
+                        _UI.UpdateMoney();
+
+                    }
+                }
+                else
+                {
+                    print("Cannot place");
                 }
             }
-            else
-            {
-                print("Cannot place");
-            }
+
+           
            
             if(Input.GetKeyDown(KeyCode.Mouse1))
             {
@@ -71,7 +91,7 @@ public class ChefManager : Singleton<ChefManager>
     public void CreateNewChef(GameObject _chef)
     {
         placingChef = true;
-        newChef = Instantiate(Resources.Load<GameObject>("Prefabs/" + _chef.GetComponent<ChefData>().chefData.name));
+        newChef = Instantiate(Resources.Load<GameObject>("Prefabs/Chefs/" + _chef.GetComponent<ChefData>().chefData.name));
 
     }
 }

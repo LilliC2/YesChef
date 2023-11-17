@@ -28,7 +28,7 @@ public class ChefData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //if(Physics.CheckSphere(transform.position, chefData.range, )
 
         //check if any raw food are in range
         rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
@@ -106,27 +106,6 @@ public class ChefData : GameBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.layer == _CM.collisionMask)
-        {
-            validPos = false;
-        }
-        else
-        {
-            validPos = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == _CM.collisionMask)
-        {
-            validPos = true;
-        }
-
-    }
-
     void OnDrawGizmosSelected()
     {
         // Display the explosion radius when selected
@@ -134,8 +113,8 @@ public class ChefData : GameBehaviour
         Gizmos.DrawWireSphere(transform.position, chefData.range);
     }
 
-    private void OnMouseDown()
-    {
-        _UI.OpenChefPopUp(this.gameObject);
-    }
+    //private void OnMouseDown()
+    //{
+    //    _UI.OpenChefPopUp(this.gameObject);
+    //}
 }
