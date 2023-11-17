@@ -9,6 +9,8 @@ public class ChefClass
     public string description;
     public float hireCost;
 
+    public Sprite pfp;
+
     public float range;
 
     public bool kneedSkill;

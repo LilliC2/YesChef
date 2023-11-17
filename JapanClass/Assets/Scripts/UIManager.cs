@@ -30,25 +30,48 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Chef 0")]
     public TMP_Text nameChef0;
+    public Image pfpChef0;
+    public TMP_Text costChef0;
+    public TMP_Text cookingSkillChef0;
+    public TMP_Text kneedingSkillChef0;
+    public TMP_Text cuttingSkillChef0;
+    public TMP_Text mixingSkillChef0;
     public GameObject cannotAffordChef0;
     
     [Header("Chef 1")]
     public TMP_Text nameChef1;
+    public Image pfpChef1;
+    public TMP_Text costChef1;
+    public TMP_Text cookingSkillChef1;
+    public TMP_Text kneedingSkillChef1;
+    public TMP_Text cuttingSkillChef1;
+    public TMP_Text mixingSkillChef1;
     public GameObject cannotAffordChef1;
     
     [Header("Chef 2")]
     public TMP_Text nameChef2;
+    public Image pfpChef2;
+    public TMP_Text costChef2;
+    public TMP_Text cookingSkillChef2;
+    public TMP_Text kneedingSkillChef2;
+    public TMP_Text cuttingSkillChef2;
+    public TMP_Text mixingSkillChef2;
     public GameObject cannotAffordChef2;
     
     [Header("Chef 3")]
     public TMP_Text nameChef3;
+    public Image pfpChef3;
+    public TMP_Text costChef3;
+    public TMP_Text cookingSkillChef3;
+    public TMP_Text kneedingSkillChef3;
+    public TMP_Text cuttingSkillChef3;
+    public TMP_Text mixingSkillChef3;
     public GameObject cannotAffordChef3;
 
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
     public GameObject selectedChef;
     public TMP_Text chefPopUpName;
-
 
     [Header("Receipe UI")]
     public GameObject receipeMenu;
@@ -263,9 +286,36 @@ public class UIManager : Singleton<UIManager>
     public void LoadChefData()
     {
         nameChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.name;
+        pfpChef0.sprite = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.pfp;
+        cookingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
+        kneedingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
+        mixingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
+        cuttingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
+        costChef0.text = "$" + _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+
         nameChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.name;
+        pfpChef1.sprite = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.pfp;
+        cookingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
+        kneedingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
+        mixingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
+        cuttingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
+        costChef1.text = "$" + _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+
         nameChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.name;
+        pfpChef2.sprite = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.pfp;
+        cookingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
+        kneedingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
+        mixingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
+        cuttingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
+        costChef2.text = "$" + _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+
         nameChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.name;
+        pfpChef3.sprite = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.pfp;
+        cookingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
+        kneedingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
+        mixingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
+        cuttingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
+        costChef3.text = "$" + _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
     }
 
     public void LoadReceipeData()

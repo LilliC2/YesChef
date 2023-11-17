@@ -42,7 +42,9 @@ public class ChefManager : Singleton<ChefManager>
             {
                 chefPos = new Vector3(hit.point.x, hit.point.y+1,hit.point.z);
                 newChef.transform.position = chefPos;
-                validPos = newChef.GetComponent<ChefData>().validPos;
+                validPos = !Physics.CheckSphere(newChef.transform.position, 1, collisionMask);
+
+                
 
                 if (validPos)
                 {
