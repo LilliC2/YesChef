@@ -71,7 +71,14 @@ public class UIManager : Singleton<UIManager>
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
     public GameObject selectedChef;
+    public Image chefPopUpPFP;
     public TMP_Text chefPopUpName;
+    public TMP_Text cookingSkillChefchefPopUp;
+    public TMP_Text kneedingSkillChefchefPopUp;
+    public TMP_Text cuttingSkillChefchefPopUp;
+    public TMP_Text mixingSkillChefchefPopUp;
+    public Image rangeSlider1;
+    public Image rangeSlider2;
 
     [Header("Receipe UI")]
     public GameObject receipeMenu;
@@ -79,29 +86,57 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Receipe 0")]
     public TMP_Text nameReceipe0;
+    public Image pfpReceipe0;
     public TMP_Text orderCostReceipe0;
     public TMP_Text unlockCostReceipe0;
+    public TMP_Text repLossReceipe0;
+    public TMP_Text cookingPointsReceipe0;
+    public TMP_Text kneedingPointsReceipe0;
+    public TMP_Text cuttingPointsReceipe0;
+    public TMP_Text mixingPointsReceipe0;
+
     public GameObject cannotAffordReceipe0;
     public GameObject soldReceipe0;
 
     [Header("Receipe 1")]
     public TMP_Text nameReceipe1;
+    public Image pfpReceipe1;
     public TMP_Text orderCostReceipe1;
     public TMP_Text unlockCostReceipe1;
+    public TMP_Text repLossReceipe1;
+    public TMP_Text cookingPointsReceipe1;
+    public TMP_Text kneedingPointsReceipe1;
+    public TMP_Text cuttingPointsReceipe1;
+    public TMP_Text mixingPointsReceipe1;
+
     public GameObject cannotAffordReceipe1;
     public GameObject soldReceipe1;
 
     [Header("Receipe 2")]
     public TMP_Text nameReceipe2;
+    public Image pfpReceipe2;
     public TMP_Text orderCostReceipe2;
     public TMP_Text unlockCostReceipe2;
+    public TMP_Text repLossReceipe2;
+    public TMP_Text cookingPointsReceipe2;
+    public TMP_Text kneedingPointsReceipe2;
+    public TMP_Text cuttingPointsReceipe2;
+    public TMP_Text mixingPointsReceipe2;
+
     public GameObject cannotAffordReceipe2;
     public GameObject soldReceipe2;
     
     [Header("Receipe 3")]
     public TMP_Text nameReceipe3;
+    public Image pfpReceipe3;
     public TMP_Text orderCostReceipe3;
     public TMP_Text unlockCostReceipe3;
+    public TMP_Text repLossReceipe3;
+    public TMP_Text cookingPointsReceipe3;
+    public TMP_Text kneedingPointsReceipe3;
+    public TMP_Text cuttingPointsReceipe3;
+    public TMP_Text mixingPointsReceipe3;
+
     public GameObject cannotAffordReceipe3;
     public GameObject soldReceipe3;
 
@@ -158,26 +193,25 @@ public class UIManager : Singleton<UIManager>
 
         chefMenu.SetActive(true);
         CheckWhatPlayerCanAffordChefs();
-        chefMenuButton.SetActive(false);
+        receipeMenu.SetActive(false);
+
     }
 
     public void CloseChefMenu()
     {
         chefMenu.SetActive(false);
-        chefMenuButton.SetActive(true);
     }
     
     public void OpenReceipeMenu()
     {
         receipeMenu.SetActive(true);
+        chefMenu.SetActive(false);
         CheckWhatPlayerCanAffordReceipes();
-        receipeMenuButton.SetActive(false);
     }
 
     public void CloseReceipeMenu()
     {
         receipeMenu.SetActive(false);
-        receipeMenuButton.SetActive(true);
     }
 
     public void OpenChefPopUp(GameObject _chefData)
@@ -186,7 +220,17 @@ public class UIManager : Singleton<UIManager>
         selectedChef = _chefData;
         chefPopUp.SetActive(true);
 
-        chefPopUpName.text = _chefData.GetComponent<ChefData>().chefData.name;
+        var chefData = _chefData.GetComponent<ChefData>().chefData;
+
+        //chefPopUpName.text = chefData.name;
+        chefPopUpPFP.sprite = chefData.pfp;
+        cookingSkillChefchefPopUp.text = chefData.cookEffectivness.ToString();
+        cuttingSkillChefchefPopUp.text = chefData.cutEffectivness.ToString();
+        mixingSkillChefchefPopUp.text = chefData.mixEffectivness.ToString();
+        kneedingSkillChefchefPopUp.text = chefData.kneedEffectivness.ToString();
+
+        rangeSlider1.fillAmount = chefData.range / 100;
+        rangeSlider2.fillAmount = chefData.range / 100;
     }
 
     public void CloseChefPopUp()
@@ -244,18 +288,16 @@ public class UIManager : Singleton<UIManager>
 
     public void BuyChef(int _arrayNum)
     {
-        if(!_GM.activeWave)
+        chefMenu.SetActive(false);
+
+        var chefToBuy = _CM.chefArray[_arrayNum];
+
+        if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
         {
-            var chefToBuy = _CM.chefArray[_arrayNum];
+            _CM.CreateNewChef(chefToBuy);
 
-            if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
-            {
-                _CM.CreateNewChef(chefToBuy);
-
-                CheckWhatPlayerCanAffordChefs();
-            }
-
-        }    
+            CheckWhatPlayerCanAffordChefs();
+        }
 
     }
 
@@ -323,18 +365,44 @@ public class UIManager : Singleton<UIManager>
         nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe0.text = "Cost: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
         unlockCostReceipe0.text = "Unlock: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
-        
+        repLossReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
+        cookingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
+        mixingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
+        pfpReceipe0.sprite = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.pfp;
+
+
+
         nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe1.text = "Cost: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
         unlockCostReceipe1.text = "Unlock: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        repLossReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
+        cookingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
+        mixingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
+        pfpReceipe1.sprite = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.pfp;
 
         nameReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe2.text = "Cost: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
         unlockCostReceipe2.text = "Unlock: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        repLossReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
+        cookingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
+        mixingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
+        pfpReceipe2.sprite = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.pfp;
 
         nameReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.name;
         orderCostReceipe3.text = "Cost: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
         unlockCostReceipe3.text = "Unlock: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        repLossReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
+        cookingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
+        mixingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
+        pfpReceipe3.sprite = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.pfp;
 
     }
 

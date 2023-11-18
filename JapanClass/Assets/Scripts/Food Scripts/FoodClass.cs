@@ -7,6 +7,7 @@ public class FoodClass
 {
     public string name;
     public string description;
+    public Sprite pfp;
 
     public bool isCooked;
     public float orderCost;
