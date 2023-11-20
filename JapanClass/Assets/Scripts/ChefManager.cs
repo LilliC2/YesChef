@@ -57,7 +57,7 @@ public class ChefManager : Singleton<ChefManager>
                     {
 
 
-                        newChef.layer = collisionMask;
+                        newChef.layer = 8;
                         newChef.GetComponent<CapsuleCollider>().isTrigger = false;
 
                         //place chef

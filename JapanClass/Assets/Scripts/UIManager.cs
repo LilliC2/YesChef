@@ -413,6 +413,24 @@ public class UIManager : Singleton<UIManager>
             cannotAffordChef0.SetActive(true);
         }
         else cannotAffordChef0.SetActive(false);
+        
+        if(_GM.money < _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef1.SetActive(true);
+        }
+        else cannotAffordChef1.SetActive(false);
+        
+        if(_GM.money < _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef2.SetActive(true);
+        }
+        else cannotAffordChef2.SetActive(false);
+        
+        if(_GM.money < _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef3.SetActive(true);
+        }
+        else cannotAffordChef3.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordReceipes()
@@ -445,7 +463,7 @@ public class UIManager : Singleton<UIManager>
         
         if(_GM.receipesUnlocked.Contains(_FM.foodArray[2]))
         {
-            soldReceipe1.SetActive(true);
+            soldReceipe2.SetActive(true);
         }
         else
         {
@@ -458,7 +476,7 @@ public class UIManager : Singleton<UIManager>
         
         if(_GM.receipesUnlocked.Contains(_FM.foodArray[3]))
         {
-            soldReceipe1.SetActive(true);
+            soldReceipe3.SetActive(true);
         }
         else
         {
