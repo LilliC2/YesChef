@@ -64,7 +64,7 @@ public class ChefManager : Singleton<ChefManager>
                         placingChef = false;
 
                         //placing animation
-                        newChef.transform.DOMoveY(0.6f, placingEaseTime).SetEase(placingEase);
+                        newChef.transform.DOMoveY(0.843f, placingEaseTime).SetEase(placingEase);
 
                         //subtract cost of chef from money
                         _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
