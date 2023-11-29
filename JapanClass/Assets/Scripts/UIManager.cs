@@ -155,7 +155,7 @@ public class UIManager : Singleton<UIManager>
     
     public void UpdateMoney()
     {
-        moneyCount.text = "$" + _GM.money.ToString("F2");
+        moneyCount.text = "¥" + _GM.money.ToString("F2");
     }
 
     public void UpdateReputationSlider()
@@ -333,7 +333,7 @@ public class UIManager : Singleton<UIManager>
         kneedingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
         mixingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
         cuttingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef0.text = "$" + _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        costChef0.text = "¥" + _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
 
         nameChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.name;
         pfpChef1.sprite = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.pfp;
@@ -341,7 +341,7 @@ public class UIManager : Singleton<UIManager>
         kneedingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
         mixingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
         cuttingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef1.text = "$" + _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        costChef1.text = "¥" + _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
 
         nameChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.name;
         pfpChef2.sprite = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.pfp;
@@ -349,7 +349,7 @@ public class UIManager : Singleton<UIManager>
         kneedingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
         mixingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
         cuttingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef2.text = "$" + _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        costChef2.text = "¥" + _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
 
         nameChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.name;
         pfpChef3.sprite = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.pfp;
@@ -357,14 +357,14 @@ public class UIManager : Singleton<UIManager>
         kneedingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
         mixingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
         cuttingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef3.text = "$" + _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        costChef3.text = "¥" + _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
     }
 
     public void LoadReceipeData()
     {
         nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe0.text = "Cost: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe0.text = "Unlock: $"+_FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        orderCostReceipe0.text = "Cost: ¥" + _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe0.text = "Unlock: ¥" + _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
         repLossReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
         cookingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
         mixingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
@@ -375,8 +375,8 @@ public class UIManager : Singleton<UIManager>
 
 
         nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe1.text = "Cost: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe1.text = "Unlock: $" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        orderCostReceipe1.text = "Cost: ¥" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe1.text = "Unlock: ¥" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
         repLossReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
         cookingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
         mixingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
@@ -385,8 +385,8 @@ public class UIManager : Singleton<UIManager>
         pfpReceipe1.sprite = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.pfp;
 
         nameReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe2.text = "Cost: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe2.text = "Unlock: $" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        orderCostReceipe2.text = "Cost: ¥" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe2.text = "Unlock: ¥" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
         repLossReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
         cookingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
         mixingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
@@ -395,8 +395,8 @@ public class UIManager : Singleton<UIManager>
         pfpReceipe2.sprite = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.pfp;
 
         nameReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe3.text = "Cost: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe3.text = "Unlock: $" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
+        orderCostReceipe3.text = "Cost: ¥" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
+        unlockCostReceipe3.text = "Unlock: ¥" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
         repLossReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
         cookingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
         mixingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
