@@ -38,7 +38,7 @@ public class FoodData : GameBehaviour
         isComplete = true;
 
         //find all needed skills
-        if(foodData.needsKneeding)
+        if(foodData.needsKneading)
         {
             //check if all skills are complete
             if (foodData.kneedPrepPoints < foodData.maxKneedPrepPoints) isComplete = false;

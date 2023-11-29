@@ -39,7 +39,7 @@ public class ChefData : GameBehaviour
             for (int i = 0; i < rawFoodInRange.Length; i++)
             {
                 currentFood = rawFoodInRange[i].gameObject;
-                if (chefData.kneedSkill && currentFood.GetComponent<FoodData>().foodData.needsKneeding)
+                if (chefData.kneedSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
                 {
                     print("I can kneed it");
 

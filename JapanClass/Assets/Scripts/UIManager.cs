@@ -170,6 +170,11 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     public void Pause()
     {
         pause = !pause;

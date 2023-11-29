@@ -14,7 +14,7 @@ public class FoodClass
     public float unlockCost;
     public float reputationLoss;
 
-    public bool needsKneeding;
+    public bool needsKneading;
     public float maxKneedPrepPoints;
     public float kneedPrepPoints;
     

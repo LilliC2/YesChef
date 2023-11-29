@@ -14,11 +14,26 @@ public class SkillTracker : MonoBehaviour
     [SerializeField]
     Image mixingImg;
 
+    [SerializeField]
+    GameObject cookingImgObj;
+    [SerializeField]
+    GameObject cuttingImgObj;
+    [SerializeField]
+    GameObject kneadingImgObj;
+    [SerializeField]
+    GameObject mixingImgObj;
+
+
     FoodData itemFoodData;
 
     private void Start()
     {
         itemFoodData = GetComponentInParent<FoodData>();
+
+        cookingImgObj.SetActive(itemFoodData.foodData.needsCooking);
+        cuttingImgObj.SetActive(itemFoodData.foodData.needsCutting);
+        kneadingImgObj.SetActive(itemFoodData.foodData.needsKneading);
+        mixingImgObj.SetActive(itemFoodData.foodData.needsMixing);
     }
 
     // Update is called once per frame
@@ -30,27 +45,28 @@ public class SkillTracker : MonoBehaviour
         //check if has cooking
         if(cookingImg != null)
         {
-            cookingImg.fillAmount = (itemFoodData.foodData.cookPrepPoints / itemFoodData.foodData.maxCookPrepPoints);
+            if (itemFoodData.foodData.needsCooking) cookingImg.fillAmount = (itemFoodData.foodData.cookPrepPoints / itemFoodData.foodData.maxCookPrepPoints);
+            else cookingImg.fillAmount = 0;
         }
-        
-        if(cuttingImg != null)
+
+        if (cuttingImg != null)
         {
-            cuttingImg.fillAmount = (itemFoodData.foodData.cutPrepPoints / itemFoodData.foodData.maxCutPrepPoints) / 100;
+            if (itemFoodData.foodData.needsCutting) cuttingImg.fillAmount = (itemFoodData.foodData.cutPrepPoints / itemFoodData.foodData.maxCutPrepPoints);
+            else cuttingImg.fillAmount = 0;
         }
         
         if(kneadingImg != null)
         {
-            kneadingImg.fillAmount = (itemFoodData.foodData.kneedPrepPoints / itemFoodData.foodData.maxKneedPrepPoints) / 100;
+            if (itemFoodData.foodData.needsKneading) kneadingImg.fillAmount = (itemFoodData.foodData.kneedPrepPoints / itemFoodData.foodData.maxKneedPrepPoints);
+            else kneadingImg.fillAmount = 0;
+
         }
-        
-        if(mixingImg != null)
+
+        if (mixingImg != null)
         {
-            mixingImg.fillAmount = (itemFoodData.foodData.mixPrepPoints / itemFoodData.foodData.maxMixPrepPoints) / 100;
+            if (itemFoodData.foodData.needsMixing) mixingImg.fillAmount = (itemFoodData.foodData.mixPrepPoints / itemFoodData.foodData.maxMixPrepPoints);
+            else mixingImg.fillAmount = 0;
         }
     }
 
-    void UpdateCooking()
-    {
-        
-    }
 }
