@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -135246015801469491, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -135246015801469491, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,9 +52,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2195127833723758100, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432222406348716927, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8206141595821055879, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
       propertyPath: m_Name
       value: WoodenFloorTile Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206141595821055879, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8206141595821055879, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
       propertyPath: m_IsActive
@@ -67,5 +79,34 @@ PrefabInstance:
     - {fileID: -4032611337694969263, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
     - {fileID: -5672966777811932237, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3432222406348716927, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1878457102223822025}
   m_SourcePrefab: {fileID: 8686905464242370237, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+--- !u!1 &8558479983423627108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3432222406348716927, guid: a5908f240e902b04f84f21543b9cdd25, type: 3}
+  m_PrefabInstance: {fileID: 6441379105749115931}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1878457102223822025
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8558479983423627108}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.75, y: 0.0625, z: 3.75}
+  m_Center: {x: 0, y: 0, z: 0}
