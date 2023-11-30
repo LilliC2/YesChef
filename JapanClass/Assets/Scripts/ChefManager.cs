@@ -8,6 +8,10 @@ public class ChefManager : Singleton<ChefManager>
     public GameObject[] chefArray;
     bool placingChef;
     GameObject newChef;
+    [SerializeField]
+    Material canPlaceMat;
+    [SerializeField]
+    Material cannotPlaceMat;
 
     [SerializeField]
     Ease placingEase;
@@ -44,18 +48,24 @@ public class ChefManager : Singleton<ChefManager>
                 newChef.transform.position = chefPos;
                 validPos = !Physics.CheckSphere(newChef.transform.position, 1, collisionMask);
 
-                
+                GameObject collisionVisualiser = newChef.transform.Find("CollisionVisualiser").gameObject;
+
+                UpdateCollisionVisualiser(collisionVisualiser, validPos);
 
                 if (validPos)
                 {
                     //check if chef is in a valid posistion
                     print("Can place");
 
+                    
+
+
                     //check chef is not too close to another chef
 
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
-
+                        newChef.transform.Find("Chef").gameObject.SetActive(true);
+                        Destroy(collisionVisualiser);
 
                         newChef.layer = 8;
                         newChef.GetComponent<CapsuleCollider>().isTrigger = false;
@@ -73,10 +83,7 @@ public class ChefManager : Singleton<ChefManager>
 
                     }
                 }
-                else
-                {
-                    print("Cannot place");
-                }
+                
             }
 
            
@@ -87,6 +94,18 @@ public class ChefManager : Singleton<ChefManager>
                 //place chef
                 placingChef = false;
             }
+        }
+    }
+
+    void UpdateCollisionVisualiser(GameObject _collisionVisuliser, bool _validPos)
+    {
+        var children = _collisionVisuliser.GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var child in children)
+        {
+            if (validPos) child.material = canPlaceMat;
+            else child.material = cannotPlaceMat;
+
         }
     }
 
