@@ -17,12 +17,12 @@ public class ChefData : GameBehaviour
 
     [SerializeField]
     Collider[] rawFoodInRange;
+    public bool placed;
 
     // Start is called before the first frame update
     void Start()
     {
         foundFood = false;
-
     }
 
     // Update is called once per frame
@@ -33,76 +33,82 @@ public class ChefData : GameBehaviour
         //check if any raw food are in range
         rawFoodInRange = Physics.OverlapSphere(transform.position, chefData.range, rawFood);
 
-        //check if chef has compatible skill
-        if (!foundFood)
+        //check if placed
+        if (placed)
         {
-            for (int i = 0; i < rawFoodInRange.Length; i++)
+            //check if chef has compatible skill
+            if (!foundFood)
             {
-                currentFood = rawFoodInRange[i].gameObject;
-                if (chefData.kneedSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
+                for (int i = 0; i < rawFoodInRange.Length; i++)
                 {
-                    print("I can kneed it");
+                    currentFood = rawFoodInRange[i].gameObject;
+                    if (chefData.kneedSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
+                    {
+                        print("I can kneed it");
 
-                    foundFood = true;
-                }
-                else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
-                {
-                    print("I can cut it");
+                        foundFood = true;
+                    }
+                    else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
+                    {
+                        print("I can cut it");
 
-                    foundFood = true;
-                }
-                else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
-                {
-                    print("I can cook it");
-                    foundFood = true;
-                }
-                else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
-                {
-                    print("I can mix it");
+                        foundFood = true;
+                    }
+                    else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
+                    {
+                        print("I can cook it");
+                        foundFood = true;
+                    }
+                    else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
+                    {
+                        print("I can mix it");
 
-                    foundFood = true;
+                        foundFood = true;
+                    }
+                    else
+                    {
+                        foundFood = false;
+                    }
+
+                }
+            }
+            //when food is found
+            else
+            {
+
+                //look at food
+                if (currentFood != null) transform.LookAt(currentFood.transform.position);
+                print("Found food i can cook");
+                //every second, add skillPrepPoints to food skillPrepPoints
+
+                if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
+                {
+                    print("Cooking");
+
+                    elapsed += Time.deltaTime;
+                    if (elapsed >= 1f)
+                    {
+                        elapsed = elapsed % 1f;
+                        //add prep points
+                        //kneeding
+                        if (chefData.kneedSkill) currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneedEffectivness;
+                        //cutting
+                        if (chefData.cutSkill) currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
+                        //mixing
+                        if (chefData.mixSkill) currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
+                        //cooking
+                        if (chefData.cookSkill) currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+                    }
                 }
                 else
                 {
                     foundFood = false;
-                }
-
-            }
-        }
-        //when food is found
-        else
-        {
-
-            //look at food
-            if (currentFood != null) transform.LookAt(currentFood.transform.position);
-            print("Found food i can cook");
-            //every second, add skillPrepPoints to food skillPrepPoints
-
-            if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
-            {
-                print("Cooking");
-
-                elapsed += Time.deltaTime;
-                if (elapsed >= 1f)
-                {
-                    elapsed = elapsed % 1f;
-                    //add prep points
-                    //kneeding
-                    if (chefData.kneedSkill) currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneedEffectivness;
-                    //cutting
-                    if (chefData.cutSkill) currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
-                    //mixing
-                    if (chefData.mixSkill) currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
-                    //cooking
-                    if (chefData.cookSkill) currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+                    currentFood = null;
                 }
             }
-            else
-            {
-                foundFood = false;
-                currentFood = null;
-            }
         }
+
+        
 
     }
 
