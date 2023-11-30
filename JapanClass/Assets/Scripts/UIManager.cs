@@ -20,6 +20,10 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text dayCount;
     public TMP_Text moneyCount;
     public Slider reputationSlider;
+    [SerializeField]
+    Color highlightedColour;
+
+
 
     [Header("Game Over")]
     public GameObject gameOverPanel;
@@ -37,7 +41,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text cuttingSkillChef0;
     public TMP_Text mixingSkillChef0;
     public GameObject cannotAffordChef0;
-    
+    public Image[] skillImagesChef0;
+
+
     [Header("Chef 1")]
     public TMP_Text nameChef1;
     public Image pfpChef1;
@@ -47,7 +53,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text cuttingSkillChef1;
     public TMP_Text mixingSkillChef1;
     public GameObject cannotAffordChef1;
-    
+    public Image[] skillImagesChef1;
+
+
     [Header("Chef 2")]
     public TMP_Text nameChef2;
     public Image pfpChef2;
@@ -57,7 +65,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text cuttingSkillChef2;
     public TMP_Text mixingSkillChef2;
     public GameObject cannotAffordChef2;
-    
+    public Image[] skillImagesChef2;
+
+
     [Header("Chef 3")]
     public TMP_Text nameChef3;
     public Image pfpChef3;
@@ -67,6 +77,8 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text cuttingSkillChef3;
     public TMP_Text mixingSkillChef3;
     public GameObject cannotAffordChef3;
+    public Image[] skillImagesChef3;
+
 
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
@@ -94,6 +106,8 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text kneedingPointsReceipe0;
     public TMP_Text cuttingPointsReceipe0;
     public TMP_Text mixingPointsReceipe0;
+    public Image[] skillImagesReceipe0;
+
 
     public GameObject cannotAffordReceipe0;
     public GameObject soldReceipe0;
@@ -108,6 +122,8 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text kneedingPointsReceipe1;
     public TMP_Text cuttingPointsReceipe1;
     public TMP_Text mixingPointsReceipe1;
+    public Image[] skillImagesReceipe1;
+
 
     public GameObject cannotAffordReceipe1;
     public GameObject soldReceipe1;
@@ -122,6 +138,8 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text kneedingPointsReceipe2;
     public TMP_Text cuttingPointsReceipe2;
     public TMP_Text mixingPointsReceipe2;
+    public Image[] skillImagesReceipe2;
+
 
     public GameObject cannotAffordReceipe2;
     public GameObject soldReceipe2;
@@ -136,6 +154,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text kneedingPointsReceipe3;
     public TMP_Text cuttingPointsReceipe3;
     public TMP_Text mixingPointsReceipe3;
+    public Image[] skillImagesReceipe3;
 
     public GameObject cannotAffordReceipe3;
     public GameObject soldReceipe3;
@@ -332,82 +351,279 @@ public class UIManager : Singleton<UIManager>
 
     public void LoadChefData()
     {
-        nameChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.name;
-        pfpChef0.sprite = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.pfp;
-        cookingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
-        kneedingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
-        mixingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
-        cuttingSkillChef0.text = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef0.text = "¥" + _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
 
-        nameChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.name;
-        pfpChef1.sprite = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.pfp;
-        cookingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
-        kneedingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
-        mixingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
-        cuttingSkillChef1.text = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef1.text = "¥" + _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        var chef0 = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData;
+        var chef1 = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData;
+        var chef2 = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData;
+        var chef3 = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData;
 
-        nameChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.name;
-        pfpChef2.sprite = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.pfp;
-        cookingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
-        kneedingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
-        mixingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
-        cuttingSkillChef2.text = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef2.text = "¥" + _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        nameChef0.text = chef0.name;
+        pfpChef0.sprite = chef0.pfp;
+        cookingSkillChef0.text = chef0.cookEffectivness.ToString();
+        kneedingSkillChef0.text = chef0.kneedEffectivness.ToString();
+        mixingSkillChef0.text = chef0.mixEffectivness.ToString();
+        cuttingSkillChef0.text = chef0.cutEffectivness.ToString();
+        costChef0.text = "¥" + chef0.hireCost.ToString();
 
-        nameChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.name;
-        pfpChef3.sprite = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.pfp;
-        cookingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.cookEffectivness.ToString();
-        kneedingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.kneedEffectivness.ToString();
-        mixingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.mixEffectivness.ToString();
-        cuttingSkillChef3.text = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.cutEffectivness.ToString();
-        costChef3.text = "¥" + _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost.ToString();
+        if (chef0.kneedSkill)
+        {
+            kneedingSkillChef0.color = highlightedColour;
+            skillImagesChef0[0].color = highlightedColour;
+        }
+        if (chef0.cookSkill)
+{
+            cookingSkillChef0.color = highlightedColour;
+            skillImagesChef0[1].color = highlightedColour;
+        }
+        if (chef0.cutSkill) 
+        {
+            cuttingSkillChef0.color = highlightedColour;
+            skillImagesChef0[2].color = highlightedColour;
+        }
+        if (chef0.mixSkill)
+        {
+            mixingSkillChef0.color = highlightedColour;
+            skillImagesChef0[3].color = highlightedColour;
+        }
+
+        nameChef1.text = chef1.name;
+        pfpChef1.sprite = chef1.pfp;
+        cookingSkillChef1.text = chef1.cookEffectivness.ToString();
+        kneedingSkillChef1.text = chef1.kneedEffectivness.ToString();
+        mixingSkillChef1.text = chef1.mixEffectivness.ToString();
+        cuttingSkillChef1.text = chef1.cutEffectivness.ToString();
+        costChef1.text = "¥" + chef1.hireCost.ToString();
+
+        if (chef1.kneedSkill)
+        {
+            kneedingSkillChef1.color = highlightedColour;
+            skillImagesChef1[0].color = highlightedColour;
+        }
+        if (chef1.cookSkill)
+        {
+            cookingSkillChef1.color = highlightedColour;
+            skillImagesChef1[1].color = highlightedColour;
+        }
+        if (chef1.cutSkill)
+        {
+            cuttingSkillChef1.color = highlightedColour;
+            skillImagesChef1[2].color = highlightedColour;
+        }
+        if (chef1.mixSkill)
+        {
+            mixingSkillChef1.color = highlightedColour;
+            skillImagesChef1[3].color = highlightedColour;
+        }
+
+        nameChef2.text = chef2.name;
+        pfpChef2.sprite = chef2.pfp;
+        cookingSkillChef2.text = chef2.cookEffectivness.ToString();
+        kneedingSkillChef2.text = chef2.kneedEffectivness.ToString();
+        mixingSkillChef2.text = chef2.mixEffectivness.ToString();
+        cuttingSkillChef2.text = chef2.cutEffectivness.ToString();
+        costChef2.text = "¥" + chef2.hireCost.ToString();
+
+        if (chef2.kneedSkill)
+        {
+            kneedingSkillChef2.color = highlightedColour;
+            skillImagesChef2[0].color = highlightedColour;
+        }
+        if (chef2.cookSkill)
+        {
+            cookingSkillChef2.color = highlightedColour;
+            skillImagesChef2[1].color = highlightedColour;
+        }
+        if (chef2.cutSkill)
+        {
+            cuttingSkillChef2.color = highlightedColour;
+            skillImagesChef2[2].color = highlightedColour;
+        }
+        if (chef2.mixSkill)
+        {
+            mixingSkillChef2.color = highlightedColour;
+            skillImagesChef2[3].color = highlightedColour;
+        }
+
+        nameChef3.text = chef3.name;
+        pfpChef3.sprite = chef3.pfp;
+        cookingSkillChef3.text = chef3.cookEffectivness.ToString();
+        kneedingSkillChef3.text = chef3.kneedEffectivness.ToString();
+        mixingSkillChef3.text = chef3.mixEffectivness.ToString();
+        cuttingSkillChef3.text = chef3.cutEffectivness.ToString();
+        costChef3.text = "¥" + chef3.ToString();
+
+
+        if (chef3.kneedSkill)
+        {
+            kneedingSkillChef3.color = highlightedColour;
+            skillImagesChef3[0].color = highlightedColour;
+        }
+        if (chef3.cookSkill)
+        {
+            cookingSkillChef3.color = highlightedColour;
+            skillImagesChef3[1].color = highlightedColour;
+        }
+        if (chef3.cutSkill)
+        {
+            cuttingSkillChef3.color = highlightedColour;
+            skillImagesChef3[2].color = highlightedColour;
+        }
+        if (chef3.mixSkill)
+        {
+            mixingSkillChef3.color = highlightedColour;
+            skillImagesChef3[3].color = highlightedColour;
+        }
+
+
     }
 
     public void LoadReceipeData()
     {
-        nameReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe0.text = "Cost: ¥" + _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe0.text = "Unlock: ¥" + _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
-        repLossReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
-        cookingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
-        mixingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
-        kneedingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
-        cuttingPointsReceipe0.text = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
-        pfpReceipe0.sprite = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData.pfp;
 
+        var food0 = _FM.foodArray[0].gameObject.GetComponent<FoodData>().foodData;
+        var food1 = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData;
+        var food2 = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData;
+        var food3 = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData;
 
+        nameReceipe0.text = food0.name;
+        orderCostReceipe0.text = "Cost: ¥" + food0.orderCost.ToString("F2");
+        unlockCostReceipe0.text = "Unlock: ¥" + food0.unlockCost.ToString("F2");
+        repLossReceipe0.text = food0.reputationLoss.ToString();
+        cookingPointsReceipe0.text = food0.maxCookPrepPoints.ToString();
+        mixingPointsReceipe0.text = food0.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe0.text = food0.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe0.text = food0.maxCutPrepPoints.ToString();
+        pfpReceipe0.sprite = food0.pfp;
 
-        nameReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe1.text = "Cost: ¥" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe1.text = "Unlock: ¥" + _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
-        repLossReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
-        cookingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
-        mixingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
-        kneedingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
-        cuttingPointsReceipe1.text = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
-        pfpReceipe1.sprite = _FM.foodArray[1].gameObject.GetComponent<FoodData>().foodData.pfp;
+        if (food0.needsKneading)
+        {
+            kneedingPointsReceipe0.color = highlightedColour;
+            skillImagesReceipe0[0].color = highlightedColour;
 
-        nameReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe2.text = "Cost: ¥" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe2.text = "Unlock: ¥" + _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
-        repLossReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
-        cookingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
-        mixingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
-        kneedingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
-        cuttingPointsReceipe2.text = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
-        pfpReceipe2.sprite = _FM.foodArray[2].gameObject.GetComponent<FoodData>().foodData.pfp;
+        }
+        if (food0.needsCooking)
+        {
+            cookingPointsReceipe0.color = highlightedColour;
+            skillImagesReceipe0[1].color = highlightedColour;
 
-        nameReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.name;
-        orderCostReceipe3.text = "Cost: ¥" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.orderCost.ToString("F2");
-        unlockCostReceipe3.text = "Unlock: ¥" + _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.unlockCost.ToString("F2");
-        repLossReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.reputationLoss.ToString();
-        cookingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxCookPrepPoints.ToString();
-        mixingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxMixPrepPoints.ToString();
-        kneedingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxKneedPrepPoints.ToString();
-        cuttingPointsReceipe3.text = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.maxCutPrepPoints.ToString();
-        pfpReceipe3.sprite = _FM.foodArray[3].gameObject.GetComponent<FoodData>().foodData.pfp;
+        }
+        if (food0.needsCutting)
+        {
+            cuttingPointsReceipe0.color = highlightedColour;
+            skillImagesReceipe0[2].color = highlightedColour;
+
+        }
+        if (food0.needsMixing)
+        {
+            mixingPointsReceipe0.color = highlightedColour;
+            skillImagesReceipe0[3].color = highlightedColour;
+
+        }
+
+        nameReceipe1.text = food1.name;
+        orderCostReceipe1.text = food1.orderCost.ToString("F2");
+        unlockCostReceipe1.text = food1.unlockCost.ToString("F2");
+        repLossReceipe1.text = food1.reputationLoss.ToString();
+        cookingPointsReceipe1.text = food1.maxCookPrepPoints.ToString();
+        mixingPointsReceipe1.text = food1.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe1.text = food1.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe1.text = food1.maxCutPrepPoints.ToString();
+        pfpReceipe1.sprite = food1.pfp;
+
+        if (food1.needsKneading)
+        {
+            kneedingPointsReceipe1.color = highlightedColour;
+            skillImagesReceipe1[0].color = highlightedColour;
+
+        }
+        if (food1.needsCooking)
+        {
+            cookingPointsReceipe1.color = highlightedColour;
+            skillImagesReceipe1[1].color = highlightedColour;
+
+        }
+        if (food1.needsCutting)
+        {
+            cuttingPointsReceipe1.color = highlightedColour;
+            skillImagesReceipe1[2].color = highlightedColour;
+
+        }
+        if (food1.needsMixing)
+        {
+            mixingPointsReceipe1.color = highlightedColour;
+            skillImagesReceipe1[3].color = highlightedColour;
+
+        }
+
+        nameReceipe2.text = food2.name;
+        orderCostReceipe2.text = "Cost: ¥" + food2.orderCost.ToString("F2");
+        unlockCostReceipe2.text = "Unlock: ¥" + food2.unlockCost.ToString("F2");
+        repLossReceipe2.text = food2.reputationLoss.ToString();
+        cookingPointsReceipe2.text = food2.maxCookPrepPoints.ToString();
+        mixingPointsReceipe2.text = food2.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe2.text = food2.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe2.text = food2.maxCutPrepPoints.ToString();
+        pfpReceipe2.sprite = food2.pfp;
+
+        if (food2.needsKneading)
+        {
+            kneedingPointsReceipe2.color = highlightedColour;
+            skillImagesReceipe2[0].color = highlightedColour;
+
+        }
+        if (food2.needsCooking)
+        {
+            cookingPointsReceipe2.color = highlightedColour;
+            skillImagesReceipe2[1].color = highlightedColour;
+
+        }
+        if (food2.needsCutting)
+        {
+            cuttingPointsReceipe2.color = highlightedColour;
+            skillImagesReceipe2[2].color = highlightedColour;
+
+        }
+        if (food2.needsMixing)
+        {
+            mixingPointsReceipe2.color = highlightedColour;
+            skillImagesReceipe2[3].color = highlightedColour;
+
+        }
+
+        nameReceipe3.text = food3.name;
+        orderCostReceipe3.text = "Cost: ¥" + food3.orderCost.ToString("F2");
+        unlockCostReceipe3.text = "Unlock: ¥" + food3.unlockCost.ToString("F2");
+        repLossReceipe3.text = food3.reputationLoss.ToString();
+        cookingPointsReceipe3.text = food3.maxCookPrepPoints.ToString();
+        mixingPointsReceipe3.text = food3.maxMixPrepPoints.ToString();
+        kneedingPointsReceipe3.text = food3.maxKneedPrepPoints.ToString();
+        cuttingPointsReceipe3.text = food3.maxCutPrepPoints.ToString();
+        pfpReceipe3.sprite = food3.pfp;
+
+        if (food3.needsKneading)
+        {
+            kneedingPointsReceipe3.color = highlightedColour;
+            skillImagesReceipe3[0].color = highlightedColour;
+
+        }
+        if (food3.needsCooking)
+        {
+            cookingPointsReceipe3.color = highlightedColour;
+            skillImagesReceipe3[1].color = highlightedColour;
+
+        }
+        if (food3.needsCutting)
+        {
+            cuttingPointsReceipe3.color = highlightedColour;
+            skillImagesReceipe3[2].color = highlightedColour;
+
+        }
+        if (food3.needsMixing)
+        {
+            mixingPointsReceipe3.color = highlightedColour;
+            skillImagesReceipe3[3].color = highlightedColour;
+
+        }
 
     }
 
