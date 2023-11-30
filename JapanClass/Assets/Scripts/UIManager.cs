@@ -21,6 +21,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text moneyCount;
     public Slider reputationSlider;
     [SerializeField]
+    Sprite[] tanukiHandleSlider;
+
+    [SerializeField]
     Color highlightedColour;
 
 
@@ -180,6 +183,26 @@ public class UIManager : Singleton<UIManager>
     public void UpdateReputationSlider()
     {
         reputationSlider.value = _GM.reputation;
+
+        switch(_GM.reputation)
+        {
+            case > 80:
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[0];
+                break;
+            case > 60:
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[1];
+                break;
+            case > 40:
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[2];
+                break;
+            case > 20:
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[3];
+                break;
+            case < 20:
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[4];
+                break;
+               
+        }
     }
 
     public void ReloadScene()
