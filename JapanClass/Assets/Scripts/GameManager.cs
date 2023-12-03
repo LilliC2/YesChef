@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     int[] foodPerWave;
     [SerializeField]
-    int[] secondsInBetweenPerWave;
+    float[] secondsInBetweenPerWave;
     public float[] conveyrbeltSpeedPerWave;
     bool waveComplete;
     public bool activeWave;
@@ -59,15 +59,14 @@ public class GameManager : Singleton<GameManager>
                 {
                     waveComplete = false;
 
-                    print("Player Ready = " + playerReady);
-                    print(timeSinceInitialization);
+                    //print("Player Ready = " + playerReady);
 
                     if(!autoPlayEnabled)
                     {
                         //check if player is ready
                         if (playerReady)
                         {
-                            print("player is ready");
+                            //print("player is ready");
                             playerReady = false;
                             activeWave = true;
                             //set conveyerbelt speed
@@ -139,7 +138,7 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-    IEnumerator SummonWave(int _waveNum, int _timeBetweenFood)
+    IEnumerator SummonWave(int _waveNum, float _timeBetweenFood)
     {
         for (int i = 0; i < foodPerWave[_waveNum]; i++)
         {

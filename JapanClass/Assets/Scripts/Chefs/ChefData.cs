@@ -44,24 +44,24 @@ public class ChefData : GameBehaviour
                     currentFood = rawFoodInRange[i].gameObject;
                     if (chefData.kneedSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
                     {
-                        print("I can kneed it");
+                        //print("I can kneed it");
 
                         foundFood = true;
                     }
                     else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
                     {
-                        print("I can cut it");
+                        //print("I can cut it");
 
                         foundFood = true;
                     }
                     else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
                     {
-                        print("I can cook it");
+                        //print("I can cook it");
                         foundFood = true;
                     }
                     else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
                     {
-                        print("I can mix it");
+                        //print("I can mix it");
 
                         foundFood = true;
                     }
@@ -78,12 +78,12 @@ public class ChefData : GameBehaviour
 
                 //look at food
                 if (currentFood != null) transform.LookAt(currentFood.transform.position);
-                print("Found food i can cook");
+                //print("Found food i can cook");
                 //every second, add skillPrepPoints to food skillPrepPoints
 
                 if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
                 {
-                    print("Cooking");
+                    //print("Cooking");
 
                     elapsed += Time.deltaTime;
                     if (elapsed >= 1f)

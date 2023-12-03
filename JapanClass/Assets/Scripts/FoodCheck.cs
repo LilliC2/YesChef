@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class FoodCheck : GameBehaviour
 {
+    ParticleSystem cookedFoodPS;
+    private void Start()
+    {
+        //cookedFoodPS = GetComponentInChildren<ParticleSystem>();
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Food"))
         {
 
-            print("tag");
             //Check if food is raw
             if (other.gameObject.GetComponent<FoodData>().foodData.isCooked)
             {
                 //Add money
-                print("Day: " + _GM.dayCount+1 + " Cooked Food!");
+                //print("Day: " + _GM.dayCount+1 + " Cooked Food!");
 
+                //cookedFoodPS.Play();
                 _GM.money += other.gameObject.GetComponent<FoodData>().foodData.orderCost;
 
             }
             else
             {
-                print("Day: " + _GM.dayCount+1 + " Raw Food!");
+                //print("Day: " + _GM.dayCount+1 + " Raw Food!");
                 _GM.reputation -= other.gameObject.GetComponent<FoodData>().foodData.reputationLoss;
                 //lose reputation points
                 
@@ -35,7 +42,7 @@ public class FoodCheck : GameBehaviour
             _UI.UpdateReputationSlider();
             _UI.UpdateMoney();
 
-            ExecuteAfterSeconds(1, () => Destroy(other.gameObject));
+            //ExecuteAfterSeconds(1, () => Destroy(other.gameObject));
         }
     }
 }
