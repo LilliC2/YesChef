@@ -11,6 +11,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject tutorialMainPanel;
     public GameObject[] tutorialPanels;
     float tutorialPageCount;
+    bool inTutotial;
 
     [Header("Pause")]
     public GameObject pausePanel;
@@ -166,9 +167,27 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
+        //ensure it starts with tutorial
+        tutorialMainPanel.SetActive(true);
+        tutorialPanels[0].SetActive(true);
+        inTutotial = true;
         LoadChefData();
 
         LoadReceipeData();
+    }
+
+    private void Update()
+    {
+        if(inTutotial)
+        {
+            //check for if chef is placed
+            if (!tutorialMainPanel.activeSelf && Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                tutorialMainPanel.SetActive(true);
+                CloseChefMenu();
+                NextTutorialPanel(5);
+            }
+        }
     }
 
     public void UpdateDay()
@@ -210,6 +229,8 @@ public class UIManager : Singleton<UIManager>
 
     public void CloseTutorial()
     {
+        inTutotial = false;
+
         tutorialMainPanel.SetActive(false);
     }
 
@@ -226,6 +247,12 @@ public class UIManager : Singleton<UIManager>
 
     }
 
+
+    public void BuyTanuki()
+    {
+        tutorialMainPanel.SetActive(false);
+        BuyChef(1);
+    }
     #endregion
 
     public void ReloadScene()
