@@ -183,9 +183,10 @@ public class UIManager : Singleton<UIManager>
             //check for if chef is placed
             if (!tutorialMainPanel.activeSelf && Input.GetKeyDown(KeyCode.Mouse0))
             {
-                tutorialMainPanel.SetActive(true);
-                CloseChefMenu();
                 NextTutorialPanel(5);
+                CloseChefMenu();
+                ExecuteAfterSeconds(0.3f,() => tutorialMainPanel.SetActive(true));
+
             }
         }
     }
