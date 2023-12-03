@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("Tutorial UI")]
-    public GameObject recipeCheckOB;
-    bool recipeBought;
+    [Header("Tutorial")]
+    public GameObject tutorialMainPanel;
+    public GameObject[] tutorialPanels;
+    float tutorialPageCount;
 
     [Header("Pause")]
     public GameObject pausePanel;
@@ -205,6 +206,28 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    #region Tutorial
+
+    public void CloseTutorial()
+    {
+        tutorialMainPanel.SetActive(false);
+    }
+
+    public void NextTutorialPanel(int panel)
+    {
+        tutorialPanels[panel].SetActive(false);
+        tutorialPanels[panel + 1].SetActive(true);
+
+    }
+    public void PreviousTutorialPanel(int panel)
+    {
+        tutorialPanels[panel].SetActive(false);
+        tutorialPanels[panel - 1].SetActive(true);
+
+    }
+
+    #endregion
+
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -302,26 +325,16 @@ public class UIManager : Singleton<UIManager>
 
     public void PlayerReady()
     {
-        if (!recipeBought) CheckForRecipes();
-        else
-        {
-            _GM.playerReady = true;
+        _GM.playerReady = true;
 
-            Time.timeScale = 1;
-        }
-
+        Time.timeScale = 1;
 
     }
 
     public void SpeedUp()
     {
-        if (!recipeBought) CheckForRecipes();
-        else
-        {
-            _GM.playerReady = true;
-            Time.timeScale = 5;
-        }
-            
+        _GM.playerReady = true;
+        Time.timeScale = 5;
 
     }
 
@@ -734,15 +747,4 @@ public class UIManager : Singleton<UIManager>
         
     }
 
-    public void CheckForRecipes()
-    {
-        if (_GM.receipesUnlocked.Count == 0)
-        {
-            print("no recipes bought");
-            recipeCheckOB.SetActive(true);
-
-            ExecuteAfterSeconds(3, () => recipeCheckOB.SetActive(false));
-        }
-        else recipeBought = true;
-    }
 }
