@@ -10,7 +10,6 @@ public class UIManager : Singleton<UIManager>
     [Header("Tutorial")]
     public GameObject tutorialMainPanel;
     public GameObject[] tutorialPanels;
-    float tutorialPageCount;
     bool inTutotial;
 
     [Header("Pause")]
@@ -32,6 +31,9 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Game Over")]
     public GameObject gameOverPanel;
+    public GameObject completePanel;
+
+
 
     [Header("Chef UI")]
     public GameObject chefMenu;
@@ -199,6 +201,8 @@ public class UIManager : Singleton<UIManager>
     public void UpdateMoney()
     {
         moneyCount.text = "¥" + _GM.money.ToString("F2");
+        CheckWhatPlayerCanAffordChefs();
+        CheckWhatPlayerCanAffordReceipes();
     }
 
     public void UpdateReputationSlider()

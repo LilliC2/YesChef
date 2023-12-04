@@ -140,10 +140,20 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator SummonWave(int _waveNum, float _timeBetweenFood)
     {
-        for (int i = 0; i < foodPerWave[_waveNum]; i++)
+        if(_waveNum < foodPerWave.Length)
         {
-            _FM.InstantiateFood();
-            yield return new WaitForSeconds(_timeBetweenFood);
+
+            for (int i = 0; i < foodPerWave[_waveNum]; i++)
+            {
+                _FM.InstantiateFood();
+                yield return new WaitForSeconds(_timeBetweenFood);
+            }
         }
+        else
+        {
+            Time.timeScale = 1;
+            _UI.completePanel.SetActive(true);
+        }
+
     }
 }
