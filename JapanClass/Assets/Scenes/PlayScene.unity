@@ -2240,11 +2240,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91062468}
   m_CullTransparentMesh: 1
---- !u!4 &92703767 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-  m_PrefabInstance: {fileID: 2432357053640008815}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &94835074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2845116474967814614, guid: eb79d84b66f8a12498364e4b5d8316c8, type: 3}
@@ -3383,18 +3378,30 @@ MonoBehaviour:
   money: 10
   reputation: 100
   autoPlayEnabled: 0
-  foodPerWave: 05000000080000000a0000000f00000014000000190000001e00000023000000280000002d000000
-  secondsInBetweenPerWave: 03000000030000000200000002000000020000000100000001000000010000000100000001000000
+  foodPerWave: 0500000007000000070000000a0000000f0000000f00000014000000140000001e0000001e00000023000000
+  secondsInBetweenPerWave:
+  - 5
+  - 5
+  - 4.5
+  - 4.2
+  - 4.2
+  - 3.8
+  - 3.5
+  - 2.5
+  - 2.3
+  - 2.1
+  - 2.1
   conveyrbeltSpeedPerWave:
-  - 0.5
+  - 0.8
+  - 0.8
   - 1
-  - 1
+  - 1.2
   - 1.5
   - 1.5
   - 1.5
-  - 2
-  - 2
-  - 2
+  - 1.5
+  - 1.5
+  - 1.7
   - 2
   activeWave: 0
   playerReady: 0
@@ -3969,6 +3976,7 @@ GameObject:
   - component: {fileID: 172256986}
   - component: {fileID: 172256988}
   - component: {fileID: 172256987}
+  - component: {fileID: 172256989}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -4034,6 +4042,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172256985}
   m_CullTransparentMesh: 1
+--- !u!95 &172256989
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172256985}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &173250034
 GameObject:
   m_ObjectHideFlags: 0
@@ -10480,6 +10509,7 @@ GameObject:
   - component: {fileID: 396516639}
   - component: {fileID: 396516641}
   - component: {fileID: 396516640}
+  - component: {fileID: 396516642}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -10545,6 +10575,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396516638}
   m_CullTransparentMesh: 1
+--- !u!95 &396516642
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396516638}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &399407134
 GameObject:
   m_ObjectHideFlags: 0
@@ -14747,8 +14798,7 @@ Transform:
   m_LocalPosition: {x: 3.1548, y: 1.6666, z: -8.55}
   m_LocalScale: {x: 1.7339106, y: 1.266995, z: 0.6742}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 92703767}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15330,6 +15380,7 @@ GameObject:
   - component: {fileID: 595630908}
   - component: {fileID: 595630910}
   - component: {fileID: 595630909}
+  - component: {fileID: 595630911}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -15395,6 +15446,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595630907}
   m_CullTransparentMesh: 1
+--- !u!95 &595630911
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595630907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &602573542
 GameObject:
   m_ObjectHideFlags: 0
@@ -18208,6 +18280,7 @@ GameObject:
   - component: {fileID: 725829944}
   - component: {fileID: 725829946}
   - component: {fileID: 725829945}
+  - component: {fileID: 725829947}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -18273,6 +18346,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725829943}
   m_CullTransparentMesh: 1
+--- !u!95 &725829947
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725829943}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &726342468 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4537091918071910295, guid: ecf3c04865987234a82876ae659181cc, type: 3}
@@ -22473,6 +22567,7 @@ GameObject:
   - component: {fileID: 931329116}
   - component: {fileID: 931329118}
   - component: {fileID: 931329117}
+  - component: {fileID: 931329119}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -22538,6 +22633,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931329115}
   m_CullTransparentMesh: 1
+--- !u!95 &931329119
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931329115}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &931740518
 GameObject:
   m_ObjectHideFlags: 0
@@ -24673,6 +24789,7 @@ GameObject:
   - component: {fileID: 1012072636}
   - component: {fileID: 1012072638}
   - component: {fileID: 1012072637}
+  - component: {fileID: 1012072639}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -24738,6 +24855,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012072635}
   m_CullTransparentMesh: 1
+--- !u!95 &1012072639
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012072635}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1012804742
 GameObject:
   m_ObjectHideFlags: 0
@@ -27701,6 +27839,7 @@ GameObject:
   - component: {fileID: 1126221530}
   - component: {fileID: 1126221532}
   - component: {fileID: 1126221531}
+  - component: {fileID: 1126221533}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -27766,6 +27905,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126221529}
   m_CullTransparentMesh: 1
+--- !u!95 &1126221533
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126221529}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1129535142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28135,6 +28295,7 @@ GameObject:
   - component: {fileID: 1152114390}
   - component: {fileID: 1152114392}
   - component: {fileID: 1152114391}
+  - component: {fileID: 1152114393}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -28200,6 +28361,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152114389}
   m_CullTransparentMesh: 1
+--- !u!95 &1152114393
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152114389}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1152867102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2845116474967814614, guid: eb79d84b66f8a12498364e4b5d8316c8, type: 3}
@@ -30994,7 +31176,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -33002,6 +33184,7 @@ GameObject:
   - component: {fileID: 1455127443}
   - component: {fileID: 1455127445}
   - component: {fileID: 1455127444}
+  - component: {fileID: 1455127446}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -33067,6 +33250,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455127442}
   m_CullTransparentMesh: 1
+--- !u!95 &1455127446
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455127442}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1458284232
 GameObject:
   m_ObjectHideFlags: 0
@@ -33836,6 +34040,7 @@ GameObject:
   - component: {fileID: 1497931237}
   - component: {fileID: 1497931239}
   - component: {fileID: 1497931238}
+  - component: {fileID: 1497931240}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -33901,6 +34106,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497931236}
   m_CullTransparentMesh: 1
+--- !u!95 &1497931240
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497931236}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1502472929
 GameObject:
   m_ObjectHideFlags: 0
@@ -36213,6 +36439,7 @@ GameObject:
   - component: {fileID: 1608501421}
   - component: {fileID: 1608501423}
   - component: {fileID: 1608501422}
+  - component: {fileID: 1608501424}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -36278,6 +36505,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608501420}
   m_CullTransparentMesh: 1
+--- !u!95 &1608501424
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608501420}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1612018818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37924,6 +38172,7 @@ GameObject:
   - component: {fileID: 1691832390}
   - component: {fileID: 1691832392}
   - component: {fileID: 1691832391}
+  - component: {fileID: 1691832393}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -37989,6 +38238,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691832389}
   m_CullTransparentMesh: 1
+--- !u!95 &1691832393
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691832389}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1698758422
 GameObject:
   m_ObjectHideFlags: 0
@@ -41203,6 +41473,7 @@ GameObject:
   - component: {fileID: 1883815978}
   - component: {fileID: 1883815980}
   - component: {fileID: 1883815979}
+  - component: {fileID: 1883815981}
   m_Layer: 5
   m_Name: TanukiEmote
   m_TagString: Untagged
@@ -41268,6 +41539,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883815977}
   m_CullTransparentMesh: 1
+--- !u!95 &1883815981
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883815977}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a1f0d18611262e489046341759e00e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1888191178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47139,99 +47431,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1032713229678939479, guid: 2cf3a10a376ab2446881222b87d4e979, type: 3}
   m_PrefabInstance: {fileID: 5555767758868493539}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2432357053640008815
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 562979592}
-    m_Modifications:
-    - target: {fileID: 1613723303627928559, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_Name
-      value: Star_PS
-      objectReference: {fileID: 0}
-    - target: {fileID: 7021287724955625136, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_RenderAlignment
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7021287724955625136, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7185669679230954418, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: TrailModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7185669679230954418, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: TrailModule.lifetime.scalar
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7185669679230954418, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].value
-      value: 0.55405426
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.57673097
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.78926915
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4832394
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.079
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.81
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159276301044551886, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2aa5733ec293bd14fb943713c71cccf0, type: 3}
 --- !u!1001 &2453131461860119782
 PrefabInstance:
   m_ObjectHideFlags: 0
