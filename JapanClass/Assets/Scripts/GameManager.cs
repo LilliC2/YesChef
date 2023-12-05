@@ -73,9 +73,19 @@ public class GameManager : Singleton<GameManager>
 
                             //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                             //spawn wave
-                            StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+                            if (dayCount < 12)
+                            {
+                                StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
 
+                            }
+                            else
+                            {
+                                Time.timeScale = 1;
+                                _UI.completePanel.SetActive(true);
+                            }
                         }
+
+                    
                     }
                     else
                     {
@@ -87,7 +97,17 @@ public class GameManager : Singleton<GameManager>
 
                         //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                         //spawn wave
-                        StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+
+                        if(dayCount < 12)
+                        {
+                            StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+
+                        }
+                        else
+                        {
+                            Time.timeScale = 1;
+                            _UI.completePanel.SetActive(true);
+                        }
                     }
                     
                 }
@@ -140,7 +160,7 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator SummonWave(int _waveNum, float _timeBetweenFood)
     {
-        if(_waveNum < foodPerWave.Length)
+        if(dayCount <= foodPerWave.Length)
         {
 
             for (int i = 0; i < foodPerWave[_waveNum]; i++)
@@ -149,11 +169,7 @@ public class GameManager : Singleton<GameManager>
                 yield return new WaitForSeconds(_timeBetweenFood);
             }
         }
-        else
-        {
-            Time.timeScale = 1;
-            _UI.completePanel.SetActive(true);
-        }
+
 
     }
 }
