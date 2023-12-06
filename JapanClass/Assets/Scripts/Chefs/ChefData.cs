@@ -86,9 +86,9 @@ public class ChefData : GameBehaviour
                     //print("Cooking");
 
                     elapsed += Time.deltaTime;
-                    if (elapsed >= 1f)
+                    if (elapsed >= 0.2f)
                     {
-                        elapsed = elapsed % 1f;
+                        elapsed = elapsed % 0.2f;
                         //add prep points
                         //kneeding
                         if (chefData.kneedSkill) currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneedEffectivness;
