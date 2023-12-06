@@ -13,8 +13,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     int[] foodPerWave;
     [SerializeField]
-    float[] secondsInBetweenPerWave;
-    public float[] conveyrbeltSpeedPerWave;
+    //float[] secondsInBetweenPerWave;
+    //public float[] conveyrbeltSpeedPerWave;
     bool waveComplete;
     public bool activeWave;
 
@@ -25,7 +25,6 @@ public class GameManager : Singleton<GameManager>
     public List<GameObject> receipesUnlocked;
 
     private float initializationTime;
-    private float timeSinceInitialization;
 
     public enum GameState { Playing, GameOver, Pause}
     public GameState gameState;
@@ -75,7 +74,7 @@ public class GameManager : Singleton<GameManager>
                             //spawn wave
                             if (dayCount < 12)
                             {
-                                StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
+                                StartCoroutine(SummonWave(dayCount));
 
                             }
                             else
@@ -98,16 +97,7 @@ public class GameManager : Singleton<GameManager>
                         //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                         //spawn wave
 
-                        if(dayCount < 12)
-                        {
-                            StartCoroutine(SummonWave(dayCount, secondsInBetweenPerWave[dayCount]));
-
-                        }
-                        else
-                        {
-                            Time.timeScale = 1;
-                            _UI.completePanel.SetActive(true);
-                        }
+                        StartCoroutine(SummonWave(dayCount));
                     }
                     
                 }
@@ -116,7 +106,7 @@ public class GameManager : Singleton<GameManager>
                 //check if wave is complete
                 if (activeWave)
                 {
-                    timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
+                    //timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
 
                     if (_FM.foodInWave.Count == 0)
                     {
@@ -158,7 +148,36 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-    IEnumerator SummonWave(int _waveNum, float _timeBetweenFood)
+
+    public float CalculateConveyerbeltSpeed()
+    {
+        float b = 1.2f;
+        float a = 5;
+        float c = 5;
+        float h = -10;
+        //y=a(b^(x+h)+c
+        /*y = current speed
+         *a = base speed
+         *x = day count
+        */
+        float waveSpeed = a*(Mathf.Pow(b,(dayCount+h) + c));
+        return waveSpeed;
+    }
+
+    float CalculateTimeBetweenFood()
+    {
+        float b = 0.9f;
+        float a = 1f;
+        //y=a(b^x)
+        /*y = seconds between
+         * a = base seconds
+         *x = day count
+        */
+        float waveTimeBetweenFood = a * Mathf.Pow(b, dayCount);
+        return waveTimeBetweenFood;
+    }
+
+    IEnumerator SummonWave(int _waveNum)
     {
         if(dayCount <= foodPerWave.Length)
         {
@@ -166,7 +185,7 @@ public class GameManager : Singleton<GameManager>
             for (int i = 0; i < foodPerWave[_waveNum]; i++)
             {
                 _FM.InstantiateFood();
-                yield return new WaitForSeconds(_timeBetweenFood);
+                yield return new WaitForSeconds(CalculateTimeBetweenFood());
             }
         }
 

@@ -275,7 +275,6 @@ public class UIManager : Singleton<UIManager>
     public void Pause()
     {
         pause = !pause;
-        print("clicking dat but");
         if(pause)
         {
             Time.timeScale = 0;
@@ -366,7 +365,7 @@ public class UIManager : Singleton<UIManager>
     public void SpeedUp()
     {
         _GM.playerReady = true;
-        Time.timeScale = 5;
+        Time.timeScale = 2;
 
     }
 

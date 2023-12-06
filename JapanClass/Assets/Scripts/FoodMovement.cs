@@ -34,7 +34,7 @@ public class FoodMovement : GameBehaviour
         //move towards corner
         if (index != conveyerbeltCorners.Length)
         {
-            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.conveyrbeltSpeedPerWave[_GM.dayCount]);
+            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
 
             if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
             {
