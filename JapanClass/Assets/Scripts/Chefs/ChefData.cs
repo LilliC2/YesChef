@@ -13,6 +13,8 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+    public Animator anim;
+
     public bool validPos;
 
     [SerializeField]
@@ -23,6 +25,8 @@ public class ChefData : GameBehaviour
     void Start()
     {
         foundFood = false;
+        //anim = GetComponentInChildren<Animator>();
+        print(anim);
     }
 
     // Update is called once per frame
@@ -88,6 +92,8 @@ public class ChefData : GameBehaviour
                     elapsed += Time.deltaTime;
                     if (elapsed >= 0.2f)
                     {
+                        anim.SetBool("Cooking", true);
+
                         elapsed = elapsed % 0.2f;
                         //add prep points
                         //kneeding
@@ -102,6 +108,7 @@ public class ChefData : GameBehaviour
                 }
                 else
                 {
+                    anim.SetBool("Cooking", false);
                     foundFood = false;
                     currentFood = null;
                 }
