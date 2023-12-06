@@ -4,28 +4,25 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+
+    [Header("Player Stats")]
     public int dayCount;
     public float money;
     public float reputation = 100;
+    public List<GameObject> receipesUnlocked;
 
+    [Header("Wave Stats")]
     public bool autoPlayEnabled = false;
-
     [SerializeField]
     int[] foodPerWave;
     [SerializeField]
-    //float[] secondsInBetweenPerWave;
-    //public float[] conveyrbeltSpeedPerWave;
     bool waveComplete;
     public bool activeWave;
-
     public bool playerReady;
-
     public Transform[] conveyerbeltPoints;
 
-    public List<GameObject> receipesUnlocked;
-
-    private float initializationTime;
-
+    [Header("Game State")]
+    public float currentTimeScale;
     public enum GameState { Playing, GameOver, Pause}
     public GameState gameState;
 
@@ -35,7 +32,6 @@ public class GameManager : Singleton<GameManager>
         _UI.UpdateDay();
         _UI.UpdateMoney();
         _UI.UpdateReputationSlider();
-        initializationTime = Time.timeSinceLevelLoad;
 
     }
 
@@ -72,19 +68,11 @@ public class GameManager : Singleton<GameManager>
 
                             //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
                             //spawn wave
-                            if (dayCount < 12)
-                            {
-                                StartCoroutine(SummonWave(dayCount));
+                            StartCoroutine(SummonWave(dayCount));
 
-                            }
-                            else
-                            {
-                                Time.timeScale = 1;
-                                _UI.completePanel.SetActive(true);
-                            }
                         }
 
-                    
+
                     }
                     else
                     {

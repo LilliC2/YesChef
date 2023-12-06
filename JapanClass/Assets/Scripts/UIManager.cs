@@ -283,7 +283,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = _GM.currentTimeScale;
             _GM.gameState = GameManager.GameState.Playing;
             pausePanel.SetActive(false);
         }
@@ -358,14 +358,16 @@ public class UIManager : Singleton<UIManager>
     {
         _GM.playerReady = true;
 
-        Time.timeScale = 1;
+        _GM.currentTimeScale = 1;
+        Time.timeScale = _GM.currentTimeScale;
 
     }
 
     public void SpeedUp()
     {
         _GM.playerReady = true;
-        Time.timeScale = 2;
+        _GM.currentTimeScale = 2;
+        Time.timeScale = _GM.currentTimeScale;
 
     }
 

@@ -3482,6 +3482,7 @@ MonoBehaviour:
   dayCount: 0
   money: 10
   reputation: 100
+  receipesUnlocked: []
   autoPlayEnabled: 0
   foodPerWave: 0500000007000000070000000a0000000f0000000f00000014000000140000001e0000001e00000023000000
   waveComplete: 0
@@ -3493,7 +3494,7 @@ MonoBehaviour:
   - {fileID: 1371456642}
   - {fileID: 746965205}
   - {fileID: 1372900610}
-  receipesUnlocked: []
+  currentTimeScale: 0
   gameState: 0
 --- !u!1001 &141043616
 PrefabInstance:
@@ -23688,7 +23689,6 @@ Transform:
   - {fileID: 1363037150}
   - {fileID: 448054879}
   - {fileID: 201866519}
-  - {fileID: 2071404882}
   - {fileID: 1185555120}
   - {fileID: 2995057840314548110}
   - {fileID: 198714952}
@@ -48518,111 +48518,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069137560}
   m_CullTransparentMesh: 1
---- !u!1 &2071404881
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2071404882}
-  - component: {fileID: 2071404885}
-  - component: {fileID: 2071404884}
-  - component: {fileID: 2071404883}
-  m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2071404882
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071404881}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.9818, y: 0.45, z: 9.3514}
-  m_LocalScale: {x: 1.5755486, y: 1.549847, z: 1.0171}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 881170550}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2071404883
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071404881}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2071404884
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071404881}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2071404885
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071404881}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &2072692193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4898834310603312127, guid: bdf4c978c84f8154490a85a5a8699e4c, type: 3}
@@ -50638,7 +50533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7493917142191918884, guid: 106cff4fc8c71274da56afcf338dcfdd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 7493917142191918884, guid: 106cff4fc8c71274da56afcf338dcfdd, type: 3}
       propertyPath: m_LocalPosition.z
