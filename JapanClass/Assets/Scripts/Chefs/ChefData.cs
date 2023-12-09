@@ -43,6 +43,9 @@ public class ChefData : GameBehaviour
             //check if chef has compatible skill
             if (!foundFood)
             {
+                anim.SetBool("Cooking", false);
+
+
                 for (int i = 0; i < rawFoodInRange.Length; i++)
                 {
                     currentFood = rawFoodInRange[i].gameObject;
@@ -88,11 +91,11 @@ public class ChefData : GameBehaviour
                 if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
                 {
                     //print("Cooking");
+                    anim.SetBool("Cooking", true);
 
                     elapsed += Time.deltaTime;
                     if (elapsed >= 0.2f)
                     {
-                        anim.SetBool("Cooking", true);
 
                         elapsed = elapsed % 0.2f;
                         //add prep points
@@ -108,7 +111,6 @@ public class ChefData : GameBehaviour
                 }
                 else
                 {
-                    anim.SetBool("Cooking", false);
                     foundFood = false;
                     currentFood = null;
                 }
