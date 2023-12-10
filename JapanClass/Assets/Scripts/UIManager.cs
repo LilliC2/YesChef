@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -27,7 +28,15 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     Color highlightedColour;
 
-
+    [Header("Camera Controls")]
+    [SerializeField]
+    Vector3 kitchenCamPos;
+    [SerializeField]
+    Vector3 kitchenCamRot;
+    [SerializeField]
+    Vector3 resturantCamPos;
+    [SerializeField]
+    Vector3 resturantCamRot;
 
     [Header("Game Over")]
     public GameObject gameOverPanel;
@@ -176,10 +185,17 @@ public class UIManager : Singleton<UIManager>
         LoadChefData();
 
         LoadReceipeData();
+
+        _GM.event_endOfDay.AddListener(UpdateDay);
+
     }
 
     private void Update()
     {
+        //temp\
+        if (Input.GetKeyDown(KeyCode.Space)) LookAtKitchen();
+        if (Input.GetKeyDown(KeyCode.K)) LookAtResturant();
+
         if(inTutotial)
         {
             //check for if chef is placed
@@ -260,18 +276,8 @@ public class UIManager : Singleton<UIManager>
     }
     #endregion
 
-    public void ReloadScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-    }
-
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
-
+    #region Menus
     public void Pause()
     {
         pause = !pause;
@@ -315,6 +321,9 @@ public class UIManager : Singleton<UIManager>
         receipeMenu.SetActive(false);
     }
 
+    #endregion
+
+    #region Chef Pop Up
     public void OpenChefPopUp(GameObject _chefData)
     {
 
@@ -352,6 +361,35 @@ public class UIManager : Singleton<UIManager>
         Destroy(selectedChef);
 
         CloseChefPopUp();
+    }
+
+    #endregion
+
+    #region Buttons
+
+
+    public void LookAtKitchen()
+    {
+        Camera.main.transform.DOMove(kitchenCamPos, 1);
+        Camera.main.transform.DORotate(kitchenCamRot, 1);
+    }
+
+    public void LookAtResturant()
+    {
+        Camera.main.transform.DOMove(resturantCamPos, 1);
+        Camera.main.transform.DORotate(resturantCamRot, 1);
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
+
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     public void PlayerReady()
@@ -417,6 +455,10 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+    #endregion
+
+    #region Load Data
 
     public void LoadChefData()
     {
@@ -776,8 +818,8 @@ public class UIManager : Singleton<UIManager>
             }
             else cannotAffordReceipe3.SetActive(false);
         }
+        #endregion
 
-        
     }
 
 }

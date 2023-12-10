@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -26,12 +27,19 @@ public class GameManager : Singleton<GameManager>
     public enum GameState { Playing, GameOver, Pause}
     public GameState gameState;
 
+    [Header("Events")]
+    public UnityEvent event_endOfDay;
+    public UnityEvent event_startOfDay;
+
     // Start is called before the first frame update
     void Start()
     {
         _UI.UpdateDay();
         _UI.UpdateMoney();
         _UI.UpdateReputationSlider();
+
+        event_endOfDay.AddListener(EndOfDayReset);
+        event_startOfDay.AddListener(StartOfDayReset);
 
     }
 
@@ -61,14 +69,7 @@ public class GameManager : Singleton<GameManager>
                         //check if player is ready
                         if (playerReady)
                         {
-                            //print("player is ready");
-                            playerReady = false;
-                            activeWave = true;
-                            //set conveyerbelt speed
-
-                            //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
-                            //spawn wave
-                            StartCoroutine(SummonWave(dayCount));
+                            event_startOfDay.Invoke();
 
                         }
 
@@ -78,16 +79,10 @@ public class GameManager : Singleton<GameManager>
                     {
                         //start wave automatically
 
-                        playerReady = false;
-                        activeWave = true;
-                        //set conveyerbelt speed
+                        event_startOfDay.Invoke();
 
-                        //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
-                        //spawn wave
-
-                        StartCoroutine(SummonWave(dayCount));
                     }
-                    
+
                 }
 
 
@@ -99,24 +94,12 @@ public class GameManager : Singleton<GameManager>
                     if (_FM.foodInWave.Count == 0)
                     {
                         print("wave done");
-                        activeWave = false;
-                        waveComplete = true;
-                        playerReady = false;
-                        Time.timeScale = 1; //reset speed
+
+                        event_endOfDay.Invoke();
+
                     }
                 }
 
-                //update day
-                if (waveComplete)
-                {
-                    //reset day cycle
-                    //_DC.transform.rotation = new Quaternion(10, 0, 0,0);
-                    //_DC.beginRotation = false;
-
-                    dayCount++;
-                    _UI.UpdateDay();
-                    _UI.UpdateMoney(); //shouldnt need this here but just in case;
-                }
 
                 //reputation check
                 if (reputation <= 0) gameState = GameState.GameOver;
@@ -135,8 +118,29 @@ public class GameManager : Singleton<GameManager>
         }
 
     }
+    void StartOfDayReset()
+    {
+        //print("player is ready");
+        playerReady = false;
+        activeWave = true;
+        //set conveyerbelt speed
 
+        //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
+        //spawn wave
+        StartCoroutine(SummonWave(dayCount));
+    }
 
+    void EndOfDayReset()
+    {
+
+        activeWave = false;
+        waveComplete = true;
+        playerReady = false;
+        Time.timeScale = 1; //reset speed
+
+        dayCount++;
+
+    }
     public float CalculateConveyerbeltSpeed()
     {
         float b = 1.2f;
