@@ -14,8 +14,7 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Wave Stats")]
     public bool autoPlayEnabled = false;
-    [SerializeField]
-    int[] foodPerWave;
+    public int[] foodPerWave;
     [SerializeField]
     bool waveComplete;
     public bool activeWave;
