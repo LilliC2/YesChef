@@ -421,11 +421,11 @@ public class UIManager : Singleton<UIManager>
     {
         chefMenu.SetActive(false);
 
-        var chefToBuy = _CM.chefArray[_arrayNum];
+        var chefToBuy = _ChefM.chefArray[_arrayNum];
 
         if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
         {
-            _CM.CreateNewChef(chefToBuy);
+            _ChefM.CreateNewChef(chefToBuy);
 
             CheckWhatPlayerCanAffordChefs();
         }
@@ -463,10 +463,10 @@ public class UIManager : Singleton<UIManager>
     public void LoadChefData()
     {
 
-        var chef0 = _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData;
-        var chef1 = _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData;
-        var chef2 = _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData;
-        var chef3 = _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData;
+        var chef0 = _ChefM.chefArray[0].gameObject.GetComponent<ChefData>().chefData;
+        var chef1 = _ChefM.chefArray[1].gameObject.GetComponent<ChefData>().chefData;
+        var chef2 = _ChefM.chefArray[2].gameObject.GetComponent<ChefData>().chefData;
+        var chef3 = _ChefM.chefArray[3].gameObject.GetComponent<ChefData>().chefData;
 
         nameChef0.text = chef0.name;
         pfpChef0.sprite = chef0.pfp;
@@ -740,25 +740,25 @@ public class UIManager : Singleton<UIManager>
 
     public void CheckWhatPlayerCanAffordChefs()
     {
-        if(_GM.money < _CM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        if(_GM.money < _ChefM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost)
         {
             cannotAffordChef0.SetActive(true);
         }
         else cannotAffordChef0.SetActive(false);
         
-        if(_GM.money < _CM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        if(_GM.money < _ChefM.chefArray[1].gameObject.GetComponent<ChefData>().chefData.hireCost)
         {
             cannotAffordChef1.SetActive(true);
         }
         else cannotAffordChef1.SetActive(false);
         
-        if(_GM.money < _CM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        if(_GM.money < _ChefM.chefArray[2].gameObject.GetComponent<ChefData>().chefData.hireCost)
         {
             cannotAffordChef2.SetActive(true);
         }
         else cannotAffordChef2.SetActive(false);
         
-        if(_GM.money < _CM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        if(_GM.money < _ChefM.chefArray[3].gameObject.GetComponent<ChefData>().chefData.hireCost)
         {
             cannotAffordChef3.SetActive(true);
         }

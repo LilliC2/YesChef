@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomerManager : Singleton<CustomerManager>
+public class CustomerData : MonoBehaviour
 {
-    public List<GameObject> emptyChairQueue;
-
-
     // Start is called before the first frame update
     void Start()
     {
