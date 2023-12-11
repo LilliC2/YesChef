@@ -10,6 +10,8 @@ public class FoodClass
     public Sprite pfp;
 
     public bool isCooked;
+    public bool isBeingPickedUp;
+
     public float orderCost;
     public float unlockCost;
     public float reputationLoss;

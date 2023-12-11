@@ -6,6 +6,8 @@ public class CustomerManager : Singleton<CustomerManager>
 {
     public List<GameObject> emptyChairQueue;
 
+    public List<GameObject> customersList;
+
     public GameObject resturantDoor;
 
     public GameObject customer;
@@ -13,7 +15,9 @@ public class CustomerManager : Singleton<CustomerManager>
     // Start is called before the first frame update
     void Start()
     {
-        _GM.event_startOfDay.AddListener(SpawnCustomers);
+        SpawnCustomers();
+        _GM.event_endOfDay.AddListener(SpawnCustomers);
+        
     }
 
     // Update is called once per frame
@@ -26,7 +30,8 @@ public class CustomerManager : Singleton<CustomerManager>
     {
         for (int i = 0; i < _GM.foodPerWave[_GM.dayCount]; i++)
         {
-            Instantiate(customer, resturantDoor.transform.position, Quaternion.identity);
+            var newCustomers = Instantiate(customer, resturantDoor.transform.position, Quaternion.identity);
+            customersList.Add(newCustomers);
         }
     }
 }

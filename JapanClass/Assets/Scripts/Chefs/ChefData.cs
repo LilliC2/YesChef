@@ -88,7 +88,7 @@ public class ChefData : GameBehaviour
                 //print("Found food i can cook");
                 //every second, add skillPrepPoints to food skillPrepPoints
 
-                if (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true)
+                if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
                 {
                     //print("Cooking");
                     anim.SetBool("Cooking", true);

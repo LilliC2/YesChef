@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Events")]
     public UnityEvent event_endOfDay;
     public UnityEvent event_startOfDay;
+    public UnityEvent event_foodToBeServed;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class GameManager : Singleton<GameManager>
 
         event_endOfDay.AddListener(EndOfDayReset);
         event_startOfDay.AddListener(StartOfDayReset);
+
 
     }
 
@@ -90,7 +92,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     //timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
 
-                    if (_FM.foodInWave.Count == 0)
+                    if (_FM.foodInWave.Count == 0 && _CustM.customersList.Count == 0)
                     {
                         print("wave done");
 
@@ -175,7 +177,7 @@ public class GameManager : Singleton<GameManager>
 
             for (int i = 0; i < foodPerWave[_waveNum]; i++)
             {
-                _FM.InstantiateFood();
+                _FM.InstantiateFood(i);
                 yield return new WaitForSeconds(CalculateTimeBetweenFood());
             }
         }

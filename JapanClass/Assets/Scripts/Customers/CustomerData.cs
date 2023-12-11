@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+
 
 public class CustomerData : GameBehaviour
 {
+    [SerializeField]
     GameObject order;
-    bool served;
+    Image orderDisplay;
 
     GameObject seat;
 
@@ -15,14 +18,26 @@ public class CustomerData : GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
+        agent = GetComponent<NavMeshAgent>();
         FindSeat();
+
+        orderDisplay = GetComponentInChildren<Image>();
+
+        _GM.event_startOfDay.AddListener(OrderFood);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void OrderFood()
+    {
+        order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
+        _FM.orderedFood.Add(order);
+        orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
+
     }
 
     void FindSeat()
@@ -34,6 +49,7 @@ public class CustomerData : GameBehaviour
 
     void LeaveResturant()
     {
+        _CustM.customersList.Remove(gameObject);
         _CustM.emptyChairQueue.Add(seat);
         agent.SetDestination(_CustM.resturantDoor.transform.position);
     }
