@@ -12,6 +12,8 @@ public class FoodManager : Singleton<FoodManager>
 
     public List<GameObject> orderedFood;
    
+    public List<GameObject> cookedFood;
+
     // Start is called before the first frame update
     void Start()
     {
