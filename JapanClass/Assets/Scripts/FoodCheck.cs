@@ -23,11 +23,15 @@ public class FoodCheck : GameBehaviour
                 //print("Day: " + _GM.dayCount+1 + " Cooked Food!");
 
                 //cookedFoodPS.Play();
+
+                _AM.successfulFood.Play();
                 _GM.money += other.gameObject.GetComponent<FoodData>().foodData.orderCost;
 
             }
             else
             {
+                _AM.unsuccessfulFood.Play();
+
                 //print("Day: " + _GM.dayCount+1 + " Raw Food!");
                 _GM.reputation -= other.gameObject.GetComponent<FoodData>().foodData.reputationLoss;
                 //lose reputation points

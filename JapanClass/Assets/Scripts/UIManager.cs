@@ -396,7 +396,12 @@ public class UIManager : Singleton<UIManager>
     {
         _GM.playerReady = true;
 
-        _GM.currentTimeScale = 1;
+        if (_GM.currentTimeScale != 1)
+        {
+            _GM.currentTimeScale = 1;
+            _AM.slowDown.Play();
+
+        }
         Time.timeScale = _GM.currentTimeScale;
 
     }
@@ -404,7 +409,12 @@ public class UIManager : Singleton<UIManager>
     public void SpeedUp()
     {
         _GM.playerReady = true;
-        _GM.currentTimeScale = 2;
+        if(_GM.currentTimeScale != 2)
+        {
+            _GM.currentTimeScale = 2;
+            _AM.speedUp.Play();
+
+        }
         Time.timeScale = _GM.currentTimeScale;
 
     }
@@ -444,6 +454,9 @@ public class UIManager : Singleton<UIManager>
             { 
                 if (receipeToBuy.GetComponent<FoodData>().foodData.unlockCost <= _GM.money)
                 {
+                    _AM.successfulPurchase.Play();
+
+
                     _GM.receipesUnlocked.Add(receipeToBuy);
 
                     _GM.money -= receipeToBuy.GetComponent<FoodData>().foodData.unlockCost;
@@ -451,6 +464,10 @@ public class UIManager : Singleton<UIManager>
                     UpdateMoney();
 
                     CheckWhatPlayerCanAffordReceipes();
+                }
+                else
+                {
+                    _AM.errorPurchase.Play();
                 }
             }
         }
