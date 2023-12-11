@@ -34,6 +34,14 @@ public class WaiterData :GameBehaviour
         //    if (customer != null) customers.Add(customer.GetComponent<CustomerData>());
 
         //}
+        if(isHoldingFood)
+        {
+            if (Vector3.Distance(transform.position, heldFood.transform.position) < 1)
+            {
+                print("holding");
+            }
+        }
+
     }
 
     void GetFood()
