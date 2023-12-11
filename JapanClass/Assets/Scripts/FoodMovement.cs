@@ -24,7 +24,6 @@ public class FoodMovement : GameBehaviour
     void Update()
     {
         //look towards corner
-        transform.LookAt(conveyerbeltCorners[index].position);
 
         float timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
 
@@ -34,13 +33,17 @@ public class FoodMovement : GameBehaviour
         //move towards corner
         if (index != conveyerbeltCorners.Length)
         {
+            transform.LookAt(conveyerbeltCorners[index].position);
+
             transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
 
             if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
             {
-                if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
-                index++;
-                
+                //if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
+                if(index<conveyerbeltCorners.Length) index++;
+
+                //if at last index,
+
 
             }
         }
