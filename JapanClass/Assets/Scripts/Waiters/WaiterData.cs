@@ -5,19 +5,26 @@ using UnityEngine.AI;
 
 public class WaiterData :GameBehaviour
 {
+    [SerializeField]
     bool isHoldingFood;
-
-    List<CustomerData> customers;
 
     Vector3 homePos;
     [SerializeField]
     GameObject heldFood;
+    FoodData heldFoodData;
 
     NavMeshAgent agent;
+
+    [SerializeField]
+    GameObject currentCustomer;
+
+    [SerializeField]
+    GameObject holdfoodspot;
 
     // Start is called before the first frame update
     void Start()
     {
+        holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
         agent = GetComponent<NavMeshAgent>();
         //temp
         homePos = transform.position;
@@ -29,51 +36,95 @@ public class WaiterData :GameBehaviour
     // Update is called once per frame
     void Update()
     {
-        //foreach (var customer in _CustM.customersList)
-        //{
-        //    if (customer != null) customers.Add(customer.GetComponent<CustomerData>());
 
-        //}
-        if(isHoldingFood)
+        //hasnt picked up food yet but has a target;
+        if(!isHoldingFood && heldFood != null)
         {
-            if (Vector3.Distance(transform.position, heldFood.transform.position) < 1)
+            agent.SetDestination(heldFood.transform.position);
+
+            if (Vector3.Distance(transform.position, heldFood.transform.position) < 2f)
             {
-                print("holding");
+                print("close enought to grab food");
+                _FM.cookedFood.Remove(heldFood);
+                isHoldingFood = true;
             }
+            else print(Vector3.Distance(transform.position, heldFood.transform.position));
+
         }
 
-    }
+        if(isHoldingFood) heldFood.transform.position = holdfoodspot.transform.position;
 
-    void GetFood()
-    {
-        //check if alredy holding food, if they are that means they're in the middle of an order
-        if (!isHoldingFood)
+        if (isHoldingFood && currentCustomer == null)
         {
-            var foodFound = false;
-
-
-            if (!foodFound)
+ 
+            //find customer who is waiting
+            foreach (var customer in _CustM.customersList)
             {
-                foreach (var food in _FM.foodInWave)
+                if (currentCustomer == null)
                 {
-                    //food that is cooked and not already being picked up
-                    if (food.GetComponent<FoodData>().foodData.isCooked)// && food.GetComponent<FoodData>().foodData.isBeingPickedUp == false
+                    var customerData = customer.GetComponent<CustomerData>();
+                    var customerOrderData = customerData.order.GetComponent<FoodData>();
+                    if (customerOrderData.name == heldFoodData.foodData.name && !customerData.hasBeenAttened)
                     {
-                        heldFood = food;
-                        //heldFood.GetComponent<FoodData>().foodData.isBeingPickedUp = true;
-
-                        agent.SetDestination(heldFood.transform.position);
-                        foodFound = true;
+                        print("found customer");
+                        currentCustomer = customer;
+                        customerData.hasBeenAttened = true;
                     }
                 }
 
             }
-
         }
-        else return;
+
+        if(isHoldingFood && currentCustomer !=null)
+        {
+            //bring food to them
+            agent.SetDestination(currentCustomer.transform.position);
+            if (Vector3.Distance(transform.position, currentCustomer.transform.position) < 2f)
+            {
+                isHoldingFood = false;
+                //give customer food
+                heldFood.transform.position = currentCustomer.GetComponent<CustomerData>().plateSpot.transform.position;
+                currentCustomer.GetComponent<CustomerData>().ServedFood();
+
+                ResetWaiter();
+
+            }
+        }
 
     }
 
+    void ResetWaiter()
+    {
+        heldFood = null;
+        currentCustomer = null;
+
+        //if no food to grab, go home
+        if (_FM.cookedFood.Count == 0) agent.destination = homePos;
+        else GetFood();
+    }
+    void GetFood()
+    {
+        //check if alredy holding food, if they are that means they're in the middle of an order
+        foreach (var food in _FM.foodInWave)
+        {
+
+            if (heldFood == null)
+            {
+                //food that is cooked and not already being picked up
+                if (food.GetComponent<FoodData>().foodData.isCooked && food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
+                {
+                    heldFood = food;
+                    heldFoodData = heldFood.GetComponent<FoodData>();
+                    heldFoodData.foodData.isBeingPickedUp = true;
+
+                }
+            }
+            else return;
+
+
+
+        }
+    }
     void GetAllCustomers()
     {
 

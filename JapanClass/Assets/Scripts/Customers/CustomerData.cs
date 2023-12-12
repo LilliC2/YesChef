@@ -7,11 +7,12 @@ using UnityEngine.UI;
 
 public class CustomerData : GameBehaviour
 {
-    [SerializeField]
-    GameObject order;
+    public GameObject order;
+    public bool hasBeenAttened;
     Image orderDisplay;
 
     GameObject seat;
+    public GameObject plateSpot;
 
     NavMeshAgent agent;
 
@@ -32,6 +33,11 @@ public class CustomerData : GameBehaviour
 
     }
 
+    public void ServedFood()
+    {
+        print("YUM!");
+    }
+
     void OrderFood()
     {
         order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
@@ -45,6 +51,8 @@ public class CustomerData : GameBehaviour
         seat = _CustM.emptyChairQueue[0];
         agent.SetDestination(seat.transform.position);
         _CustM.emptyChairQueue.Remove(_CustM.emptyChairQueue[0]);
+
+        plateSpot = seat.transform.GetChild(0).gameObject;
     }
 
     void LeaveResturant()
