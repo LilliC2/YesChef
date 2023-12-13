@@ -9,8 +9,9 @@ public class WaiterData :GameBehaviour
 
     [SerializeField]
     bool isHoldingFood;
+    public bool placed;
 
-    Vector3 homePos;
+    public Vector3 homePos;
     [SerializeField]
     GameObject heldFood;
     FoodData heldFoodData;
@@ -26,17 +27,13 @@ public class WaiterData :GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        waiterData = GetComponent<WaiterClass>();
 
-        //set speed
-        agent.speed = waiterData.speed;
 
 
         holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
         agent = GetComponent<NavMeshAgent>();
-        //temp
-        homePos = transform.position;
-
+        //set speed
+        agent.speed = waiterData.speed;
         _GM.event_startOfDay.AddListener(GetAllCustomers);
         _GM.event_foodToBeServed.AddListener(GetFood);
     }
@@ -44,66 +41,69 @@ public class WaiterData :GameBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //hasnt picked up food yet but has a target;
-        if(!isHoldingFood && heldFood != null)
+        if(placed)
         {
-            agent.SetDestination(heldFood.transform.position);
-
-            if (Vector3.Distance(transform.position, heldFood.transform.position) < 2f)
+            //hasnt picked up food yet but has a target;
+            if (!isHoldingFood && heldFood != null)
             {
-                print("close enought to grab food");
-                _FM.cookedFood.Remove(heldFood);
-                isHoldingFood = true;
-            }
-            //else print(Vector3.Distance(transform.position, heldFood.transform.position));
+                agent.SetDestination(heldFood.transform.position);
 
-        }
-
-        if(isHoldingFood) heldFood.transform.position = holdfoodspot.transform.position;
-
-        if (isHoldingFood && currentCustomer == null)
-        {
- 
-            //find customer who is waiting
-            foreach (var customer in _CustM.customersList)
-            {
-                if (currentCustomer == null)
+                if (Vector3.Distance(transform.position, heldFood.transform.position) < 2f)
                 {
-                    if (!customer.GetComponent<CustomerData>().leaving)
-                    {
-                        var customerData = customer.GetComponent<CustomerData>();
-                        var customerOrderData = customerData.order.GetComponent<FoodData>();
-                        if (customerOrderData.name == heldFoodData.foodData.name && !customerData.hasBeenAttened)
-                        {
-                            print("found customer");
-                            currentCustomer = customer;
-                            customerData.hasBeenAttened = true;
-                        }
-                    }
-                    else return;
+                    print("close enought to grab food");
+                    _FM.cookedFood.Remove(heldFood);
+                    isHoldingFood = true;
                 }
+                //else print(Vector3.Distance(transform.position, heldFood.transform.position));
 
             }
-        }
 
-        if(isHoldingFood && currentCustomer !=null)
-        {
-            //bring food to them
-            agent.SetDestination(currentCustomer.transform.position);
-            if (Vector3.Distance(transform.position, currentCustomer.transform.position) < 2f)
+            if (isHoldingFood) heldFood.transform.position = holdfoodspot.transform.position;
+
+            if (isHoldingFood && currentCustomer == null)
             {
-                isHoldingFood = false;
-                var customerData = currentCustomer.GetComponent<CustomerData>();
-                //give customer food
-                heldFood.transform.position = customerData.plateSpot.transform.position;
-                customerData.order = heldFood;
-                customerData.ServedFood();
 
-                ResetWaiter();
+                //find customer who is waiting
+                foreach (var customer in _CustM.customersList)
+                {
+                    if (currentCustomer == null)
+                    {
+                        if (!customer.GetComponent<CustomerData>().leaving)
+                        {
+                            var customerData = customer.GetComponent<CustomerData>();
+                            var customerOrderData = customerData.order.GetComponent<FoodData>();
+                            if (customerOrderData.name == heldFoodData.foodData.name && !customerData.hasBeenAttened)
+                            {
+                                print("found customer");
+                                currentCustomer = customer;
+                                customerData.hasBeenAttened = true;
+                            }
+                        }
+                        else return;
+                    }
 
+                }
+            }
+
+            if (isHoldingFood && currentCustomer != null)
+            {
+                //bring food to them
+                agent.SetDestination(currentCustomer.transform.position);
+                if (Vector3.Distance(transform.position, currentCustomer.transform.position) < 2f)
+                {
+                    isHoldingFood = false;
+                    var customerData = currentCustomer.GetComponent<CustomerData>();
+                    //give customer food
+                    heldFood.transform.position = customerData.plateSpot.transform.position;
+                    customerData.order = heldFood;
+                    customerData.ServedFood();
+
+                    ResetWaiter();
+
+                }
             }
         }
+
 
     }
 
