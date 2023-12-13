@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class WaiterData :GameBehaviour
 {
+    public WaiterClass waiterData;
+
     [SerializeField]
     bool isHoldingFood;
 
@@ -24,6 +26,12 @@ public class WaiterData :GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        waiterData = GetComponent<WaiterClass>();
+
+        //set speed
+        agent.speed = waiterData.speed;
+
+
         holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
         agent = GetComponent<NavMeshAgent>();
         //temp
@@ -48,7 +56,7 @@ public class WaiterData :GameBehaviour
                 _FM.cookedFood.Remove(heldFood);
                 isHoldingFood = true;
             }
-            else print(Vector3.Distance(transform.position, heldFood.transform.position));
+            //else print(Vector3.Distance(transform.position, heldFood.transform.position));
 
         }
 
@@ -62,14 +70,18 @@ public class WaiterData :GameBehaviour
             {
                 if (currentCustomer == null)
                 {
-                    var customerData = customer.GetComponent<CustomerData>();
-                    var customerOrderData = customerData.order.GetComponent<FoodData>();
-                    if (customerOrderData.name == heldFoodData.foodData.name && !customerData.hasBeenAttened)
+                    if (!customer.GetComponent<CustomerData>().leaving)
                     {
-                        print("found customer");
-                        currentCustomer = customer;
-                        customerData.hasBeenAttened = true;
+                        var customerData = customer.GetComponent<CustomerData>();
+                        var customerOrderData = customerData.order.GetComponent<FoodData>();
+                        if (customerOrderData.name == heldFoodData.foodData.name && !customerData.hasBeenAttened)
+                        {
+                            print("found customer");
+                            currentCustomer = customer;
+                            customerData.hasBeenAttened = true;
+                        }
                     }
+                    else return;
                 }
 
             }
@@ -82,9 +94,11 @@ public class WaiterData :GameBehaviour
             if (Vector3.Distance(transform.position, currentCustomer.transform.position) < 2f)
             {
                 isHoldingFood = false;
+                var customerData = currentCustomer.GetComponent<CustomerData>();
                 //give customer food
-                heldFood.transform.position = currentCustomer.GetComponent<CustomerData>().plateSpot.transform.position;
-                currentCustomer.GetComponent<CustomerData>().ServedFood();
+                heldFood.transform.position = customerData.plateSpot.transform.position;
+                customerData.order = heldFood;
+                customerData.ServedFood();
 
                 ResetWaiter();
 

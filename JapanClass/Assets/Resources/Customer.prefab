@@ -199,6 +199,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   order: {fileID: 0}
+  hasBeenAttened: 0
+  plateSpot: {fileID: 0}
+  leaving: 0
+  currentFoodSprite: {fileID: 4071552391812391028}
 --- !u!195 &8707221060087100711
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -230,6 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3156967583404231267}
+  - component: {fileID: 796257157225260758}
   m_Layer: 0
   m_Name: CurrentFood
   m_TagString: Untagged
@@ -253,6 +258,18 @@ Transform:
   m_Father: {fileID: 7751813499419034192}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &796257157225260758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071552391812391028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763ce7c566690d54a9dbfcd8e08aedd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7827532737041099297
 GameObject:
   m_ObjectHideFlags: 0

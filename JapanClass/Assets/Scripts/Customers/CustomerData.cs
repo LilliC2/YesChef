@@ -15,10 +15,15 @@ public class CustomerData : GameBehaviour
     public GameObject plateSpot;
 
     NavMeshAgent agent;
+    public bool leaving;
 
+    public GameObject currentFoodSprite;
     // Start is called before the first frame update
     void Start()
     {
+
+        currentFoodSprite.SetActive(false);
+
         agent = GetComponent<NavMeshAgent>();
         FindSeat();
 
@@ -30,18 +35,38 @@ public class CustomerData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentFoodSprite.transform.LookAt(Camera.main.transform.position);
 
+        if (leaving && Vector3.Distance(transform.position, _CustM.resturantDoor.transform.position) < 2)
+        {
+            currentFoodSprite.SetActive(false);
+            Destroy(gameObject);
+
+        }
     }
-
     public void ServedFood()
     {
         print("YUM!");
+
+        //begin eating after X seconds
+        ExecuteAfterSeconds(order.GetComponent<FoodData>().foodData.eatTime,()=> LeaveResturant());
+
+        //eating aniamtion??
+
+
+        //destroy food
+
+        //leave resturant
+
+
+
     }
 
     void OrderFood()
     {
         order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         _FM.orderedFood.Add(order);
+        currentFoodSprite.SetActive(true);
         orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
 
     }
@@ -57,8 +82,14 @@ public class CustomerData : GameBehaviour
 
     void LeaveResturant()
     {
+        Destroy(order);
         _CustM.customersList.Remove(gameObject);
+        _FM.foodInWave.Remove(order);
+        _FM.cookedFood.Remove(order);
+
+        //stop eating animation
         _CustM.emptyChairQueue.Add(seat);
         agent.SetDestination(_CustM.resturantDoor.transform.position);
+        leaving = true;
     }
 }
