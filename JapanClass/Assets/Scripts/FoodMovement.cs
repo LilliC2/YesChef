@@ -31,7 +31,7 @@ public class FoodMovement : GameBehaviour
 
 
         //move towards corner
-        if (index != conveyerbeltCorners.Length)
+        if (index != conveyerbeltCorners.Length-1)
         {
             transform.LookAt(conveyerbeltCorners[index].position);
 
@@ -42,10 +42,14 @@ public class FoodMovement : GameBehaviour
                 //if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
                 if(index<conveyerbeltCorners.Length) index++;
 
-                //if at last index,
 
 
             }
+        }
+        else
+        {
+            //join finished food queue
+            if(_FM.cookedFood.Contains(gameObject)) transform.position = Vector3.MoveTowards(transform.position,_GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
         }
 
         

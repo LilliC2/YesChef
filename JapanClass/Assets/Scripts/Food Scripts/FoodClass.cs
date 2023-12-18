@@ -9,7 +9,11 @@ public class FoodClass
     public string description;
     public Sprite pfp;
 
+
     public bool isCooked;
+    public bool isBeingPickedUp;
+    public float eatTime;
+
     public float orderCost;
     public float unlockCost;
     public float reputationLoss;

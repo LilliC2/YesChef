@@ -42,12 +42,22 @@ public class UIManager : Singleton<UIManager>
     public GameObject gameOverPanel;
     public GameObject completePanel;
 
+    [Header("Waiter UI")]
+    public GameObject waiterMenu;
+    public GameObject waiterMenuButton;
 
+    [Header("Waiter 0")]
+    public TMP_Text nameWaiter0;
+    public Image pfpWaiter0;
+    public TMP_Text costwaiter0;
+    public TMP_Text strengthSkillWaiter0;
+    public TMP_Text speedSkillWaiter0;
+    public GameObject cannotAffordWaiter0;
 
     [Header("Chef UI")]
     public GameObject chefMenu;
     public GameObject chefMenuButton;
-
+    #region Chefs
     [Header("Chef 0")]
     public TMP_Text nameChef0;
     public Image pfpChef0;
@@ -107,11 +117,11 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text mixingSkillChefchefPopUp;
     public Image rangeSlider1;
     public Image rangeSlider2;
-
+    #endregion
     [Header("Receipe UI")]
     public GameObject receipeMenu;
     public GameObject receipeMenuButton;
-
+    #region Receipes
     [Header("Receipe 0")]
     public TMP_Text nameReceipe0;
     public Image pfpReceipe0;
@@ -175,7 +185,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject cannotAffordReceipe3;
     public GameObject soldReceipe3;
 
-
+    #endregion
     private void Start()
     {
         //ensure it starts with tutorial
@@ -183,7 +193,7 @@ public class UIManager : Singleton<UIManager>
         tutorialPanels[0].SetActive(true);
         inTutotial = true;
         LoadChefData();
-
+        LoadWaiterData();
         LoadReceipeData();
 
         _GM.event_endOfDay.AddListener(UpdateDay);
@@ -308,6 +318,7 @@ public class UIManager : Singleton<UIManager>
         chefMenu.SetActive(true);
         CheckWhatPlayerCanAffordChefs();
         receipeMenu.SetActive(false);
+        waiterMenu.SetActive(false);
 
     }
 
@@ -315,11 +326,26 @@ public class UIManager : Singleton<UIManager>
     {
         chefMenu.SetActive(false);
     }
-    
+
+    public void OpenWaiterMenu()
+    {
+        waiterMenu.SetActive(true);
+        CheckWhatPlayerCanAffordWaiters();
+        receipeMenu.SetActive(false);
+        chefMenu.SetActive(false);
+    }
+
+    public void CloseWaiterMenu()
+    {
+        waiterMenu.SetActive(false);
+
+    }
+
     public void OpenReceipeMenu()
     {
         receipeMenu.SetActive(true);
         chefMenu.SetActive(false);
+        waiterMenu.SetActive(false);
         CheckWhatPlayerCanAffordReceipes();
     }
 
@@ -449,6 +475,19 @@ public class UIManager : Singleton<UIManager>
 
     }
 
+    public void BuyWaiter(int _arrayNum)
+    {
+        waiterMenu.SetActive(false);
+
+        var waiterToBuy = _WM.waiterArray[_arrayNum];
+
+        if (waiterToBuy.GetComponent<WaiterData>().waiterData.hireCost <= _GM.money)
+        {
+            _WM.CreateNewWaiter(waiterToBuy);
+
+            CheckWhatPlayerCanAffordWaiters();
+        }
+    }
 
     public void BuyReceipe(int _arrayNum)
     {
@@ -612,6 +651,17 @@ public class UIManager : Singleton<UIManager>
 
     }
 
+    public void LoadWaiterData()
+    {
+        var waiter0 = _WM.waiterArray[0].gameObject.GetComponent<WaiterData>().waiterData;
+
+
+        nameChef0.text = waiter0.name;
+        pfpChef0.sprite = waiter0.pfp;
+        strengthSkillWaiter0.text = waiter0.strength.ToString();
+        speedSkillWaiter0.text = waiter0.speed.ToString();
+        costChef0.text = "¥" + waiter0.hireCost.ToString();
+    }
     public void LoadReceipeData()
     {
 
@@ -760,6 +810,15 @@ public class UIManager : Singleton<UIManager>
 
         }
 
+    }
+
+    public void CheckWhatPlayerCanAffordWaiters()
+    {
+        if (_GM.money < _WM.waiterArray[0].gameObject.GetComponent<WaiterData>().waiterData.hireCost)
+        {
+            cannotAffordWaiter0.SetActive(true);
+        }
+        else cannotAffordWaiter0.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordChefs()

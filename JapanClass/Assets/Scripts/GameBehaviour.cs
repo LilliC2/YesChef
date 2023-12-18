@@ -14,6 +14,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static DayCycle _DC { get { return DayCycle.INSTANCE; } }
     protected static CustomerManager _CustM { get { return CustomerManager.INSTANCE; } }
     protected static AudioManager _AM { get { return AudioManager.INSTANCE; } }
+    protected static WaiterManager _WM { get { return WaiterManager.INSTANCE; } }
 
 
 }
