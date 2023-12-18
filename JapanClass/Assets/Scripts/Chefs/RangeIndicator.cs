@@ -9,7 +9,7 @@ public class RangeIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        range = GetComponentInParent<ChefData>().chefData.range *2;
+        range = GetComponentInParent<ChefData>().chefData.range;
 
         transform.localScale = new Vector3(range, range, range);
     }

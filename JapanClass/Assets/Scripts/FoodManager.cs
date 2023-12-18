@@ -8,6 +8,8 @@ public class FoodManager : Singleton<FoodManager>
 
     Vector3 startOfConveyerBelt;
 
+    public Vector3 destroyRawFoodPoint;
+
     public List<GameObject> foodInWave;
 
     public List<GameObject> orderedFood;

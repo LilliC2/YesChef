@@ -50,6 +50,7 @@ public class FoodMovement : GameBehaviour
         {
             //join finished food queue
             if(_FM.cookedFood.Contains(gameObject)) transform.position = Vector3.MoveTowards(transform.position,_GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+          //  if(_FM.cookedFood[0] == gameObject && !gameObject.GetComponent<FoodData>().foodData.isCooked) transform.position = Vector3.MoveTowards(transform.position, _FM.destroyRawFoodPoint, Time.deltaTime * _GM.CalculateConveyerbeltSpeed()));
         }
 
         

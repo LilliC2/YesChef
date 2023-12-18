@@ -49,7 +49,7 @@ public class UIManager : Singleton<UIManager>
     [Header("Waiter 0")]
     public TMP_Text nameWaiter0;
     public Image pfpWaiter0;
-    public TMP_Text costwaiter0;
+    public TMP_Text costWaiter0;
     public TMP_Text strengthSkillWaiter0;
     public TMP_Text speedSkillWaiter0;
     public GameObject cannotAffordWaiter0;
@@ -365,6 +365,8 @@ public class UIManager : Singleton<UIManager>
 
         var chefData = _chefData.GetComponent<ChefData>().chefData;
 
+        selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(true);
+
         //chefPopUpName.text = chefData.name;
         chefPopUpPFP.sprite = chefData.pfp;
         cookingSkillChefchefPopUp.text = chefData.cookEffectivness.ToString();
@@ -372,13 +374,15 @@ public class UIManager : Singleton<UIManager>
         mixingSkillChefchefPopUp.text = chefData.mixEffectivness.ToString();
         kneedingSkillChefchefPopUp.text = chefData.kneedEffectivness.ToString();
 
-        rangeSlider1.fillAmount = chefData.range / 100;
-        rangeSlider2.fillAmount = chefData.range / 100;
+        rangeSlider1.fillAmount = chefData.range / 10;
+        rangeSlider2.fillAmount = chefData.range / 10;
     }
 
     public void CloseChefPopUp()
     {
         selectedChef = null;
+        selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
+
         chefPopUp.SetActive(false);
     }
 
@@ -506,6 +510,8 @@ public class UIManager : Singleton<UIManager>
                     _GM.receipesUnlocked.Add(receipeToBuy);
 
                     _GM.money -= receipeToBuy.GetComponent<FoodData>().foodData.unlockCost;
+
+                    _UM.recipePosters[_arrayNum].SetActive(true);
 
                     UpdateMoney();
 
@@ -656,11 +662,11 @@ public class UIManager : Singleton<UIManager>
         var waiter0 = _WM.waiterArray[0].gameObject.GetComponent<WaiterData>().waiterData;
 
 
-        nameChef0.text = waiter0.name;
-        pfpChef0.sprite = waiter0.pfp;
+        nameWaiter0.text = waiter0.name;
+        pfpWaiter0.sprite = waiter0.pfp;
         strengthSkillWaiter0.text = waiter0.strength.ToString();
         speedSkillWaiter0.text = waiter0.speed.ToString();
-        costChef0.text = "¥" + waiter0.hireCost.ToString();
+        costWaiter0.text = "¥" + waiter0.hireCost.ToString();
     }
     public void LoadReceipeData()
     {

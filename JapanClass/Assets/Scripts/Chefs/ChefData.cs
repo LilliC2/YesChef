@@ -13,6 +13,9 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+
+    public GameObject rangeIndicator;
+
     public Animator anim;
 
     public bool validPos;

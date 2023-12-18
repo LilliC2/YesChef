@@ -78,6 +78,8 @@ public class ChefManager : Singleton<ChefManager>
                         //placing animation
                         newChef.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
                         newChefAnim.SetTrigger("Spawn");
+                        newChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
+
 
                         _AM.placingChef.Play();
 
