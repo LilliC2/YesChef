@@ -128,8 +128,9 @@ public class ChefData : GameBehaviour
         Gizmos.DrawWireSphere(transform.position, chefData.range);
     }
 
-    //private void OnMouseDown()
-    //{
-    //    _UI.OpenChefPopUp(this.gameObject);
-    //}
+    private void OnMouseDown()
+    {
+        if(placed) _UI.OpenChefPopUp(this.gameObject);
+
+    }
 }

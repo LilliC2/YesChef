@@ -97,6 +97,9 @@ public class GameManager : Singleton<GameManager>
 
                         event_endOfDay.Invoke();
 
+                        if (dayCount == 20) print("Tutorial compelte");
+
+
                     }
                 }
 
@@ -107,6 +110,8 @@ public class GameManager : Singleton<GameManager>
                 break;
             #endregion
             case GameState.GameOver:
+
+                
 
                 _UI.gameOverPanel.SetActive(true);
                 break;

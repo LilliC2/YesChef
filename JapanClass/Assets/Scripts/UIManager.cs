@@ -228,19 +228,26 @@ public class UIManager : Singleton<UIManager>
         switch(_GM.reputation)
         {
             case > 80:
+                reputationSlider.fillRect.GetComponent<Image>().color = Color.green;
                 reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[0];
                 break;
             case > 60:
+                reputationSlider.fillRect.GetComponent<Image>().color = Color.white;
                 reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[1];
                 break;
             case > 40:
                 reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[2];
+                reputationSlider.fillRect.GetComponent<Image>().color = Color.yellow;
+
                 break;
             case > 20:
                 reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[3];
+
                 break;
             case < 20:
-                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[4];
+                reputationSlider.handleRect.GetComponent<Image>().sprite = tanukiHandleSlider[4];   
+                reputationSlider.fillRect.GetComponent<Image>().color = Color.red;
+
                 break;
                
         }
