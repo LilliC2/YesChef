@@ -13,6 +13,12 @@ public class ChefData : GameBehaviour
     [SerializeField]
     LayerMask rawFood;
 
+    [Header("Audio")]
+    [SerializeField]
+    AudioSource cuttingAudio;
+    AudioSource cookingAudio;
+    AudioSource mixingAudio;
+    AudioSource kneadingAudio;
 
     public GameObject rangeIndicator;
 
@@ -103,17 +109,39 @@ public class ChefData : GameBehaviour
                         elapsed = elapsed % 0.2f;
                         //add prep points
                         //kneeding
-                        if (chefData.kneedSkill) currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneedEffectivness;
+                        if (chefData.kneedSkill)
+                        {
+                            if (kneadingAudio != null) kneadingAudio.Play();
+                            currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneedEffectivness;
+                        }
                         //cutting
-                        if (chefData.cutSkill) currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
+                        if (chefData.cutSkill)
+                        {
+                            if (cuttingAudio != null) cuttingAudio.Play();
+                            currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
+                        }
                         //mixing
-                        if (chefData.mixSkill) currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
+                        if (chefData.mixSkill)
+                        {
+                            if (mixingAudio != null) mixingAudio.Play();
+                            currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
+                        }
+
                         //cooking
-                        if (chefData.cookSkill) currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+                        if (chefData.cookSkill)
+                        {
+                            if (cookingAudio != null) cookingAudio.Play();
+                            currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+                        }
                     }
                 }
                 else
                 {
+                    if (cookingAudio != null) cookingAudio.Stop();
+                    if (kneadingAudio != null) kneadingAudio.Stop();
+                    if (mixingAudio != null) mixingAudio.Stop();
+                    if (cuttingAudio != null) cuttingAudio.Stop();
+
                     foundFood = false;
                     currentFood = null;
                 }

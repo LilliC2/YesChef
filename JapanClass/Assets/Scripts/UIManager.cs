@@ -472,6 +472,8 @@ public class UIManager : Singleton<UIManager>
 
         if (chefToBuy.GetComponent<ChefData>().chefData.hireCost <= _GM.money)
         {
+            _AM.successfulPurchase.Play();
+
             _ChefM.CreateNewChef(chefToBuy);
 
             CheckWhatPlayerCanAffordChefs();
@@ -487,6 +489,8 @@ public class UIManager : Singleton<UIManager>
 
         if (waiterToBuy.GetComponent<WaiterData>().waiterData.hireCost <= _GM.money)
         {
+            _AM.successfulPurchase.Play();
+
             _WM.CreateNewWaiter(waiterToBuy);
 
             CheckWhatPlayerCanAffordWaiters();
