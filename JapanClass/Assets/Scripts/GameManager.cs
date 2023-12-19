@@ -183,7 +183,11 @@ public class GameManager : Singleton<GameManager>
 
             for (int i = 0; i < foodPerWave[_waveNum]; i++)
             {
-                _FM.InstantiateFood(i);
+                //give buffer for orders to come in
+                ExecuteAfterSeconds(1, () => _FM.InstantiateFood(i));
+                //if (i == 0)
+                //else _FM.InstantiateFood(i);
+
                 yield return new WaitForSeconds(CalculateTimeBetweenFood());
             }
         }

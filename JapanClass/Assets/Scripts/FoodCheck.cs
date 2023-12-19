@@ -18,7 +18,7 @@ public class FoodCheck : GameBehaviour
             print("should start event");
             _GM.event_foodToBeServed.Invoke();
 
-            _FM.cookedFood.Add(other.gameObject);
+            if(!_FM.cookedFood.Contains(other.gameObject)) _FM.cookedFood.Add(other.gameObject);
 
             ////Check if food is raw
             //if (other.gameObject.GetComponent<FoodData>().foodData.isCooked)

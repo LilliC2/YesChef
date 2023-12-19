@@ -94,6 +94,7 @@ public class WaiterData :GameBehaviour
                     isHoldingFood = false;
                     var customerData = currentCustomer.GetComponent<CustomerData>();
                     //give customer food
+                    heldFood.GetComponent<FoodMovement>().served = true;
                     heldFood.transform.position = customerData.plateSpot.transform.position;
                     customerData.order = heldFood;
                     customerData.ServedFood();
@@ -111,7 +112,7 @@ public class WaiterData :GameBehaviour
     {
         heldFood = null;
         currentCustomer = null;
-
+        agent.SetDestination(homePos);
         //if no food to grab, go home
         if (_FM.cookedFood.Count == 0) agent.destination = homePos;
         else GetFood();
@@ -125,7 +126,7 @@ public class WaiterData :GameBehaviour
             if (heldFood == null)
             {
                 //food that is cooked and not already being picked up
-                if (food.GetComponent<FoodData>().foodData.isCooked && food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
+                if (food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
                 {
                     heldFood = food;
                     heldFoodData = heldFood.GetComponent<FoodData>();

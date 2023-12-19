@@ -9,6 +9,7 @@ public class CustomerData : GameBehaviour
 {
     public GameObject order;
     public bool hasBeenAttened;
+    [SerializeField]
     Image orderDisplay;
 
     GameObject seat;
@@ -16,6 +17,8 @@ public class CustomerData : GameBehaviour
 
     NavMeshAgent agent;
     public bool leaving;
+
+    public bool isOrderCooked;
 
     public GameObject currentFoodSprite;
     // Start is called before the first frame update
@@ -27,9 +30,8 @@ public class CustomerData : GameBehaviour
         agent = GetComponent<NavMeshAgent>();
         FindSeat();
 
-        orderDisplay = GetComponentInChildren<Image>();
-
         _GM.event_startOfDay.AddListener(OrderFood);
+        _CustM.event_newSeatAvalible.AddListener(FindSeat);
     }
 
     // Update is called once per frame
@@ -46,8 +48,13 @@ public class CustomerData : GameBehaviour
     }
     public void ServedFood()
     {
+
+        currentFoodSprite.SetActive(false);
+
         print("YUM!");
 
+        isOrderCooked = order.GetComponent<FoodData>().foodData.isCooked;
+        print("Order is cooked is " + isOrderCooked);
         //begin eating after X seconds
         ExecuteAfterSeconds(order.GetComponent<FoodData>().foodData.eatTime,()=> LeaveResturant());
 
@@ -67,29 +74,83 @@ public class CustomerData : GameBehaviour
         order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         _FM.orderedFood.Add(order);
         currentFoodSprite.SetActive(true);
+        print(order.GetComponent<FoodData>().foodData.pfp);
         orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
 
     }
 
     void FindSeat()
     {
-        seat = _CustM.emptyChairQueue[0];
-        agent.SetDestination(seat.transform.position);
-        _CustM.emptyChairQueue.Remove(_CustM.emptyChairQueue[0]);
+        if(seat == null && !leaving)
+        {
+            //queue outside
+            if (_CustM.emptyChairQueue.Count == 0)
+            {
+                _CustM.customerQueueWaiting.Add(gameObject);
+                bool foundSpot = false;
 
-        plateSpot = seat.transform.GetChild(0).gameObject;
+                for (int i = 0; i < _CustM.customerQueueSpots.Count; i++)
+                {
+                    if (!foundSpot)
+                    {
+                        if(_CustM.customerQueueWaitingCheck[i] == false)
+                        {
+                            foundSpot = true;
+                            _CustM.customerQueueWaitingCheck[i] = true;
+                            agent.SetDestination(_CustM.customerQueueSpots[i].transform.position);
+                        }
+                    }
+                }
+  
+               // agent.SetDestination(_CustM.customerQueueSpots[_CustM.customerQueueWaiting.IndexOf(gameObject)].transform.position);
+            }
+            else
+            {
+                _CustM.customerQueueWaiting.Remove(gameObject);
+                seat = _CustM.emptyChairQueue[0];
+                agent.SetDestination(seat.transform.position);
+                _CustM.emptyChairQueue.Remove(_CustM.emptyChairQueue[0]);
+
+                plateSpot = seat.transform.GetChild(0).gameObject;
+            }
+        }
+
+
     }
 
     void LeaveResturant()
     {
-        Destroy(order);
-        _CustM.customersList.Remove(gameObject);
-        _FM.foodInWave.Remove(order);
-        _FM.cookedFood.Remove(order);
-
-        //stop eating animation
-        _CustM.emptyChairQueue.Add(seat);
-        agent.SetDestination(_CustM.resturantDoor.transform.position);
         leaving = true;
+        currentFoodSprite.SetActive(true);
+        //pay
+        if (isOrderCooked)
+        {
+
+            _GM.money += order.GetComponent<FoodData>().foodData.orderCost;
+            orderDisplay.sprite = _CustM.happyCustomer;
+        }
+        else
+        {
+            orderDisplay.sprite = _CustM.sadCustomer;
+
+            _GM.money += order.GetComponent<FoodData>().foodData.orderCost / 2;
+            _GM.reputation -= order.GetComponent<FoodData>().foodData.reputationLoss;
+        }
+
+        ExecuteAfterSeconds(1, () => currentFoodSprite.SetActive(false));
+
+
+        _UI.UpdateMoney();
+        _UI.UpdateReputationSlider();
+            Destroy(order);
+            _CustM.customersList.Remove(gameObject);
+            _FM.foodInWave.Remove(order);
+            _FM.cookedFood.Remove(order);
+
+            //stop eating animation
+            _CustM.emptyChairQueue.Add(seat);
+        _CustM.event_newSeatAvalible.Invoke();
+
+            agent.SetDestination(_CustM.resturantDoor.transform.position);
     }
 }

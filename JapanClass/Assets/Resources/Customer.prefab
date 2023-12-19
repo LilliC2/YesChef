@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3732678526471664100}
   - component: {fileID: 3664336165100229243}
   - component: {fileID: 4064431569680861507}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   - component: {fileID: 2246675170406174248}
   - component: {fileID: 3885538053305780746}
   - component: {fileID: 8707221060087100711}
-  m_Layer: 0
+  - component: {fileID: -56846608609357213}
+  m_Layer: 12
   m_Name: Customer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a0433f5320c80234684fad1ab1432a68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -176,7 +177,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -200,8 +201,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   order: {fileID: 0}
   hasBeenAttened: 0
+  orderDisplay: {fileID: 4064431569680861507}
   plateSpot: {fileID: 0}
   leaving: 0
+  isOrderCooked: 0
   currentFoodSprite: {fileID: 4071552391812391028}
 --- !u!195 &8707221060087100711
 NavMeshAgent:
@@ -225,6 +228,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!208 &-56846608609357213
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694005408564073942}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.75, y: 1, z: 0.75}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4071552391812391028
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3156967583404231267}
   - component: {fileID: 796257157225260758}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CurrentFood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +301,7 @@ GameObject:
   - component: {fileID: 4012142534478445456}
   - component: {fileID: 3311618819159726211}
   - component: {fileID: 7714926935519204230}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

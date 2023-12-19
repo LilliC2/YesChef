@@ -29,10 +29,11 @@ public class FoodManager : Singleton<FoodManager>
 
     public void InstantiateFood(int _index)
     {
+
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-        GameObject food = null;
-        ExecuteAfterFrames(1,() => food = Instantiate(orderedFood[_index], startOfConveyerBelt, Quaternion.identity));
+        var food = Instantiate(orderedFood[_index], startOfConveyerBelt, Quaternion.identity);
         //print("Ordered food: " + food.name);
-        ExecuteAfterFrames(1, () =>  foodInWave.Add(food));
+        foodInWave.Add(food);
+
     }
 }

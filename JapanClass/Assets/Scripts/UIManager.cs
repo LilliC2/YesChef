@@ -203,10 +203,14 @@ public class UIManager : Singleton<UIManager>
     private void Update()
     {
         //temp\
-        if (Input.GetKeyDown(KeyCode.Space)) LookAtKitchen();
-        if (Input.GetKeyDown(KeyCode.K)) LookAtResturant();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Camera.main.transform.position == kitchenCamPos) LookAtResturant();
+            else if(Camera.main.transform.position == resturantCamPos) LookAtKitchen();
 
-        if(inTutotial)
+        }
+
+        if (inTutotial)
         {
             //check for if chef is placed
             if (!tutorialMainPanel.activeSelf && Input.GetKeyDown(KeyCode.Mouse0))
@@ -380,8 +384,8 @@ public class UIManager : Singleton<UIManager>
 
     public void CloseChefPopUp()
     {
-        selectedChef = null;
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
+        selectedChef = null;
 
         chefPopUp.SetActive(false);
     }

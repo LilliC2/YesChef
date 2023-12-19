@@ -9,7 +9,7 @@ public class FoodMovement : GameBehaviour
     float foodSpeed;
     Transform[] conveyerbeltCorners;
     int index;
-
+    public bool served;
     private float initializationTime;
 
     // Start is called before the first frame update
@@ -29,29 +29,37 @@ public class FoodMovement : GameBehaviour
 
         //print(timeSinceInitialization);
 
-
-        //move towards corner
-        if (index != conveyerbeltCorners.Length-1)
+        if(!served)
         {
-            transform.LookAt(conveyerbeltCorners[index].position);
-
-            transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-
-            if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
+            //move towards corner
+            if (index != conveyerbeltCorners.Length - 1)
             {
-                //if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
-                if(index<conveyerbeltCorners.Length) index++;
+                transform.LookAt(conveyerbeltCorners[index].position);
+
+                transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+
+                if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
+                {
+                    //if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
+                    if (index < conveyerbeltCorners.Length) index++;
 
 
 
+                }
+            }
+            else
+            {
+                //join finished food queue
+
+                //not working
+                //print("FM index = " + _FM.cookedFood.IndexOf(gameObject));
+                //    print("GM index = " + _GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)]);
+                if (_FM.cookedFood.Contains(gameObject)) transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+                //  if(_FM.cookedFood[0] == gameObject && !gameObject.GetComponent<FoodData>().foodData.isCooked) transform.position = Vector3.MoveTowards(transform.position, _FM.destroyRawFoodPoint, Time.deltaTime * _GM.CalculateConveyerbeltSpeed()));
             }
         }
-        else
-        {
-            //join finished food queue
-            if(_FM.cookedFood.Contains(gameObject)) transform.position = Vector3.MoveTowards(transform.position,_GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-          //  if(_FM.cookedFood[0] == gameObject && !gameObject.GetComponent<FoodData>().foodData.isCooked) transform.position = Vector3.MoveTowards(transform.position, _FM.destroyRawFoodPoint, Time.deltaTime * _GM.CalculateConveyerbeltSpeed()));
-        }
+
+
 
         
 
