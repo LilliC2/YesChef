@@ -72,13 +72,14 @@ public class WaiterManager : Singleton<WaiterManager>
                         //place chef
                         placingWaiter = false;
 
-                        //Animator newChefAnim = newWaiter.GetComponent<ChefData>().anim;
+                        Animator newWaiterAnim = newWaiter.GetComponent<WaiterData>().anim;
 
                         //placing animation
                         newWaiter.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
-                        //newChefAnim.SetTrigger("Spawn");
+                        newWaiterAnim.SetTrigger("Spawn");
 
-                        //_AM.placingChef.Play();
+
+                        _AM.placingChef.Play();
 
                         newWaiter.GetComponent<WaiterData>().placed = true;
                         newWaiter.GetComponent<WaiterData>().homePos = newWaiter.transform.position;

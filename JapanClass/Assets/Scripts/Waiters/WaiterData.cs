@@ -16,6 +16,8 @@ public class WaiterData :GameBehaviour
     GameObject heldFood;
     FoodData heldFoodData;
 
+    public Animator anim;
+
     NavMeshAgent agent;
 
     [SerializeField]
@@ -30,7 +32,7 @@ public class WaiterData :GameBehaviour
 
 
 
-        holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
+        //holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
         agent = GetComponent<NavMeshAgent>();
         //set speed
         agent.speed = waiterData.speed;
@@ -43,6 +45,30 @@ public class WaiterData :GameBehaviour
     {
         if(placed)
         {
+            //idle animation
+            if (agent.velocity.magnitude < 0.2f)
+            {
+                anim.SetBool("Walking", false);
+                anim.SetBool("HoldWalking", false);
+            }
+            else
+            {
+                if (isHoldingFood)
+                {
+                    anim.SetBool("Walking", false);
+                    anim.SetBool("HoldWalking", true);
+                }
+                if (!isHoldingFood)
+                {
+                    anim.SetBool("HoldWalking", false);
+                    anim.SetBool("Walking", true);
+                }
+
+
+            }
+
+
+
             //hasnt picked up food yet but has a target;
             if (!isHoldingFood && heldFood != null)
             {
@@ -50,6 +76,7 @@ public class WaiterData :GameBehaviour
 
                 if (Vector3.Distance(transform.position, heldFood.transform.position) < 2f)
                 {
+
                     print("close enought to grab food");
                     _FM.cookedFood.Remove(heldFood);
                     isHoldingFood = true;
@@ -94,6 +121,8 @@ public class WaiterData :GameBehaviour
                     isHoldingFood = false;
                     var customerData = currentCustomer.GetComponent<CustomerData>();
                     //give customer food
+
+
                     heldFood.GetComponent<FoodMovement>().served = true;
                     heldFood.transform.position = customerData.plateSpot.transform.position;
                     customerData.order = heldFood;
