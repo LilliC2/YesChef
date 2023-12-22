@@ -71,11 +71,15 @@ public class CustomerData : GameBehaviour
 
     void OrderFood()
     {
-        order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-        _FM.orderedFood.Add(order);
-        currentFoodSprite.SetActive(true);
-        print(order.GetComponent<FoodData>().foodData.pfp);
-        orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
+        print("order food");
+        if(order == null)
+        {
+            order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
+            _FM.orderedFood.Add(order);
+            currentFoodSprite.SetActive(true);
+            orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
+        }
+
 
     }
 

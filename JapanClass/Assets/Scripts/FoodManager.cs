@@ -19,12 +19,21 @@ public class FoodManager : Singleton<FoodManager>
     // Start is called before the first frame update
     void Start()
     {
+        _GM.event_endOfDay.AddListener(ResetLists);
         startOfConveyerBelt = GameObject.Find("FoodInstantiationPoint").transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+
+    void ResetLists()
+    {
+        foodInWave.Clear();
+        orderedFood.Clear();
+        cookedFood.Clear();
     }
 
     public void InstantiateFood(int _index)

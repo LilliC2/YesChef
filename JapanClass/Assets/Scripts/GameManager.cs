@@ -71,6 +71,7 @@ public class GameManager : Singleton<GameManager>
                         //check if player is ready
                         if (playerReady)
                         {
+                            print("start of day");
                             event_startOfDay.Invoke();
 
                         }
@@ -80,7 +81,7 @@ public class GameManager : Singleton<GameManager>
                     else
                     {
                         //start wave automatically
-
+                        print("start of day");
                         event_startOfDay.Invoke();
 
                     }
@@ -134,7 +135,8 @@ public class GameManager : Singleton<GameManager>
 
         //_DC.CalculateRotationTime(foodPerWave[dayCount], secondsInBetweenPerWave[dayCount],conveyrbeltSpeedPerWave[dayCount]);
         //spawn wave
-        StartCoroutine(SummonWave(dayCount));
+        ExecuteAfterSeconds(2, () => StartCoroutine(SummonWave(dayCount)));
+
     }
 
     void EndOfDayReset()
@@ -184,7 +186,7 @@ public class GameManager : Singleton<GameManager>
             for (int i = 0; i < foodPerWave[_waveNum]; i++)
             {
                 //give buffer for orders to come in
-                ExecuteAfterSeconds(1, () => _FM.InstantiateFood(i));
+                _FM.InstantiateFood(i);
                 //if (i == 0)
                 //else _FM.InstantiateFood(i);
 
