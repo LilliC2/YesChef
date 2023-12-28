@@ -5,9 +5,15 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine.Audio;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("Audio")]
+
+    public AudioMixerSnapshot paused;
+    public AudioMixerSnapshot unpaused;
+
     [Header("Tutorial")]
     public GameObject tutorialMainPanel;
     public GameObject[] tutorialPanels;
@@ -267,6 +273,27 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    #region Audio
+
+    void AudioLowPass()
+    {
+        if(Time.timeScale ==0)
+        {
+            //transition to paused audio snap
+            paused.TransitionTo(0.1f);
+        }
+        else
+        {
+            unpaused.TransitionTo(0.1f);
+
+        }
+    }
+
+
+
+
+    #endregion
+
     #region Tutorial
 
     public void CloseTutorial()
@@ -297,7 +324,6 @@ public class UIManager : Singleton<UIManager>
     }
     #endregion
 
-
     #region Menus
     public void Pause()
     {
@@ -305,15 +331,20 @@ public class UIManager : Singleton<UIManager>
         if(pause)
         {
             Time.timeScale = 0;
+            AudioLowPass();
+
             _GM.gameState = GameManager.GameState.Pause;
             pausePanel.SetActive(true);
         }
         else
         {
             Time.timeScale = _GM.currentTimeScale;
+            AudioLowPass();
+
             _GM.gameState = GameManager.GameState.Playing;
             pausePanel.SetActive(false);
         }
+
     }
 
     public void OpenChefMenu()
