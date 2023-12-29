@@ -55,7 +55,7 @@ public class ChefManager : Singleton<ChefManager>
                 if (validPos)
                 {
                     //check if chef is in a valid posistion
-                    print("Can place");
+                    //print("Can place");
 
                     
 

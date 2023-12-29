@@ -12,6 +12,9 @@ public class CustomerData : GameBehaviour
     [SerializeField]
     Image orderDisplay;
 
+    [SerializeField]
+    GameObject moneyEarned;
+
     GameObject seat;
     public GameObject plateSpot;
 
@@ -132,6 +135,7 @@ public class CustomerData : GameBehaviour
 
             _GM.money += order.GetComponent<FoodData>().foodData.orderCost;
             orderDisplay.sprite = _CustM.happyCustomer;
+
         }
         else
         {
@@ -143,6 +147,7 @@ public class CustomerData : GameBehaviour
 
         ExecuteAfterSeconds(1, () => currentFoodSprite.SetActive(false));
 
+        moneyEarned.SetActive(true);
 
         _UI.UpdateMoney();
         _UI.UpdateReputationSlider();

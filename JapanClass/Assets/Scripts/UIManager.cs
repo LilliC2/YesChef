@@ -63,6 +63,7 @@ public class UIManager : Singleton<UIManager>
     [Header("Chef UI")]
     public GameObject chefMenu;
     public GameObject chefMenuButton;
+
     #region Chefs
     [Header("Chef 0")]
     public TMP_Text nameChef0;
@@ -123,6 +124,8 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text mixingSkillChefchefPopUp;
     public Image rangeSlider1;
     public Image rangeSlider2;
+    public TMP_Text targettingButtonTxt;
+
     #endregion
     [Header("Receipe UI")]
     public GameObject receipeMenu;
@@ -401,6 +404,7 @@ public class UIManager : Singleton<UIManager>
         var chefData = _chefData.GetComponent<ChefData>().chefData;
 
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(true);
+        targettingButtonTxt.text = selectedChef.GetComponent<ChefData>().targeting.ToString();
 
         //chefPopUpName.text = chefData.name;
         chefPopUpPFP.sprite = chefData.pfp;
@@ -421,6 +425,33 @@ public class UIManager : Singleton<UIManager>
         chefPopUp.SetActive(false);
     }
 
+    public void ChangeChefTargeting()
+    {
+        var chefData = selectedChef.GetComponent<ChefData>();
+
+        print("Clicked button");
+        if( chefData.targeting == ChefData.Targeting.First)
+        {
+            targettingButtonTxt.text = "Last";
+            chefData.targeting = ChefData.Targeting.Last;
+        }
+        else if(chefData.targeting == ChefData.Targeting.Last)
+        {
+            targettingButtonTxt.text = "Strongest";
+            chefData.targeting = ChefData.Targeting.Strongest;
+        }
+        else if(chefData.targeting == ChefData.Targeting.Strongest)
+        {
+            targettingButtonTxt.text = "First";
+            chefData.targeting = ChefData.Targeting.First;
+        }
+        else
+        {
+            print("not entering the ifs");
+        }
+                
+
+    }
     public void FireChef()
     {
         //give money back to player
