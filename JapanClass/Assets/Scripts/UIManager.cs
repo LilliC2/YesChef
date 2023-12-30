@@ -55,6 +55,17 @@ public class UIManager : Singleton<UIManager>
     [Header("Waiter UI")]
     public GameObject waiterMenu;
     public GameObject waiterMenuButton;
+    #region Waiters
+
+    #region Waiter Pop Up
+    [Header("Waiter Popup")]
+    private GameObject selectedWaiter;
+    public GameObject waiterPopUp;
+    public TMP_Text speedSkillWaiterfPopUp;
+    public TMP_Text StrengthSkillWaiterfPopUp;
+    public Image waiterPopUpPFP;
+
+    #endregion
 
     [Header("Waiter 0")]
     public TMP_Text nameWaiter0;
@@ -63,7 +74,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text strengthSkillWaiter0;
     public TMP_Text speedSkillWaiter0;
     public GameObject cannotAffordWaiter0;
-
+    #endregion
     [Header("Chef UI")]
     public GameObject chefMenu;
     public GameObject chefMenuButton;
@@ -124,7 +135,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text chefPopUpName;
     public TMP_Text cookingSkillChefchefPopUp;
     public TMP_Text kneedingSkillChefchefPopUp;
-    public TMP_Text cuttingSkillChefchefPopUp;
+    public TMP_Text cuttingSkillChefPopUp;
     public TMP_Text mixingSkillChefchefPopUp;
     public Image rangeSlider1;
     public Image rangeSlider2;
@@ -197,6 +208,7 @@ public class UIManager : Singleton<UIManager>
 
     public GameObject cannotAffordReceipe3;
     public GameObject soldReceipe3;
+
 
     #endregion
     private void Start()
@@ -467,7 +479,7 @@ public class UIManager : Singleton<UIManager>
         //chefPopUpName.text = chefData.name;
         chefPopUpPFP.sprite = chefData.pfp;
         cookingSkillChefchefPopUp.text = chefData.cookEffectivness.ToString();
-        cuttingSkillChefchefPopUp.text = chefData.cutEffectivness.ToString();
+        cuttingSkillChefPopUp.text = chefData.cutEffectivness.ToString();
         mixingSkillChefchefPopUp.text = chefData.mixEffectivness.ToString();
         kneedingSkillChefchefPopUp.text = chefData.kneedEffectivness.ToString();
 
@@ -522,6 +534,43 @@ public class UIManager : Singleton<UIManager>
         Destroy(selectedChef);
 
         CloseChefPopUp();
+    }
+
+    #endregion
+
+    #region Waiter Pop Up
+    public void OpenWaiterPopUp(GameObject _watierData)
+    {
+
+        selectedWaiter = _watierData;
+        waiterPopUp.SetActive(true);
+
+        var waiterData = _watierData.GetComponent<WaiterData>().waiterData;
+
+        //chefPopUpName.text = chefData.name;
+        waiterPopUpPFP.sprite = waiterData.pfp;
+        speedSkillWaiterfPopUp.text = waiterData.speed.ToString();
+        StrengthSkillWaiterfPopUp.text = waiterData.strength.ToString();
+
+    }
+
+    public void CloseWaiterPopUp()
+    {
+        waiterPopUp.SetActive(false);
+
+    }
+
+    public void FireWaiter()
+    {
+        //give money back to player
+        _GM.money += selectedWaiter.GetComponent<WaiterData>().waiterData.hireCost / 2;
+
+        UpdateMoney();
+
+        //destroy chef
+        Destroy(selectedWaiter);
+
+        CloseWaiterPopUp();
     }
 
     #endregion

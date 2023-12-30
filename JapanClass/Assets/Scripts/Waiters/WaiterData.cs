@@ -36,7 +36,6 @@ public class WaiterData :GameBehaviour
         agent = GetComponent<NavMeshAgent>();
         //set speed
         agent.speed = waiterData.speed;
-        _GM.event_startOfDay.AddListener(GetAllCustomers);
         _GM.event_foodToBeServed.AddListener(GetFood);
     }
 
@@ -169,8 +168,9 @@ public class WaiterData :GameBehaviour
 
         }
     }
-    void GetAllCustomers()
+    private void OnMouseDown()
     {
+        if (placed) _UI.OpenWaiterPopUp(this.gameObject);
 
     }
 }
