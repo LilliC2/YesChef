@@ -77,7 +77,7 @@ public class WaiterData :GameBehaviour
                 {
 
                     print("close enought to grab food");
-                    _FM.cookedFood.Remove(heldFood);
+                    _FM.queuedFood.Remove(heldFood);
                     isHoldingFood = true;
                 }
                 //else print(Vector3.Distance(transform.position, heldFood.transform.position));
@@ -142,7 +142,7 @@ public class WaiterData :GameBehaviour
         currentCustomer = null;
         agent.SetDestination(homePos);
         //if no food to grab, go home
-        if (_FM.cookedFood.Count == 0) agent.destination = homePos;
+        if (_FM.queuedFood.Count == 0) agent.destination = homePos;
         else GetFood();
     }
     void GetFood()

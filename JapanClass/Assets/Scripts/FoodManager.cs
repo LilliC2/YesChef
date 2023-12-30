@@ -14,7 +14,7 @@ public class FoodManager : Singleton<FoodManager>
 
     public List<GameObject> orderedFood;
    
-    public List<GameObject> cookedFood;
+    public List<GameObject> queuedFood;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class FoodManager : Singleton<FoodManager>
     {
         foodInWave.Clear();
         orderedFood.Clear();
-        cookedFood.Clear();
+        queuedFood.Clear();
     }
 
     public void InstantiateFood(int _index)
@@ -42,6 +42,7 @@ public class FoodManager : Singleton<FoodManager>
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         var food = Instantiate(orderedFood[_index], startOfConveyerBelt, Quaternion.identity);
         //print("Ordered food: " + food.name);
+        queuedFood.Add(food);
         foodInWave.Add(food);
 
     }

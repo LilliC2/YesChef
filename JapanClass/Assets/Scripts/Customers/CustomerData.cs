@@ -154,7 +154,7 @@ public class CustomerData : GameBehaviour
             Destroy(order);
             _CustM.customersList.Remove(gameObject);
             _FM.foodInWave.Remove(order);
-            _FM.cookedFood.Remove(order);
+            _FM.queuedFood.Remove(order);
 
             //stop eating animation
             _CustM.emptyChairQueue.Add(seat);

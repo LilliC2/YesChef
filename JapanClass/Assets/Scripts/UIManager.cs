@@ -608,7 +608,7 @@ public class UIManager : Singleton<UIManager>
         {
             failSafeObj.SetActive(true);
         }
-        else if(continuePlay)
+        else
         {
             _GM.playerReady = true;
 
