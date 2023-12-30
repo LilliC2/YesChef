@@ -10,9 +10,13 @@ using UnityEngine.Audio;
 public class UIManager : Singleton<UIManager>
 {
     [Header("Audio")]
-
     public AudioMixerSnapshot paused;
     public AudioMixerSnapshot unpaused;
+
+    [Header("Help Screens")]
+    public GameObject failSafeObj;
+    public TMP_Text missingTxt;
+    public bool continuePlay;
 
     [Header("Tutorial")]
     public GameObject tutorialMainPanel;
@@ -297,6 +301,60 @@ public class UIManager : Singleton<UIManager>
 
     #endregion
 
+    #region Help
+
+    public void CloseFailSafe()
+    {
+        failSafeObj.SetActive(false);
+
+    }
+    public void CloseFailSafeContinue()
+    {
+        if (_GM.receipesUnlocked.Count != 0)
+        {
+            failSafeObj.SetActive(false);
+
+            continuePlay = true;
+        }
+        else missingTxt.text = "You cannot continue without at least one receipe";
+
+    }
+
+    bool CheckSafeToPlay()
+    {
+        string youAreMissingTxt = "You are missing: ";
+        bool safeToPlay = true;
+        //have they bought a receipe?
+        if (_GM.receipesUnlocked.Count == 0)
+        {
+            safeToPlay = false;
+            youAreMissingTxt = youAreMissingTxt + "\n\tat least one receipe";
+        }
+
+        //have they bought a chef
+        if (_ChefM.currentChefs.Count == 0)
+        {
+            safeToPlay = false;
+            youAreMissingTxt = youAreMissingTxt + "\n\tat least one chef";
+
+        }
+
+        //have they bought a waiter
+        if (_WM.currentWaiters.Count == 0)
+        {
+            youAreMissingTxt = youAreMissingTxt + "\n\tat least one waiter";
+            safeToPlay = false;
+        }
+
+        youAreMissingTxt = youAreMissingTxt + "\n You must have at least one receipe";
+
+        missingTxt.text = youAreMissingTxt;
+
+        return safeToPlay;
+    }
+
+    #endregion
+
     #region Tutorial
 
     public void CloseTutorial()
@@ -497,29 +555,43 @@ public class UIManager : Singleton<UIManager>
 
     public void PlayerReady()
     {
-        _GM.playerReady = true;
-
-        if (_GM.currentTimeScale != 1)
+        if(!CheckSafeToPlay() && !continuePlay)
         {
-            _GM.currentTimeScale = 1;
-            _AM.slowDown.Play();
-
+            failSafeObj.SetActive(true);
         }
-        Time.timeScale = _GM.currentTimeScale;
+        else if(continuePlay)
+        {
+            _GM.playerReady = true;
+
+            if (_GM.currentTimeScale != 1)
+            {
+                _GM.currentTimeScale = 1;
+                _AM.slowDown.Play();
+
+            }
+            Time.timeScale = _GM.currentTimeScale;
+        }
+
 
     }
 
     public void SpeedUp()
     {
-        _GM.playerReady = true;
-        if(_GM.currentTimeScale != 2)
+        if (!CheckSafeToPlay() && !continuePlay)
         {
-            _GM.currentTimeScale = 2;
-            _AM.speedUp.Play();
-
+            failSafeObj.SetActive(true);
         }
-        Time.timeScale = _GM.currentTimeScale;
+        else if (continuePlay)
+        {
+            _GM.playerReady = true;
+            if (_GM.currentTimeScale != 2)
+            {
+                _GM.currentTimeScale = 2;
+                _AM.speedUp.Play();
 
+            }
+            Time.timeScale = _GM.currentTimeScale;
+        }
     }
 
     public void AutoPlayButton()

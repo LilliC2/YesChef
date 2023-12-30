@@ -11,9 +11,14 @@ public class FoodData : GameBehaviour
     GameObject uncookedFood;
     GameObject cookedFood;
 
+    [SerializeField]
+    ParticleSystem starburst;
+    bool playAnim;
+
     // Start is called before the first frame update
     void Start()
     {
+        starburst = GetComponentInChildren<ParticleSystem>();
         uncookedFood = transform.GetChild(0).gameObject;
         cookedFood = transform.GetChild(1).gameObject;
     }
@@ -25,6 +30,11 @@ public class FoodData : GameBehaviour
         
         if(foodData.isCooked)
         {
+            if(!playAnim)
+            {
+                starburst.Play();
+                playAnim = true;
+            }
             uncookedFood.SetActive(false);
             cookedFood.SetActive(true);
 

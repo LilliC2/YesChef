@@ -7,6 +7,7 @@ using DG.Tweening;
 public class WaiterManager : Singleton<WaiterManager>
 {
     public GameObject[] waiterArray;
+    public List<GameObject> currentWaiters;
     public LayerMask ground;
     public LayerMask collisionMask;
     Vector3 waiterPos;
@@ -83,6 +84,7 @@ public class WaiterManager : Singleton<WaiterManager>
 
                         newWaiter.GetComponent<WaiterData>().placed = true;
                         newWaiter.GetComponent<WaiterData>().homePos = newWaiter.transform.position;
+                        currentWaiters.Add(newWaiter);
                         //subtract cost of chef from money
                         _GM.money -= newWaiter.GetComponent<WaiterData>().waiterData.hireCost;
 

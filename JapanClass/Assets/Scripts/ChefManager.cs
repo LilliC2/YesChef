@@ -6,6 +6,9 @@ using DG.Tweening;
 public class ChefManager : Singleton<ChefManager>
 {
     public GameObject[] chefArray;
+
+    public List<GameObject> currentChefs;
+
     bool placingChef;
     GameObject newChef;
     [SerializeField]
@@ -84,6 +87,9 @@ public class ChefManager : Singleton<ChefManager>
                         _AM.placingChef.Play();
 
                         newChef.GetComponent<ChefData>().placed = true;
+
+                        currentChefs.Add(newChef);
+
                         //subtract cost of chef from money
                         _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
