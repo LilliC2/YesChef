@@ -76,7 +76,7 @@ public class WaiterManager : Singleton<WaiterManager>
                         Animator newWaiterAnim = newWaiter.GetComponent<WaiterData>().anim;
 
                         //placing animation
-                        newWaiter.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
+                        newWaiter.transform.DOMoveY(1.542f, placingEaseTime).SetEase(placingEase);
                         newWaiterAnim.SetTrigger("Spawn");
 
 

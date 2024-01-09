@@ -15,7 +15,7 @@ public class FoodMovement : GameBehaviour
     void Start()
     {
         conveyerbeltCorners = _GM.conveyerbeltPoints;
-
+        index = _GM.finishedFoodQueue.Length - _FM.foodInWave.Count;
     }
 
     // Update is called once per frame
@@ -23,17 +23,29 @@ public class FoodMovement : GameBehaviour
     {
         //look towards corner
 
-
-        if (index != _FM.queuedFood.IndexOf(gameObject))
+        if(!served)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-
-            if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[index].position) < 0.2f)
+            if (index != _FM.queuedFood.IndexOf(gameObject))
             {
-                index--;
+                transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+
+                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[index].position) < 0.2f)
+                {
+                    index--;
+
+                }
+            }
+            else
+            {
+                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position) < 0.2f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+
+                }
 
             }
         }
+       
 
         //if(!served)
         //{
