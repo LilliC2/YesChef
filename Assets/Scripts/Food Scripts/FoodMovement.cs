@@ -10,12 +10,10 @@ public class FoodMovement : GameBehaviour
     Transform[] conveyerbeltCorners;
     int index;
     public bool served;
-    private float initializationTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        initializationTime = Time.timeSinceLevelLoad;
         conveyerbeltCorners = _GM.conveyerbeltPoints;
 
     }
@@ -25,11 +23,17 @@ public class FoodMovement : GameBehaviour
     {
         //look towards corner
 
-        float timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
 
-        //print(timeSinceInitialization);
+        if (index != _FM.queuedFood.IndexOf(gameObject))
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
 
-        transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+            if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[index].position) < 0.2f)
+            {
+                index--;
+
+            }
+        }
 
         //if(!served)
         //{
