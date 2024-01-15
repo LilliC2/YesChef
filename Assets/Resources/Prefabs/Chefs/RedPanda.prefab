@@ -1363,6 +1363,7 @@ GameObject:
   - component: {fileID: 5891012575310438797}
   - component: {fileID: 590139073068797906}
   - component: {fileID: -5251579622597193444}
+  - component: {fileID: 5222800092698357008}
   m_Layer: 0
   m_Name: RedPanda
   m_TagString: Chef
@@ -1490,10 +1491,11 @@ MonoBehaviour:
   rawFood:
     serializedVersion: 2
     m_Bits: 8
+  targeting: 0
+  cuttingAudio: {fileID: 0}
   rangeIndicator: {fileID: 112379984525379726}
   anim: {fileID: 6378475619879891465}
   validPos: 0
-  rawFoodInRange: []
   placed: 0
 --- !u!54 &-5251579622597193444
 Rigidbody:
@@ -1522,6 +1524,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5222800092698357008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545598714552739806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687f29febf8ea3646bebe5be5697a9a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redPandaUpgradesLine1: 0
+  redPandaUpgradesLine2: 0
+  targeting: 0
+  cuttingAudio: {fileID: 0}
+  anim: {fileID: 6378475619879891465}
+  rawFoodInRange: []
+  placed: 0
 --- !u!1 &4700414560094983302
 GameObject:
   m_ObjectHideFlags: 0

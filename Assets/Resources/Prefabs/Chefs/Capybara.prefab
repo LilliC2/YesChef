@@ -2100,6 +2100,7 @@ GameObject:
   - component: {fileID: 5891012575310438797}
   - component: {fileID: 590139073068797906}
   - component: {fileID: 1491843429536596569}
+  - component: {fileID: 320076959275970031}
   m_Layer: 0
   m_Name: Capybara
   m_TagString: Chef
@@ -2228,11 +2229,11 @@ MonoBehaviour:
   rawFood:
     serializedVersion: 2
     m_Bits: 8
+  targeting: 0
   cuttingAudio: {fileID: 6378302589405139063}
   rangeIndicator: {fileID: 831606413049806744}
   anim: {fileID: 5018616895149296237}
   validPos: 0
-  rawFoodInRange: []
   placed: 0
 --- !u!54 &1491843429536596569
 Rigidbody:
@@ -2261,6 +2262,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &320076959275970031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545598714552739806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55125d6b020fbb4a88477d76a177c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capybaraUpgradesLine1: 0
+  capybaraUpgradesLine2: 0
+  targeting: 0
+  cuttingAudio: {fileID: 0}
+  anim: {fileID: 5018616895149296237}
+  rawFoodInRange: []
+  placed: 0
 --- !u!1 &4546729134518083402
 GameObject:
   m_ObjectHideFlags: 0

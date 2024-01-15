@@ -228,12 +228,12 @@ public class UIManager : Singleton<UIManager>
     private void Update()
     {
         //temp\
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Camera.main.transform.position == kitchenCamPos) LookAtResturant();
-            else if(Camera.main.transform.position == resturantCamPos) LookAtKitchen();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (Camera.main.transform.position == kitchenCamPos) LookAtResturant();
+        //    else if(Camera.main.transform.position == resturantCamPos) LookAtKitchen();
 
-        }
+        //}
 
         if (inTutotial)
         {

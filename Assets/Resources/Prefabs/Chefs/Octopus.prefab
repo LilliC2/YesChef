@@ -11508,6 +11508,7 @@ GameObject:
   - component: {fileID: 6734349180427390002}
   - component: {fileID: 5628950501902066462}
   - component: {fileID: 4039115812209068128}
+  - component: {fileID: 2253086305609761876}
   m_Layer: 0
   m_Name: Octopus
   m_TagString: Chef
@@ -11636,11 +11637,11 @@ MonoBehaviour:
   rawFood:
     serializedVersion: 2
     m_Bits: 8
+  targeting: 0
   cuttingAudio: {fileID: 10479450944504897}
   rangeIndicator: {fileID: 3044619755736133268}
   anim: {fileID: 864010843436015211}
   validPos: 0
-  rawFoodInRange: []
   placed: 0
 --- !u!54 &4039115812209068128
 Rigidbody:
@@ -11669,6 +11670,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &2253086305609761876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157955437648546308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df16e0b8123d9240a5bdd313e2f0a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  octopusUpgradesLine1: 0
+  octopusUpgradesLine2: 0
+  targeting: 0
+  cuttingAudio: {fileID: 0}
+  anim: {fileID: 864010843436015211}
+  rawFoodInRange: []
+  placed: 0
 --- !u!1 &7180004097514247060
 GameObject:
   m_ObjectHideFlags: 0
