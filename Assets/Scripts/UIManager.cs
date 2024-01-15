@@ -222,7 +222,7 @@ public class UIManager : Singleton<UIManager>
         LoadReceipeData();
 
         _GM.event_endOfDay.AddListener(UpdateDay);
-
+        _GM.event_updateMoney.AddListener(UpdateMoney);
     }
 
     private void Update()
@@ -495,6 +495,65 @@ public class UIManager : Singleton<UIManager>
         chefPopUp.SetActive(false);
     }
 
+    public void UpgradeChef(int _upgradeNumber)
+    {
+        //1-3 is first line, 4 - 6 is second line
+        print("trying to upgrade chef");
+        var name = selectedChef.GetComponent<ChefData>().chefData.name;
+        print("name");
+        switch (name)
+        {
+            #region Tanuki Chef
+            case "Tanuki":
+
+                print("its a tanuki");
+                var tanukiChefData = selectedChef.GetComponent<TanukiChefData>();
+
+                switch(_upgradeNumber)
+                {
+                    //check for previous upgrade
+                    case 1:
+                        if(tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.None_0) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.Econimist_1;
+                        break;
+                    
+                    case 2:
+                        if (tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.Econimist_1) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.Capitalist_2;
+                        break;
+                    case 3:
+                        if (tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.Capitalist_2) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.TanukiTycoon_3;
+                        break;
+                    case 4:
+                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.None_0)
+                        {
+                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.Pupil_1;
+                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
+                        }
+                        break;
+                    case 5:
+
+                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.Pupil_1)
+                        {
+                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.SousChef_2;
+                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
+                        }
+                            
+                        break;
+                    case 6:
+                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.SousChef_2)
+                        {
+                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.MasterChef_3;
+                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
+                        }
+                            
+                        break;
+
+                }
+
+                break;
+                #endregion
+        }
+    }
+
     public void ChangeChefTargeting()
     {
         var chefData = selectedChef.GetComponent<ChefData>();
@@ -519,7 +578,8 @@ public class UIManager : Singleton<UIManager>
         {
             print("not entering the ifs");
         }
-                
+
+        chefData.UpdateChefTargetting();
 
     }
     public void FireChef()
@@ -527,7 +587,7 @@ public class UIManager : Singleton<UIManager>
         //give money back to player
         _GM.money += selectedChef.GetComponent<ChefData>().chefData.hireCost/2;
 
-        UpdateMoney();
+        _GM.event_updateMoney.Invoke();
 
         print("Destroy him");
         //destroy chef
@@ -565,7 +625,7 @@ public class UIManager : Singleton<UIManager>
         //give money back to player
         _GM.money += selectedWaiter.GetComponent<WaiterData>().waiterData.hireCost / 2;
 
-        UpdateMoney();
+        _GM.event_updateMoney.Invoke();
 
         //destroy chef
         Destroy(selectedWaiter);
@@ -704,7 +764,7 @@ public class UIManager : Singleton<UIManager>
 
                     _UM.recipePosters[_arrayNum].SetActive(true);
 
-                    UpdateMoney();
+                    _GM.event_updateMoney.Invoke();
 
                     CheckWhatPlayerCanAffordReceipes();
                 }

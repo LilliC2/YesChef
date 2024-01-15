@@ -1837,6 +1837,7 @@ GameObject:
   - component: {fileID: 5891012575310438797}
   - component: {fileID: 590139073068797906}
   - component: {fileID: -8260955968638038608}
+  - component: {fileID: 3314966599549183203}
   m_Layer: 0
   m_Name: Tanuki
   m_TagString: Chef
@@ -1965,6 +1966,7 @@ MonoBehaviour:
   rawFood:
     serializedVersion: 2
     m_Bits: 8
+  targeting: 0
   cuttingAudio: {fileID: 1160377159557464940}
   rangeIndicator: {fileID: 8948219635155241046}
   anim: {fileID: 9151864642873444850}
@@ -1998,6 +2000,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3314966599549183203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545598714552739806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d85aed1c4e88d24997d57ff647b4696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tanukiUpgradesLine1: 0
+  tanukiUpgradesLine2: 0
+  rawFood:
+    serializedVersion: 2
+    m_Bits: 8
+  targeting: 0
+  cuttingAudio: {fileID: 1160377159557464940}
+  anim: {fileID: 9151864642873444850}
+  rawFoodInRange: []
+  placed: 0
 --- !u!1 &4590135818210234254
 GameObject:
   m_ObjectHideFlags: 0

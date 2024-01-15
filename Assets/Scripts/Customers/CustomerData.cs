@@ -149,7 +149,7 @@ public class CustomerData : GameBehaviour
 
         moneyEarned.SetActive(true);
 
-        _UI.UpdateMoney();
+        _GM.event_updateMoney.Invoke();
         _UI.UpdateReputationSlider();
             Destroy(order);
             _CustM.customersList.Remove(gameObject);

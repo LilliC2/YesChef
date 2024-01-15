@@ -76,24 +76,21 @@ public class ChefManager : Singleton<ChefManager>
                         //place chef
                         placingChef = false;
 
-                        Animator newChefAnim = newChef.GetComponent<ChefData>().anim;
 
                         //placing animation
                         newChef.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
-                        newChefAnim.SetTrigger("Spawn");
-                        newChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
+                        newChef.BroadcastMessage("ChefPlaced");
 
 
                         _AM.placingChef.Play();
 
-                        newChef.GetComponent<ChefData>().placed = true;
 
                         currentChefs.Add(newChef);
 
                         //subtract cost of chef from money
                         _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
-                        _UI.UpdateMoney();
+                        _GM.event_updateMoney.Invoke();
 
                     }
                 }

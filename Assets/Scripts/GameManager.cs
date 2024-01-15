@@ -31,13 +31,14 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent event_endOfDay;
     public UnityEvent event_startOfDay;
     public UnityEvent event_foodToBeServed;
+    public UnityEvent event_updateMoney;
 
     // Start is called before the first frame update
     void Start()
     {
         currentTimeScale = 1;
         _UI.UpdateDay();
-        _UI.UpdateMoney();
+        _GM.event_updateMoney.Invoke();
         _UI.UpdateReputationSlider();
 
         event_endOfDay.AddListener(EndOfDayReset);

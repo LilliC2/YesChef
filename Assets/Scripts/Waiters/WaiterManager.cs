@@ -88,7 +88,7 @@ public class WaiterManager : Singleton<WaiterManager>
                         //subtract cost of chef from money
                         _GM.money -= newWaiter.GetComponent<WaiterData>().waiterData.hireCost;
 
-                        _UI.UpdateMoney();
+                        _GM.event_updateMoney.Invoke();
 
                     }
                 }
