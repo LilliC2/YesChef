@@ -1963,6 +1963,20 @@ MonoBehaviour:
     mixEffectivness: 0
     cookSkill: 0
     cookEffectivness: 0
+    upgradeLineNames:
+    - Econimist
+    - Capitalist
+    - Tanuki Tycoon
+    - Pupil
+    - Sous Chef
+    - Master Chef
+    upgradeLineDescription:
+    - Food cooked by Tanuki will have +10% order cost
+    - Food cooked by Tanuki will have +50% order cost
+    - +10% prep point effectivenss for every $1000
+    - Unlock Mixing Skill. All skills effectiveness +5
+    - Unlock Kneading Skill. All skills effectiveness +5
+    - Unlock Cooking Skill. All skills effectiveness +5. +5 range
   rawFood:
     serializedVersion: 2
     m_Bits: 8
@@ -1971,7 +1985,6 @@ MonoBehaviour:
   rangeIndicator: {fileID: 8948219635155241046}
   anim: {fileID: 9151864642873444850}
   validPos: 0
-  rawFoodInRange: []
   placed: 0
 --- !u!54 &-8260955968638038608
 Rigidbody:
@@ -2014,9 +2027,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tanukiUpgradesLine1: 0
   tanukiUpgradesLine2: 0
-  rawFood:
-    serializedVersion: 2
-    m_Bits: 8
   targeting: 0
   cuttingAudio: {fileID: 1160377159557464940}
   anim: {fileID: 9151864642873444850}

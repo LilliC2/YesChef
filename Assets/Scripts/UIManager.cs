@@ -39,14 +39,7 @@ public class UIManager : Singleton<UIManager>
     Color highlightedColour;
 
     [Header("Camera Controls")]
-    [SerializeField]
-    Vector3 kitchenCamPos;
-    [SerializeField]
-    Vector3 kitchenCamRot;
-    [SerializeField]
-    Vector3 resturantCamPos;
-    [SerializeField]
-    Vector3 resturantCamRot;
+    Canvas parentCanvas;
 
     [Header("Game Over")]
     public GameObject gameOverPanel;
@@ -80,6 +73,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject chefMenuButton;
 
     #region Chefs
+    #region Chefs in Shop
     [Header("Chef 0")]
     public TMP_Text nameChef0;
     public Image pfpChef0;
@@ -126,7 +120,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text mixingSkillChef3;
     public GameObject cannotAffordChef3;
     public Image[] skillImagesChef3;
-
+    #endregion
 
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
@@ -140,6 +134,16 @@ public class UIManager : Singleton<UIManager>
     public Image rangeSlider1;
     public Image rangeSlider2;
     public TMP_Text targettingButtonTxt;
+
+    public TMP_Text line1_upgrade1;
+    public TMP_Text line1_upgrade2;
+    public TMP_Text line1_upgrade3;
+    public TMP_Text line2_upgrade1;
+    public TMP_Text line2_upgrade2;
+    public TMP_Text line2_upgrade3;
+
+    public GameObject upgradeDescPanel;
+    public TMP_Text upgradeDescText;
 
     #endregion
     [Header("Receipe UI")]
@@ -220,6 +224,8 @@ public class UIManager : Singleton<UIManager>
         LoadChefData();
         LoadWaiterData();
         LoadReceipeData();
+
+        parentCanvas = GetComponent<Canvas>();
 
         _GM.event_endOfDay.AddListener(UpdateDay);
         _GM.event_updateMoney.AddListener(UpdateMoney);
@@ -468,6 +474,9 @@ public class UIManager : Singleton<UIManager>
     public void OpenChefPopUp(GameObject _chefData)
     {
 
+        if(_chefData != selectedChef && selectedChef != null) selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
+
+
         selectedChef = _chefData;
         chefPopUp.SetActive(true);
 
@@ -475,6 +484,8 @@ public class UIManager : Singleton<UIManager>
 
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(true);
         targettingButtonTxt.text = selectedChef.GetComponent<ChefData>().targeting.ToString();
+
+        UpdateUpgradesButtons(selectedChef);
 
         //chefPopUpName.text = chefData.name;
         chefPopUpPFP.sprite = chefData.pfp;
@@ -487,10 +498,44 @@ public class UIManager : Singleton<UIManager>
         rangeSlider2.fillAmount = chefData.range / 10;
     }
 
+    void UpdateUpgradesButtons(GameObject _chefData)
+    {
+        var chefData = _chefData.GetComponent<ChefData>().chefData;
+
+        line1_upgrade1.text = chefData.upgradeLineNames[0];
+        line1_upgrade2.text = chefData.upgradeLineNames[1];
+        line1_upgrade3.text = chefData.upgradeLineNames[2];
+        line2_upgrade1.text = chefData.upgradeLineNames[3];
+        line2_upgrade2.text = chefData.upgradeLineNames[4];
+        line2_upgrade3.text = chefData.upgradeLineNames[5];
+    }
+    
+    public void UpdateUpgradeDescription(int _upgradeNum)
+    {
+        upgradeDescPanel.SetActive(true);
+        Vector2 movePos;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentCanvas.transform as RectTransform,
+            Input.mousePosition, parentCanvas.worldCamera,
+            out movePos);
+
+        upgradeDescPanel.transform.position = parentCanvas.transform.TransformPoint(new Vector2(movePos.x,movePos.y+70));
+
+        upgradeDescText.text = selectedChef.GetComponent<ChefData>().chefData.upgradeLineDescription[_upgradeNum];
+    }
+
+    public void CloseUpgradeDescription()
+    {
+        upgradeDescPanel.SetActive(false);
+
+    }
+
     public void CloseChefPopUp()
     {
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
         selectedChef = null;
+        upgradeDescPanel.SetActive(false);
 
         chefPopUp.SetActive(false);
     }
@@ -637,18 +682,6 @@ public class UIManager : Singleton<UIManager>
 
     #region Buttons
 
-
-    public void LookAtKitchen()
-    {
-        Camera.main.transform.DOMove(kitchenCamPos, 1);
-        Camera.main.transform.DORotate(kitchenCamRot, 1);
-    }
-
-    public void LookAtResturant()
-    {
-        Camera.main.transform.DOMove(resturantCamPos, 1);
-        Camera.main.transform.DORotate(resturantCamRot, 1);
-    }
 
     public void ReloadScene()
     {

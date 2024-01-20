@@ -12,9 +12,8 @@ public class ChefData : GameBehaviour
     //float elapsed = 1;
     public LayerMask rawFood;
 
-    public enum Targeting { First, Last, Strongest}
+    public enum Targeting { First, Last, Strongest }
     public Targeting targeting;
-
 
     [Header("Audio")]
     [SerializeField]

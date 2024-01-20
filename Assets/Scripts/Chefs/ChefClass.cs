@@ -25,6 +25,9 @@ public class ChefClass
     public bool cookSkill;
     public float cookEffectivness;
 
+    public string[] upgradeLineNames;
+    public string[] upgradeLineDescription;
+
     public ChefClass()
     {
 

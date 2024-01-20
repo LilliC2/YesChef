@@ -3945,15 +3945,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3912050815857043358, guid: 362c29194d7ed7849900e23f15441290, type: 3}
     - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CloseChefPopUp
       objectReference: {fileID: 0}
     - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ButtonClickSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836664535047779028, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8243488832912990359, guid: a40f79b5bb95e624ea0187a615e78cdb, type: 3}
       propertyPath: m_Pivot.x
