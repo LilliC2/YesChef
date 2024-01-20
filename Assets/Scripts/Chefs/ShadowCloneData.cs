@@ -4,16 +4,11 @@ using UnityEngine;
 using System.Linq;
 
 
-public class RedPandaChefData : GameBehaviour
+public class ShadowCloneData : GameBehaviour
 {
-    public enum RedPandaUpgradesLine1 { None_0, Unnamed_1, Unnamed_2, Unnamed_3 }
-    public RedPandaUpgradesLine1 redPandaUpgradesLine1;
-    public enum RedPandaUpgradesLine2 { None_0, NowWeRolling_1, NinjaTraining_2, KneadForSpeed_3 }
-    public RedPandaUpgradesLine2 redPandaUpgradesLine2;
-    [Header("Upgrades")]
+    public ChefClass parentData;
+    int statDivider = 2;
 
-    [SerializeField]
-    GameObject shadowClone;
 
     ChefClass currentChefData;
     ChefData chefDataClass;
@@ -29,9 +24,9 @@ public class RedPandaChefData : GameBehaviour
 
     [Header("Base Stats")]
     ChefClass baseChefData; //used for calcuations
-    GameObject shadowCloneChild;
     [SerializeField]
     float cookingSpeed = 0.2f;
+
 
     [Header("Audio")]
     [SerializeField]
@@ -63,11 +58,12 @@ public class RedPandaChefData : GameBehaviour
         currentChefData = GetComponent<ChefData>().chefData;
 
         baseChefData = GetComponent<ChefData>().chefData;
+        CalculateStats();
 
-
+        ChefPlaced();
         foundFood = false;
-        _GM.event_kneadForSpeed.AddListener(KneadForSpeed_Ability);
 
+        _GM.event_kneadForSpeed.AddListener(KneadForSpeed_Ability);
 
     }
 
@@ -77,10 +73,6 @@ public class RedPandaChefData : GameBehaviour
         //check if any raw food are in range
         rawFoodInRange = Physics.OverlapSphere(transform.position, currentChefData.range, rawFood);
 
-        if(redPandaUpgradesLine2 == RedPandaUpgradesLine2.NinjaTraining_2 && shadowCloneChild == null)
-        {
-            SummonShadowClone();
-        }
 
         //check if placed
         if (placed)
@@ -316,12 +308,7 @@ public class RedPandaChefData : GameBehaviour
         if (chefDataClass.targeting == ChefData.Targeting.Strongest) targeting = Targeting.Strongest;
     }
 
-    public void NowWeRolling_Upgrade()
-    {
-        baseChefData.kneedEffectivness = baseChefData.kneedEffectivness * 2;
-        currentChefData.kneedEffectivness = baseChefData.kneedEffectivness * 2;
-    }
-    
+
     void KneadForSpeed_Ability()
     {
         float prevCookingSpeed = cookingSpeed;
@@ -329,14 +316,6 @@ public class RedPandaChefData : GameBehaviour
         cookingSpeed = cookingSpeed * 3;
 
         ExecuteAfterSeconds(5, () => cookingSpeed = prevCookingSpeed);
-    }
-
-    public void SummonShadowClone()
-    {
-        Vector3 position = Random.insideUnitSphere * currentChefData.range + gameObject.transform.position;
-
-        shadowCloneChild = Instantiate(shadowClone, new Vector3(position.x, transform.position.y,position.z), Quaternion.Euler(0,-132,0));
-        shadowCloneChild.GetComponent<ShadowCloneData>().parentData = currentChefData;
     }
 
     void ChefPlaced()
@@ -359,5 +338,11 @@ public class RedPandaChefData : GameBehaviour
     {
         if (placed) _UI.OpenChefPopUp(this.gameObject);
 
+    }
+
+    void CalculateStats()
+    {
+        currentChefData.kneedEffectivness = parentData.kneedEffectivness / statDivider;
+        currentChefData.range = parentData.range / statDivider;
     }
 }

@@ -22,6 +22,8 @@ public class GameManager : Singleton<GameManager>
     public Transform[] conveyerbeltPoints;
     public Transform[] finishedFoodQueue;
 
+    [Header("Layers")]
+    public LayerMask rawFood;
     [Header("Game State")]
     public float currentTimeScale;
     public enum GameState { Playing, GameOver, Pause}
@@ -32,6 +34,7 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent event_startOfDay;
     public UnityEvent event_foodToBeServed;
     public UnityEvent event_updateMoney;
+    public UnityEvent event_kneadForSpeed;
 
     // Start is called before the first frame update
     void Start()

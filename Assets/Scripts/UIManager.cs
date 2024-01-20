@@ -45,6 +45,16 @@ public class UIManager : Singleton<UIManager>
     public GameObject gameOverPanel;
     public GameObject completePanel;
 
+    #region Abilities
+    [Header("Abilites")]
+    [SerializeField]
+    GameObject kneadForSpeedButton;
+    bool kneadForSpeed_isOnCooldown;
+    [SerializeField]
+    float kneadForSpeed_cooldownTimer;
+
+
+    #endregion
     [Header("Waiter UI")]
     public GameObject waiterMenu;
     public GameObject waiterMenuButton;
@@ -480,14 +490,20 @@ public class UIManager : Singleton<UIManager>
         selectedChef = _chefData;
         chefPopUp.SetActive(true);
 
-        var chefData = _chefData.GetComponent<ChefData>().chefData;
-
+        UpdateChefPopUp();
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(true);
         targettingButtonTxt.text = selectedChef.GetComponent<ChefData>().targeting.ToString();
 
         UpdateUpgradesButtons(selectedChef);
 
         //chefPopUpName.text = chefData.name;
+       
+    }
+
+    public void UpdateChefPopUp()
+    {
+        var chefData = selectedChef.GetComponent<ChefData>().chefData;
+
         chefPopUpPFP.sprite = chefData.pfp;
         cookingSkillChefchefPopUp.text = chefData.cookEffectivness.ToString();
         cuttingSkillChefPopUp.text = chefData.cutEffectivness.ToString();
@@ -497,7 +513,6 @@ public class UIManager : Singleton<UIManager>
         rangeSlider1.fillAmount = chefData.range / 10;
         rangeSlider2.fillAmount = chefData.range / 10;
     }
-
     void UpdateUpgradesButtons(GameObject _chefData)
     {
         var chefData = _chefData.GetComponent<ChefData>().chefData;
@@ -595,7 +610,41 @@ public class UIManager : Singleton<UIManager>
                 }
 
                 break;
-                #endregion
+            #endregion
+
+            case "RedPanda":
+                var redPandaChefData = selectedChef.GetComponent<RedPandaChefData>();
+
+                switch (_upgradeNumber)
+                {
+                    //check for previous upgrade
+
+                    case 4:
+                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.None_0)
+                        {
+                            redPandaChefData.NowWeRolling_Upgrade();
+                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.NowWeRolling_1;
+                        }
+                        break;
+                    case 5:
+
+                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.NowWeRolling_1)
+                        {
+                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.NinjaTraining_2;
+                        }
+
+                        break;
+                    case 6:
+                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.NinjaTraining_2)
+                        {
+                            kneadForSpeedButton.SetActive(true);
+                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.KneadForSpeed_3;
+                        }
+
+                        break;
+                }
+                break;
+        
         }
     }
 
@@ -676,6 +725,22 @@ public class UIManager : Singleton<UIManager>
         Destroy(selectedWaiter);
 
         CloseWaiterPopUp();
+    }
+
+    #endregion
+
+    #region Abilities
+
+    public void KneadForSpeed()
+    {
+        if(!kneadForSpeed_isOnCooldown)
+        {
+            kneadForSpeed_isOnCooldown = true;
+            _GM.event_kneadForSpeed.Invoke();
+            ExecuteAfterSeconds(kneadForSpeed_cooldownTimer, () => kneadForSpeed_isOnCooldown = false);
+
+        }
+
     }
 
     #endregion
