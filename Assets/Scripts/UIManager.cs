@@ -45,16 +45,6 @@ public class UIManager : Singleton<UIManager>
     public GameObject gameOverPanel;
     public GameObject completePanel;
 
-    #region Abilities
-    [Header("Abilites")]
-    [SerializeField]
-    GameObject kneadForSpeedButton;
-    bool kneadForSpeed_isOnCooldown;
-    [SerializeField]
-    float kneadForSpeed_cooldownTimer;
-
-
-    #endregion
     [Header("Waiter UI")]
     public GameObject waiterMenu;
     public GameObject waiterMenuButton;
@@ -135,6 +125,7 @@ public class UIManager : Singleton<UIManager>
     [Header("Chef PopUP UI")]
     public GameObject chefPopUp;
     public GameObject selectedChef;
+    public ChefClass selectedChef_chefData;
     public Image chefPopUpPFP;
     public TMP_Text chefPopUpName;
     public TMP_Text cookingSkillChefchefPopUp;
@@ -145,15 +136,11 @@ public class UIManager : Singleton<UIManager>
     public Image rangeSlider2;
     public TMP_Text targettingButtonTxt;
 
-    public TMP_Text line1_upgrade1;
-    public TMP_Text line1_upgrade2;
-    public TMP_Text line1_upgrade3;
-    public TMP_Text line2_upgrade1;
-    public TMP_Text line2_upgrade2;
-    public TMP_Text line2_upgrade3;
+    public TMP_Text upgradeButtonKneadTxt;
+    public TMP_Text upgradeButtonCutTxt;
+    public TMP_Text upgradeButtonCookTxt;
+    public TMP_Text upgradeButtonMixTxt;
 
-    public GameObject upgradeDescPanel;
-    public TMP_Text upgradeDescText;
 
     #endregion
     [Header("Receipe UI")]
@@ -481,6 +468,95 @@ public class UIManager : Singleton<UIManager>
     #endregion
 
     #region Chef Pop Up
+
+    #region Upgrade Buttons
+
+    public void UpgradeSkill(int _skill)
+    {
+        //check if can afford
+        bool canBuy = false;
+
+        switch(_skill)
+        {
+            case 0://mixing
+
+                //check if can buy
+                if (_GM.money >= selectedChef_chefData.mixUpgradeCost)
+                {
+                    canBuy = true;
+                    _GM.money = -selectedChef_chefData.mixUpgradeCost;
+                    selectedChef_chefData.mixEffectivness++;
+
+                    //increase cost by 10%
+                    selectedChef_chefData.mixUpgradeCost = selectedChef_chefData.mixUpgradeCost + (selectedChef_chefData.mixUpgradeCost * 0.1f);
+                    //update UI
+                    UpdateChefPopUp();
+                }
+
+                break;
+            case 1://kneading
+
+                //check if can buy
+                if (_GM.money >= selectedChef_chefData.kneadUpgradeCost)
+                {
+                    canBuy = true;
+                    _GM.money = -selectedChef_chefData.kneadUpgradeCost;
+                    selectedChef_chefData.kneadEffectivness++;
+
+                    //increase cost by 10%
+                    selectedChef_chefData.kneadUpgradeCost = selectedChef_chefData.kneadUpgradeCost + (selectedChef_chefData.kneadUpgradeCost * 0.1f);
+                    //update UI
+                    UpdateChefPopUp();
+
+                }
+
+                break;
+            case 2://cutting
+
+                //check if can buy
+                if (_GM.money >= selectedChef_chefData.cutUpgradeCost)
+                {
+                    canBuy = true;
+                    _GM.money = -selectedChef_chefData.cutUpgradeCost;
+                    selectedChef_chefData.cutEffectivness++;
+
+                    //increase cost by 10%
+                    selectedChef_chefData.cutUpgradeCost = selectedChef_chefData.cutUpgradeCost + (selectedChef_chefData.cutUpgradeCost * 0.1f);
+                    //update UI
+                    UpdateChefPopUp();
+
+                }
+                break;
+            case 3://cooking
+
+                //check if can buy
+                if (_GM.money >= selectedChef_chefData.cookUpgradeCost)
+                {
+                    canBuy = true;
+                    _GM.money = -selectedChef_chefData.cookUpgradeCost;
+                    selectedChef_chefData.cookEffectivness++;
+
+                    //increase cost by 10%
+                    selectedChef_chefData.cookUpgradeCost = selectedChef_chefData.cookUpgradeCost + (selectedChef_chefData.cookUpgradeCost * 0.1f);
+                    //update UI
+                    UpdateChefPopUp();
+
+                }
+
+                break;
+        }
+
+        if (canBuy)
+        {
+            UpdateMoney();
+            selectedChef_chefData.level++;
+        }
+        else print("Cannot afford");
+    }
+
+
+    #endregion
+
     public void OpenChefPopUp(GameObject _chefData)
     {
 
@@ -488,13 +564,12 @@ public class UIManager : Singleton<UIManager>
 
 
         selectedChef = _chefData;
+        selectedChef_chefData = selectedChef.GetComponent<ChefData>().chefData;
         chefPopUp.SetActive(true);
 
         UpdateChefPopUp();
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(true);
         targettingButtonTxt.text = selectedChef.GetComponent<ChefData>().targeting.ToString();
-
-        UpdateUpgradesButtons(selectedChef);
 
         //chefPopUpName.text = chefData.name;
        
@@ -502,151 +577,30 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateChefPopUp()
     {
-        var chefData = selectedChef.GetComponent<ChefData>().chefData;
 
-        chefPopUpPFP.sprite = chefData.pfp;
-        cookingSkillChefchefPopUp.text = chefData.cookEffectivness.ToString();
-        cuttingSkillChefPopUp.text = chefData.cutEffectivness.ToString();
-        mixingSkillChefchefPopUp.text = chefData.mixEffectivness.ToString();
-        kneedingSkillChefchefPopUp.text = chefData.kneedEffectivness.ToString();
+        chefPopUpPFP.sprite = selectedChef_chefData.pfp;
+        cookingSkillChefchefPopUp.text = selectedChef_chefData.cookEffectivness.ToString();
+        cuttingSkillChefPopUp.text = selectedChef_chefData.cutEffectivness.ToString();
+        mixingSkillChefchefPopUp.text = selectedChef_chefData.mixEffectivness.ToString();
+        kneedingSkillChefchefPopUp.text = selectedChef_chefData.kneadEffectivness.ToString();
 
-        rangeSlider1.fillAmount = chefData.range / 10;
-        rangeSlider2.fillAmount = chefData.range / 10;
-    }
-    void UpdateUpgradesButtons(GameObject _chefData)
-    {
-        var chefData = _chefData.GetComponent<ChefData>().chefData;
+        upgradeButtonCookTxt.text = selectedChef_chefData.cookUpgradeCost.ToString();
+        upgradeButtonCutTxt.text = selectedChef_chefData.cutUpgradeCost.ToString();
+        upgradeButtonMixTxt.text = selectedChef_chefData.mixUpgradeCost.ToString();
+        upgradeButtonKneadTxt.text = selectedChef_chefData.kneadUpgradeCost.ToString();
 
-        line1_upgrade1.text = chefData.upgradeLineNames[0];
-        line1_upgrade2.text = chefData.upgradeLineNames[1];
-        line1_upgrade3.text = chefData.upgradeLineNames[2];
-        line2_upgrade1.text = chefData.upgradeLineNames[3];
-        line2_upgrade2.text = chefData.upgradeLineNames[4];
-        line2_upgrade3.text = chefData.upgradeLineNames[5];
-    }
-    
-    public void UpdateUpgradeDescription(int _upgradeNum)
-    {
-        upgradeDescPanel.SetActive(true);
-        Vector2 movePos;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentCanvas.transform as RectTransform,
-            Input.mousePosition, parentCanvas.worldCamera,
-            out movePos);
-
-        upgradeDescPanel.transform.position = parentCanvas.transform.TransformPoint(new Vector2(movePos.x,movePos.y+70));
-
-        upgradeDescText.text = selectedChef.GetComponent<ChefData>().chefData.upgradeLineDescription[_upgradeNum];
-    }
-
-    public void CloseUpgradeDescription()
-    {
-        upgradeDescPanel.SetActive(false);
-
+        rangeSlider1.fillAmount = selectedChef_chefData.range / 10;
+        rangeSlider2.fillAmount = selectedChef_chefData.range / 10;
     }
 
     public void CloseChefPopUp()
     {
         selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
         selectedChef = null;
-        upgradeDescPanel.SetActive(false);
 
         chefPopUp.SetActive(false);
     }
 
-    public void UpgradeChef(int _upgradeNumber)
-    {
-        //1-3 is first line, 4 - 6 is second line
-        print("trying to upgrade chef");
-        var name = selectedChef.GetComponent<ChefData>().chefData.name;
-        print("name");
-        switch (name)
-        {
-            #region Tanuki Chef
-            case "Tanuki":
-
-                print("its a tanuki");
-                var tanukiChefData = selectedChef.GetComponent<TanukiChefData>();
-
-                switch(_upgradeNumber)
-                {
-                    //check for previous upgrade
-                    case 1:
-                        if(tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.None_0) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.Econimist_1;
-                        break;
-                    
-                    case 2:
-                        if (tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.Econimist_1) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.Capitalist_2;
-                        break;
-                    case 3:
-                        if (tanukiChefData.tanukiUpgradesLine1 == TanukiChefData.TanukiUpgradesLine1.Capitalist_2) tanukiChefData.tanukiUpgradesLine1 = TanukiChefData.TanukiUpgradesLine1.TanukiTycoon_3;
-                        break;
-                    case 4:
-                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.None_0)
-                        {
-                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.Pupil_1;
-                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
-                        }
-                        break;
-                    case 5:
-
-                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.Pupil_1)
-                        {
-                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.SousChef_2;
-                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
-                        }
-                            
-                        break;
-                    case 6:
-                        if (tanukiChefData.tanukiUpgradesLine2 == TanukiChefData.TanukiUpgradesLine2.SousChef_2)
-                        {
-                            tanukiChefData.tanukiUpgradesLine2 = TanukiChefData.TanukiUpgradesLine2.MasterChef_3;
-                            tanukiChefData.TanukiUpgradeLine2_AddSkills();
-                        }
-                            
-                        break;
-
-                }
-
-                break;
-            #endregion
-
-            case "RedPanda":
-                var redPandaChefData = selectedChef.GetComponent<RedPandaChefData>();
-
-                switch (_upgradeNumber)
-                {
-                    //check for previous upgrade
-
-                    case 4:
-                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.None_0)
-                        {
-                            redPandaChefData.NowWeRolling_Upgrade();
-                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.NowWeRolling_1;
-                        }
-                        break;
-                    case 5:
-
-                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.NowWeRolling_1)
-                        {
-                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.NinjaTraining_2;
-                        }
-
-                        break;
-                    case 6:
-                        if (redPandaChefData.redPandaUpgradesLine2 == RedPandaChefData.RedPandaUpgradesLine2.NinjaTraining_2)
-                        {
-                            kneadForSpeedButton.SetActive(true);
-                            redPandaChefData.redPandaUpgradesLine2 = RedPandaChefData.RedPandaUpgradesLine2.KneadForSpeed_3;
-                        }
-
-                        break;
-                }
-                break;
-        
-        }
-    }
 
     public void ChangeChefTargeting()
     {
@@ -673,7 +627,6 @@ public class UIManager : Singleton<UIManager>
             print("not entering the ifs");
         }
 
-        chefData.UpdateChefTargetting();
 
     }
     public void FireChef()
@@ -731,17 +684,6 @@ public class UIManager : Singleton<UIManager>
 
     #region Abilities
 
-    public void KneadForSpeed()
-    {
-        if(!kneadForSpeed_isOnCooldown)
-        {
-            kneadForSpeed_isOnCooldown = true;
-            _GM.event_kneadForSpeed.Invoke();
-            ExecuteAfterSeconds(kneadForSpeed_cooldownTimer, () => kneadForSpeed_isOnCooldown = false);
-
-        }
-
-    }
 
     #endregion
 
@@ -889,12 +831,12 @@ public class UIManager : Singleton<UIManager>
         nameChef0.text = chef0.name;
         pfpChef0.sprite = chef0.pfp;
         cookingSkillChef0.text = chef0.cookEffectivness.ToString();
-        kneedingSkillChef0.text = chef0.kneedEffectivness.ToString();
+        kneedingSkillChef0.text = chef0.kneadEffectivness.ToString();
         mixingSkillChef0.text = chef0.mixEffectivness.ToString();
         cuttingSkillChef0.text = chef0.cutEffectivness.ToString();
         costChef0.text = "¥" + chef0.hireCost.ToString();
 
-        if (chef0.kneedSkill)
+        if (chef0.kneadSkill)
         {
             kneedingSkillChef0.color = highlightedColour;
             skillImagesChef0[0].color = highlightedColour;
@@ -918,12 +860,12 @@ public class UIManager : Singleton<UIManager>
         nameChef1.text = chef1.name;
         pfpChef1.sprite = chef1.pfp;
         cookingSkillChef1.text = chef1.cookEffectivness.ToString();
-        kneedingSkillChef1.text = chef1.kneedEffectivness.ToString();
+        kneedingSkillChef1.text = chef1.kneadEffectivness.ToString();
         mixingSkillChef1.text = chef1.mixEffectivness.ToString();
         cuttingSkillChef1.text = chef1.cutEffectivness.ToString();
         costChef1.text = "¥" + chef1.hireCost.ToString();
 
-        if (chef1.kneedSkill)
+        if (chef1.kneadSkill)
         {
             kneedingSkillChef1.color = highlightedColour;
             skillImagesChef1[0].color = highlightedColour;
@@ -947,12 +889,12 @@ public class UIManager : Singleton<UIManager>
         nameChef2.text = chef2.name;
         pfpChef2.sprite = chef2.pfp;
         cookingSkillChef2.text = chef2.cookEffectivness.ToString();
-        kneedingSkillChef2.text = chef2.kneedEffectivness.ToString();
+        kneedingSkillChef2.text = chef2.kneadEffectivness.ToString();
         mixingSkillChef2.text = chef2.mixEffectivness.ToString();
         cuttingSkillChef2.text = chef2.cutEffectivness.ToString();
         costChef2.text = "¥" + chef2.hireCost.ToString();
 
-        if (chef2.kneedSkill)
+        if (chef2.kneadSkill)
         {
             kneedingSkillChef2.color = highlightedColour;
             skillImagesChef2[0].color = highlightedColour;
@@ -976,13 +918,13 @@ public class UIManager : Singleton<UIManager>
         nameChef3.text = chef3.name;
         pfpChef3.sprite = chef3.pfp;
         cookingSkillChef3.text = chef3.cookEffectivness.ToString();
-        kneedingSkillChef3.text = chef3.kneedEffectivness.ToString();
+        kneedingSkillChef3.text = chef3.kneadEffectivness.ToString();
         mixingSkillChef3.text = chef3.mixEffectivness.ToString();
         cuttingSkillChef3.text = chef3.cutEffectivness.ToString();
         costChef3.text = "¥" + chef3.ToString();
 
 
-        if (chef3.kneedSkill)
+        if (chef3.kneadSkill)
         {
             kneedingSkillChef3.color = highlightedColour;
             skillImagesChef3[0].color = highlightedColour;

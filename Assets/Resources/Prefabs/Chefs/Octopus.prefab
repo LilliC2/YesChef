@@ -11508,7 +11508,6 @@ GameObject:
   - component: {fileID: 6734349180427390002}
   - component: {fileID: 5628950501902066462}
   - component: {fileID: 4039115812209068128}
-  - component: {fileID: 2253086305609761876}
   m_Layer: 0
   m_Name: Octopus
   m_TagString: Chef
@@ -11624,30 +11623,40 @@ MonoBehaviour:
     name: Octopus
     description: Out of the ocean and into the fire!
     hireCost: 3
+    level: 0
     pfp: {fileID: 21300000, guid: 57062d2034dec7948a53d64f9359eaef, type: 3}
     range: 3
-    kneedSkill: 0
-    kneedEffectivness: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
     cutSkill: 0
     cutEffectivness: 0
+    cutUpgradeCost: 0
     mixSkill: 0
     mixEffectivness: 0
+    mixUpgradeCost: 0
     cookSkill: 1
     cookEffectivness: 2
-    upgradeLineNames:
-    - Unamed
-    - Unamed
-    - Unamed
-    - Unamed
-    - Unamed
-    - Unamed
-    upgradeLineDescription:
-    - Empty Description
-    - Empty Description
-    - Empty Description
-    - Empty Description
-    - Empty Description
-    - Empty Description
+    cookUpgradeCost: 5
+  baseStatsChefData:
+    name: 
+    description: 
+    hireCost: 0
+    level: 0
+    pfp: {fileID: 0}
+    range: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
   rawFood:
     serializedVersion: 2
     m_Bits: 8
@@ -11656,6 +11665,7 @@ MonoBehaviour:
   rangeIndicator: {fileID: 3044619755736133268}
   anim: {fileID: 864010843436015211}
   validPos: 0
+  rawFoodInRange: []
   placed: 0
 --- !u!54 &4039115812209068128
 Rigidbody:
@@ -11684,25 +11694,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &2253086305609761876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7157955437648546308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df16e0b8123d9240a5bdd313e2f0a23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  octopusUpgradesLine1: 0
-  octopusUpgradesLine2: 0
-  targeting: 0
-  cuttingAudio: {fileID: 0}
-  anim: {fileID: 864010843436015211}
-  rawFoodInRange: []
-  placed: 0
 --- !u!1 &7180004097514247060
 GameObject:
   m_ObjectHideFlags: 0

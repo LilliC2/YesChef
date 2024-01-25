@@ -9,24 +9,27 @@ public class ChefClass
     public string description;
     public float hireCost;
 
+    public int level;
+
     public Sprite pfp;
 
     public float range;
 
-    public bool kneedSkill;
-    public float kneedEffectivness;
+    public bool kneadSkill;
+    public float kneadEffectivness;
+    public float kneadUpgradeCost;
     
     public bool cutSkill;
     public float cutEffectivness;
+    public float cutUpgradeCost;
     
     public bool mixSkill;
     public float mixEffectivness;
+    public float mixUpgradeCost;
 
     public bool cookSkill;
     public float cookEffectivness;
-
-    public string[] upgradeLineNames;
-    public string[] upgradeLineDescription;
+    public float cookUpgradeCost;
 
     public ChefClass()
     {

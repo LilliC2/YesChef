@@ -1363,7 +1363,6 @@ GameObject:
   - component: {fileID: 5891012575310438797}
   - component: {fileID: 590139073068797906}
   - component: {fileID: -5251579622597193444}
-  - component: {fileID: 5222800092698357008}
   m_Layer: 0
   m_Name: RedPanda
   m_TagString: Chef
@@ -1478,30 +1477,40 @@ MonoBehaviour:
     name: RedPanda
     description: Kneeding her way to the top!
     hireCost: 3
+    level: 0
     pfp: {fileID: 21300000, guid: f31eae7293e011342b280c990eb8ae12, type: 3}
     range: 3
-    kneedSkill: 1
-    kneedEffectivness: 2
+    kneadSkill: 1
+    kneadEffectivness: 3
+    kneadUpgradeCost: 5
     cutSkill: 0
     cutEffectivness: 0
+    cutUpgradeCost: 0
     mixSkill: 0
     mixEffectivness: 0
+    mixUpgradeCost: 0
     cookSkill: 0
     cookEffectivness: 0
-    upgradeLineNames:
-    - Unamed
-    - Unamed
-    - Unamed
-    - Now We're Rolling
-    - Ninja School
-    - Knead for Speed
-    upgradeLineDescription:
-    - Empty Description
-    - Empty Description
-    - Empty Description
-    - Gains a second rolling pin, works twice as fast
-    - Shadow Clone, creates a copy of its self with half the stats.
-    - Gain Ability. For X seconds gain x3 speed. This is applied to any shadow clones
+    cookUpgradeCost: 0
+  baseStatsChefData:
+    name: 
+    description: 
+    hireCost: 0
+    level: 0
+    pfp: {fileID: 0}
+    range: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
   rawFood:
     serializedVersion: 2
     m_Bits: 8
@@ -1510,6 +1519,7 @@ MonoBehaviour:
   rangeIndicator: {fileID: 112379984525379726}
   anim: {fileID: 6378475619879891465}
   validPos: 0
+  rawFoodInRange: []
   placed: 0
 --- !u!54 &-5251579622597193444
 Rigidbody:
@@ -1538,27 +1548,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &5222800092698357008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545598714552739806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687f29febf8ea3646bebe5be5697a9a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  redPandaUpgradesLine1: 0
-  redPandaUpgradesLine2: 0
-  shadowClone: {fileID: 4545598714552739806, guid: 05436b87d2427e7419823ce7140e603b, type: 3}
-  targeting: 0
-  cookingSpeed: 0.2
-  cuttingAudio: {fileID: 0}
-  anim: {fileID: 6378475619879891465}
-  rawFoodInRange: []
-  placed: 0
 --- !u!1 &4700414560094983302
 GameObject:
   m_ObjectHideFlags: 0

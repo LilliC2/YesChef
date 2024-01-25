@@ -1837,7 +1837,6 @@ GameObject:
   - component: {fileID: 5891012575310438797}
   - component: {fileID: 590139073068797906}
   - component: {fileID: -8260955968638038608}
-  - component: {fileID: 3314966599549183203}
   m_Layer: 0
   m_Name: Tanuki
   m_TagString: Chef
@@ -1953,30 +1952,40 @@ MonoBehaviour:
     name: Tanuki
     description: He's just cutting onions - promise!
     hireCost: 3
+    level: 0
     pfp: {fileID: 21300000, guid: 672e76ce9bfc92c4aa058fcd7527c990, type: 3}
     range: 3
-    kneedSkill: 0
-    kneedEffectivness: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
     cutSkill: 1
     cutEffectivness: 2
+    cutUpgradeCost: 5
     mixSkill: 0
     mixEffectivness: 0
+    mixUpgradeCost: 0
     cookSkill: 0
     cookEffectivness: 0
-    upgradeLineNames:
-    - Econimist
-    - Capitalist
-    - Tanuki Tycoon
-    - Pupil
-    - Sous Chef
-    - Master Chef
-    upgradeLineDescription:
-    - Food cooked by Tanuki will have +10% order cost
-    - Food cooked by Tanuki will have +50% order cost
-    - +10% prep point effectivenss for every $1000
-    - Unlock Mixing Skill. All skills effectiveness +5
-    - Unlock Kneading Skill. All skills effectiveness +5
-    - Unlock Cooking Skill. All skills effectiveness +5. +5 range
+    cookUpgradeCost: 0
+  baseStatsChefData:
+    name: 
+    description: 
+    hireCost: 0
+    level: 0
+    pfp: {fileID: 0}
+    range: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
   rawFood:
     serializedVersion: 2
     m_Bits: 8
@@ -1985,6 +1994,7 @@ MonoBehaviour:
   rangeIndicator: {fileID: 8948219635155241046}
   anim: {fileID: 9151864642873444850}
   validPos: 0
+  rawFoodInRange: []
   placed: 0
 --- !u!54 &-8260955968638038608
 Rigidbody:
@@ -2013,25 +2023,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &3314966599549183203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545598714552739806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d85aed1c4e88d24997d57ff647b4696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tanukiUpgradesLine1: 0
-  tanukiUpgradesLine2: 0
-  targeting: 0
-  cuttingAudio: {fileID: 1160377159557464940}
-  anim: {fileID: 9151864642873444850}
-  rawFoodInRange: []
-  placed: 0
 --- !u!1 &4590135818210234254
 GameObject:
   m_ObjectHideFlags: 0

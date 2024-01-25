@@ -75,11 +75,10 @@ public class ChefManager : Singleton<ChefManager>
 
                         //place chef
                         placingChef = false;
-
+                        newChef.GetComponent<ChefData>().placed = true;
 
                         //placing animation
                         newChef.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
-                        newChef.BroadcastMessage("ChefPlaced");
 
 
                         _AM.placingChef.Play();
