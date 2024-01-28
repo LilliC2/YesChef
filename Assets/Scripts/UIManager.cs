@@ -67,6 +67,14 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text strengthSkillWaiter0;
     public TMP_Text speedSkillWaiter0;
     public GameObject cannotAffordWaiter0;
+    
+    [Header("Waiter 1")]
+    public TMP_Text nameWaiter1;
+    public Image pfpWaiter1;
+    public TMP_Text costWaiter1;
+    public TMP_Text strengthSkillWaiter1;
+    public TMP_Text speedSkillWaiter1;
+    public GameObject cannotAffordWaiter1;
     #endregion
     [Header("Chef UI")]
     public GameObject chefMenu;
@@ -483,12 +491,14 @@ public class UIManager : Singleton<UIManager>
                 //check if can buy
                 if (_GM.money >= selectedChef_chefData.mixUpgradeCost)
                 {
+                    print("buy");
                     canBuy = true;
-                    _GM.money = -selectedChef_chefData.mixUpgradeCost;
+                    print("mix " + selectedChef_chefData.mixUpgradeCost);
+                    _GM.money = _GM.money - selectedChef_chefData.mixUpgradeCost;
                     selectedChef_chefData.mixEffectivness++;
 
                     //increase cost by 10%
-                    selectedChef_chefData.mixUpgradeCost = selectedChef_chefData.mixUpgradeCost + (selectedChef_chefData.mixUpgradeCost * 0.1f);
+                    //selectedChef_chefData.mixUpgradeCost = selectedChef_chefData.mixUpgradeCost + (selectedChef_chefData.mixUpgradeCost * 0.1f);
                     //update UI
                     UpdateChefPopUp();
                 }
@@ -500,7 +510,7 @@ public class UIManager : Singleton<UIManager>
                 if (_GM.money >= selectedChef_chefData.kneadUpgradeCost)
                 {
                     canBuy = true;
-                    _GM.money = -selectedChef_chefData.kneadUpgradeCost;
+                    _GM.money = _GM.money - selectedChef_chefData.kneadUpgradeCost;
                     selectedChef_chefData.kneadEffectivness++;
 
                     //increase cost by 10%
@@ -517,7 +527,7 @@ public class UIManager : Singleton<UIManager>
                 if (_GM.money >= selectedChef_chefData.cutUpgradeCost)
                 {
                     canBuy = true;
-                    _GM.money = -selectedChef_chefData.cutUpgradeCost;
+                    _GM.money = _GM.money - selectedChef_chefData.cutUpgradeCost;
                     selectedChef_chefData.cutEffectivness++;
 
                     //increase cost by 10%
@@ -532,8 +542,9 @@ public class UIManager : Singleton<UIManager>
                 //check if can buy
                 if (_GM.money >= selectedChef_chefData.cookUpgradeCost)
                 {
+                  
                     canBuy = true;
-                    _GM.money = -selectedChef_chefData.cookUpgradeCost;
+                    _GM.money = _GM.money - selectedChef_chefData.cookUpgradeCost;
                     selectedChef_chefData.cookEffectivness++;
 
                     //increase cost by 10%
@@ -952,12 +963,19 @@ public class UIManager : Singleton<UIManager>
     {
         var waiter0 = _WM.waiterArray[0].gameObject.GetComponent<WaiterData>().waiterData;
 
-
         nameWaiter0.text = waiter0.name;
         pfpWaiter0.sprite = waiter0.pfp;
         strengthSkillWaiter0.text = waiter0.strength.ToString();
         speedSkillWaiter0.text = waiter0.speed.ToString();
         costWaiter0.text = "¥" + waiter0.hireCost.ToString();
+        
+        var waiter1 = _WM.waiterArray[1].gameObject.GetComponent<WaiterData>().waiterData;
+
+        nameWaiter1.text = waiter1.name;
+        pfpWaiter1.sprite = waiter1.pfp;
+        strengthSkillWaiter1.text = waiter1.strength.ToString();
+        speedSkillWaiter1.text = waiter1.speed.ToString();
+        costWaiter1.text = "¥" + waiter1.hireCost.ToString();
     }
     public void LoadReceipeData()
     {
