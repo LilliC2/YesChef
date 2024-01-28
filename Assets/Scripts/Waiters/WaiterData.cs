@@ -10,6 +10,8 @@ public class WaiterData :GameBehaviour
     [SerializeField]
     bool isHoldingFood;
     public bool placed;
+    [SerializeField]
+    bool isFoodEmpty;
 
     public Vector3 homePos;
     [SerializeField]
@@ -24,7 +26,9 @@ public class WaiterData :GameBehaviour
     NavMeshAgent agent;
 
     [SerializeField]
-    GameObject currentCustomer;
+    GameObject currentCustomer_1;
+    [SerializeField]
+    GameObject currentCustomer_2;
 
     [SerializeField]
     GameObject holdfoodspot_1;
@@ -47,7 +51,9 @@ public class WaiterData :GameBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(placed)
+
+
+        if (placed)
         {
             //idle animation
             if (agent.velocity.magnitude < 0.2f)
@@ -71,10 +77,20 @@ public class WaiterData :GameBehaviour
 
             }
 
-
+            //check if holding food
+            if (waiterData.strength == 2)
+            {
+                if (heldFood_1 == null && heldFood_2 == null) isFoodEmpty = true;
+                else isFoodEmpty = false;
+            }
+            else if (waiterData.strength == 1)
+            {
+                if (heldFood_1 == null) isFoodEmpty = true;
+                else isFoodEmpty = false;
+            }
 
             //hasnt picked up food yet but has a target;
-            if (!isHoldingFood && heldFood_1 != null)
+            if (!isHoldingFood)
             {
                 agent.SetDestination(heldFood_1.transform.position);
 
@@ -104,17 +120,17 @@ public class WaiterData :GameBehaviour
 
             if (isHoldingFood)
             {
-                heldFood_1.transform.position = holdfoodspot_1.transform.position;
+                if (heldFood_1 != null) heldFood_1.transform.position = holdfoodspot_1.transform.position;
                 if(heldFood_2 != null) heldFood_2.transform.position = holdfoodspot_2.transform.position;
             }
 
-            if (isHoldingFood && currentCustomer == null)
+            if (!isHoldingFood && isFoodEmpty)
             {
-
+                print("find new customer");
                 //find customer who is waiting
                 foreach (var customer in _CustM.customersList)
                 {
-                    if (currentCustomer == null)
+                    if (currentCustomer_1 == null)
                     {
                         if (!customer.GetComponent<CustomerData>().leaving)
                         {
@@ -123,60 +139,101 @@ public class WaiterData :GameBehaviour
                             if (customerOrderData.name == heldFoodData_1.foodData.name && !customerData.hasBeenAttened)
                             {
                                 print("found customer");
-                                currentCustomer = customer;
+                                currentCustomer_1 = customer;
                                 customerData.hasBeenAttened = true;
                             }
-                            else if(customerOrderData.name == heldFoodData_2.foodData.name && !customerData.hasBeenAttened)
-                            {
-                                {
-                                    print("found customer");
-                                    currentCustomer = customer;
-                                    customerData.hasBeenAttened = true;
-                                }
-                            }
+                            
                         }
                         else return;
+                    }
+                    else if(waiterData.strength ==2 && currentCustomer_2 == null)
+                    {
+                        var customerData = customer.GetComponent<CustomerData>();
+                        var customerOrderData = customerData.order.GetComponent<FoodData>();
+                        if (customerOrderData.name == heldFoodData_2.foodData.name && !customerData.hasBeenAttened)
+                        {
+                            {
+                                print("found customer");
+                                currentCustomer_2 = customer;
+                                customerData.hasBeenAttened = true;
+                            }
+                        }
                     }
 
                 }
             }
 
-            if (isHoldingFood && currentCustomer != null)
+            if (isHoldingFood && !isFoodEmpty)
             {
+                print("Holding food");
                 //bring food to them
-                agent.SetDestination(currentCustomer.transform.position);
-                if (Vector3.Distance(transform.position, currentCustomer.transform.position) < 2f)
+                if(currentCustomer_1 !=null && heldFood_1 !=null)
                 {
-                    if(waiterData.strength == 2)
+                    agent.SetDestination(currentCustomer_1.transform.position);
+                    if (Vector3.Distance(transform.position, currentCustomer_1.transform.position) < 2f)
                     {
-                        if(heldFood_1 == null && heldFood_2 == null) isHoldingFood = false;
+                        if (waiterData.strength == 2)
+                        {
+                            if (heldFood_1 == null && heldFood_2 == null) isHoldingFood = false;
 
+                        }
+                        else isHoldingFood = false;
+
+                        var customerData = currentCustomer_1.GetComponent<CustomerData>();
+                        var customerOrderData = customerData.order.GetComponent<FoodData>();
+
+                        //give customer food
+
+                        if (customerOrderData.name == heldFoodData_1.foodData.name)
+                        {
+                            heldFood_1.GetComponent<FoodMovement>().served = true;
+                            heldFood_1.transform.position = customerData.plateSpot.transform.position;
+                            customerData.order = heldFood_1;
+                            customerData.ServedFood();
+                            heldFood_1 = null;
+                            currentCustomer_1 = null;
+                        }
+   
+
+                        if (!isHoldingFood) ResetWaiter();
                     }
-                    else isHoldingFood = false;
+                
 
-                    var customerData = currentCustomer.GetComponent<CustomerData>();
-                    var customerOrderData = customerData.order.GetComponent<FoodData>();
 
-                    //give customer food
+                }
+                else if(currentCustomer_2 != null)
+                {
 
-                    if (customerOrderData.name == heldFoodData_1.foodData.name)
+                    agent.SetDestination(currentCustomer_2.transform.position);
+                    if (Vector3.Distance(transform.position, currentCustomer_2.transform.position) < 2f)
                     {
-                        heldFood_1.GetComponent<FoodMovement>().served = true;
-                        heldFood_1.transform.position = customerData.plateSpot.transform.position;
-                        customerData.order = heldFood_1;
-                        customerData.ServedFood();
+                        if (waiterData.strength == 2)
+                        {
+                            if (heldFood_1 == null && heldFood_2 == null) isHoldingFood = false;
+
+                        }
+                        else isHoldingFood = false;
+
+                        var customerData = currentCustomer_2.GetComponent<CustomerData>();
+                        var customerOrderData = customerData.order.GetComponent<FoodData>();
+
+                        //give customer food
+
+                        if (customerOrderData.name == heldFoodData_2.foodData.name)
+                        {
+                            heldFood_2.GetComponent<FoodMovement>().served = true;
+                            heldFood_2.transform.position = customerData.plateSpot.transform.position;
+                            customerData.order = heldFood_2;
+                            customerData.ServedFood();
+                            heldFood_2 = null;
+                            currentCustomer_2 = null;
+
+                        }
+
+
+                        ResetWaiter();
                     }
-                    else if (customerOrderData.name == heldFoodData_2.foodData.name)
-                    {
-                        heldFood_2.GetComponent<FoodMovement>().served = true;
-                        heldFood_2.transform.position = customerData.plateSpot.transform.position;
-                        customerData.order = heldFood_2;
-                        customerData.ServedFood();
-                    }
-
-                    if(!isHoldingFood) ResetWaiter();
-
-
+                    
                 }
             }
         }
@@ -187,7 +244,9 @@ public class WaiterData :GameBehaviour
     void ResetWaiter()
     {
         heldFood_1 = null;
-        currentCustomer = null;
+        heldFood_2 = null;
+        currentCustomer_1 = null;
+        currentCustomer_2 = null;
         agent.SetDestination(homePos);
         //if no food to grab, go home
         if (_FM.queuedFood.Count == 0) agent.destination = homePos;
@@ -204,17 +263,20 @@ public class WaiterData :GameBehaviour
                 //food that is cooked and not already being picked up
                 if (food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
                 {
+                    print("grabbed food for 1");
                     heldFood_1 = food;
                     heldFoodData_1 = heldFood_1.GetComponent<FoodData>();
                     heldFoodData_1.foodData.isBeingPickedUp = true;
 
                 }
             }
-            else if(waiterData.strength == 2 && heldFood_2 == null)
+            else if (waiterData.strength == 2 && heldFood_2 == null)
             {
                 //food that is cooked and not already being picked up
                 if (food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
                 {
+                    print("grabbed food for 2");
+
                     heldFood_2 = food;
                     heldFoodData_2 = heldFood_2.GetComponent<FoodData>();
                     heldFoodData_2.foodData.isBeingPickedUp = true;
