@@ -37,15 +37,20 @@ public class FoodMovement : GameBehaviour
             }
             else
             {
-                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position) < 0.2f)
+                if(_FM.queuedFood.Contains(gameObject))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+                    if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position) < 0.2f)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+
+                    }
 
                 }
+                
 
             }
         }
-       
+
 
         //if(!served)
         //{
