@@ -18,6 +18,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text missingTxt;
     public bool continuePlay;
 
+
     [Header("Tutorial")]
     public GameObject tutorialMainPanel;
     public GameObject[] tutorialPanels;
@@ -44,6 +45,18 @@ public class UIManager : Singleton<UIManager>
     [Header("Game Over")]
     public GameObject gameOverPanel;
     public GameObject completePanel;
+
+    #region Resturant Upgrades
+    [Header("Resturant Upgrades")]
+
+    int selectedUpgrade;
+    public TMP_Text upgradeRestCost;
+    public TMP_Text upgradeRestName;
+    public TMP_Text upgradeRestDescription;
+
+    public Image[] upgradeRestButtonImages;
+
+    #endregion
 
     [Header("Waiter UI")]
     public GameObject waiterMenu;
@@ -302,6 +315,44 @@ public class UIManager : Singleton<UIManager>
                
         }
     }
+
+    #region Resturant Upgrades
+
+    public void PurachseResturantUpgrade()
+    {
+
+        var upgrade = _UM.resturantUpgradeInformation[selectedUpgrade];
+        print(selectedUpgrade);
+
+        if (!upgrade.active && upgrade.costToUnlock < _GM.money)
+        {
+            //check if previous upgrade has been purchased
+            if (_UM.resturantUpgradeInformation[selectedUpgrade - 1].active || selectedUpgrade == 0)
+            {
+                //remove money
+                _GM.money = _GM.money - upgrade.costToUnlock;
+
+                //make button yellow
+                upgradeRestButtonImages[selectedUpgrade].color = highlightedColour;
+
+                _UM.PurchaseUpgrade(selectedUpgrade);
+            }
+            else print("Needs prerequisite");
+        }
+        else print("Cannot purchase");
+    }
+
+    public void UpdateResturatnUpgradeInfo(int _index)
+    {
+        selectedUpgrade = _index;
+        var upgrade = _UM.resturantUpgradeInformation[_index];
+
+        upgradeRestCost.text = upgrade.costToUnlock.ToString();
+        upgradeRestDescription.text = upgrade.description;
+        upgradeRestName.text = upgrade.name;
+    }
+
+    #endregion
 
     #region Audio
 

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UpgradeInformation
 {
     public string name;
     public string description;
+    public float costToUnlock;
     public bool active;
 }
 
@@ -15,6 +17,7 @@ public class UpgradeManager : Singleton<UpgradeManager>
     public UpgradeInformation[] resturantUpgradeInformation;
     public UpgradeInformation[] staffUpgradeInformation;
 
+    [SerializeField] private GameObject[] tables;
 
     // Start is called before the first frame update
     void Start()
@@ -30,9 +33,53 @@ public class UpgradeManager : Singleton<UpgradeManager>
 
     public void PurchaseUpgrade(int _upgradeID)
     {
-        var currentUpgrade = resturantUpgradeInformation.FindIndex(_upgradeID);
+        var currentUpgrade = resturantUpgradeInformation[_upgradeID];
 
-        currentUpgrade.active = true;
-    
+        if (currentUpgrade.name.Contains("+1 Table"))
+        {
+            TableUpgrades(currentUpgrade);
+        }
+
+
+
+    }
+
+    void TableUpgrades(UpgradeInformation _currentUpgrade)
+    {
+
+        int index = System.Array.IndexOf(resturantUpgradeInformation, _currentUpgrade);
+        switch(index)
+        {
+            case 0:
+
+                tables[0].SetActive(true);
+
+            break;
+            case 1:
+
+                tables[1].SetActive(true);
+
+            break;
+            case 2:
+
+                tables[2].SetActive(true);
+
+            break;
+            case 5:
+
+                tables[3].SetActive(true);
+
+            break;
+            case 6:
+
+                tables[4].SetActive(true);
+
+            break;
+            case 7:
+
+                tables[5].SetActive(true);
+
+            break;
+        }
     }
 }
