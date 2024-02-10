@@ -1026,6 +1026,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948299271856092270}
+  - component: {fileID: 2367558290678028746}
+  - component: {fileID: 6969533610247623646}
+  - component: {fileID: -89831422600096290}
   m_Layer: 0
   m_Name: Oni
   m_TagString: Untagged
@@ -1049,6 +1052,116 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: -132, z: 0}
+--- !u!114 &2367558290678028746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808398698497349245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cbf247d6bcff0478282c8f1e259f38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chefData:
+    name: Octopus
+    description: Out of the ocean and into the fire!
+    hireCost: 3
+    level: 0
+    pfp: {fileID: 21300000, guid: 57062d2034dec7948a53d64f9359eaef, type: 3}
+    range: 3
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 1
+    cookEffectivness: 2
+    cookUpgradeCost: 5
+  baseStatsChefData:
+    name: 
+    description: 
+    hireCost: 0
+    level: 0
+    pfp: {fileID: 0}
+    range: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
+  rawFood:
+    serializedVersion: 2
+    m_Bits: 8
+  targeting: 0
+  cuttingAudio: {fileID: 10479450944504897, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  rangeIndicator: {fileID: 3044619755736133268, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  anim: {fileID: 864010843436015211, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  validPos: 0
+  rawFoodInRange: []
+  placed: 0
+--- !u!54 &6969533610247623646
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808398698497349245}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!136 &-89831422600096290
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808398698497349245}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &2020714767624380841
 GameObject:
   m_ObjectHideFlags: 0

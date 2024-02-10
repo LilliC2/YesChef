@@ -144,6 +144,72 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text mixingSkillChef3;
     public GameObject cannotAffordChef3;
     public Image[] skillImagesChef3;
+    
+    [Header("Chef 4")]
+    public TMP_Text nameChef4;
+    public Image pfpChef4;
+    public TMP_Text costChef4;
+    public TMP_Text cookingSkillChef4;
+    public TMP_Text kneedingSkillChef4;
+    public TMP_Text cuttingSkillChef4;
+    public TMP_Text mixingSkillChef4;
+    public GameObject cannotAffordChef4;
+    public Image[] skillImagesChef4;
+    
+    [Header("Chef 5")]
+    public TMP_Text nameChef5;
+    public Image pfpChef5;
+    public TMP_Text costChef5;
+    public TMP_Text cookingSkillChef5;
+    public TMP_Text kneedingSkillChef5;
+    public TMP_Text cuttingSkillChef5;
+    public TMP_Text mixingSkillChef5;
+    public GameObject cannotAffordChef5;
+    public Image[] skillImagesChef5;    
+
+    [Header("Chef 6")]
+    public TMP_Text nameChef6;
+    public Image pfpChef6;
+    public TMP_Text costChef6;
+    public TMP_Text cookingSkillChef6;
+    public TMP_Text kneedingSkillChef6;
+    public TMP_Text cuttingSkillChef6;
+    public TMP_Text mixingSkillChef6;
+    public GameObject cannotAffordChef6;
+    public Image[] skillImagesChef6;
+    
+    [Header("Chef 7")]
+    public TMP_Text nameChef7;
+    public Image pfpChef7;
+    public TMP_Text costChef7;
+    public TMP_Text cookingSkillChef7;
+    public TMP_Text kneedingSkillChef7;
+    public TMP_Text cuttingSkillChef7;
+    public TMP_Text mixingSkillChef7;
+    public GameObject cannotAffordChef7;
+    public Image[] skillImagesChef7;
+    
+    [Header("Chef 8")]
+    public TMP_Text nameChef8;
+    public Image pfpChef8;
+    public TMP_Text costChef8;
+    public TMP_Text cookingSkillChef8;
+    public TMP_Text kneedingSkillChef8;
+    public TMP_Text cuttingSkillChef8;
+    public TMP_Text mixingSkillChef8;
+    public GameObject cannotAffordChef8;
+    public Image[] skillImagesChef8;
+    
+    [Header("Chef 9")]
+    public TMP_Text nameChef9;
+    public Image pfpChef9;
+    public TMP_Text costChef9;
+    public TMP_Text cookingSkillChef9;
+    public TMP_Text kneedingSkillChef9;
+    public TMP_Text cuttingSkillChef9;
+    public TMP_Text mixingSkillChef9;
+    public GameObject cannotAffordChef9;
+    public Image[] skillImagesChef9;
     #endregion
 
     [Header("Chef PopUP UI")]
@@ -901,7 +967,14 @@ public class UIManager : Singleton<UIManager>
         var chef1 = _ChefM.chefArray[1].gameObject.GetComponent<ChefData>().chefData;
         var chef2 = _ChefM.chefArray[2].gameObject.GetComponent<ChefData>().chefData;
         var chef3 = _ChefM.chefArray[3].gameObject.GetComponent<ChefData>().chefData;
+        var chef4 = _ChefM.chefArray[4].gameObject.GetComponent<ChefData>().chefData;
+        //var chef5 = _ChefM.chefArray[5].gameObject.GetComponent<ChefData>().chefData;
+        //var chef6 = _ChefM.chefArray[6].gameObject.GetComponent<ChefData>().chefData;
+        //var chef7 = _ChefM.chefArray[7].gameObject.GetComponent<ChefData>().chefData;
+        //var chef8 = _ChefM.chefArray[8].gameObject.GetComponent<ChefData>().chefData;
+        //var chef9 = _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData;
 
+        #region chef 0
         nameChef0.text = chef0.name;
         pfpChef0.sprite = chef0.pfp;
         cookingSkillChef0.text = chef0.cookEffectivness.ToString();
@@ -930,7 +1003,9 @@ public class UIManager : Singleton<UIManager>
             mixingSkillChef0.color = highlightedColour;
             skillImagesChef0[3].color = highlightedColour;
         }
+        #endregion
 
+        #region chef 1
         nameChef1.text = chef1.name;
         pfpChef1.sprite = chef1.pfp;
         cookingSkillChef1.text = chef1.cookEffectivness.ToString();
@@ -959,7 +1034,9 @@ public class UIManager : Singleton<UIManager>
             mixingSkillChef1.color = highlightedColour;
             skillImagesChef1[3].color = highlightedColour;
         }
+        #endregion
 
+        #region chef 2
         nameChef2.text = chef2.name;
         pfpChef2.sprite = chef2.pfp;
         cookingSkillChef2.text = chef2.cookEffectivness.ToString();
@@ -988,7 +1065,9 @@ public class UIManager : Singleton<UIManager>
             mixingSkillChef2.color = highlightedColour;
             skillImagesChef2[3].color = highlightedColour;
         }
+        #endregion
 
+        #region chef 3
         nameChef3.text = chef3.name;
         pfpChef3.sprite = chef3.pfp;
         cookingSkillChef3.text = chef3.cookEffectivness.ToString();
@@ -1018,8 +1097,199 @@ public class UIManager : Singleton<UIManager>
             mixingSkillChef3.color = highlightedColour;
             skillImagesChef3[3].color = highlightedColour;
         }
+        #endregion
+
+        #region chef 4
+        nameChef4.text = chef4.name;
+        pfpChef4.sprite = chef4.pfp;
+        cookingSkillChef4.text = chef4.cookEffectivness.ToString();
+        kneedingSkillChef4.text = chef4.kneadEffectivness.ToString();
+        mixingSkillChef4.text = chef4.mixEffectivness.ToString();
+        cuttingSkillChef4.text = chef4.cutEffectivness.ToString();
+        costChef4.text = "¥" + chef4.ToString();
 
 
+        if (chef4.kneadSkill)
+        {
+            kneedingSkillChef4.color = highlightedColour;
+            skillImagesChef4[0].color = highlightedColour;
+        }
+        if (chef4.cookSkill)
+        {
+            cookingSkillChef4.color = highlightedColour;
+            skillImagesChef4[1].color = highlightedColour;
+        }
+        if (chef4.cutSkill)
+        {
+            cuttingSkillChef4.color = highlightedColour;
+            skillImagesChef4[2].color = highlightedColour;
+        }
+        if (chef4.mixSkill)
+        {
+            mixingSkillChef4.color = highlightedColour;
+            skillImagesChef4[3].color = highlightedColour;
+        }
+        #endregion
+
+        //#region chef 5
+        //nameChef5.text = chef5.name;
+        //pfpChef5.sprite = chef5.pfp;
+        //cookingSkillChef5.text = chef5.cookEffectivness.ToString();
+        //kneedingSkillChef5.text = chef5.kneadEffectivness.ToString();
+        //mixingSkillChef5.text = chef5.mixEffectivness.ToString();
+        //cuttingSkillChef5.text = chef5.cutEffectivness.ToString();
+        //costChef5.text = "¥" + chef5.ToString();
+
+
+        //if (chef5.kneadSkill)
+        //{
+        //    kneedingSkillChef5.color = highlightedColour;
+        //    skillImagesChef5[0].color = highlightedColour;
+        //}
+        //if (chef5.cookSkill)
+        //{
+        //    cookingSkillChef5.color = highlightedColour;
+        //    skillImagesChef5[1].color = highlightedColour;
+        //}
+        //if (chef5.cutSkill)
+        //{
+        //    cuttingSkillChef5.color = highlightedColour;
+        //    skillImagesChef5[2].color = highlightedColour;
+        //}
+        //if (chef5.mixSkill)
+        //{
+        //    mixingSkillChef5.color = highlightedColour;
+        //    skillImagesChef5[3].color = highlightedColour;
+        //}
+        //#endregion
+
+        //#region chef 6
+        //nameChef6.text = chef6.name;
+        //pfpChef6.sprite = chef6.pfp;
+        //cookingSkillChef6.text = chef6.cookEffectivness.ToString();
+        //kneedingSkillChef6.text = chef6.kneadEffectivness.ToString();
+        //mixingSkillChef6.text = chef6.mixEffectivness.ToString();
+        //cuttingSkillChef6.text = chef6.cutEffectivness.ToString();
+        //costChef6.text = "¥" + chef6.ToString();
+
+
+        //if (chef6.kneadSkill)
+        //{
+        //    kneedingSkillChef6.color = highlightedColour;
+        //    skillImagesChef6[0].color = highlightedColour;
+        //}
+        //if (chef6.cookSkill)
+        //{
+        //    cookingSkillChef6.color = highlightedColour;
+        //    skillImagesChef6[1].color = highlightedColour;
+        //}
+        //if (chef6.cutSkill)
+        //{
+        //    cuttingSkillChef6.color = highlightedColour;
+        //    skillImagesChef6[2].color = highlightedColour;
+        //}
+        //if (chef6.mixSkill)
+        //{
+        //    mixingSkillChef6.color = highlightedColour;
+        //    skillImagesChef6[3].color = highlightedColour;
+        //}
+        //#endregion
+
+        //#region chef 7
+        //nameChef7.text = chef7.name;
+        //pfpChef7.sprite = chef7.pfp;
+        //cookingSkillChef7.text = chef7.cookEffectivness.ToString();
+        //kneedingSkillChef7.text = chef7.kneadEffectivness.ToString();
+        //mixingSkillChef7.text = chef7.mixEffectivness.ToString();
+        //cuttingSkillChef7.text = chef7.cutEffectivness.ToString();
+        //costChef7.text = "¥" + chef7.ToString();
+
+
+        //if (chef7.kneadSkill)
+        //{
+        //    kneedingSkillChef7.color = highlightedColour;
+        //    skillImagesChef7[0].color = highlightedColour;
+        //}
+        //if (chef7.cookSkill)
+        //{
+        //    cookingSkillChef7.color = highlightedColour;
+        //    skillImagesChef7[1].color = highlightedColour;
+        //}
+        //if (chef7.cutSkill)
+        //{
+        //    cuttingSkillChef7.color = highlightedColour;
+        //    skillImagesChef7[2].color = highlightedColour;
+        //}
+        //if (chef7.mixSkill)
+        //{
+        //    mixingSkillChef7.color = highlightedColour;
+        //    skillImagesChef7[3].color = highlightedColour;
+        //}
+        //#endregion
+
+        //#region chef 8
+        //nameChef8.text = chef8.name;
+        //pfpChef8.sprite = chef8.pfp;
+        //cookingSkillChef8.text = chef8.cookEffectivness.ToString();
+        //kneedingSkillChef8.text = chef8.kneadEffectivness.ToString();
+        //mixingSkillChef8.text = chef8.mixEffectivness.ToString();
+        //cuttingSkillChef8.text = chef8.cutEffectivness.ToString();
+        //costChef8.text = "¥" + chef8.ToString();
+
+
+        //if (chef8.kneadSkill)
+        //{
+        //    kneedingSkillChef8.color = highlightedColour;
+        //    skillImagesChef8[0].color = highlightedColour;
+        //}
+        //if (chef8.cookSkill)
+        //{
+        //    cookingSkillChef8.color = highlightedColour;
+        //    skillImagesChef8[1].color = highlightedColour;
+        //}
+        //if (chef8.cutSkill)
+        //{
+        //    cuttingSkillChef8.color = highlightedColour;
+        //    skillImagesChef8[2].color = highlightedColour;
+        //}
+        //if (chef8.mixSkill)
+        //{
+        //    mixingSkillChef8.color = highlightedColour;
+        //    skillImagesChef8[3].color = highlightedColour;
+        //}
+        //#endregion
+
+        //#region chef 9
+        //nameChef9.text = chef9.name;
+        //pfpChef9.sprite = chef9.pfp;
+        //cookingSkillChef9.text = chef9.cookEffectivness.ToString();
+        //kneedingSkillChef9.text = chef9.kneadEffectivness.ToString();
+        //mixingSkillChef9.text = chef9.mixEffectivness.ToString();
+        //cuttingSkillChef9.text = chef9.cutEffectivness.ToString();
+        //costChef9.text = "¥" + chef9.ToString();
+
+
+        //if (chef9.kneadSkill)
+        //{
+        //    kneedingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[0].color = highlightedColour;
+        //}
+        //if (chef9.cookSkill)
+        //{
+        //    cookingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[1].color = highlightedColour;
+        //}
+        //if (chef9.cutSkill)
+        //{
+        //    cuttingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[2].color = highlightedColour;
+        //}
+        //if (chef9.mixSkill)
+        //{
+        //    mixingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[3].color = highlightedColour;
+        //}
+        //#endregion
     }
 
     public void LoadWaiterData()
