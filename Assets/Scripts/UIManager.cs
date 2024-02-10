@@ -49,6 +49,9 @@ public class UIManager : Singleton<UIManager>
     #region Resturant Upgrades
     [Header("Resturant Upgrades")]
 
+    [SerializeField]
+    GameObject restaurantUpgradePanel;
+
     int selectedUpgrade;
     public TMP_Text upgradeRestCost;
     public TMP_Text upgradeRestName;
@@ -316,9 +319,18 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    #region Resturant Upgrades
+    #region Restaurant Upgrades
+    
+    public void OpenAndCloseRestauranttUpgradePanel()
+    {
+        if(restaurantUpgradePanel.activeSelf == true)
+        {
+            restaurantUpgradePanel.SetActive(false);
+        }
+        else restaurantUpgradePanel.SetActive(true);
+    }
 
-    public void PurachseResturantUpgrade()
+    public void PurachseRestaurantUpgrade()
     {
 
         var upgrade = _UM.resturantUpgradeInformation[selectedUpgrade];
@@ -342,7 +354,7 @@ public class UIManager : Singleton<UIManager>
         else print("Cannot purchase");
     }
 
-    public void UpdateResturatnUpgradeInfo(int _index)
+    public void UpdateRestaurantUpgradeInfo(int _index)
     {
         selectedUpgrade = _index;
         var upgrade = _UM.resturantUpgradeInformation[_index];
