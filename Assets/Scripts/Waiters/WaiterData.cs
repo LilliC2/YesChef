@@ -325,28 +325,34 @@ public class WaiterData :GameBehaviour
                             break;
                         default:
 
-                            agent.SetDestination(currentCustomer_1.transform.position);
-                            if (Vector3.Distance(transform.position, currentCustomer_1.transform.position) < 2f)
+                            if (currentCustomer_1 != null)
                             {
-                                isHoldingFood = false;
-
-
-                                var customerData = currentCustomer_1.GetComponent<CustomerData>();
-                                var customerOrderData = customerData.order.GetComponent<FoodData>();
-
-                                //give customer food
-
-                                if (customerOrderData.name == heldFoodData_1.foodData.name)
+                                agent.SetDestination(currentCustomer_1.transform.position);
+                                if (Vector3.Distance(transform.position, currentCustomer_1.transform.position) < 2f)
                                 {
-                                    heldFood_1.GetComponent<FoodMovement>().served = true;
-                                    heldFood_1.transform.position = customerData.plateSpot.transform.position;
-                                    customerData.order = heldFood_1;
-                                    customerData.ServedFood();
-                                    ResetWaiter();
+                                    isHoldingFood = false;
+
+
+                                    var customerData = currentCustomer_1.GetComponent<CustomerData>();
+                                    var customerOrderData = customerData.order.GetComponent<FoodData>();
+
+                                    //give customer food
+
+                                    if (customerOrderData.name == heldFoodData_1.foodData.name)
+                                    {
+                                        heldFood_1.GetComponent<FoodMovement>().served = true;
+                                        heldFood_1.transform.position = customerData.plateSpot.transform.position;
+                                        customerData.order = heldFood_1;
+                                        customerData.ServedFood();
+                                        ResetWaiter();
+                                    }
+
+
                                 }
 
-
                             }
+                            else tasks = Task.Idle;
+                            
 
                             break;
                     }
