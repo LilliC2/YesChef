@@ -905,6 +905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1085478545983785309}
+  - component: {fileID: 1710916877408872513}
   m_Layer: 0
   m_Name: Chef
   m_TagString: Untagged
@@ -932,6 +933,27 @@ Transform:
   m_Father: {fileID: 307058638327738971}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!95 &1710916877408872513
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770265567539319534}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &783802051241009781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3837078178358873828}
   m_LocalRotation: {x: 0, y: -0.9135455, z: 0, w: 0.40673664}
-  m_LocalPosition: {x: -2.55, y: 0, z: -3.82}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3506,7 +3528,7 @@ MonoBehaviour:
   targeting: 0
   cuttingAudio: {fileID: 6452969026099770213}
   rangeIndicator: {fileID: 7466813559476641840}
-  anim: {fileID: 864010843436015211, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  anim: {fileID: 1710916877408872513}
   validPos: 0
   rawFoodInRange: []
   placed: 0

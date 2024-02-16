@@ -68,7 +68,7 @@ public class WaiterManager : Singleton<WaiterManager>
                         Destroy(collisionVisualiser);
 
                         newWaiter.layer = 11;
-                        newWaiter.GetComponent<CapsuleCollider>().isTrigger = false;
+                        //newWaiter.GetComponent<CapsuleCollider>().isTrigger = false;
 
                         //place chef
                         placingWaiter = false;
@@ -76,7 +76,7 @@ public class WaiterManager : Singleton<WaiterManager>
                         Animator newWaiterAnim = newWaiter.GetComponent<WaiterData>().anim;
 
                         //placing animation
-                        newWaiter.transform.DOMoveY(1.542f, placingEaseTime).SetEase(placingEase);
+                        //newWaiter.transform.DOMoveY(0, placingEaseTime).SetEase(placingEase);
                         newWaiterAnim.SetTrigger("Spawn");
 
 

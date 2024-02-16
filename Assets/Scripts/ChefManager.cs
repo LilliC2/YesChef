@@ -78,7 +78,7 @@ public class ChefManager : Singleton<ChefManager>
                         newChef.GetComponent<ChefData>().placed = true;
 
                         //placing animation
-                        newChef.transform.DOMoveY(1.18f, placingEaseTime).SetEase(placingEase);
+                        newChef.transform.DOMoveY(0, placingEaseTime).SetEase(placingEase);
 
 
                         _AM.placingChef.Play();

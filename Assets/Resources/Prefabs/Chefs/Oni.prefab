@@ -1676,7 +1676,7 @@ MonoBehaviour:
   targeting: 0
   cuttingAudio: {fileID: 3527804408412709330}
   rangeIndicator: {fileID: 8606243615883469665}
-  anim: {fileID: 864010843436015211, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  anim: {fileID: 3517600068223884473}
   validPos: 0
   rawFoodInRange: []
   placed: 0
@@ -3973,7 +3973,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4759890600375483992}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.747, z: 0}
+  m_LocalPosition: {x: 0, y: 0.038, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4141,6 +4141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7946856137020486868}
+  - component: {fileID: 3517600068223884473}
   m_Layer: 0
   m_Name: Chef
   m_TagString: Untagged
@@ -4156,7 +4157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5337960811283994113}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.747, z: 0}
+  m_LocalPosition: {x: 0, y: 0.038, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4165,6 +4166,27 @@ Transform:
   m_Father: {fileID: 1948299271856092270}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!95 &3517600068223884473
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337960811283994113}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5353414721101481237
 GameObject:
   m_ObjectHideFlags: 0
@@ -7212,7 +7234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4769342519096642207, guid: 2272de3de9efeaf478206057e67faaaf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.785
       objectReference: {fileID: 0}
     - target: {fileID: 4769342519096642207, guid: 2272de3de9efeaf478206057e67faaaf, type: 3}
       propertyPath: m_LocalPosition.z
