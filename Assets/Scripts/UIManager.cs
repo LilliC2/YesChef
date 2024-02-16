@@ -627,7 +627,7 @@ public class UIManager : Singleton<UIManager>
                     selectedChef_chefData.mixEffectivness++;
 
                     //increase cost by 10%
-                    //selectedChef_chefData.mixUpgradeCost = selectedChef_chefData.mixUpgradeCost + (selectedChef_chefData.mixUpgradeCost * 0.1f);
+                    selectedChef_chefData.mixUpgradeCost = selectedChef_chefData.mixUpgradeCost + (selectedChef_chefData.mixUpgradeCost * _UM.chefUpgradeCostMultiplier);
                     //update UI
                     UpdateChefPopUp();
                 }
@@ -643,7 +643,7 @@ public class UIManager : Singleton<UIManager>
                     selectedChef_chefData.kneadEffectivness++;
 
                     //increase cost by 10%
-                    selectedChef_chefData.kneadUpgradeCost = selectedChef_chefData.kneadUpgradeCost + (selectedChef_chefData.kneadUpgradeCost * 0.1f);
+                    selectedChef_chefData.kneadUpgradeCost = selectedChef_chefData.kneadUpgradeCost + (selectedChef_chefData.kneadUpgradeCost * _UM.chefUpgradeCostMultiplier);
                     //update UI
                     UpdateChefPopUp();
 
@@ -660,7 +660,7 @@ public class UIManager : Singleton<UIManager>
                     selectedChef_chefData.cutEffectivness++;
 
                     //increase cost by 10%
-                    selectedChef_chefData.cutUpgradeCost = selectedChef_chefData.cutUpgradeCost + (selectedChef_chefData.cutUpgradeCost * 0.1f);
+                    selectedChef_chefData.cutUpgradeCost = selectedChef_chefData.cutUpgradeCost + (selectedChef_chefData.cutUpgradeCost * _UM.chefUpgradeCostMultiplier);
                     //update UI
                     UpdateChefPopUp();
 
@@ -677,7 +677,7 @@ public class UIManager : Singleton<UIManager>
                     selectedChef_chefData.cookEffectivness++;
 
                     //increase cost by 10%
-                    selectedChef_chefData.cookUpgradeCost = selectedChef_chefData.cookUpgradeCost + (selectedChef_chefData.cookUpgradeCost * 0.1f);
+                    selectedChef_chefData.cookUpgradeCost = selectedChef_chefData.cookUpgradeCost + (selectedChef_chefData.cookUpgradeCost * _UM.chefUpgradeCostMultiplier);
                     //update UI
                     UpdateChefPopUp();
 
@@ -814,8 +814,10 @@ public class UIManager : Singleton<UIManager>
 
         _GM.event_updateMoney.Invoke();
 
+        selectedChef.GetComponent<WaiterData>().FireChef();
+
         //destroy chef
-        Destroy(selectedWaiter);
+        //Destroy(selectedWaiter);
 
         CloseWaiterPopUp();
     }
@@ -905,6 +907,7 @@ public class UIManager : Singleton<UIManager>
 
             CheckWhatPlayerCanAffordChefs();
         }
+        else print("Cannot afford");
 
     }
 
@@ -968,7 +971,7 @@ public class UIManager : Singleton<UIManager>
         var chef2 = _ChefM.chefArray[2].gameObject.GetComponent<ChefData>().chefData;
         var chef3 = _ChefM.chefArray[3].gameObject.GetComponent<ChefData>().chefData;
         var chef4 = _ChefM.chefArray[4].gameObject.GetComponent<ChefData>().chefData;
-        //var chef5 = _ChefM.chefArray[5].gameObject.GetComponent<ChefData>().chefData;
+        var chef5 = _ChefM.chefArray[5].gameObject.GetComponent<ChefData>().chefData;
         //var chef6 = _ChefM.chefArray[6].gameObject.GetComponent<ChefData>().chefData;
         //var chef7 = _ChefM.chefArray[7].gameObject.GetComponent<ChefData>().chefData;
         //var chef8 = _ChefM.chefArray[8].gameObject.GetComponent<ChefData>().chefData;
@@ -1106,7 +1109,7 @@ public class UIManager : Singleton<UIManager>
         kneedingSkillChef4.text = chef4.kneadEffectivness.ToString();
         mixingSkillChef4.text = chef4.mixEffectivness.ToString();
         cuttingSkillChef4.text = chef4.cutEffectivness.ToString();
-        costChef4.text = "¥" + chef4.ToString();
+        costChef4.text = "¥" + chef4.hireCost.ToString();
 
 
         if (chef4.kneadSkill)
@@ -1131,37 +1134,37 @@ public class UIManager : Singleton<UIManager>
         }
         #endregion
 
-        //#region chef 5
-        //nameChef5.text = chef5.name;
-        //pfpChef5.sprite = chef5.pfp;
-        //cookingSkillChef5.text = chef5.cookEffectivness.ToString();
-        //kneedingSkillChef5.text = chef5.kneadEffectivness.ToString();
-        //mixingSkillChef5.text = chef5.mixEffectivness.ToString();
-        //cuttingSkillChef5.text = chef5.cutEffectivness.ToString();
-        //costChef5.text = "¥" + chef5.ToString();
+        #region chef 5
+        nameChef5.text = chef5.name;
+        pfpChef5.sprite = chef5.pfp;
+        cookingSkillChef5.text = chef5.cookEffectivness.ToString();
+        kneedingSkillChef5.text = chef5.kneadEffectivness.ToString();
+        mixingSkillChef5.text = chef5.mixEffectivness.ToString();
+        cuttingSkillChef5.text = chef5.cutEffectivness.ToString();
+        costChef5.text = "¥" + chef5.hireCost.ToString();
 
 
-        //if (chef5.kneadSkill)
-        //{
-        //    kneedingSkillChef5.color = highlightedColour;
-        //    skillImagesChef5[0].color = highlightedColour;
-        //}
-        //if (chef5.cookSkill)
-        //{
-        //    cookingSkillChef5.color = highlightedColour;
-        //    skillImagesChef5[1].color = highlightedColour;
-        //}
-        //if (chef5.cutSkill)
-        //{
-        //    cuttingSkillChef5.color = highlightedColour;
-        //    skillImagesChef5[2].color = highlightedColour;
-        //}
-        //if (chef5.mixSkill)
-        //{
-        //    mixingSkillChef5.color = highlightedColour;
-        //    skillImagesChef5[3].color = highlightedColour;
-        //}
-        //#endregion
+        if (chef5.kneadSkill)
+        {
+            kneedingSkillChef5.color = highlightedColour;
+            skillImagesChef5[0].color = highlightedColour;
+        }
+        if (chef5.cookSkill)
+        {
+            cookingSkillChef5.color = highlightedColour;
+            skillImagesChef5[1].color = highlightedColour;
+        }
+        if (chef5.cutSkill)
+        {
+            cuttingSkillChef5.color = highlightedColour;
+            skillImagesChef5[2].color = highlightedColour;
+        }
+        if (chef5.mixSkill)
+        {
+            mixingSkillChef5.color = highlightedColour;
+            skillImagesChef5[3].color = highlightedColour;
+        }
+        #endregion
 
         //#region chef 6
         //nameChef6.text = chef6.name;
@@ -1467,10 +1470,17 @@ public class UIManager : Singleton<UIManager>
             cannotAffordWaiter0.SetActive(true);
         }
         else cannotAffordWaiter0.SetActive(false);
+        
+        if (_GM.money < _WM.waiterArray[1].gameObject.GetComponent<WaiterData>().waiterData.hireCost)
+        {
+            cannotAffordWaiter1.SetActive(true);
+        }
+        else cannotAffordWaiter1.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordChefs()
     {
+
         if(_GM.money < _ChefM.chefArray[0].gameObject.GetComponent<ChefData>().chefData.hireCost)
         {
             cannotAffordChef0.SetActive(true);
@@ -1494,6 +1504,45 @@ public class UIManager : Singleton<UIManager>
             cannotAffordChef3.SetActive(true);
         }
         else cannotAffordChef3.SetActive(false);
+        
+        if(_GM.money < _ChefM.chefArray[4].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef4.SetActive(true);
+        }
+        else cannotAffordChef4.SetActive(false);
+
+        if (_GM.money < _ChefM.chefArray[5].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        {
+            cannotAffordChef5.SetActive(true);
+        }
+        else cannotAffordChef5.SetActive(false);
+
+
+        //if(_GM.money < _ChefM.chefArray[6].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        //{
+        //    cannotAffordChef6.SetActive(true);
+        //}
+        //else cannotAffordChef6.SetActive(false);
+
+
+        //if(_GM.money < _ChefM.chefArray[7].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        //{
+        //    cannotAffordChef7.SetActive(true);
+        //}
+        //else cannotAffordChef7.SetActive(false);
+
+
+        //if(_GM.money < _ChefM.chefArray[8].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        //{
+        //    cannotAffordChef8.SetActive(true);
+        //}
+        //else cannotAffordChef8.SetActive(false);
+
+        //if(_GM.money < _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        //{
+        //    cannotAffordChef9.SetActive(true);
+        //}
+        //else cannotAffordChef9.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordReceipes()

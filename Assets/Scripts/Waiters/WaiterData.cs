@@ -454,6 +454,25 @@ public class WaiterData :GameBehaviour
         }
     }
     
+    public void FireChef()
+    {
+        //dont fire if holding food
+        if(isHoldingFood)
+        {
+            print("Cant fire chef while holding food");
+        }
+        else
+        {
+            if (heldFoodData_1 != null) heldFoodData_1.foodData.isBeingPickedUp = false;
+            if (heldFoodData_2 != null) heldFoodData_2.foodData.isBeingPickedUp = false;
+            if (currentCustomer_1 != null) currentCustomer_1.GetComponent<CustomerData>().hasBeenAttened = false;
+            if (currentCustomer_2 != null) currentCustomer_2.GetComponent<CustomerData>().hasBeenAttened = false;
+            Destroy(gameObject);
+        }
+
+
+    }
+
     private void OnMouseDown()
     {
         if (placed) _UI.OpenWaiterPopUp(this.gameObject);

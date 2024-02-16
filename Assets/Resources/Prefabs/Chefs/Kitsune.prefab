@@ -920,7 +920,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770265567539319534}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.674, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3463,7 +3463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chefData:
-    name: Kistune
+    name: Kitsune
     description: 
     hireCost: 20
     level: 0
@@ -3504,8 +3504,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   targeting: 0
-  cuttingAudio: {fileID: 10479450944504897, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
-  rangeIndicator: {fileID: 3044619755736133268, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
+  cuttingAudio: {fileID: 6452969026099770213}
+  rangeIndicator: {fileID: 7466813559476641840}
   anim: {fileID: 864010843436015211, guid: b1a48033074a4ed4698a21cb3d14326a, type: 3}
   validPos: 0
   rawFoodInRange: []
@@ -5600,7 +5600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6008093491621707279}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.674, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7679,6 +7679,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea71e37ed9f0c5545b3c66a8ef63f40b, type: 3}
+--- !u!82 &6452969026099770213 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5836197915829376838, guid: ea71e37ed9f0c5545b3c66a8ef63f40b, type: 3}
+  m_PrefabInstance: {fileID: 681127898029286435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8829476955908550839 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8357344676122580116, guid: ea71e37ed9f0c5545b3c66a8ef63f40b, type: 3}
@@ -7748,5 +7753,10 @@ PrefabInstance:
 --- !u!4 &5649446896833132245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4769342519096642207, guid: 2272de3de9efeaf478206057e67faaaf, type: 3}
+  m_PrefabInstance: {fileID: 889115429602589770}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7466813559476641840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7766939808566025338, guid: 2272de3de9efeaf478206057e67faaaf, type: 3}
   m_PrefabInstance: {fileID: 889115429602589770}
   m_PrefabAsset: {fileID: 0}
