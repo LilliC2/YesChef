@@ -91,6 +91,30 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text strengthSkillWaiter1;
     public TMP_Text speedSkillWaiter1;
     public GameObject cannotAffordWaiter1;
+    
+    [Header("Waiter 2")]
+    public TMP_Text nameWaiter2;
+    public Image pfpWaiter2;
+    public TMP_Text costWaiter2;
+    public TMP_Text strengthSkillWaiter2;
+    public TMP_Text speedSkillWaiter2;
+    public GameObject cannotAffordWaiter2;
+    
+    [Header("Waiter 3")]
+    public TMP_Text nameWaiter3;
+    public Image pfpWaiter3;
+    public TMP_Text costWaiter3;
+    public TMP_Text strengthSkillWaiter3;
+    public TMP_Text speedSkillWaiter3;
+    public GameObject cannotAffordWaiter3;
+    
+    [Header("Waiter 4")]
+    public TMP_Text nameWaiter4;
+    public Image pfpWaiter4;
+    public TMP_Text costWaiter4;
+    public TMP_Text strengthSkillWaiter4;
+    public TMP_Text speedSkillWaiter4;
+    public GameObject cannotAffordWaiter4;
     #endregion
     [Header("Chef UI")]
     public GameObject chefMenu;
@@ -1312,6 +1336,30 @@ public class UIManager : Singleton<UIManager>
         strengthSkillWaiter1.text = waiter1.strength.ToString();
         speedSkillWaiter1.text = waiter1.speed.ToString();
         costWaiter1.text = "¥" + waiter1.hireCost.ToString();
+        
+        var waiter2 = _WM.waiterArray[2].gameObject.GetComponent<WaiterData>().waiterData;
+
+        nameWaiter2.text = waiter2.name;
+        pfpWaiter2.sprite = waiter2.pfp;
+        strengthSkillWaiter2.text = waiter2.strength.ToString();
+        speedSkillWaiter2.text = waiter2.speed.ToString();
+        costWaiter2.text = "¥" + waiter2.hireCost.ToString();
+        
+        var waiter3 = _WM.waiterArray[3].gameObject.GetComponent<WaiterData>().waiterData;
+
+        nameWaiter3.text = waiter3.name;
+        pfpWaiter3.sprite = waiter3.pfp;
+        strengthSkillWaiter3.text = waiter3.strength.ToString();
+        speedSkillWaiter3.text = waiter3.speed.ToString();
+        costWaiter3.text = "¥" + waiter3.hireCost.ToString();
+        
+        //var waiter4 = _WM.waiterArray[4].gameObject.GetComponent<WaiterData>().waiterData;
+
+        //nameWaiter4.text = waiter4.name;
+        //pfpWaiter4.sprite = waiter4.pfp;
+        //strengthSkillWaiter4.text = waiter4.strength.ToString();
+        //speedSkillWaiter4.text = waiter4.speed.ToString();
+        //costWaiter4.text = "¥" + waiter4.hireCost.ToString();
     }
     public void LoadReceipeData()
     {
@@ -1476,6 +1524,24 @@ public class UIManager : Singleton<UIManager>
             cannotAffordWaiter1.SetActive(true);
         }
         else cannotAffordWaiter1.SetActive(false);
+        
+        if (_GM.money < _WM.waiterArray[2].gameObject.GetComponent<WaiterData>().waiterData.hireCost)
+        {
+            cannotAffordWaiter2.SetActive(true);
+        }
+        else cannotAffordWaiter2.SetActive(false);
+        
+        if (_GM.money < _WM.waiterArray[3].gameObject.GetComponent<WaiterData>().waiterData.hireCost)
+        {
+            cannotAffordWaiter3.SetActive(true);
+        }
+        else cannotAffordWaiter3.SetActive(false);
+        
+        //if (_GM.money < _WM.waiterArray[4].gameObject.GetComponent<WaiterData>().waiterData.hireCost)
+        //{
+        //    cannotAffordWaiter4.SetActive(true);
+        //}
+        //else cannotAffordWaiter4.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordChefs()
@@ -1598,8 +1664,8 @@ public class UIManager : Singleton<UIManager>
             }
             else cannotAffordReceipe3.SetActive(false);
         }
-        #endregion
 
     }
+    #endregion
 
 }
