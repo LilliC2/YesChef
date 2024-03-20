@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class WaiterData :GameBehaviour
+public class WaiterData : GameBehaviour
 {
     public WaiterClass waiterData;
 
 
-    public enum Task { Idle, FindCustomer, GetFood, DeliverFood}
+    public enum Task { Idle, FindCustomer, GetFood, DeliverFood }
     public Task tasks;
 
     [SerializeField]
@@ -55,7 +55,7 @@ public class WaiterData :GameBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(placed)
+        if (placed)
         {
 
             //Animations
@@ -70,16 +70,16 @@ public class WaiterData :GameBehaviour
                 {
                     anim.SetBool("Walking", false);
 
-                    if(heldFood_1 != null)
+                    if (heldFood_1 != null)
                     {
                         anim.SetBool("HoldWalking2", false);
                         anim.SetBool("HoldWalking", true);
-                    } 
+                    }
                     else
                     {
                         anim.SetBool("HoldWalking", false);
                         anim.SetBool("HoldWalking2", true);
-                    } 
+                    }
                 }
                 if (!isHoldingFood)
                 {
@@ -188,11 +188,11 @@ public class WaiterData :GameBehaviour
                     switch (waiterData.strength)
                     {
                         case 2:
-                            
 
 
 
-                            if(_FM.queuedFood.Contains(heldFood_1))
+
+                            if (_FM.queuedFood.Contains(heldFood_1))
                             {
                                 agent.SetDestination(heldFood_1.transform.position);
 
@@ -206,11 +206,11 @@ public class WaiterData :GameBehaviour
                                         tasks = Task.FindCustomer;
                                         isHoldingFood = true;
 
-                                    } 
+                                    }
                                 }
 
                             }
-                            else if(_FM.queuedFood.Contains(heldFood_2) && heldFood_2 != null)
+                            else if (_FM.queuedFood.Contains(heldFood_2) && heldFood_2 != null)
                             {
                                 print("going to get food 2");
 
@@ -287,7 +287,7 @@ public class WaiterData :GameBehaviour
                                         currentCustomer_1 = null;
                                     }
 
-                                    if(heldFood_2 == null)
+                                    if (heldFood_2 == null)
                                     {
                                         ResetWaiter();
                                     }
@@ -352,7 +352,7 @@ public class WaiterData :GameBehaviour
 
                             }
                             else tasks = Task.Idle;
-                            
+
 
                             break;
                     }
@@ -379,8 +379,8 @@ public class WaiterData :GameBehaviour
             agent.destination = homePos;
             tasks = Task.Idle;
 
-        } 
-        else 
+        }
+        else
         {
             GetFood();
 
@@ -389,12 +389,12 @@ public class WaiterData :GameBehaviour
     void GetFood()
     {
         //check if alredy holding food, if they are that means they're in the middle of an order
-        if(isHoldingFood) return;
+        if (isHoldingFood) return;
         else
         {
             foreach (var food in _FM.foodInWave)
             {
-                switch(waiterData.strength)
+                switch (waiterData.strength)
 
                 {
                     case 2:
@@ -411,7 +411,7 @@ public class WaiterData :GameBehaviour
 
                             }
                         }
-                        else if(heldFood_2 == null && _FM.foodInWave.Count != 1)
+                        else if (heldFood_2 == null && _FM.foodInWave.Count != 1)
                         {
                             //food that is cooked and not already being picked up
                             if (food.GetComponent<FoodData>().foodData.isBeingPickedUp == false)
@@ -426,12 +426,12 @@ public class WaiterData :GameBehaviour
                         }
                         else return;
 
-                        if(heldFood_1 != null)
+                        if (heldFood_1 != null)
                         {
                             print("go get food");
                             tasks = Task.GetFood;
 
-                        } 
+                        }
 
                         break;
                     default:
@@ -454,16 +454,16 @@ public class WaiterData :GameBehaviour
                         break;
                 }
             }
-        
-        
-        
+
+
+
         }
     }
-    
+
     public void FireChef()
     {
         //dont fire if holding food
-        if(isHoldingFood)
+        if (isHoldingFood)
         {
             print("Cant fire chef while holding food");
         }
@@ -481,8 +481,13 @@ public class WaiterData :GameBehaviour
 
     private void OnMouseDown()
     {
-        if (placed) _UI.OpenWaiterPopUp(this.gameObject);
+        if (placed)
+        {
+            _UI.OpenWaiterPopUp(this.gameObject);
+            anim.SetTrigger("Spawn");
 
+
+        }
     }
 }
 

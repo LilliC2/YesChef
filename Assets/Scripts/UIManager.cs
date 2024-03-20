@@ -723,6 +723,9 @@ public class UIManager : Singleton<UIManager>
 
     public void OpenChefPopUp(GameObject _chefData)
     {
+        //check if waiter pop up open
+        if(waiterPopUp.activeSelf) { CloseWaiterPopUp(); }
+
 
         if(_chefData != selectedChef && selectedChef != null) selectedChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
 
@@ -812,7 +815,7 @@ public class UIManager : Singleton<UIManager>
     #region Waiter Pop Up
     public void OpenWaiterPopUp(GameObject _watierData)
     {
-
+        if(chefPopUp.activeSelf) CloseChefPopUp();
         selectedWaiter = _watierData;
         waiterPopUp.SetActive(true);
 
@@ -878,13 +881,8 @@ public class UIManager : Singleton<UIManager>
         {
             _GM.playerReady = true;
 
-            if (_GM.currentTimeScale != 1)
-            {
-                _GM.currentTimeScale = 1;
-                _AM.slowDown.Play();
-
-            }
-            Time.timeScale = _GM.currentTimeScale;
+            _GM.UpdateTimeScale(2);
+            _AM.slowDown.Play();
         }
 
 
@@ -896,16 +894,11 @@ public class UIManager : Singleton<UIManager>
         {
             failSafeObj.SetActive(true);
         }
-        else if (continuePlay)
+        else
         {
-            _GM.playerReady = true;
-            if (_GM.currentTimeScale != 2)
-            {
-                _GM.currentTimeScale = 2;
-                _AM.speedUp.Play();
-
-            }
-            Time.timeScale = _GM.currentTimeScale;
+            print("Speed up");
+            _GM.UpdateTimeScale(2);
+            _AM.speedUp.Play();
         }
     }
 
