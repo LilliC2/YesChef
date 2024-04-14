@@ -144,6 +144,11 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    public void UpdateTimeScale(int  timeScale)
+    {
+        Time.timeScale = timeScale;
+    }
+
     void EndOfDayReset()
     {
 

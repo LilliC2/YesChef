@@ -212,6 +212,7 @@ public class ChefData : GameBehaviour
 
                 //look at food
                 if (currentFood != null) transform.LookAt(currentFood.transform.position);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 //print("Found food i can cook");
                 //every second, add skillPrepPoints to food skillPrepPoints
 
@@ -279,7 +280,11 @@ public class ChefData : GameBehaviour
 
     private void OnMouseDown()
     {
-        if (placed) _UI.OpenChefPopUp(this.gameObject);
+        if (placed)
+        {
+            anim.SetTrigger("Spawn");
+            _UI.OpenChefPopUp(this.gameObject);
+        }
 
     }
 }
