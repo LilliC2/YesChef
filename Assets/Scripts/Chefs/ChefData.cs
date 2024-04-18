@@ -282,6 +282,7 @@ public class ChefData : GameBehaviour
     {
         if (placed)
         {
+            print("spawn ");
             anim.SetTrigger("Spawn");
             _UI.OpenChefPopUp(this.gameObject);
         }

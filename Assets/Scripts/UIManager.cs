@@ -881,7 +881,7 @@ public class UIManager : Singleton<UIManager>
         {
             _GM.playerReady = true;
 
-            _GM.UpdateTimeScale(2);
+            _GM.UpdateTimeScale(1);
             _AM.slowDown.Play();
         }
 
@@ -992,7 +992,7 @@ public class UIManager : Singleton<UIManager>
         var chef6 = _ChefM.chefArray[6].gameObject.GetComponent<ChefData>().chefData;
         var chef7 = _ChefM.chefArray[7].gameObject.GetComponent<ChefData>().chefData;
         var chef8 = _ChefM.chefArray[8].gameObject.GetComponent<ChefData>().chefData;
-        var chef9 = _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData;
+        //var chef9 = _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData;
 
         #region chef 0
         nameChef0.text = chef0.name;
@@ -1279,37 +1279,37 @@ public class UIManager : Singleton<UIManager>
         }
         #endregion
 
-        #region chef 9
-        nameChef9.text = chef9.name;
-        pfpChef9.sprite = chef9.pfp;
-        cookingSkillChef9.text = chef9.cookEffectivness.ToString();
-        kneedingSkillChef9.text = chef9.kneadEffectivness.ToString();
-        mixingSkillChef9.text = chef9.mixEffectivness.ToString();
-        cuttingSkillChef9.text = chef9.cutEffectivness.ToString();
-        costChef9.text = "¥" + chef9.hireCost.ToString();
+        //#region chef 9
+        //nameChef9.text = chef9.name;
+        //pfpChef9.sprite = chef9.pfp;
+        //cookingSkillChef9.text = chef9.cookEffectivness.ToString();
+        //kneedingSkillChef9.text = chef9.kneadEffectivness.ToString();
+        //mixingSkillChef9.text = chef9.mixEffectivness.ToString();
+        //cuttingSkillChef9.text = chef9.cutEffectivness.ToString();
+        //costChef9.text = "¥" + chef9.hireCost.ToString();
 
 
-        if (chef9.kneadSkill)
-        {
-            kneedingSkillChef9.color = highlightedColour;
-            skillImagesChef9[0].color = highlightedColour;
-        }
-        if (chef9.cookSkill)
-        {
-            cookingSkillChef9.color = highlightedColour;
-            skillImagesChef9[1].color = highlightedColour;
-        }
-        if (chef9.cutSkill)
-        {
-            cuttingSkillChef9.color = highlightedColour;
-            skillImagesChef9[2].color = highlightedColour;
-        }
-        if (chef9.mixSkill)
-        {
-            mixingSkillChef9.color = highlightedColour;
-            skillImagesChef9[3].color = highlightedColour;
-        }
-        #endregion
+        //if (chef9.kneadSkill)
+        //{
+        //    kneedingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[0].color = highlightedColour;
+        //}
+        //if (chef9.cookSkill)
+        //{
+        //    cookingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[1].color = highlightedColour;
+        //}
+        //if (chef9.cutSkill)
+        //{
+        //    cuttingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[2].color = highlightedColour;
+        //}
+        //if (chef9.mixSkill)
+        //{
+        //    mixingSkillChef9.color = highlightedColour;
+        //    skillImagesChef9[3].color = highlightedColour;
+        //}
+        //#endregion
     }
 
     public void LoadWaiterData()
@@ -1597,11 +1597,11 @@ public class UIManager : Singleton<UIManager>
         }
         else cannotAffordChef8.SetActive(false);
 
-        if (_GM.money < _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData.hireCost)
-        {
-            cannotAffordChef9.SetActive(true);
-        }
-        else cannotAffordChef9.SetActive(false);
+        //if (_GM.money < _ChefM.chefArray[9].gameObject.GetComponent<ChefData>().chefData.hireCost)
+        //{
+        //    cannotAffordChef9.SetActive(true);
+        //}
+        //else cannotAffordChef9.SetActive(false);
     }
 
     public void CheckWhatPlayerCanAffordReceipes()
