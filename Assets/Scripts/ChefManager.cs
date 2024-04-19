@@ -76,6 +76,7 @@ public class ChefManager : Singleton<ChefManager>
                         //place chef
                         placingChef = false;
                         newChef.GetComponent<ChefData>().placed = true;
+                        newChef.GetComponent<ChefData>().anim.SetTrigger("Spawn");
                         newChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
 
 
