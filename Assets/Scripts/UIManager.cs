@@ -23,6 +23,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject tutorialMainPanel;
     public GameObject[] tutorialPanels;
     bool inTutotial;
+    bool placingTanuki = false;
+    bool placingWaiter =false;
 
     [Header("Pause")]
     public GameObject pausePanel;
@@ -329,9 +331,10 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         //ensure it starts with tutorial
+        inTutotial = true;
+
         tutorialMainPanel.SetActive(true);
         tutorialPanels[0].SetActive(true);
-        inTutotial = true;
         LoadChefData();
         LoadWaiterData();
         LoadReceipeData();
@@ -357,9 +360,20 @@ public class UIManager : Singleton<UIManager>
             //check for if chef is placed
             if (!tutorialMainPanel.activeSelf && Input.GetKeyDown(KeyCode.Mouse0))
             {
-                NextTutorialPanel(5);
-                CloseChefMenu();
-                ExecuteAfterSeconds(0.3f,() => tutorialMainPanel.SetActive(true));
+                if (placingTanuki)
+                {
+                    placingTanuki = false;
+                    NextTutorialPanel(5);
+                    CloseChefMenu();
+                    ExecuteAfterSeconds(2f, () => tutorialMainPanel.SetActive(true));
+                }
+                else if (placingWaiter)
+                {
+                    placingWaiter = false;
+                    NextTutorialPanel(14);
+                    CloseWaiterMenu();
+                    ExecuteAfterSeconds(2f, () => tutorialMainPanel.SetActive(true));
+                }
 
             }
         }
@@ -554,10 +568,24 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    public void MoveCamera()
+    {
+        Camera.main.transform.DOMove(new Vector3(-11.21f, 10.4499998f, -26.0514069f), 2);
+    }
+
+    public void BuyWaiterTut()
+    {
+        placingWaiter = true;
+
+        tutorialMainPanel.SetActive(false);
+        BuyWaiter(0);
+    }
+    
     public void BuyTanuki()
     {
+        placingTanuki = true;
         tutorialMainPanel.SetActive(false);
-        BuyChef(1);
+        BuyChef(0);
     }
     #endregion
 
