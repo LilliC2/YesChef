@@ -39,6 +39,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        LoadShaders();
         currentTimeScale = 1;
         _UI.UpdateDay();
         _GM.event_updateMoney.Invoke();
@@ -205,5 +206,15 @@ public class GameManager : Singleton<GameManager>
         }
 
 
+    }
+
+    void LoadShaders()
+    {
+        Resources.Load("Shaders/Illustrate Alpha Clipped");
+        Resources.Load("Shaders/Illustrate Opaque Traditional Outline");
+        Resources.Load("Shaders/Illustrate Opaque Traditional Outline");
+        Resources.Load("Shaders/Illustrate Opaque");
+        Resources.Load("Shaders/Illustrate Simple");
+        Resources.Load("Shaders/Illustrate Transparent");
     }
 }
