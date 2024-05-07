@@ -6,6 +6,10 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.Audio;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
+
+
 
 public class UIManager : Singleton<UIManager>
 {
@@ -37,6 +41,10 @@ public class UIManager : Singleton<UIManager>
     public Slider reputationSlider;
     [SerializeField]
     Sprite[] tanukiHandleSlider;
+    [SerializeField]
+    Sprite[] playButtonsSprites;
+    float currentTimeScale;
+    [SerializeField] Image playButtonImage;
 
     [SerializeField]
     Color highlightedColour;
@@ -909,11 +917,35 @@ public class UIManager : Singleton<UIManager>
         {
             _GM.playerReady = true;
 
-            _GM.UpdateTimeScale(1);
-            _AM.slowDown.Play();
         }
 
+        if(_GM.playerReady)
+        {
 
+            if (currentTimeScale == 2)
+            {
+                print("Slow down");
+                _GM.UpdateTimeScale(1);
+                currentTimeScale = 1;
+                _AM.slowDown.Play();
+
+                playButtonImage.sprite = playButtonsSprites[0];
+
+                _RFT.ToggleSpeedLines(false);
+            }
+            if (currentTimeScale == 1)
+            { 
+                print("Speed up");
+                //speed up
+                _AM.speedUp.Play();
+                _GM.UpdateTimeScale(2);
+                currentTimeScale = 2;
+                playButtonImage.sprite = playButtonsSprites[1];
+
+                _RFT.ToggleSpeedLines(true);
+            }
+        }
+       
     }
 
     public void SpeedUp()
@@ -925,8 +957,6 @@ public class UIManager : Singleton<UIManager>
         else
         {
             print("Speed up");
-            _GM.UpdateTimeScale(2);
-            _AM.speedUp.Play();
         }
     }
 
