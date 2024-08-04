@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ChefData : GameBehaviour
 {
@@ -17,6 +18,15 @@ public class ChefData : GameBehaviour
     public enum Targeting { First, Last, Strongest }
     public Targeting targeting;
 
+    public enum Task { Idle, FindFood, GetFood, CookFood, ReturnFood }
+    public Task tasks;
+
+    [SerializeField]
+    bool isHoldingFood;
+    public Vector3 homePos;
+    NavMeshAgent agent;
+    [SerializeField]
+    GameObject holdfoodspot;
 
     [Header("Audio")]
     [SerializeField]
@@ -54,219 +64,279 @@ public class ChefData : GameBehaviour
         //check if placed
         if (placed)
         {
-            //check if chef has compatible skill
-            if (!foundFood)
-            {
-                anim.SetBool("Cooking", false);
-
-                if (rawFoodInRange.Length != 0)
-                {
-                    switch (targeting)
-                    {
-                        #region First
-                        case Targeting.First:
-                            for (int i = 0; i < rawFoodInRange.Length; i++)
-                            {
-                                currentFood = rawFoodInRange[i].gameObject;
-                                if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
-                                {
-                                    //print("I can kneed it");
-
-                                    foundFood = true;
-                                }
-                                else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
-                                {
-                                    //print("I can cut it");
-
-                                    foundFood = true;
-                                }
-                                else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
-                                {
-                                    //print("I can cook it");
-                                    foundFood = true;
-                                }
-                                else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
-                                {
-                                    //print("I can mix it");
-
-                                    foundFood = true;
-                                }
-                                else
-                                {
-                                    foundFood = false;
-                                }
-                            }
-                            break;
-                        #endregion
-                        #region Last
-                        case Targeting.Last:
-                            for (int i = rawFoodInRange.Length; i > 0; i--)
-                            {
-                                currentFood = rawFoodInRange[i].gameObject;
-                                if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
-                                {
-                                    //print("I can kneed it");
-
-                                    foundFood = true;
-                                }
-                                else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
-                                {
-                                    //print("I can cut it");
-
-                                    foundFood = true;
-                                }
-                                else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
-                                {
-                                    //print("I can cook it");
-                                    foundFood = true;
-                                }
-                                else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
-                                {
-                                    //print("I can mix it");
-
-                                    foundFood = true;
-                                }
-                                else
-                                {
-                                    foundFood = false;
-                                }
-                            }
-
-                            break;
-                        #endregion
-                        #region Strongest
-                        case Targeting.Strongest:
-
-                            GameObject strongest = null;
-                            FoodClass strongestFoodData = null;
-
-                            if (rawFoodInRange.Length != 0)
-                            {
-                                strongest = rawFoodInRange[0].gameObject;
-                                strongestFoodData = strongest.GetComponent<FoodData>().foodData;
-                            }
-
-
-
-                            for (int i = 0; i < rawFoodInRange.Length; i++)
-                            {
-                                currentFood = rawFoodInRange[i].gameObject;
-                                var currentFoodData = currentFood.GetComponent<FoodData>().foodData;
-                                if (chefData.kneadSkill && currentFoodData.needsKneading)
-                                {
-                                    //print("I can kneed it");
-
-                                    if (strongestFoodData.kneedPrepPoints > currentFoodData.kneedPrepPoints)
-                                    {
-                                        strongest = currentFood;
-                                        strongestFoodData = currentFoodData;
-                                    }
-
-                                }
-                                else if (chefData.cutSkill && currentFoodData.needsCutting)
-                                {
-                                    if (strongestFoodData.cutPrepPoints > currentFoodData.cutPrepPoints)
-                                    {
-                                        strongest = currentFood;
-                                        strongestFoodData = currentFoodData;
-                                    }
-                                }
-                                else if (chefData.cookSkill && currentFoodData.needsCooking)
-                                {
-                                    if (strongestFoodData.cookPrepPoints > currentFoodData.cookPrepPoints)
-                                    {
-                                        strongest = currentFood;
-                                        strongestFoodData = currentFoodData;
-                                    }
-                                }
-                                else if (chefData.mixSkill && currentFoodData.needsMixing)
-                                {
-                                    if (strongestFoodData.mixPrepPoints > currentFoodData.mixPrepPoints)
-                                    {
-                                        strongest = currentFood;
-                                        strongestFoodData = currentFoodData;
-                                    }
-                                }
-                                else
-                                {
-                                    foundFood = false;
-                                }
-                            }
-                            currentFood = strongest;
-                            foundFood = true;
-
-
-
-                            break;
-                            #endregion
-                    }
-                }
-
-
-
-
             }
-            //when food is found
             else
             {
+                
 
-                //look at food
-                if (currentFood != null) transform.LookAt(currentFood.transform.position);
-                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                //print("Found food i can cook");
-                //every second, add skillPrepPoints to food skillPrepPoints
 
-                if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
-                {
-                    //print("Cooking");
-                    anim.SetBool("Cooking", true);
+                //take food off conveyerbelt
 
-                    elapsed += Time.deltaTime;
-                    if (elapsed >= 0.2f)
-                    {
+                //go to cooking station
 
-                        elapsed = elapsed % 0.2f;
-                        //add prep points
-                        //kneeding
-                        if (chefData.kneadSkill)
-                        {
-                            if (kneadingAudio != null) kneadingAudio.Play();
-                            currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneadEffectivness;
-                        }
-                        //cutting
-                        if (chefData.cutSkill)
-                        {
-                            if (cuttingAudio != null) cuttingAudio.Play();
-                            currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
-                        }
-                        //mixing
-                        if (chefData.mixSkill)
-                        {
-                            if (mixingAudio != null) mixingAudio.Play();
-                            currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
-                        }
+                //work on food
 
-                        //cooking
-                        if (chefData.cookSkill)
-                        {
-                            if (cookingAudio != null) cookingAudio.Play();
-                            currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
-                        }
-                    }
-                }
-                else
-                {
-                    if (cookingAudio != null) cookingAudio.Stop();
-                    if (kneadingAudio != null) kneadingAudio.Stop();
-                    if (mixingAudio != null) mixingAudio.Stop();
-                    if (cuttingAudio != null) cuttingAudio.Stop();
-
-                    foundFood = false;
-                    currentFood = null;
-                }
+                //when food finished return it to roughly its old position on conveyerbelt
             }
-        }
 
+            //walk to food
+            switch (tasks)
+            {
+                case Task.Idle://check if chef has compatible skill
+
+                    if (!foundFood)
+                    {
+                        anim.SetBool("Cooking", false); //turn off cooking anim
+
+                        if (rawFoodInRange.Length != 0)
+                        {
+                            //use selecting priority targetting
+                            switch (targeting)
+                            {
+                                #region First
+                                case Targeting.First:
+                                    for (int i = 0; i < rawFoodInRange.Length; i++)
+                                    {
+                                        currentFood = rawFoodInRange[i].gameObject;
+                                        if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
+                                        {
+                                            //print("I can kneed it");
+
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
+                                        {
+                                            //print("I can cut it");
+
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
+                                        {
+                                            //print("I can cook it");
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
+                                        {
+                                            //print("I can mix it");
+
+                                            foundFood = true;
+                                        }
+                                        else
+                                        {
+                                            foundFood = false;
+                                        }
+                                    }
+                                    break;
+                                #endregion
+                                #region Last
+                                case Targeting.Last:
+                                    for (int i = rawFoodInRange.Length; i > 0; i--)
+                                    {
+                                        currentFood = rawFoodInRange[i].gameObject;
+                                        if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
+                                        {
+                                            //print("I can kneed it");
+
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
+                                        {
+                                            //print("I can cut it");
+
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
+                                        {
+                                            //print("I can cook it");
+                                            foundFood = true;
+                                        }
+                                        else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
+                                        {
+                                            //print("I can mix it");
+
+                                            foundFood = true;
+                                        }
+                                        else
+                                        {
+                                            foundFood = false;
+                                        }
+                                    }
+
+                                    break;
+                                #endregion
+                                #region Strongest
+                                case Targeting.Strongest:
+
+                                    GameObject strongest = null;
+                                    FoodClass strongestFoodData = null;
+
+                                    if (rawFoodInRange.Length != 0)
+                                    {
+                                        strongest = rawFoodInRange[0].gameObject;
+                                        strongestFoodData = strongest.GetComponent<FoodData>().foodData;
+                                    }
+
+
+
+                                    for (int i = 0; i < rawFoodInRange.Length; i++)
+                                    {
+                                        currentFood = rawFoodInRange[i].gameObject;
+                                        var currentFoodData = currentFood.GetComponent<FoodData>().foodData;
+                                        if (chefData.kneadSkill && currentFoodData.needsKneading)
+                                        {
+                                            //print("I can kneed it");
+
+                                            if (strongestFoodData.kneedPrepPoints > currentFoodData.kneedPrepPoints)
+                                            {
+                                                strongest = currentFood;
+                                                strongestFoodData = currentFoodData;
+                                            }
+
+                                        }
+                                        else if (chefData.cutSkill && currentFoodData.needsCutting)
+                                        {
+                                            if (strongestFoodData.cutPrepPoints > currentFoodData.cutPrepPoints)
+                                            {
+                                                strongest = currentFood;
+                                                strongestFoodData = currentFoodData;
+                                            }
+                                        }
+                                        else if (chefData.cookSkill && currentFoodData.needsCooking)
+                                        {
+                                            if (strongestFoodData.cookPrepPoints > currentFoodData.cookPrepPoints)
+                                            {
+                                                strongest = currentFood;
+                                                strongestFoodData = currentFoodData;
+                                            }
+                                        }
+                                        else if (chefData.mixSkill && currentFoodData.needsMixing)
+                                        {
+                                            if (strongestFoodData.mixPrepPoints > currentFoodData.mixPrepPoints)
+                                            {
+                                                strongest = currentFood;
+                                                strongestFoodData = currentFoodData;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foundFood = false;
+                                        }
+                                    }
+                                    currentFood = strongest;
+                                    foundFood = true;
+
+
+
+                                    break;
+                                    #endregion
+                            }
+                        }
+                        else //found a food to work on
+                        {
+                        //switch to walking over to food
+                          tasks = Task.FindFood;
+                            
+
+                        }
+
+
+                    }
+                
+
+                break;
+
+                case Task.FindFood: //walk to food
+
+                    agent.SetDestination(currentFood.transform.position);
+
+                    //if in range
+                    if(Vector3.Distance(transform.position, currentFood.transform.position) < 2f)
+                    {
+                        _FM.queuedFood.Remove(currentFood); //remove food from queue, this is the old system and will probably be updated
+                        isHoldingFood = true;
+                        tasks = Task.CookFood;
+
+                    }
+
+                break;
+
+
+
+
+
+
+            }
+
+            ////when food is found
+            //else
+            //{
+
+            //    //look at food
+            //    if (currentFood != null) transform.LookAt(currentFood.transform.position);
+            //    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            //    //print("Found food i can cook");
+            //    //every second, add skillPrepPoints to food skillPrepPoints
+
+            //    if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
+            //    {
+            //        //print("Cooking");
+            //        anim.SetBool("Cooking", true);
+
+            //        elapsed += Time.deltaTime;
+            //        if (elapsed >= 0.2f)
+            //        {
+
+            //            elapsed = elapsed % 0.2f;
+            //            //add prep points
+            //            //kneeding
+            //            if (chefData.kneadSkill)
+            //            {
+            //                if (kneadingAudio != null) kneadingAudio.Play();
+            //                currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneadEffectivness;
+            //            }
+            //            //cutting
+            //            if (chefData.cutSkill)
+            //            {
+            //                if (cuttingAudio != null) cuttingAudio.Play();
+            //                currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
+            //            }
+            //            //mixing
+            //            if (chefData.mixSkill)
+            //            {
+            //                if (mixingAudio != null) mixingAudio.Play();
+            //                currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
+            //            }
+
+            //            //cooking
+            //            if (chefData.cookSkill)
+            //            {
+            //                if (cookingAudio != null) cookingAudio.Play();
+            //                currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (cookingAudio != null) cookingAudio.Stop();
+            //        if (kneadingAudio != null) kneadingAudio.Stop();
+            //        if (mixingAudio != null) mixingAudio.Stop();
+            //        if (cuttingAudio != null) cuttingAudio.Stop();
+
+            //        foundFood = false;
+            //        currentFood = null;
+            //    }
+        
+    }
+
+    void PickUpFood()
+    {
+        //if they are holding food they are in the middle of a task
+        if (isHoldingFood) return;
+        else
+        {
+            //get current food data, check if it held
+
+        }
 
 
     }

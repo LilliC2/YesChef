@@ -8,6 +8,7 @@ public class ChefClass
     public string name;
     public string description;
     public float hireCost;
+    public float movSpeed;
 
     public int level;
 
