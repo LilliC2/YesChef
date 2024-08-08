@@ -1860,6 +1860,7 @@ Transform:
   - {fileID: 7352011247123026250}
   - {fileID: 8192624904017049473}
   - {fileID: 3683780951001596094}
+  - {fileID: 178330440317310261}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -130, z: 0}
@@ -1954,7 +1955,7 @@ MonoBehaviour:
     hireCost: 3
     level: 0
     pfp: {fileID: 21300000, guid: 672e76ce9bfc92c4aa058fcd7527c990, type: 3}
-    range: 3
+    range: 6
     kneadSkill: 0
     kneadEffectivness: 0
     kneadUpgradeCost: 0
@@ -1990,10 +1991,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   targeting: 0
-  cuttingAudio: {fileID: 1160377159557464940}
-  rangeIndicator: {fileID: 8948219635155241046}
   anim: {fileID: 9151864642873444850}
   validPos: 0
+  cuttingAudio: {fileID: 1160377159557464940}
+  projectilePrefab: {fileID: 5304250840142424613, guid: 856851f1ecbdeed4fa4901fdee971858, type: 3}
+  firingPoint: {fileID: 0}
+  firingSpeed: 1
+  rangeIndicator: {fileID: 8948219635155241046}
   rawFoodInRange: []
   placed: 0
 --- !u!54 &-8260955968638038608
@@ -2471,6 +2475,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6071945340827906382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178330440317310261}
+  m_Layer: 0
+  m_Name: FiringPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178330440317310261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071945340827906382}
+  m_LocalRotation: {x: -0, y: 0.9063079, z: -0, w: 0.42261827}
+  m_LocalPosition: {x: -0.01, y: 1.1002612, z: 0.54}
+  m_LocalScale: {x: 0.6666662, y: 0.6666667, z: 0.6666662}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3457277712027227445}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6237068146703473698
 GameObject:
   m_ObjectHideFlags: 0
