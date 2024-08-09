@@ -8,14 +8,15 @@ public class FoodMovement : GameBehaviour
     [SerializeField]
     float foodSpeed;
     Transform[] conveyerbeltCorners;
-    int index;
+    int conveyerbeltIndex;
     public bool served;
 
     // Start is called before the first frame update
     void Start()
     {
         conveyerbeltCorners = _GM.conveyerbeltPoints;
-        index = _GM.finishedFoodQueue.Length - _FM.foodInWave.Count;
+        //track what index the food is currently at on the conveyerbelt
+        conveyerbeltIndex = _GM.conveyerbeltPoints.Length;
     }
 
     // Update is called once per frame
@@ -25,13 +26,13 @@ public class FoodMovement : GameBehaviour
 
         if(!served)
         {
-            if (index != _FM.queuedFood.IndexOf(gameObject))
+            if (conveyerbeltIndex != _FM.queuedFood.IndexOf(gameObject))
             {
-                transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+                transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[conveyerbeltIndex].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
 
-                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[index].position) < 0.2f)
+                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[conveyerbeltIndex].position) < 0.2f)
                 {
-                    index--;
+                    conveyerbeltIndex--;
 
                 }
             }

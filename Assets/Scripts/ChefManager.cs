@@ -92,7 +92,7 @@ public class ChefManager : Singleton<ChefManager>
                         //subtract cost of chef from money
                         _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
-                        _GM.event_updateMoney.Invoke();
+                       // _GM.event_updateMoney.Invoke();
 
                     }
                 }
