@@ -17,16 +17,16 @@ public class DayCycle : Singleton<DayCycle>
     // Update is called once per frame
     void Update()
     {
-        if(_GM.activeWave)
-        {
-            if(!beginRotation)
-            {
-                beginRotation = true;
+        //if(_GM.activeWave)
+        //{
+        //    if(!beginRotation)
+        //    {
+        //        beginRotation = true;
 
-                transform.DORotate(new Vector3(180, 0, 0), waveTime);
+        //        transform.DORotate(new Vector3(180, 0, 0), waveTime);
 
-            }
-        }
+        //    }
+        //}
 
         
         //calculate time from start of wave until end of wave

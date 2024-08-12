@@ -6,6 +6,8 @@ public class FoodManager : Singleton<FoodManager>
 {
     public GameObject[] foodArray;
 
+    public float conveyerbeltSpeed;
+
     [SerializeField]
     Vector3 startOfConveyerBelt;
 
@@ -18,7 +20,7 @@ public class FoodManager : Singleton<FoodManager>
     {
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-        var food = Instantiate(orderedFood, startOfConveyerBelt, Quaternion.identity);
+        var food = Instantiate(orderedFood, _GM.conveyerbeltPoints[_GM.conveyerbeltPoints.Length-1].transform.position, Quaternion.identity);
         //print("Ordered food: " + food.name);
         foodNeedPreperation_list.Add(food);
 

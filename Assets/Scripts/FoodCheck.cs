@@ -13,12 +13,12 @@ public class FoodCheck : GameBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Food"))
-        {
-            print("should start event");
-            _GM.event_foodToBeServed.Invoke();
+        //if (other.gameObject.CompareTag("Food"))
+        //{
+        //    print("should start event");
+        //    _GM.event_foodToBeServed.Invoke();
 
-            if(!_FM.queuedFood.Contains(other.gameObject)) _FM.queuedFood.Add(other.gameObject);
+        //    if(!_FM.queuedFood.Contains(other.gameObject)) _FM.queuedFood.Add(other.gameObject);
 
             ////Check if food is raw
             //if (other.gameObject.GetComponent<FoodData>().foodData.isCooked)
@@ -47,6 +47,6 @@ public class FoodCheck : GameBehaviour
             //_UI.UpdateMoney();
 
             //ExecuteAfterSeconds(1, () => Destroy(other.gameObject));
-        }
+        
     }
 }

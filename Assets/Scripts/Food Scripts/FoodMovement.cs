@@ -8,81 +8,45 @@ public class FoodMovement : GameBehaviour
     [SerializeField]
     float foodSpeed;
     Transform[] conveyerbeltCorners;
+    [SerializeField]
     int conveyerbeltIndex;
     public bool served;
+    public bool beingHeld;
+
+    public enum FoodState { OnConveyerbelt, OnPass, BeingHeld}
+    public FoodState foodState;
 
     // Start is called before the first frame update
     void Start()
     {
         conveyerbeltCorners = _GM.conveyerbeltPoints;
         //track what index the food is currently at on the conveyerbelt
-        conveyerbeltIndex = _GM.conveyerbeltPoints.Length;
+        conveyerbeltIndex = _GM.conveyerbeltPoints.Length-1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //look towards corner
+        /* x = index of food in _FM.foodNeedPreperation_list
+         * 
+         * food will move down conveyerbelt until converybeltIndex = x
+         */
 
-        if(!served)
+        if (foodState == FoodState.OnConveyerbelt)
         {
-            if (conveyerbeltIndex != _FM.queuedFood.IndexOf(gameObject))
+            //If food is raw and just placed
+            if (conveyerbeltIndex != _FM.foodNeedPreperation_list.IndexOf(gameObject))
             {
-                transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[conveyerbeltIndex].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
+                transform.position = Vector3.MoveTowards(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position, Time.deltaTime * _FM.conveyerbeltSpeed);
 
-                if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[conveyerbeltIndex].position) < 0.2f)
+                if (Vector3.Distance(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position) < 0.2f)
                 {
                     conveyerbeltIndex--;
 
                 }
             }
-            else
-            {
-                if(_FM.queuedFood.Contains(gameObject))
-                {
-                    if (Vector3.Distance(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position) < 0.2f)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.queuedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-
-                    }
-
-                }
-                
-
-            }
+            
         }
-
-
-        //if(!served)
-        //{
-        //    //move towards corner
-        //    if (index != conveyerbeltCorners.Length - 1)
-        //    {
-        //        transform.LookAt(conveyerbeltCorners[index].position);
-
-        //        transform.position = Vector3.MoveTowards(transform.position, conveyerbeltCorners[index].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-
-        //        if (Vector3.Distance(transform.position, conveyerbeltCorners[index].position) <= 0.05f)
-        //        {
-        //            //if (Vector3.Distance(transform.position, conveyerbeltCorners[conveyerbeltCorners.Length-1].position) <= 0.05f) Destroy(gameObject);
-        //            if (index < conveyerbeltCorners.Length) index++;
-
-
-
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //join finished food queue
-
-        //        //not working
-        //        //print("FM index = " + _FM.cookedFood.IndexOf(gameObject));
-        //        //    print("GM index = " + _GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)]);
-        //        if (_FM.cookedFood.Contains(gameObject)) transform.position = Vector3.MoveTowards(transform.position, _GM.finishedFoodQueue[_FM.cookedFood.IndexOf(gameObject)].position, Time.deltaTime * _GM.CalculateConveyerbeltSpeed());
-        //        //  if(_FM.cookedFood[0] == gameObject && !gameObject.GetComponent<FoodData>().foodData.isCooked) transform.position = Vector3.MoveTowards(transform.position, _FM.destroyRawFoodPoint, Time.deltaTime * _GM.CalculateConveyerbeltSpeed()));
-        //    }
-        //}
-
 
 
 
