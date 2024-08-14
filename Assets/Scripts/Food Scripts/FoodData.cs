@@ -26,9 +26,9 @@ public class FoodData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
-        foodData.isCooked = CheckIfComplete();
+        foodData.isComplete = CheckIfComplete();
         
-        if(foodData.isCooked)
+        if(foodData.isComplete)
         {
             if(!playAnim)
             {
@@ -43,34 +43,21 @@ public class FoodData : GameBehaviour
         }
     }
 
+
+
     bool CheckIfComplete()
     {
         isComplete = true;
 
-        //find all needed skills
-        if(foodData.needsKneading)
-        {
-            //check if all skills are complete
-            if (foodData.kneedPrepPoints < foodData.maxKneedPrepPoints) isComplete = false;
-        }
+        //check if all the skills it required are complete
+        if(foodData.needsKneading && !foodData.kneadedWorkComplete) isComplete = false;
+
+        if (foodData.needsCooking && !foodData.cookWorkComplete) isComplete = false;
+
+        if(foodData.needsMixing && !foodData.mixWorkComplete) isComplete = false;
         
-        if(foodData.needsCooking)
-        {
-            //check if all skills are complete
-            if (foodData.cookPrepPoints < foodData.maxCookPrepPoints) isComplete = false;
-        }
-        
-        if(foodData.needsMixing)
-        {
-            //check if all skills are complete
-            if (foodData.mixPrepPoints < foodData.maxMixPrepPoints) isComplete = false;
-        }
-        
-        if(foodData.needsCutting)
-        {
-            //check if all skills are complete
-            if (foodData.cutPrepPoints < foodData.maxCutPrepPoints) isComplete = false;
-        }
+        if(foodData.needsCutting && !foodData.cookWorkComplete) isComplete = false ;
+
 
         return isComplete;
     }

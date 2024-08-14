@@ -35,6 +35,9 @@ public class ChefData : GameBehaviour
     AudioSource mixingAudio;
     AudioSource kneadingAudio;
 
+    [Header("Working")]
+    float startTime;
+
     public GameObject rangeIndicator;
 
     public Animator anim;
@@ -114,6 +117,8 @@ public class ChefData : GameBehaviour
                     }
                     break;
                 case Task.WorkOnFood:
+
+
 
 
 
@@ -236,7 +241,35 @@ public class ChefData : GameBehaviour
 
     public void WorkOnFood()
     {
+        //execute after x, complete  = true
 
+        var currentFoodfoodata = currentFood.GetComponent<FoodData>().foodData;
+        switch(workingOnSkill) 
+        {
+            case WorkingOnSkill.Cooking:
+                ExecuteAfterSeconds(currentFoodfoodata.cookWorkTime, () => currentFoodfoodata.cookWorkComplete = true);
+                break;
+            case WorkingOnSkill.Mixing:
+                ExecuteAfterSeconds(currentFoodfoodata.mixWorkTime, () => currentFoodfoodata.mixWorkComplete = true);
+                break;
+            case WorkingOnSkill.Cutting:
+                ExecuteAfterSeconds(currentFoodfoodata.cutWorkTime, () => currentFoodfoodata.cutWorkComplete = true);
+                break;
+            case WorkingOnSkill.Kneading:
+                ExecuteAfterSeconds(currentFoodfoodata.kneadWorkTime, () => currentFoodfoodata.kneadedWorkComplete = true);
+                break;
+        
+        }
+
+        CheckFoodStatus();
+
+    }
+
+    void CheckFoodStatus()
+    {
+        //if food is complete go to pass
+
+        //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
     }
 
     private void OnMouseDown()
