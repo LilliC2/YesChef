@@ -9,24 +9,24 @@ public class ChefData : GameBehaviour
 
     public ChefClass chefData; //data used by chef, including percentages
     public ChefClass baseStatsChefData; //holds base stats, used when calculating percentages
-    bool foundFood;
-    GameObject currentFood;
-    float elapsed = 1;
-    [SerializeField]
-    LayerMask rawFood;
 
     public enum Targeting { First, Last, Strongest }
     public Targeting targeting;
 
-    public enum Task { Idle, FindFood, GetFood, CookFood, ReturnFood }
+    public enum WorkingOnSkill { Cooking, Kneading, Cutting, Mixing, None}
+    public WorkingOnSkill workingOnSkill; //this is the skill the chef is using on current food
+
+    public enum Task { Idle, FindFood, GetFood, GoToStation, WorkOnFood, ReturnFood }
     public Task tasks;
 
-    [SerializeField]
+    [Header("AI and Travel")]
     bool isHoldingFood;
-    public Vector3 homePos;
     NavMeshAgent agent;
     [SerializeField]
     GameObject holdfoodspot;
+    bool foundFood;
+    GameObject currentFood;
+    GameObject currentWorkStation;
 
     [Header("Audio")]
     [SerializeField]
@@ -57,79 +57,74 @@ public class ChefData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         //check if placed
         if (placed)
         {
-            }
-            else
-            {
-                
-
-
-                //take food off conveyerbelt
-
-                //go to cooking station
-
-                //work on food
-
-                //when food finished return it to roughly its old position on conveyerbelt
-            }
-
             //walk to food
             switch (tasks)
             {
-                case Task.Idle://check if chef has compatible skill
+                case Task.Idle:
+
+                    if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
+                    if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
+
+                    break;
+
+                case Task.FindFood: //Find compaitble food
 
                     if (!foundFood)
                     {
                         anim.SetBool("Cooking", false); //turn off cooking anim
-
-                        switch (targeting)
-                        {
-                            #region First
-                            case Targeting.First:
-                                
-                                break;
-                            #endregion
-                           
+                        SearchForFood();
                     }
 
-                    if (foundFood) tasks = Task.FindFood;
-                    
+                    if (foundFood) tasks = Task.GetFood;
 
 
-                    }
-                
+                    break;
 
-                break;
-
-                case Task.FindFood: //walk to food
+                case Task.GetFood: //travel to food
 
                     agent.SetDestination(currentFood.transform.position);
 
                     //if in range
-                    if(Vector3.Distance(transform.position, currentFood.transform.position) < 2f)
+                    if (Vector3.Distance(transform.position, currentFood.transform.position) < 2f)
                     {
-                        _FM.foodNeedPreperation_list.Remove(currentFood); //remove food from queue, this is the old system and will probably be updated
+                        _FM.foodNeedPreperation_list.Remove(currentFood); //remove food from queue
+                        currentFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld; //stops food from trying to travel from conveyerbelt
                         isHoldingFood = true;
-                        tasks = Task.CookFood;
+                        tasks = Task.GoToStation;
 
                     }
+                    break;
+
+                case Task.GoToStation:
+
+                    if (currentWorkStation == null) currentWorkStation = SearchForWorkstation();
+
+                    if (Vector3.Distance(transform.position, currentWorkStation.transform.position) < 2f)
+                    {
+                        agent.isStopped = true;
+
+                        //might have to change this so they dont tilt downwards
+                        transform.LookAt(currentWorkStation.transform.position);
+
+                        //place food
+                        currentFood.transform.position = currentWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+                    }
+                    break;
+                case Task.WorkOnFood:
 
 
 
-
-                break;
-
+                    break;
 
 
 
 
 
             }
-
+        }
             ////when food is found
             //else
             //{
@@ -199,24 +194,25 @@ public class ChefData : GameBehaviour
             if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
             {
                 //print("I can kneed it");
-
+                workingOnSkill = WorkingOnSkill.Kneading;
                 foundFood = true;
             }
             else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
             {
                 //print("I can cut it");
-
+                workingOnSkill = WorkingOnSkill.Cutting;
                 foundFood = true;
             }
             else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
             {
                 //print("I can cook it");
+                workingOnSkill |= WorkingOnSkill.Cooking;
                 foundFood = true;
             }
             else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
             {
                 //print("I can mix it");
-
+                workingOnSkill &= WorkingOnSkill.Mixing;
                 foundFood = true;
             }
             else
@@ -228,23 +224,25 @@ public class ChefData : GameBehaviour
         return foundFood;
     }
 
-    public void SearchForWorkstation()
+    public GameObject SearchForWorkstation()
     {
         //CuttingStation
+        GameObject station = _WSM.FindClosestWorkstation(workingOnSkill.ToString(), gameObject);
+        _WSM.AddToUnoccupiedList(station);
+
+       return station;
+
     }
 
-    void OnDrawGizmosSelected()
+    public void WorkOnFood()
     {
-        // Display the explosion radius when selected
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, chefData.range);
+
     }
 
     private void OnMouseDown()
     {
         if (placed)
         {
-            print("spawn ");
             anim.SetTrigger("Spawn");
             //_UI.OpenChefPopUp(this.gameObject);
         }

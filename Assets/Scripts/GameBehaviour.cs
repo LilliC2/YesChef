@@ -16,6 +16,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static AudioManager _AM { get { return AudioManager.INSTANCE; } }
     protected static WaiterManager _WM { get { return WaiterManager.INSTANCE; } }
     protected static UpgradeManager _UM { get { return UpgradeManager.INSTANCE; } }
+    protected static WorkStationManager _WSM { get { return WorkStationManager.INSTANCE; } }
     protected static RenderFeatureToggler _RFT { get { return RenderFeatureToggler.INSTANCE; } }
 
 

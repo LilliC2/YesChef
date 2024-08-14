@@ -5,13 +5,7 @@ using UnityEngine.AI;
 
 public class FoodMovement : GameBehaviour
 {
-    [SerializeField]
-    float foodSpeed;
-    Transform[] conveyerbeltCorners;
-    [SerializeField]
     int conveyerbeltIndex;
-    public bool served;
-    public bool beingHeld;
 
     public enum FoodState { OnConveyerbelt, OnPass, BeingHeld}
     public FoodState foodState;
@@ -19,7 +13,6 @@ public class FoodMovement : GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        conveyerbeltCorners = _GM.conveyerbeltPoints;
         //track what index the food is currently at on the conveyerbelt
         conveyerbeltIndex = _GM.conveyerbeltPoints.Length-1;
     }
@@ -44,12 +37,8 @@ public class FoodMovement : GameBehaviour
                     conveyerbeltIndex--;
 
                 }
-            }
-            
+            }            
         }
-
-
-
 
     }
 }
