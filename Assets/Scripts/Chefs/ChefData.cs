@@ -23,9 +23,11 @@ public class ChefData : GameBehaviour
     bool isHoldingFood;
     NavMeshAgent agent;
     [SerializeField]
-    GameObject holdfoodspot;
+    GameObject holdFoodSpot;
     bool foundFood;
+    [SerializeField]
     GameObject currentFood;
+    [SerializeField]
     GameObject currentWorkStation;
 
     [Header("Audio")]
@@ -37,6 +39,7 @@ public class ChefData : GameBehaviour
 
     [Header("Working")]
     float startTime;
+    bool isWorking;
 
     public GameObject rangeIndicator;
 
@@ -71,7 +74,7 @@ public class ChefData : GameBehaviour
                     if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
                     if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
 
-                    break;
+                break;
 
                 case Task.FindFood: //Find compaitble food
 
@@ -103,92 +106,104 @@ public class ChefData : GameBehaviour
 
                 case Task.GoToStation:
 
-                    if (currentWorkStation == null) currentWorkStation = SearchForWorkstation();
 
+
+                    if (currentWorkStation == null)
+                    {
+                        //find workstation then travel there
+                        currentWorkStation = SearchForWorkstation();
+                        agent.SetDestination(currentWorkStation.transform.position);
+                    }
                     if (Vector3.Distance(transform.position, currentWorkStation.transform.position) < 2f)
                     {
                         agent.isStopped = true;
 
-                        //might have to change this so they dont tilt downwards
-                        transform.LookAt(currentWorkStation.transform.position);
-
                         //place food
                         currentFood.transform.position = currentWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+
+                        tasks = Task.WorkOnFood;
+                    }
+                    else
+                    {
+                        //chef holding food
+                        currentFood.transform.position = holdFoodSpot.transform.position;
+
                     }
                     break;
                 case Task.WorkOnFood:
 
+                    if(!isWorking) WorkOnFood();
 
+                    //look at food
+                    if (currentFood != null) transform.LookAt(currentFood.transform.position);
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
 
 
                     break;
 
-
-
-
-
             }
         }
-            ////when food is found
-            //else
-            //{
+        #region old script
+        ////when food is found
+        //else
+        //{
 
-            //    //look at food
-            //    if (currentFood != null) transform.LookAt(currentFood.transform.position);
-            //    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            //    //print("Found food i can cook");
-            //    //every second, add skillPrepPoints to food skillPrepPoints
+        //    //look at food
+        //    if (currentFood != null) transform.LookAt(currentFood.transform.position);
+        //    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        //    //print("Found food i can cook");
+        //    //every second, add skillPrepPoints to food skillPrepPoints
 
-            //    if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
-            //    {
-            //        //print("Cooking");
-            //        anim.SetBool("Cooking", true);
+        //    if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
+        //    {
+        //        //print("Cooking");
+        //        anim.SetBool("Cooking", true);
 
-            //        elapsed += Time.deltaTime;
-            //        if (elapsed >= 0.2f)
-            //        {
+        //        elapsed += Time.deltaTime;
+        //        if (elapsed >= 0.2f)
+        //        {
 
-            //            elapsed = elapsed % 0.2f;
-            //            //add prep points
-            //            //kneeding
-            //            if (chefData.kneadSkill)
-            //            {
-            //                if (kneadingAudio != null) kneadingAudio.Play();
-            //                currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneadEffectivness;
-            //            }
-            //            //cutting
-            //            if (chefData.cutSkill)
-            //            {
-            //                if (cuttingAudio != null) cuttingAudio.Play();
-            //                currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
-            //            }
-            //            //mixing
-            //            if (chefData.mixSkill)
-            //            {
-            //                if (mixingAudio != null) mixingAudio.Play();
-            //                currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
-            //            }
+        //            elapsed = elapsed % 0.2f;
+        //            //add prep points
+        //            //kneeding
+        //            if (chefData.kneadSkill)
+        //            {
+        //                if (kneadingAudio != null) kneadingAudio.Play();
+        //                currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneadEffectivness;
+        //            }
+        //            //cutting
+        //            if (chefData.cutSkill)
+        //            {
+        //                if (cuttingAudio != null) cuttingAudio.Play();
+        //                currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
+        //            }
+        //            //mixing
+        //            if (chefData.mixSkill)
+        //            {
+        //                if (mixingAudio != null) mixingAudio.Play();
+        //                currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
+        //            }
 
-            //            //cooking
-            //            if (chefData.cookSkill)
-            //            {
-            //                if (cookingAudio != null) cookingAudio.Play();
-            //                currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (cookingAudio != null) cookingAudio.Stop();
-            //        if (kneadingAudio != null) kneadingAudio.Stop();
-            //        if (mixingAudio != null) mixingAudio.Stop();
-            //        if (cuttingAudio != null) cuttingAudio.Stop();
+        //            //cooking
+        //            if (chefData.cookSkill)
+        //            {
+        //                if (cookingAudio != null) cookingAudio.Play();
+        //                currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (cookingAudio != null) cookingAudio.Stop();
+        //        if (kneadingAudio != null) kneadingAudio.Stop();
+        //        if (mixingAudio != null) mixingAudio.Stop();
+        //        if (cuttingAudio != null) cuttingAudio.Stop();
 
-            //        foundFood = false;
-            //        currentFood = null;
-            //    }
-        
+        //        foundFood = false;
+        //        currentFood = null;
+        //    }
+        #endregion
     }
 
     public bool SearchForFood()
@@ -242,6 +257,7 @@ public class ChefData : GameBehaviour
     public void WorkOnFood()
     {
         //execute after x, complete  = true
+        isWorking = true;
 
         var currentFoodfoodata = currentFood.GetComponent<FoodData>().foodData;
         switch(workingOnSkill) 
@@ -253,6 +269,7 @@ public class ChefData : GameBehaviour
                 ExecuteAfterSeconds(currentFoodfoodata.mixWorkTime, () => currentFoodfoodata.mixWorkComplete = true);
                 break;
             case WorkingOnSkill.Cutting:
+                print("Cutting food");
                 ExecuteAfterSeconds(currentFoodfoodata.cutWorkTime, () => currentFoodfoodata.cutWorkComplete = true);
                 break;
             case WorkingOnSkill.Kneading:
@@ -267,7 +284,10 @@ public class ChefData : GameBehaviour
 
     void CheckFoodStatus()
     {
+        print("check status");
+        isWorking = false;
         //if food is complete go to pass
+
 
         //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
     }

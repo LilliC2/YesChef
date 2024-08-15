@@ -1832,10 +1832,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3457277712027227445}
+  - component: {fileID: 590139073068797906}
   - component: {fileID: 4624728952262388127}
   - component: {fileID: 3941177864163192164}
   - component: {fileID: 5891012575310438797}
-  - component: {fileID: 590139073068797906}
   - component: {fileID: -8260955968638038608}
   - component: {fileID: -569082644597295751}
   m_Layer: 0
@@ -1864,6 +1864,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -130, z: 0}
+--- !u!114 &590139073068797906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545598714552739806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cbf247d6bcff0478282c8f1e259f38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chefData:
+    name: Tanuki
+    description: He's just cutting onions - promise!
+    hireCost: 3
+    movSpeed: 0
+    level: 0
+    pfp: {fileID: 21300000, guid: 672e76ce9bfc92c4aa058fcd7527c990, type: 3}
+    range: 3
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 1
+    cutEffectivness: 2
+    cutUpgradeCost: 5
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
+  baseStatsChefData:
+    name: 
+    description: 
+    hireCost: 0
+    movSpeed: 0
+    level: 0
+    pfp: {fileID: 0}
+    range: 0
+    kneadSkill: 0
+    kneadEffectivness: 0
+    kneadUpgradeCost: 0
+    cutSkill: 0
+    cutEffectivness: 0
+    cutUpgradeCost: 0
+    mixSkill: 0
+    mixEffectivness: 0
+    mixUpgradeCost: 0
+    cookSkill: 0
+    cookEffectivness: 0
+    cookUpgradeCost: 0
+  targeting: 0
+  workingOnSkill: 0
+  tasks: 0
+  holdfoodspot: {fileID: 0}
+  cuttingAudio: {fileID: 1160377159557464940}
+  rangeIndicator: {fileID: 8948219635155241046}
+  anim: {fileID: 9151864642873444850}
+  validPos: 0
+  rawFoodInRange: []
+  placed: 0
 --- !u!33 &4624728952262388127
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1937,68 +1999,6 @@ CapsuleCollider:
   m_Height: 2.3
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &590139073068797906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545598714552739806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6cbf247d6bcff0478282c8f1e259f38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chefData:
-    name: Tanuki
-    description: He's just cutting onions - promise!
-    hireCost: 3
-    movSpeed: 0
-    level: 0
-    pfp: {fileID: 21300000, guid: 672e76ce9bfc92c4aa058fcd7527c990, type: 3}
-    range: 3
-    kneadSkill: 0
-    kneadEffectivness: 0
-    kneadUpgradeCost: 0
-    cutSkill: 1
-    cutEffectivness: 2
-    cutUpgradeCost: 5
-    mixSkill: 0
-    mixEffectivness: 0
-    mixUpgradeCost: 0
-    cookSkill: 0
-    cookEffectivness: 0
-    cookUpgradeCost: 0
-  baseStatsChefData:
-    name: 
-    description: 
-    hireCost: 0
-    movSpeed: 0
-    level: 0
-    pfp: {fileID: 0}
-    range: 0
-    kneadSkill: 0
-    kneadEffectivness: 0
-    kneadUpgradeCost: 0
-    cutSkill: 0
-    cutEffectivness: 0
-    cutUpgradeCost: 0
-    mixSkill: 0
-    mixEffectivness: 0
-    mixUpgradeCost: 0
-    cookSkill: 0
-    cookEffectivness: 0
-    cookUpgradeCost: 0
-  rawFood:
-    serializedVersion: 2
-    m_Bits: 8
-  targeting: 0
-  cuttingAudio: {fileID: 1160377159557464940}
-  rangeIndicator: {fileID: 8948219635155241046}
-  anim: {fileID: 9151864642873444850}
-  validPos: 0
-  rawFoodInRange: []
-  placed: 0
 --- !u!54 &-8260955968638038608
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkStation : MonoBehaviour
+public class WorkStation : GameBehaviour
 {
     public enum Status { Unoccupied, Occupied}
     public Status status;
@@ -11,6 +11,7 @@ public class WorkStation : MonoBehaviour
 
     private void Awake()
     {
+        if (status == Status.Unoccupied) _WSM.AddToUnoccupiedList(gameObject);
         holdFoodPos = transform.Find("HoldFoodSpot").transform;
     }
 }

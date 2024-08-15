@@ -43,30 +43,30 @@ public class SkillTracker : MonoBehaviour
         transform.LookAt(Camera.main.transform.position);
 
         //check if has cooking
-        if(cookingImg != null)
-        {
-            if (itemFoodData.foodData.needsCooking) cookingImg.fillAmount = (itemFoodData.foodData.cookPrepPoints / itemFoodData.foodData.maxCookPrepPoints);
-            else cookingImg.fillAmount = 0;
-        }
+        //if(cookingImg != null)
+        //{
+        //    if (itemFoodData.foodData.needsCooking) cookingImg.fillAmount = (itemFoodData.foodData.cookPrepPoints / itemFoodData.foodData.maxCookPrepPoints);
+        //    else cookingImg.fillAmount = 0;
+        //}
 
-        if (cuttingImg != null)
-        {
-            if (itemFoodData.foodData.needsCutting) cuttingImg.fillAmount = (itemFoodData.foodData.cutPrepPoints / itemFoodData.foodData.maxCutPrepPoints);
-            else cuttingImg.fillAmount = 0;
-        }
+        //if (cuttingImg != null)
+        //{
+        //    if (itemFoodData.foodData.needsCutting) cuttingImg.fillAmount = (itemFoodData.foodData.cutPrepPoints / itemFoodData.foodData.maxCutPrepPoints);
+        //    else cuttingImg.fillAmount = 0;
+        //}
         
-        if(kneadingImg != null)
-        {
-            if (itemFoodData.foodData.needsKneading) kneadingImg.fillAmount = (itemFoodData.foodData.kneedPrepPoints / itemFoodData.foodData.maxKneedPrepPoints);
-            else kneadingImg.fillAmount = 0;
+        //if(kneadingImg != null)
+        //{
+        //    if (itemFoodData.foodData.needsKneading) kneadingImg.fillAmount = (itemFoodData.foodData.kneedPrepPoints / itemFoodData.foodData.maxKneedPrepPoints);
+        //    else kneadingImg.fillAmount = 0;
 
-        }
+        //}
 
-        if (mixingImg != null)
-        {
-            if (itemFoodData.foodData.needsMixing) mixingImg.fillAmount = (itemFoodData.foodData.mixPrepPoints / itemFoodData.foodData.maxMixPrepPoints);
-            else mixingImg.fillAmount = 0;
-        }
+        //if (mixingImg != null)
+        //{
+        //    if (itemFoodData.foodData.needsMixing) mixingImg.fillAmount = (itemFoodData.foodData.mixPrepPoints / itemFoodData.foodData.maxMixPrepPoints);
+        //    else mixingImg.fillAmount = 0;
+        //}
     }
 
 }
