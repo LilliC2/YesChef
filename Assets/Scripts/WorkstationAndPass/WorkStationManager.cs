@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorkStationManager : Singleton<WorkStationManager>
@@ -8,6 +9,16 @@ public class WorkStationManager : Singleton<WorkStationManager>
     public List<GameObject> unoccupiedWorkStations_Kneading;
     public List<GameObject> unoccupiedWorkStations_Mixing;
     public List<GameObject> unoccupiedWorkStations_Cooking;
+
+    private void Awake()
+    {
+        //add workstations to lists
+        unoccupiedWorkStations_Cutting = (GameObject.FindGameObjectsWithTag("CuttingStation")).ToList();
+        unoccupiedWorkStations_Kneading = (GameObject.FindGameObjectsWithTag("KneadingStation")).ToList();
+        unoccupiedWorkStations_Mixing = (GameObject.FindGameObjectsWithTag("MixingStation")).ToList();
+        unoccupiedWorkStations_Cooking = (GameObject.FindGameObjectsWithTag("CookingStation")).ToList();
+
+    }
 
     public GameObject FindClosestWorkstation(string skill, GameObject chef)
     {

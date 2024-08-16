@@ -16,7 +16,7 @@ public class ChefData : GameBehaviour
     public enum WorkingOnSkill { Cooking, Kneading, Cutting, Mixing, None}
     public WorkingOnSkill workingOnSkill; //this is the skill the chef is using on current food
 
-    public enum Task { Idle, FindFood, GetFood, GoToStation, WorkOnFood, ReturnFood }
+    public enum Task { Idle, FindFood, GetFood, GoToStation, WorkOnFood, GoToPass }
     public Task tasks;
 
     [Header("AI and Travel")]
@@ -25,10 +25,16 @@ public class ChefData : GameBehaviour
     [SerializeField]
     GameObject holdFoodSpot;
     bool foundFood;
+
+    [Header("Targets")]
+
     [SerializeField]
-    GameObject currentFood;
+    GameObject targetFood;
     [SerializeField]
-    GameObject currentWorkStation;
+    FoodClass targetFoodData;
+    [SerializeField]
+    GameObject targetWorkStation;
+    Transform targetPassPoint;
 
     [Header("Audio")]
     [SerializeField]
@@ -63,185 +69,158 @@ public class ChefData : GameBehaviour
     // Update is called once per frame
     void Update()
     {
-        //check if placed
-        if (placed)
+        //walk to food
+        switch (tasks)
         {
-            //walk to food
-            switch (tasks)
-            {
-                case Task.Idle:
+            case Task.Idle:
 
-                    if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
-                    if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
+                if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
+                if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
 
                 break;
 
-                case Task.FindFood: //Find compaitble food
-
-                    if (!foundFood)
-                    {
-                        anim.SetBool("Cooking", false); //turn off cooking anim
-                        SearchForFood();
-                    }
-
-                    if (foundFood) tasks = Task.GetFood;
+            case Task.FindFood: //Find compaitble food
 
 
-                    break;
+                if (SearchForFood())
+                {
+                    tasks = Task.GetFood;
+                }
 
-                case Task.GetFood: //travel to food
+                break;
 
-                    agent.SetDestination(currentFood.transform.position);
+            case Task.GetFood: //travel to food
 
-                    //if in range
-                    if (Vector3.Distance(transform.position, currentFood.transform.position) < 2f)
-                    {
-                        _FM.foodNeedPreperation_list.Remove(currentFood); //remove food from queue
-                        currentFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld; //stops food from trying to travel from conveyerbelt
-                        isHoldingFood = true;
-                        tasks = Task.GoToStation;
+                agent.SetDestination(targetFood.transform.position);
 
-                    }
-                    break;
+                //if in range
+                if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
+                {
+                    PickUpFood();
+                    tasks = Task.GoToStation;
 
-                case Task.GoToStation:
+                }
+                break;
+
+            case Task.GoToStation:
 
 
 
-                    if (currentWorkStation == null)
-                    {
-                        //find workstation then travel there
-                        currentWorkStation = SearchForWorkstation();
-                        agent.SetDestination(currentWorkStation.transform.position);
-                    }
-                    if (Vector3.Distance(transform.position, currentWorkStation.transform.position) < 2f)
-                    {
-                        agent.isStopped = true;
+                if (targetWorkStation == null)
+                {
+                    //find workstation then travel there
+                    targetWorkStation = SearchForWorkstation();
+                    agent.SetDestination(targetWorkStation.transform.position);
+                }
+                if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
+                {
+                    agent.isStopped = true;
 
-                        //place food
-                        currentFood.transform.position = currentWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+                    //place food
+                    targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
 
-                        tasks = Task.WorkOnFood;
-                    }
-                    else
-                    {
-                        //chef holding food
-                        currentFood.transform.position = holdFoodSpot.transform.position;
+                    tasks = Task.WorkOnFood;
+                }
+                else
+                {
+                    //chef holding food
+                    targetFood.transform.position = holdFoodSpot.transform.position;
 
-                    }
-                    break;
-                case Task.WorkOnFood:
+                }
+                break;
 
-                    if(!isWorking) WorkOnFood();
+            case Task.WorkOnFood:
 
-                    //look at food
-                    if (currentFood != null) transform.LookAt(currentFood.transform.position);
-                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                if (!isWorking) WorkOnFood();
 
+                CheckFoodStatus();
 
 
-                    break;
+                //look at food
+                if (targetFood != null) transform.LookAt(targetFood.transform.position);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-            }
+
+
+                break;
+
+            case Task.GoToPass:
+
+                if (agent.isStopped) agent.isStopped = false;
+
+                if (targetPassPoint == null)
+                {
+                    targetPassPoint = FindPassPoint();
+                    _PM.unoccupiedPassPoints.Remove(targetPassPoint);
+                }
+
+                agent.SetDestination(targetPassPoint.position);
+
+                if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
+                {
+                    targetFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.OnPass; //stops food from trying to travel from conveyerbelt
+                    targetFood.transform.position = targetPassPoint.position;
+                    isHoldingFood = false;
+                    ResetChef();
+                }
+                else
+                {
+                    //hold food
+                    targetFood.transform.position = holdFoodSpot.transform.position;
+                }
+
+
+
+
+                break;
+
         }
-        #region old script
-        ////when food is found
-        //else
-        //{
 
-        //    //look at food
-        //    if (currentFood != null) transform.LookAt(currentFood.transform.position);
-        //    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        //    //print("Found food i can cook");
-        //    //every second, add skillPrepPoints to food skillPrepPoints
+    }
 
-        //    if (currentFood != null && (rawFoodInRange.Contains(currentFood.gameObject.GetComponent<Collider>()) && currentFood.GetComponent<FoodData>().foodData.isCooked != true))
-        //    {
-        //        //print("Cooking");
-        //        anim.SetBool("Cooking", true);
-
-        //        elapsed += Time.deltaTime;
-        //        if (elapsed >= 0.2f)
-        //        {
-
-        //            elapsed = elapsed % 0.2f;
-        //            //add prep points
-        //            //kneeding
-        //            if (chefData.kneadSkill)
-        //            {
-        //                if (kneadingAudio != null) kneadingAudio.Play();
-        //                currentFood.GetComponent<FoodData>().foodData.kneedPrepPoints += chefData.kneadEffectivness;
-        //            }
-        //            //cutting
-        //            if (chefData.cutSkill)
-        //            {
-        //                if (cuttingAudio != null) cuttingAudio.Play();
-        //                currentFood.GetComponent<FoodData>().foodData.cutPrepPoints += chefData.cutEffectivness;
-        //            }
-        //            //mixing
-        //            if (chefData.mixSkill)
-        //            {
-        //                if (mixingAudio != null) mixingAudio.Play();
-        //                currentFood.GetComponent<FoodData>().foodData.mixPrepPoints += chefData.mixEffectivness;
-        //            }
-
-        //            //cooking
-        //            if (chefData.cookSkill)
-        //            {
-        //                if (cookingAudio != null) cookingAudio.Play();
-        //                currentFood.GetComponent<FoodData>().foodData.cookPrepPoints += chefData.cookEffectivness;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (cookingAudio != null) cookingAudio.Stop();
-        //        if (kneadingAudio != null) kneadingAudio.Stop();
-        //        if (mixingAudio != null) mixingAudio.Stop();
-        //        if (cuttingAudio != null) cuttingAudio.Stop();
-
-        //        foundFood = false;
-        //        currentFood = null;
-        //    }
-        #endregion
+    void PickUpFood()
+    {
+        if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood); //remove food from queue
+        targetFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld; //stops food from trying to travel from conveyerbelt
+        isHoldingFood = true;
     }
 
     public bool SearchForFood()
     {
+        bool isFoodFound = false;
+
         for (int i = 0; i < _FM.foodNeedPreperation_list.Count; i++)
         {
-            currentFood = _FM.foodNeedPreperation_list[i].gameObject;
-            if (chefData.kneadSkill && currentFood.GetComponent<FoodData>().foodData.needsKneading)
+            targetFood = _FM.foodNeedPreperation_list[i].gameObject;
+            targetFoodData = targetFood.GetComponent<FoodData>().foodData;
+
+            if (chefData.kneadSkill && targetFoodData.needsKneading)
             {
                 //print("I can kneed it");
                 workingOnSkill = WorkingOnSkill.Kneading;
-                foundFood = true;
+                isFoodFound = true;
             }
-            else if (chefData.cutSkill && currentFood.GetComponent<FoodData>().foodData.needsCutting)
+            else if (chefData.cutSkill && targetFoodData.needsCutting)
             {
                 //print("I can cut it");
                 workingOnSkill = WorkingOnSkill.Cutting;
-                foundFood = true;
+                isFoodFound = true;
             }
-            else if (chefData.cookSkill && currentFood.GetComponent<FoodData>().foodData.needsCooking)
+            else if (chefData.cookSkill && targetFoodData.needsCooking)
             {
                 //print("I can cook it");
                 workingOnSkill |= WorkingOnSkill.Cooking;
-                foundFood = true;
+                isFoodFound = true;
             }
-            else if (chefData.mixSkill && currentFood.GetComponent<FoodData>().foodData.needsMixing)
+            else if (chefData.mixSkill && targetFoodData.needsMixing)
             {
                 //print("I can mix it");
                 workingOnSkill &= WorkingOnSkill.Mixing;
-                foundFood = true;
-            }
-            else
-            {
-                foundFood = false;
+                isFoodFound = true;
             }
         }
 
-        return foundFood;
+        return isFoodFound;
     }
 
     public GameObject SearchForWorkstation()
@@ -258,27 +237,29 @@ public class ChefData : GameBehaviour
     {
         //execute after x, complete  = true
         isWorking = true;
+        isHoldingFood = false;
 
-        var currentFoodfoodata = currentFood.GetComponent<FoodData>().foodData;
+        var skillProgressBarScript = targetFood.GetComponentInChildren<SkillTracker>();
+       
+
         switch(workingOnSkill) 
         {
             case WorkingOnSkill.Cooking:
-                ExecuteAfterSeconds(currentFoodfoodata.cookWorkTime, () => currentFoodfoodata.cookWorkComplete = true);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.cookWorkTime);
                 break;
             case WorkingOnSkill.Mixing:
-                ExecuteAfterSeconds(currentFoodfoodata.mixWorkTime, () => currentFoodfoodata.mixWorkComplete = true);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.mixWorkTime);
                 break;
             case WorkingOnSkill.Cutting:
-                print("Cutting food");
-                ExecuteAfterSeconds(currentFoodfoodata.cutWorkTime, () => currentFoodfoodata.cutWorkComplete = true);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.cutWorkTime);
                 break;
             case WorkingOnSkill.Kneading:
-                ExecuteAfterSeconds(currentFoodfoodata.kneadWorkTime, () => currentFoodfoodata.kneadedWorkComplete = true);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.kneadWorkTime);
                 break;
         
         }
 
-        CheckFoodStatus();
+
 
     }
 
@@ -286,10 +267,65 @@ public class ChefData : GameBehaviour
     {
         print("check status");
         isWorking = false;
-        //if food is complete go to pass
 
+        bool isCurrentWorkComplete = false;
+        //has chef completed current work
+        switch (workingOnSkill)
+        {
+            case WorkingOnSkill.Cooking:
+                isCurrentWorkComplete = targetFoodData.cookWorkComplete;
+                break;
+            case WorkingOnSkill.Mixing:
+                isCurrentWorkComplete = targetFoodData.mixWorkComplete;
+                break;
+            case WorkingOnSkill.Cutting:
+                isCurrentWorkComplete = targetFoodData.cutWorkComplete;
+                break;
+            case WorkingOnSkill.Kneading:
+                isCurrentWorkComplete = targetFoodData.kneadedWorkComplete;
+                break;
 
-        //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
+        }
+
+        if(isCurrentWorkComplete)
+        {
+
+            //if food is complete go to pass
+            if (targetFoodData.isComplete)
+            {
+                //pick food back up
+                PickUpFood();
+
+                //go to pass
+                tasks = Task.GoToPass;
+            }
+            else
+            {
+                //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
+
+                //leave food and add food to needs prep list
+                _FM.foodNeedPreperation_list.Add(targetFood);
+
+                ResetChef();
+
+            }
+        }
+
+    }
+    
+    Transform FindPassPoint()
+    {
+        return _PM.unoccupiedPassPoints.FirstOrDefault();
+
+    }
+
+    void ResetChef()
+    {
+        print("Reset chef");
+        targetFood = null;
+        targetFoodData = null;
+        isHoldingFood = false;
+        tasks = Task.Idle;
     }
 
     private void OnMouseDown()
