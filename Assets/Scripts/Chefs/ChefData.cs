@@ -156,7 +156,7 @@ public class ChefData : GameBehaviour
                 {
 
                     //add workstation back to unoccupied list
-                    _WSM.AddToUnoccupiedList(targetWorkStation);
+                    _WSM.ChangeToUnoccupied(targetWorkStation);
 
                     targetPassPoint = FindPassPoint();
                     _PM.unoccupiedPassPoints.Remove(targetPassPoint);
@@ -249,7 +249,7 @@ public class ChefData : GameBehaviour
     {
         //CuttingStation
         GameObject station = _WSM.FindClosestWorkstation(workingOnSkill.ToString(), gameObject);
-        _WSM.RemoveFromUnoccupiedList(station);
+        _WSM.ChangeToOccupied(station);
 
        return station;
 

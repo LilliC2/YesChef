@@ -11,7 +11,7 @@ public class WorkStation : GameBehaviour
 
     private void Awake()
     {
-        if (status == Status.Unoccupied) _WSM.AddToUnoccupiedList(gameObject);
+        if (status == Status.Unoccupied) _WSM.ChangeToUnoccupied(gameObject);
         holdFoodPos = transform.Find("HoldFoodSpot").transform;
     }
 }

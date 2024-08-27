@@ -77,7 +77,7 @@ public class WorkStationManager : Singleton<WorkStationManager>
         return closestsStation;
     }
 
-    public void AddToUnoccupiedList(GameObject workstation)
+    public void ChangeToUnoccupied(GameObject workstation)
     {
         workstation.GetComponent<WorkStation>().status = WorkStation.Status.Unoccupied;
 
@@ -98,7 +98,7 @@ public class WorkStationManager : Singleton<WorkStationManager>
         }
     }
 
-    public void RemoveFromUnoccupiedList(GameObject workstation)
+    public void ChangeToOccupied(GameObject workstation)
     {
         workstation.GetComponent<WorkStation>().status = WorkStation.Status.Occupied;
 
