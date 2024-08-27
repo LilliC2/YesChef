@@ -110,8 +110,7 @@ public class ChefData : GameBehaviour
                 {
                     //find workstation then travel there
                     targetWorkStation = SearchForWorkstation();
-                    _WSM.RemoveFromUnoccupiedList(targetWorkStation);
-
+    
                     agent.SetDestination(targetWorkStation.transform.position);
                 }
                 if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
@@ -150,13 +149,15 @@ public class ChefData : GameBehaviour
 
             case Task.GoToPass:
 
-                //add workstation back to unoccupied list
-                _WSM.AddToUnoccupiedList(targetWorkStation);
 
                 if (agent.isStopped) agent.isStopped = false;
 
                 if (targetPassPoint == null)
                 {
+
+                    //add workstation back to unoccupied list
+                    _WSM.AddToUnoccupiedList(targetWorkStation);
+
                     targetPassPoint = FindPassPoint();
                     _PM.unoccupiedPassPoints.Remove(targetPassPoint);
                 }
@@ -234,6 +235,9 @@ public class ChefData : GameBehaviour
             }
         }
 
+        //make sure no other chef can regiester this has their target food
+        _FM.foodNeedPreperation_list.Remove(targetFood);
+
         return isFoodFound;
     }
 
@@ -245,7 +249,7 @@ public class ChefData : GameBehaviour
     {
         //CuttingStation
         GameObject station = _WSM.FindClosestWorkstation(workingOnSkill.ToString(), gameObject);
-        _WSM.AddToUnoccupiedList(station);
+        _WSM.RemoveFromUnoccupiedList(station);
 
        return station;
 

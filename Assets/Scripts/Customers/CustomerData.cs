@@ -7,23 +7,33 @@ using UnityEngine.UI;
 
 public class CustomerData : GameBehaviour
 {
-    public GameObject order;
-    public bool hasBeenAttened;
-    [SerializeField]
-    Image orderDisplay;
+    public enum Task { Queue, WaitToBeSeated, SelectFromMenu, WaitForFood, EatFood, PayAndLeave}
+    public Task task;
 
-    [SerializeField]
-    GameObject moneyEarned;
-
-    GameObject seat;
-    public GameObject plateSpot;
-
+    [Header("Movement")]
     NavMeshAgent agent;
-    public bool leaving;
 
-    public bool isOrderCooked;
+    [Header("Queue")]
+    [SerializeField]
+    int queueIndex;
 
-    public GameObject currentFoodSprite;
+    //public GameObject order;
+    //public bool hasBeenAttened;
+    //[SerializeField]
+    //Image orderDisplay;
+
+    //[SerializeField]
+    //GameObject moneyEarned;
+
+    //GameObject seat;
+    //public GameObject plateSpot;
+
+    //NavMeshAgent agent;
+    //public bool leaving;
+
+    //public bool isOrderCooked;
+
+    //public GameObject currentFoodSprite;
     // Start is called before the first frame update
     //void Start()
     //{
@@ -36,6 +46,50 @@ public class CustomerData : GameBehaviour
     //    _GM.event_startOfDay.AddListener(OrderFood);
     //    _CustM.event_newSeatAvalible.AddListener(FindSeat);
     //}
+
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        //track index when customer is spawned
+        queueIndex = _CustM.customerOutsideQueueSpots.Count - 1;
+    }
+
+    private void Update()
+    {
+        switch(task)
+        {
+            //In any position other than 0
+            case Task.Queue:
+
+                //if not at correct queue position
+                if(queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
+                {
+                    agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
+
+                    //check if at position
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+
+                        //move down queue
+                        queueIndex--;
+                        agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
+
+                        //check if at front of queue
+                        if(queueIndex == 0)
+                        {
+                            task = Task.WaitToBeSeated;
+                        }
+                    }
+                }
+
+
+                break;
+            case Task.WaitToBeSeated:
+            
+                
+                break;
+        }
+    }
 
     //// Update is called once per frame
     //void Update()
@@ -108,7 +162,7 @@ public class CustomerData : GameBehaviour
     //                    }
     //                }
     //            }
-  
+
     //           // agent.SetDestination(_CustM.customerQueueSpots[_CustM.customerQueueWaiting.IndexOf(gameObject)].transform.position);
     //        }
     //        else
