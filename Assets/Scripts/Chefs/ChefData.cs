@@ -343,7 +343,7 @@ public class ChefData : GameBehaviour
     /// <returns></returns>
     Transform FindPassPoint()
     {
-        return _PM.unoccupiedPassPoints.FirstOrDefault();
+        return _PM.FindClosestPassPoint(gameObject);
 
     }
 
