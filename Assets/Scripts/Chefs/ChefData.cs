@@ -110,6 +110,8 @@ public class ChefData : GameBehaviour
                 {
                     //find workstation then travel there
                     targetWorkStation = SearchForWorkstation();
+                    _WSM.RemoveFromUnoccupiedList(targetWorkStation);
+
                     agent.SetDestination(targetWorkStation.transform.position);
                 }
                 if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
@@ -118,6 +120,8 @@ public class ChefData : GameBehaviour
 
                     //place food
                     targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+
+
 
                     tasks = Task.WorkOnFood;
                 }
@@ -145,6 +149,9 @@ public class ChefData : GameBehaviour
                 break;
 
             case Task.GoToPass:
+
+                //add workstation back to unoccupied list
+                _WSM.AddToUnoccupiedList(targetWorkStation);
 
                 if (agent.isStopped) agent.isStopped = false;
 
@@ -178,6 +185,9 @@ public class ChefData : GameBehaviour
 
     }
 
+    /// <summary>
+    /// Pick up food from conveyorbelt
+    /// </summary>
     void PickUpFood()
     {
         if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood); //remove food from queue
@@ -185,6 +195,10 @@ public class ChefData : GameBehaviour
         isHoldingFood = true;
     }
 
+    /// <summary>
+    /// Search kitchen for food which can be worked on by chef
+    /// </summary>
+    /// <returns></returns>
     public bool SearchForFood()
     {
         bool isFoodFound = false;
@@ -223,6 +237,10 @@ public class ChefData : GameBehaviour
         return isFoodFound;
     }
 
+    /// <summary>
+    /// Sarch for unoccupied workstation that can be used
+    /// </summary>
+    /// <returns></returns>
     public GameObject SearchForWorkstation()
     {
         //CuttingStation
@@ -233,6 +251,9 @@ public class ChefData : GameBehaviour
 
     }
 
+    /// <summary>
+    /// Begin food progress based on skill being worked on
+    /// </summary>
     public void WorkOnFood()
     {
         //execute after x, complete  = true
@@ -263,6 +284,9 @@ public class ChefData : GameBehaviour
 
     }
 
+    /// <summary>
+    /// Check if skill progress being work on is complete for target food
+    /// </summary>
     void CheckFoodStatus()
     {
         print("check status");
@@ -313,18 +337,27 @@ public class ChefData : GameBehaviour
 
     }
     
+    /// <summary>
+    /// Return unoccupied point on the pass
+    /// </summary>
+    /// <returns></returns>
     Transform FindPassPoint()
     {
         return _PM.unoccupiedPassPoints.FirstOrDefault();
 
     }
 
+    /// <summary>
+    /// Set target variables to null
+    /// </summary>
     void ResetChef()
     {
         print("Reset chef");
         targetFood = null;
         targetFoodData = null;
         isHoldingFood = false;
+        targetWorkStation = null;
+        targetPassPoint = null;
         tasks = Task.Idle;
     }
 
