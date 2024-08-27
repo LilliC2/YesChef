@@ -84,16 +84,16 @@ public class WorkStationManager : Singleton<WorkStationManager>
         switch (workstation.tag) 
         {
             case "CuttingStation":
-                unoccupiedWorkStations_Cutting.Add(workstation);
+                if (!unoccupiedWorkStations_Cutting.Contains(workstation)) unoccupiedWorkStations_Cutting.Add(workstation);
                 break;
             case "CookingStation":
-                unoccupiedWorkStations_Cooking.Add(workstation);
+                if (unoccupiedWorkStations_Cooking.Contains(workstation)) unoccupiedWorkStations_Cooking.Add(workstation);
                 break;
             case "MixingStation":
-                unoccupiedWorkStations_Mixing.Add(workstation);
+                if (unoccupiedWorkStations_Mixing.Contains(workstation)) unoccupiedWorkStations_Mixing.Add(workstation);
                 break;
             case "KneadingStation":
-                unoccupiedWorkStations_Kneading.Add(workstation);
+                if (unoccupiedWorkStations_Kneading.Contains(workstation)) unoccupiedWorkStations_Kneading.Add(workstation);
                 break;
         }
     }
@@ -105,16 +105,17 @@ public class WorkStationManager : Singleton<WorkStationManager>
         switch (workstation.tag)
         {
             case "CuttingStation":
-                unoccupiedWorkStations_Cutting.Remove(workstation);
+                if(unoccupiedWorkStations_Cutting.Contains(workstation)) unoccupiedWorkStations_Cutting.Remove(workstation);
+
                 break;
             case "CookingStation":
-                unoccupiedWorkStations_Cooking.Remove(workstation);
+                if (unoccupiedWorkStations_Cooking.Contains(workstation)) unoccupiedWorkStations_Cooking.Remove(workstation);
                 break;
             case "MixingStation":
-                unoccupiedWorkStations_Mixing.Remove(workstation);
+                if (unoccupiedWorkStations_Mixing.Contains(workstation)) unoccupiedWorkStations_Mixing.Remove(workstation);
                 break;
             case "KneadingStation":
-                unoccupiedWorkStations_Kneading.Remove(workstation);
+                if (unoccupiedWorkStations_Kneading.Contains(workstation)) unoccupiedWorkStations_Kneading.Remove(workstation);
                 break;
         }
     }

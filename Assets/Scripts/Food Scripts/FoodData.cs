@@ -45,7 +45,7 @@ public class FoodData : GameBehaviour
 
 
 
-    bool CheckIfComplete()
+    public bool CheckIfComplete()
     {
         isComplete = true;
 

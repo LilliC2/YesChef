@@ -74,8 +74,12 @@ public class ChefData : GameBehaviour
         {
             case Task.Idle:
 
-                if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
-                if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
+                if(targetFood == null)
+                {
+                    if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
+                    if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
+                }
+                
 
                 break;
 
@@ -104,6 +108,7 @@ public class ChefData : GameBehaviour
 
             case Task.GoToStation:
 
+                
 
 
                 if (targetWorkStation == null)
@@ -136,7 +141,32 @@ public class ChefData : GameBehaviour
 
                 if (!isWorking) WorkOnFood();
 
-                CheckFoodStatus();
+                if(CheckFoodStatus())
+                {
+                    //if food is complete go to pass
+                    if (targetFood.GetComponent<FoodData>().CheckIfComplete())
+                    {
+                        //pick food back up
+                        PickUpFood();
+
+                        //go to pass
+                        tasks = Task.GoToPass;
+                        print("go to pass called");
+                    }
+
+
+                    //else if (!targetFoodData.isComplete)
+                    //{
+                    //    //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
+
+                    //    print("food marked as incomplete");
+                    //    //leave food and add food to needs prep list
+                    //    _FM.foodNeedPreperation_list.Add(targetFood);
+
+                    //    ResetChef();
+
+                    //}
+                }
 
 
                 //look at food
@@ -154,7 +184,7 @@ public class ChefData : GameBehaviour
 
                 if (targetPassPoint == null)
                 {
-
+                    print("go to pass");
                     //add workstation back to unoccupied list
                     _WSM.ChangeToUnoccupied(targetWorkStation);
 
@@ -291,7 +321,7 @@ public class ChefData : GameBehaviour
     /// <summary>
     /// Check if skill progress being work on is complete for target food
     /// </summary>
-    void CheckFoodStatus()
+    bool CheckFoodStatus()
     {
         print("check status");
         isWorking = false;
@@ -315,29 +345,7 @@ public class ChefData : GameBehaviour
 
         }
 
-        if(isCurrentWorkComplete)
-        {
-
-            //if food is complete go to pass
-            if (targetFoodData.isComplete)
-            {
-                //pick food back up
-                PickUpFood();
-
-                //go to pass
-                tasks = Task.GoToPass;
-            }
-            else
-            {
-                //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
-
-                //leave food and add food to needs prep list
-                _FM.foodNeedPreperation_list.Add(targetFood);
-
-                ResetChef();
-
-            }
-        }
+        return isCurrentWorkComplete;
 
     }
     
