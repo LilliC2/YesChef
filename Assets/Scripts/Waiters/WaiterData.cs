@@ -7,23 +7,18 @@ public class WaiterData : GameBehaviour
 {
     public WaiterClass waiterData;
 
-
-    public enum Task { Idle, FindCustomer, GetFood, DeliverFood }
+    public enum Task { Idle, SeatCustomer ,TakeCustomerOrder, GetFood, DeliverFood }
     public Task tasks;
 
     [SerializeField]
     bool isHoldingFood;
     public bool placed;
-    [SerializeField]
-    bool isFoodEmpty;
 
     public Vector3 homePos;
     [SerializeField]
     GameObject heldFood_1;
     FoodData heldFoodData_1;
-    [SerializeField]
-    GameObject heldFood_2;
-    FoodData heldFoodData_2;
+
 
     public Animator anim;
 
@@ -31,26 +26,78 @@ public class WaiterData : GameBehaviour
 
     [SerializeField]
     GameObject currentCustomer_1;
-    [SerializeField]
-    GameObject currentCustomer_2;
+
 
     [SerializeField]
     GameObject holdfoodspot_1;
-    [SerializeField]
-    GameObject holdfoodspot_2;
+
+
+    [Header("Seating Customer")]
+    GameObject customer;
+    bool isCustomerFollowing;
+
 
     // Start is called before the first frame update
-    //void Start()
-    //{
+    void Start()
+    {
+
+        holdfoodspot_1 = transform.Find("HoldFoodSpot").gameObject;
+        agent = GetComponent<NavMeshAgent>();
+        //set speed
+        agent.speed = waiterData.speed;
+        
+        
+
+        //_GM.event_foodToBeServed.AddListener(GetFood);
+    }
+
+    private void Update()
+    {
+        switch(tasks)
+        {
+            case Task.Idle:
+                break;
+            case Task.SeatCustomer:
+
+                //get first in queue
+                if (customer == null) customer = _CustM.customersInQueue[0];
+
+                if(!isCustomerFollowing)
+                {
+                    //walk to customer
+                    agent.SetDestination(customer.transform.position);
+
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        //set customer to follow
+                    }
+
+                }
 
 
+                //find avalible table
 
-    //    //holdfoodspot = transform.Find("HoldFoodSpot").gameObject;
-    //    agent = GetComponent<NavMeshAgent>();
-    //    //set speed
-    //    agent.speed = waiterData.speed;
-    //    _GM.event_foodToBeServed.AddListener(GetFood);
-    //}
+                //walk to table
+
+                //seat customer
+
+                break;
+            case Task.TakeCustomerOrder: 
+                break;
+            case Task.GetFood: 
+                break;
+            case Task.DeliverFood:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Function called on event_customerReadyToBeSeated event
+    /// </summary>
+    void StartSeatCustomer()
+    {
+        if(tasks == Task.Idle) tasks = Task.SeatCustomer;
+    }
 
     //// Update is called once per frame
     //void Update()
