@@ -56,7 +56,7 @@ public class FoodData : GameBehaviour
 
         if(foodData.needsMixing && !foodData.mixWorkComplete) isComplete = false;
         
-        if(foodData.needsCutting && !foodData.cookWorkComplete) isComplete = false ;
+        if(foodData.needsCutting && !foodData.cutWorkComplete) isComplete = false ;
 
 
         return isComplete;
