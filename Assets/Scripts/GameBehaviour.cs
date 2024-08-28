@@ -19,6 +19,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static WorkStationManager _WSM { get { return WorkStationManager.INSTANCE; } }
     protected static PassManager _PM { get { return PassManager.INSTANCE; } }
     protected static EventManager _EM { get { return EventManager.INSTANCE; } }
+    protected static FrontOfHouseManager _FOHM { get { return FrontOfHouseManager.INSTANCE; } }
     protected static RenderFeatureToggler _RFT { get { return RenderFeatureToggler.INSTANCE; } }
 
 

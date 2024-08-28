@@ -35,18 +35,20 @@ public class WaiterData : GameBehaviour
     [Header("Seating Customer")]
     GameObject customer;
     bool isCustomerFollowing;
-
+    [SerializeField] float customerBreakingDistance;
+    [SerializeField] float tableBreakingDistance;
+    GameObject targetTable;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        holdfoodspot_1 = transform.Find("HoldFoodSpot").gameObject;
+        //holdfoodspot_1 = transform.Find("HoldFoodSpot").gameObject;
         agent = GetComponent<NavMeshAgent>();
         //set speed
         agent.speed = waiterData.speed;
-        
-        
+
+        _EM.event_customerReadyToBeSeated.AddListener(EventListener_CustomerReadyToBeSeated);
 
         //_GM.event_foodToBeServed.AddListener(GetFood);
     }
@@ -67,17 +69,37 @@ public class WaiterData : GameBehaviour
                     //walk to customer
                     agent.SetDestination(customer.transform.position);
 
-                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    if (Vector3.Distance(transform.position,customer.transform.position) <= customerBreakingDistance)
                     {
+                        isCustomerFollowing = true;
+                        print("close to customre");
+                        customer.GetComponent<CustomerData>().StartFollowWaiter(gameObject);
                         //set customer to follow
                     }
 
                 }
+                else
+                {
+                    //customer is now following
+
+                    //find avalible table
+                    if (targetTable == null)
+                    {
+                        targetTable = _FOHM.FindClosestTable(gameObject);
+                        _FOHM.ChangeToOccupied(targetTable);
+
+                        agent.SetDestination(targetTable.transform.position);
+                    }
+
+                    //walk to table
+                    if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
+                    {
+                        print("at table");
+
+                    }
+                }
 
 
-                //find avalible table
-
-                //walk to table
 
                 //seat customer
 
@@ -94,9 +116,13 @@ public class WaiterData : GameBehaviour
     /// <summary>
     /// Function called on event_customerReadyToBeSeated event
     /// </summary>
-    void StartSeatCustomer()
+    void EventListener_CustomerReadyToBeSeated()
     {
-        if(tasks == Task.Idle) tasks = Task.SeatCustomer;
+        print("event_customerReadyToBeSeated recieced");
+
+        //check if avalible and if tables are free
+
+        if(tasks == Task.Idle && _FOHM.unoccupiedTables.Count > 0) tasks = Task.SeatCustomer;
     }
 
     //// Update is called once per frame

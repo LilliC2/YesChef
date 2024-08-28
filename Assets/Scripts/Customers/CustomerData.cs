@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CustomerData : GameBehaviour
 {
-    public enum Task { Queue, WaitToBeSeated, SelectFromMenu, WaitForFood, EatFood, PayAndLeave}
+    public enum Task { Queue, WaitToBeSeated,FollowWaiter ,SelectFromMenu, WaitForFood, EatFood, PayAndLeave}
     public Task task;
 
     [Header("Movement")]
@@ -16,6 +16,10 @@ public class CustomerData : GameBehaviour
     [Header("Queue")]
     [SerializeField]
     int queueIndex;
+
+    [Header("Follow Waiter")]
+    [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
+    GameObject waiterFollow;
 
     //public GameObject order;
     //public bool hasBeenAttened;
@@ -77,6 +81,7 @@ public class CustomerData : GameBehaviour
                         //check if at front of queue
                         if(queueIndex == 0)
                         {
+                            _EM.event_customerReadyToBeSeated.Invoke();
                             task = Task.WaitToBeSeated;
                         }
                     }
@@ -88,7 +93,26 @@ public class CustomerData : GameBehaviour
             
                 
                 break;
+            case Task.FollowWaiter:
+
+                if(waiterFollow != null)
+                {
+                    if (Vector3.Distance(transform.position, waiterFollow.transform.position) > waiterFollowDistance)
+                    {
+                        agent.SetDestination(waiterFollow.transform.position);
+                    }
+                }
+                
+
+                break;
         }
+    }
+
+    public void StartFollowWaiter(GameObject _waiter)
+    {
+        print("Follow waiter");
+        waiterFollow = _waiter;
+        task = Task.FollowWaiter;
     }
 
     //// Update is called once per frame

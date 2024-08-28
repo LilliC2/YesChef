@@ -151,7 +151,7 @@ public class ChefData : GameBehaviour
 
                         //go to pass
                         tasks = Task.GoToPass;
-                        print("go to pass called");
+                        //print("go to pass called");
                     }
 
 
@@ -184,7 +184,7 @@ public class ChefData : GameBehaviour
 
                 if (targetPassPoint == null)
                 {
-                    print("go to pass");
+                    //print("go to pass");
                     //add workstation back to unoccupied list
                     _WSM.ChangeToUnoccupied(targetWorkStation);
 
@@ -323,7 +323,7 @@ public class ChefData : GameBehaviour
     /// </summary>
     bool CheckFoodStatus()
     {
-        print("check status");
+        //print("check status");
         isWorking = false;
 
         bool isCurrentWorkComplete = false;
@@ -364,7 +364,7 @@ public class ChefData : GameBehaviour
     /// </summary>
     void ResetChef()
     {
-        print("Reset chef");
+        //print("Reset chef");
         targetFood = null;
         targetFoodData = null;
         isHoldingFood = false;
