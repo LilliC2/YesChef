@@ -6,6 +6,7 @@ using UnityEngine;
 public class FrontOfHouseManager : Singleton<FrontOfHouseManager>
 {
     public List<GameObject> unoccupiedTables = new List<GameObject>();
+    public List<GameObject> dirtyTables = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,14 @@ public class FrontOfHouseManager : Singleton<FrontOfHouseManager>
     {
         _table.GetComponent<Table>().status = Table.Status.Unoccupied;
         if(!unoccupiedTables.Contains(_table) ) unoccupiedTables.Add(_table);
+
+    }
+    
+    public void ChangeToDirty(GameObject _table)
+    {
+        _table.GetComponent<Table>().status = Table.Status.Dirty;
+        if(!dirtyTables.Contains(_table) ) unoccupiedTables.Add(_table);
+        if (unoccupiedTables.Contains(_table)) unoccupiedTables.Remove(_table);
 
     }
 

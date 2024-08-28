@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Table : GameBehaviour
 {
-    public enum Status { Unoccupied, Occupied }
+    public enum Status { Unoccupied, Occupied, Dirty }
     public Status status;
 
     //for groups of multiple customers

@@ -11,6 +11,9 @@ public class CustomerData : GameBehaviour
     public enum Task { Queue, WaitToBeSeated,FollowWaiter ,SelectFromMenu, WaitForFood, EatFood, PayAndLeave}
     public Task task;
 
+    //when interacting with waiters, this will let the other waiters know if the customer is already undergoing a task
+    public bool beingAttened = false;
+
     [Header("Movement")]
     NavMeshAgent agent;
 
@@ -95,6 +98,9 @@ public class CustomerData : GameBehaviour
                 
                 break;
             case Task.FollowWaiter:
+
+                //remove from outside queue
+                if(_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
 
                 if(waiterFollow != null)
                 {

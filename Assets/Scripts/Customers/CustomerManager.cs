@@ -45,7 +45,7 @@ public class CustomerManager : Singleton<CustomerManager>
     IEnumerator SpawnCustomers()
     {
         //spawn amount temp
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
             customersInQueue.Add(newCustomers);

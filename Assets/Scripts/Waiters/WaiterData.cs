@@ -58,49 +58,74 @@ public class WaiterData : GameBehaviour
         switch(tasks)
         {
             case Task.Idle:
+
+                //task check
+
+                //Seating Customer
+                if(_CustM.customersInQueue.Count != 0)
+                {
+                    if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened)
+                    {
+                        _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
+                        tasks = Task.SeatCustomer;
+
+                    }
+                }
+                
+
+
+
                 break;
             case Task.SeatCustomer:
 
-                //get first in queue
-                if (customer == null) customer = _CustM.customersInQueue[0];
-
-                if(!isCustomerFollowing)
+                //get first in queue and is not already being attended
+                if (customer == null)
                 {
-                    //walk to customer
-                    agent.SetDestination(customer.transform.position);
-
-                    if (Vector3.Distance(transform.position,customer.transform.position) <= customerBreakingDistance)
-                    {
-                        isCustomerFollowing = true;
-                        print("close to customre");
-                        customer.GetComponent<CustomerData>().StartFollowWaiter(gameObject);
-                        //set customer to follow
-                    }
-
+                    customer = _CustM.customersInQueue[0];
                 }
-                else
+
+                if(customer != null)
                 {
-                    //customer is now following
-
-                    //find avalible table
-                    if (targetTable == null)
+                    if (!isCustomerFollowing)
                     {
-                        targetTable = _FOHM.FindClosestTable(gameObject);
-                        _FOHM.ChangeToOccupied(targetTable);
+                        //walk to customer
+                        agent.SetDestination(customer.transform.position);
 
-                        agent.SetDestination(targetTable.transform.position);
+                        if (Vector3.Distance(transform.position, customer.transform.position) <= customerBreakingDistance)
+                        {
+                            isCustomerFollowing = true;
+                            print("close to customre");
+                            customer.GetComponent<CustomerData>().StartFollowWaiter(gameObject);
+                            //set customer to follow
+                        }
+
                     }
-
-                    //walk to table
-                    if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
+                    else
                     {
-                        print("at table");
-                        customer.GetComponent<CustomerData>().BeSeated(targetTable);
-                        ResetWaiter();
+                        //customer is now following
 
-                        //reset
+                        //find avalible table
+                        if (targetTable == null)
+                        {
+                            targetTable = _FOHM.FindClosestTable(gameObject);
+                            _FOHM.ChangeToOccupied(targetTable);
+
+                            agent.SetDestination(targetTable.transform.position);
+                        }
+
+                        //walk to table
+                        if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
+                        {
+                            print("at table");
+                            customer.GetComponent<CustomerData>().BeSeated(targetTable); //give them their table
+                            customer.GetComponent<CustomerData>().beingAttened = false; //no longer atteneding this customer
+                            ResetWaiter();
+
+                            //reset
+                        }
                     }
                 }
+                
 
 
 
@@ -125,7 +150,7 @@ public class WaiterData : GameBehaviour
 
         //check if avalible and if tables are free
 
-        if(tasks == Task.Idle && _FOHM.unoccupiedTables.Count > 0) tasks = Task.SeatCustomer;
+        //if(tasks == Task.Idle && _FOHM.unoccupiedTables.Count > 0) tasks = Task.SeatCustomer;
     }
 
     private void ResetWaiter()
@@ -135,7 +160,22 @@ public class WaiterData : GameBehaviour
         targetTable = null;
         isCustomerFollowing = false;
 
+        //check if anyone currently needs to be seated
+        //CheckForCustomersToBeSeated();
+
         tasks = Task.Idle;
+    }
+
+    void CheckForCustomersToBeSeated()
+    {
+
+        if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened)
+        {
+            _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
+            tasks = Task.SeatCustomer;
+
+        }
+        else return;
     }
 
     //// Update is called once per frame
