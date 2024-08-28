@@ -7,15 +7,33 @@ public class Table : GameBehaviour
     public enum Status { Unoccupied, Occupied }
     public Status status;
 
+    //for groups of multiple customers
+    [SerializeField] int numOfSeats;
+    public List<Transform> unoccupiedSeats = new List<Transform>();
+
     // Start is called before the first frame update
     void Start()
     {
+        //get seats
+        foreach (Transform t in gameObject.transform)
+        {
+            if(t.name.Contains("Chair")) unoccupiedSeats.Add(t);
+        }
+
+        numOfSeats = unoccupiedSeats.Count;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeToOccupied(Transform _seat)
     {
-        
+        if(unoccupiedSeats.Contains(_seat)) unoccupiedSeats.Remove(_seat);
     }
+    
+    public void ChangeToUnoccupied(Transform _seat)
+    {
+        if (unoccupiedSeats.Contains(_seat)) unoccupiedSeats.Add(_seat);
+
+    }
+
+
 }

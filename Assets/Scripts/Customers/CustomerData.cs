@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -105,6 +106,14 @@ public class CustomerData : GameBehaviour
                 
 
                 break;
+
+            case Task.SelectFromMenu:
+
+                //check they have sat down
+                if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
+
+
+                    break;
         }
     }
 
@@ -113,6 +122,22 @@ public class CustomerData : GameBehaviour
         print("Follow waiter");
         waiterFollow = _waiter;
         task = Task.FollowWaiter;
+    }
+
+    /// <summary>
+    /// Find chair avalible chair at given table
+    /// </summary>
+    public void BeSeated(GameObject _table)
+    {
+        print("seated");
+        var tableData = _table.GetComponent<Table>();
+        var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
+
+        tableData.ChangeToOccupied(targetChair);
+
+        agent.SetDestination(targetChair.position);
+        task = Task.SelectFromMenu;
+
     }
 
     //// Update is called once per frame

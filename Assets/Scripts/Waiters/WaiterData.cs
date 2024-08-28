@@ -95,7 +95,10 @@ public class WaiterData : GameBehaviour
                     if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
                     {
                         print("at table");
+                        customer.GetComponent<CustomerData>().BeSeated(targetTable);
+                        ResetWaiter();
 
+                        //reset
                     }
                 }
 
@@ -123,6 +126,16 @@ public class WaiterData : GameBehaviour
         //check if avalible and if tables are free
 
         if(tasks == Task.Idle && _FOHM.unoccupiedTables.Count > 0) tasks = Task.SeatCustomer;
+    }
+
+    private void ResetWaiter()
+    {
+        //seating customer
+        customer = null;
+        targetTable = null;
+        isCustomerFollowing = false;
+
+        tasks = Task.Idle;
     }
 
     //// Update is called once per frame
