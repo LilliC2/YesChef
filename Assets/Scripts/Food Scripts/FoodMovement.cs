@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class FoodMovement : GameBehaviour
 {
@@ -14,37 +15,11 @@ public class FoodMovement : GameBehaviour
     void Start()
     {
         //track what index the food is currently at on the conveyerbelt
-        conveyerbeltIndex = _GM.conveyerbeltPoints.Length-1;
+        conveyerbeltIndex = Random.Range(0, _GM.conveyerbeltPoints.Length);
+
+        //transform.DOMove(new Vector3(-0.25f, transform.position.y, transform.position.z), 1).SetEase(_FM.foodSpawnEase);
+        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /* x = index of food in _FM.foodNeedPreperation_list
-         * 
-         * food will move down conveyerbelt until converybeltIndex = x
-         */
-
-        if (foodState == FoodState.OnConveyerbelt)
-        {
-            //to avoid null while food is being added to foodpreplist
-            if(_FM.foodNeedPreperation_list.Contains(gameObject))
-            {
-                //If food is raw and just placed
-                if (conveyerbeltIndex != _FM.foodNeedPreperation_list.IndexOf(gameObject))
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position, Time.deltaTime * _FM.conveyerbeltSpeed);
-
-                    if (Vector3.Distance(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position) < 0.2f)
-                    {
-                        conveyerbeltIndex--;
-
-                    }
-                }
-            }
-
-                       
-        }
-
-    }
+    
 }
