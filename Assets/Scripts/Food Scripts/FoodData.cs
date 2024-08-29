@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FoodData : GameBehaviour
 {
+    
 
     public FoodClass foodData;
     bool isComplete;

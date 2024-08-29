@@ -16,14 +16,13 @@ public class FoodManager : Singleton<FoodManager>
 
     public List<Order> orderedFood = new List<Order>();
 
+    public List<GameObject> foodNeedPreperation_list = new List<GameObject>();
+
+    public List<GameObject> finishedFood_list = new List<GameObject>();
+    
     public float conveyerbeltSpeed;
 
-    [SerializeField]
-    Vector3 startOfConveyerBelt;
 
-    public List<GameObject> foodNeedPreperation_list;
-
-    public List<GameObject> finishedFood_list;
 
 
 
@@ -32,8 +31,6 @@ public class FoodManager : Singleton<FoodManager>
     {
         if(!orderedFood.Contains(_order)) orderedFood.Add(_order);
         var prefab = _order.foodPrefab;
-
-        orderedFood.Add(_order);
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         var food = Instantiate(prefab, _GM.conveyerbeltPoints[_GM.conveyerbeltPoints.Length-1].transform.position, Quaternion.identity);

@@ -125,7 +125,8 @@ public class CustomerData : GameBehaviour
                 if(!hasSelectedOrder)
                 {
                     hasSelectedOrder = true;
-                    ExecuteAfterSeconds(Random.Range(1f, 3f), () => order = _FM.menu[Random.Range(0, _FM.menu.Count-1)]);
+                    order = _FM.menu[Random.Range(0, _FM.menu.Count-1)];
+                    print("Want to order " +  order.foodPrefab.name);
                     _CustM.customersReadyToOrder.Add(gameObject);
                 }
 
@@ -153,7 +154,9 @@ public class CustomerData : GameBehaviour
         tableData.ChangeToOccupied(targetChair);
 
         agent.SetDestination(targetChair.position);
-        task = Task.SelectFromMenu;
+        ExecuteAfterSeconds(1, () => task = Task.SelectFromMenu);
+
+
 
     }
 
