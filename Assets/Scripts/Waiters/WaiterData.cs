@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -39,6 +40,10 @@ public class WaiterData : GameBehaviour
     [SerializeField] float tableBreakingDistance;
     GameObject targetTable;
 
+    [Header("Take Customer Order")]
+    bool isTakingOrder;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +53,6 @@ public class WaiterData : GameBehaviour
         //set speed
         agent.speed = waiterData.speed;
 
-        _EM.event_customerReadyToBeSeated.AddListener(EventListener_CustomerReadyToBeSeated);
 
         //_GM.event_foodToBeServed.AddListener(GetFood);
     }
@@ -67,24 +71,30 @@ public class WaiterData : GameBehaviour
                     if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened)
                     {
                         _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
+                        customer = _CustM.customersInQueue[0];
                         tasks = Task.SeatCustomer;
 
                     }
                 }
                 
+                //Taking Order
+                if(_CustM.customersReadyToOrder.Count != 0)
+                {
+                    if (customer == null && !_CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened)
+                    {
+                        _CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened = true;
+                        customer = _CustM.customersReadyToOrder[0];
+                        tasks = Task.TakeCustomerOrder;
 
+                    }
+                }
 
 
                 break;
             case Task.SeatCustomer:
 
-                //get first in queue and is not already being attended
-                if (customer == null)
-                {
-                    customer = _CustM.customersInQueue[0];
-                }
-
-                if(customer != null)
+                //null check
+                if (customer != null)
                 {
                     if (!isCustomerFollowing)
                     {
@@ -116,6 +126,8 @@ public class WaiterData : GameBehaviour
                         //walk to table
                         if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
                         {
+                            //seat customer
+
                             print("at table");
                             customer.GetComponent<CustomerData>().BeSeated(targetTable); //give them their table
                             customer.GetComponent<CustomerData>().beingAttened = false; //no longer atteneding this customer
@@ -125,14 +137,25 @@ public class WaiterData : GameBehaviour
                         }
                     }
                 }
+                else tasks = Task.Idle;
                 
 
-
-
-                //seat customer
-
                 break;
-            case Task.TakeCustomerOrder: 
+            case Task.TakeCustomerOrder:
+
+                //null check
+                if (customer != null)
+                {
+                    agent.SetDestination(customer.transform.position);
+
+                    if (Vector3.Distance(transform.position, customer.transform.position) <= customerBreakingDistance)
+                    {                        
+                        TakeOrder();
+                    }
+
+                }
+                else tasks = Task.Idle;
+
                 break;
             case Task.GetFood: 
                 break;
@@ -141,16 +164,15 @@ public class WaiterData : GameBehaviour
         }
     }
 
-    /// <summary>
-    /// Function called on event_customerReadyToBeSeated event
-    /// </summary>
-    void EventListener_CustomerReadyToBeSeated()
+    void TakeOrder()
     {
-        print("event_customerReadyToBeSeated recieced");
+        if (!isTakingOrder)
+        {
+            isTakingOrder = true;
+            _FM.OrderUp(customer.GetComponent<CustomerData>().order);
+            ExecuteAfterSeconds(1,()=> ResetWaiter());
 
-        //check if avalible and if tables are free
-
-        //if(tasks == Task.Idle && _FOHM.unoccupiedTables.Count > 0) tasks = Task.SeatCustomer;
+        }
     }
 
     private void ResetWaiter()
@@ -159,9 +181,10 @@ public class WaiterData : GameBehaviour
         customer = null;
         targetTable = null;
         isCustomerFollowing = false;
+        agent.isStopped = false;
 
-        //check if anyone currently needs to be seated
-        //CheckForCustomersToBeSeated();
+        //taking order
+        isTakingOrder = false;
 
         tasks = Task.Idle;
     }

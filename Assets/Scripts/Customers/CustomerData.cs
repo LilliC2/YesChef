@@ -25,6 +25,10 @@ public class CustomerData : GameBehaviour
     [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
     GameObject waiterFollow;
 
+    [Header("Select From Menu")]
+    public Order order;
+    bool hasSelectedOrder;
+
     //public GameObject order;
     //public bool hasBeenAttened;
     //[SerializeField]
@@ -118,8 +122,15 @@ public class CustomerData : GameBehaviour
                 //check they have sat down
                 if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
 
+                if(!hasSelectedOrder)
+                {
+                    hasSelectedOrder = true;
+                    ExecuteAfterSeconds(Random.Range(1f, 3f), () => order = _FM.menu[Random.Range(0, _FM.menu.Count-1)]);
+                    _CustM.customersReadyToOrder.Add(gameObject);
+                }
 
-                    break;
+
+                break;
         }
     }
 
@@ -145,6 +156,7 @@ public class CustomerData : GameBehaviour
         task = Task.SelectFromMenu;
 
     }
+
 
     //// Update is called once per frame
     //void Update()

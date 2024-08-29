@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < 5; i++)
         {
             //give buffer for orders to come in
-            _FM.InstantiateFood(tempFood);
+            //_FM.InstantiateFood(tempFood);
             //if (i == 0)
             //else _FM.InstantiateFood(i);
 

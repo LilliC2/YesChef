@@ -7,7 +7,7 @@ public class EventManager : Singleton<EventManager>
 {
 
     [Header("Waiters")]
-    public UnityEvent event_foodReadyAtPass;
+    public UnityEvent event_orderTaken;
 
     [Header("Customers")]
     public UnityEvent event_customerReadyToBeSeated;

@@ -10,7 +10,10 @@ public class CustomerManager : Singleton<CustomerManager>
     public List<Transform> customerOutsideQueueSpots = new List<Transform>();
     public List<GameObject> customersInQueue = new List<GameObject>();
     [SerializeField]
-    Transform customerSpawnPoint; 
+    Transform customerSpawnPoint;
+
+    [Header("Ready to Order")]
+    public List<GameObject> customersReadyToOrder = new List<GameObject>();
 
     public Sprite happyCustomer;
     public Sprite sadCustomer;
