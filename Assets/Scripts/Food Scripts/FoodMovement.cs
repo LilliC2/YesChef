@@ -27,17 +27,23 @@ public class FoodMovement : GameBehaviour
 
         if (foodState == FoodState.OnConveyerbelt)
         {
-            //If food is raw and just placed
-            if (conveyerbeltIndex != _FM.foodNeedPreperation_list.IndexOf(gameObject))
+            //to avoid null while food is being added to foodpreplist
+            if(_FM.foodNeedPreperation_list.Contains(gameObject))
             {
-                transform.position = Vector3.MoveTowards(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position, Time.deltaTime * _FM.conveyerbeltSpeed);
-
-                if (Vector3.Distance(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position) < 0.2f)
+                //If food is raw and just placed
+                if (conveyerbeltIndex != _FM.foodNeedPreperation_list.IndexOf(gameObject))
                 {
-                    conveyerbeltIndex--;
+                    transform.position = Vector3.MoveTowards(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position, Time.deltaTime * _FM.conveyerbeltSpeed);
 
+                    if (Vector3.Distance(transform.position, _GM.conveyerbeltPoints[conveyerbeltIndex].position) < 0.2f)
+                    {
+                        conveyerbeltIndex--;
+
+                    }
                 }
-            }            
+            }
+
+                       
         }
 
     }

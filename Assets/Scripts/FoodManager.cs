@@ -34,8 +34,12 @@ public class FoodManager : Singleton<FoodManager>
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         var food = Instantiate(prefab, _GM.conveyerbeltPoints[_GM.conveyerbeltPoints.Length-1].transform.position, Quaternion.identity);
-        //print("Ordered food: " + food.name);
         foodNeedPreperation_list.Add(food);
+
+        //print("Ordered food: " + food.name);
+
+        food.GetComponent<FoodData>().order = _order;
+
 
         print("added order");
 

@@ -125,8 +125,6 @@ public class ChefData : GameBehaviour
                     //place food
                     targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
 
-
-
                     tasks = Task.WorkOnFood;
                 }
                 else
@@ -154,18 +152,6 @@ public class ChefData : GameBehaviour
                         //print("go to pass called");
                     }
 
-
-                    //else if (!targetFoodData.isComplete)
-                    //{
-                    //    //if food is incomplete 1. check if chef can work on it, if not 2. return to idle and leave food
-
-                    //    print("food marked as incomplete");
-                    //    //leave food and add food to needs prep list
-                    //    _FM.foodNeedPreperation_list.Add(targetFood);
-
-                    //    ResetChef();
-
-                    //}
                 }
 
 
@@ -198,6 +184,10 @@ public class ChefData : GameBehaviour
                 {
                     targetFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.OnPass; //stops food from trying to travel from conveyerbelt
                     targetFood.transform.position = targetPassPoint.position;
+
+                    //remove from need prep and add to finished
+                    if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
+                    _FM.finishedFood_list.Add(targetFood);
                     isHoldingFood = false;
                     ResetChef();
                 }

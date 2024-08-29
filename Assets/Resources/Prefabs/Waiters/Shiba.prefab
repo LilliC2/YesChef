@@ -436,9 +436,10 @@ Transform:
   m_GameObject: {fileID: 1301813619833109851}
   m_LocalRotation: {x: 0, y: -0.9135455, z: 0, w: 0.40673664}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 3328689356874201204}
   - {fileID: 8000502142519149314}
   - {fileID: 7167195231180395476}
   m_Father: {fileID: 0}
@@ -509,17 +510,12 @@ MonoBehaviour:
     strength: 1
     speed: 3.5
   tasks: 0
-  isHoldingFood: 0
   placed: 0
-  isFoodEmpty: 0
-  homePos: {x: 0, y: 0, z: 0}
-  heldFood_1: {fileID: 0}
-  heldFood_2: {fileID: 0}
   anim: {fileID: 7307371601232015133}
-  currentCustomer_1: {fileID: 0}
-  currentCustomer_2: {fileID: 0}
-  holdfoodspot_1: {fileID: 1587410003350764708}
-  holdfoodspot_2: {fileID: 0}
+  customerBreakingDistance: 2
+  tableBreakingDistance: 2
+  isHoldingFood: 0
+  holdFoodSpot: {fileID: 0}
 --- !u!1 &1429168887557207633
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3328689356874201204}
   m_Layer: 0
-  m_Name: HoldFoodSpot_Right
+  m_Name: HoldFoodSpot
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -543,12 +539,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429168887557207633}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 1.419, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3690001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7167195231180395476}
+  m_Father: {fileID: 653637087345382751}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1530637352391394045
@@ -634,37 +630,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1587410003350764708
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6899027024729610781}
-  m_Layer: 0
-  m_Name: HoldFoodSpot_Right
-  m_TagString: Untagged
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6899027024729610781
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587410003350764708}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.036, y: -0.633, z: -0.295}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2402256579272034324}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2306441341111513451
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +843,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7167195231180395476
 Transform:
   m_ObjectHideFlags: 0
@@ -891,7 +856,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3328689356874201204}
   - {fileID: 447363381695286666}
   - {fileID: 7041359960458449366}
   - {fileID: 7613455537301967490}
@@ -2187,7 +2151,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8064506913286729098}
-  - {fileID: 6899027024729610781}
   m_Father: {fileID: 2866368658872097687}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2795,7 +2758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8000502142519149314
 Transform:
   m_ObjectHideFlags: 0

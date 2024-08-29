@@ -9,6 +9,8 @@ public class FoodData : GameBehaviour
     public FoodClass foodData;
     bool isComplete;
 
+    public Order order;
+
     GameObject uncookedFood;
     GameObject cookedFood;
 

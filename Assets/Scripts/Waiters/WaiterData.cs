@@ -11,26 +11,13 @@ public class WaiterData : GameBehaviour
     public enum Task { Idle, SeatCustomer ,TakeCustomerOrder, GetFood, DeliverFood }
     public Task tasks;
 
-    [SerializeField]
-    bool isHoldingFood;
+
     public bool placed;
-
-    public Vector3 homePos;
-    [SerializeField]
-    GameObject heldFood_1;
-    FoodData heldFoodData_1;
-
 
     public Animator anim;
 
     NavMeshAgent agent;
 
-    [SerializeField]
-    GameObject currentCustomer_1;
-
-
-    [SerializeField]
-    GameObject holdfoodspot_1;
 
 
     [Header("Seating Customer")]
@@ -43,12 +30,19 @@ public class WaiterData : GameBehaviour
     [Header("Take Customer Order")]
     bool isTakingOrder;
 
+    [Header("Deliver Finished Order")]
+    GameObject targetOrder;
+    [SerializeField]
+    bool isHoldingFood;
+    [SerializeField]
+    Transform holdFoodSpot;
+
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //holdfoodspot_1 = transform.Find("HoldFoodSpot").gameObject;
+        holdFoodSpot = transform.Find("HoldFoodSpot").gameObject.transform;
         agent = GetComponent<NavMeshAgent>();
         //set speed
         agent.speed = waiterData.speed;
@@ -90,6 +84,19 @@ public class WaiterData : GameBehaviour
                     }
                 }
 
+
+                //Serving Finished Food
+                if(_FM.finishedFood_list.Count != 0)
+                {
+                    //when finished food is grabbed by waiter it will be removed from list
+                    if(targetOrder == null)
+                    {
+                        targetOrder = _FM.finishedFood_list.FirstOrDefault();
+                        customer = targetOrder.GetComponent<FoodData>().order.customer;
+                        customer.GetComponent<CustomerData>().beingAttened = true;
+                        tasks = Task.GetFood;
+                    }
+                }
 
                 break;
             case Task.SeatCustomer:
@@ -158,7 +165,20 @@ public class WaiterData : GameBehaviour
                 else tasks = Task.Idle;
 
                 break;
-            case Task.GetFood: 
+            case Task.GetFood:
+
+                //while not holding food, go get target food
+                agent.SetDestination(targetOrder.transform.position);
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    //change food status
+                    targetOrder.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld;
+
+                    targetOrder.transform.position = holdFoodSpot.position;
+
+                }
+
                 break;
             case Task.DeliverFood:
                 break;

@@ -83,7 +83,7 @@ public class WaiterManager : Singleton<WaiterManager>
                         _AM.placingChef.Play();
 
                         newWaiter.GetComponent<WaiterData>().placed = true;
-                        newWaiter.GetComponent<WaiterData>().homePos = newWaiter.transform.position;
+                        //newWaiter.GetComponent<WaiterData>().homePos = newWaiter.transform.position;
                         currentWaiters.Add(newWaiter);
                         //subtract cost of chef from money
                         _GM.money -= newWaiter.GetComponent<WaiterData>().waiterData.hireCost;

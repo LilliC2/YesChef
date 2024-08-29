@@ -126,6 +126,7 @@ public class CustomerData : GameBehaviour
                 {
                     hasSelectedOrder = true;
                     order = _FM.menu[Random.Range(0, _FM.menu.Count-1)];
+                    order.customer = gameObject; //set customer as itself
                     print("Want to order " +  order.foodPrefab.name);
                     _CustM.customersReadyToOrder.Add(gameObject);
                 }
