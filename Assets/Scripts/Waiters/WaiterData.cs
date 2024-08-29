@@ -64,7 +64,8 @@ public class WaiterData : GameBehaviour
                 //Seating Customer
                 if(_CustM.customersInQueue.Count != 0)
                 {
-                    if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened)
+                    //check if customer is being attended AND there is a table avalible
+                    if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened && _FOHM.unoccupiedTables.Count != 0)
                     {
                         _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
                         tasks = Task.SeatCustomer;
