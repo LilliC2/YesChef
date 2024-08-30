@@ -24,10 +24,15 @@ public class CustomerData : GameBehaviour
     [Header("Follow Waiter")]
     [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
     GameObject waiterFollow;
+    public Transform plateSpot;
 
     [Header("Select From Menu")]
     public Order order;
+    public GameObject orderGO;
     bool hasSelectedOrder;
+
+    [Header("Eat Food")]
+    bool isEating;
 
     //public GameObject order;
     //public bool hasBeenAttened;
@@ -116,7 +121,6 @@ public class CustomerData : GameBehaviour
                 
 
                 break;
-
             case Task.SelectFromMenu:
 
                 //check they have sat down
@@ -133,7 +137,40 @@ public class CustomerData : GameBehaviour
 
 
                 break;
+            case Task.EatFood:
+
+                if(!isEating)
+                {
+                    isEating = true;
+                    ExecuteAfterSeconds(order.eatTime, () => FinishedEating());
+                }
+
+
+                break;
+            case Task.PayAndLeave:
+
+                if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
+
+
+                break;
         }
+    }
+
+    void FinishedEating()
+    {
+        orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
+        PayForOrder();
+    }
+
+    void PayForOrder()
+    {
+        _GM.PlayerMoneyIncrease(order.orderCost);
+
+        //set leave destination
+        agent.SetDestination(_CustM.leavePoints[Random.Range(0, _CustM.leavePoints.Length)].position);
+
+        task = Task.PayAndLeave;
+
     }
 
     public void StartFollowWaiter(GameObject _waiter)
@@ -151,6 +188,9 @@ public class CustomerData : GameBehaviour
         print("seated");
         var tableData = _table.GetComponent<Table>();
         var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
+
+        //plate spot first child of chair
+        plateSpot = targetChair.GetChild(0);
 
         tableData.ChangeToOccupied(targetChair);
 

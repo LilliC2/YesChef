@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class FoodData : GameBehaviour
 {
-    
+
+    public enum FoodState { Unprepared, Finished, Dirty}
+    public FoodState foodState;
+    public enum FoodMovement { OnConveyerbelt, OnPass, BeingHeld }
+    public FoodMovement foodMovement;
 
     public FoodClass foodData;
     bool isComplete;
@@ -13,6 +17,7 @@ public class FoodData : GameBehaviour
 
     GameObject uncookedFood;
     GameObject cookedFood;
+    GameObject dirtyFood;
 
     [SerializeField]
     ParticleSystem starburst;
@@ -21,32 +26,55 @@ public class FoodData : GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        foodState = FoodState.Unprepared;
+
         starburst = GetComponentInChildren<ParticleSystem>();
         uncookedFood = transform.GetChild(0).gameObject;
         cookedFood = transform.GetChild(1).gameObject;
+        dirtyFood = transform.GetChild(2).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        foodData.isComplete = CheckIfComplete();
-        
-        if(foodData.isComplete)
+        isComplete = CheckIfComplete();
+
+        //switch look
+        switch (foodState)
         {
-            if(!playAnim)
-            {
-                starburst.Play();
-                playAnim = true;
-            }
-            uncookedFood.SetActive(false);
-            cookedFood.SetActive(true);
+            case FoodState.Unprepared:
+                if(!uncookedFood.activeSelf)
+                {
+                    uncookedFood.SetActive(true);
+                    cookedFood.SetActive(false);
+                    dirtyFood.SetActive(false);
+                }
+                break;
+            case FoodState.Finished:
+                if (!cookedFood.activeSelf)
+                {
+                    starburst.Play();
 
-            //change layer to complete food
-            gameObject.layer = 6;
+                    cookedFood.SetActive(true);
+                    uncookedFood.SetActive(false);
+                    dirtyFood.SetActive(false);
+                    gameObject.layer = 6;
+
+                }
+                break;
+            case FoodState.Dirty:
+                if (!dirtyFood.activeSelf)
+                {
+                    dirtyFood.SetActive(true);
+                    uncookedFood.SetActive(false);
+                    cookedFood.SetActive(false);
+
+                }
+                break;
         }
+
+
     }
-
-
 
     public bool CheckIfComplete()
     {

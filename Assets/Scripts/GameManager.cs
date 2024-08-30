@@ -20,12 +20,6 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(SummonWave(dayCount));
     }
 
-    void StartDay()
-    {
-
-
-    }
-
     IEnumerator SummonWave(int dayNum)
     {
         //temp spawn food every x seconds while coding chefs
@@ -42,11 +36,11 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-
-    private void Update()
+    public void PlayerMoneyIncrease(float _amount)
     {
-        
+        money += _amount;
     }
+
 
 
     //public float reputation = 100;

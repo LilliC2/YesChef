@@ -22,6 +22,11 @@ public class CustomerManager : Singleton<CustomerManager>
 
     public UnityEvent event_newSeatAvalible;
 
+    [Header("Leave")]
+
+    public Transform[] leavePoints;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,17 +39,6 @@ public class CustomerManager : Singleton<CustomerManager>
 
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
-
-    //void SpawnCustomersEventListener()
-    //{
-    //    StartCoroutine(SpawnCustomers());
-    //}
-
     IEnumerator SpawnCustomers()
     {
         //spawn amount temp
@@ -56,5 +50,14 @@ public class CustomerManager : Singleton<CustomerManager>
             yield return new WaitForSeconds(0.2f);
 
         }
+    }
+
+    /// <summary>
+    /// When a customer leaves the play area
+    /// </summary>
+    public void RemoveCustomer(GameObject _customer)
+    {
+        //check they are not on any lists
+        //if()
     }
 }

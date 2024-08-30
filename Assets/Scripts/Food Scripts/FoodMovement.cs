@@ -8,8 +8,6 @@ public class FoodMovement : GameBehaviour
 {
     int conveyerbeltIndex;
 
-    public enum FoodState { OnConveyerbelt, OnPass, BeingHeld}
-    public FoodState foodState;
 
     // Start is called before the first frame update
     void Start()

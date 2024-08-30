@@ -31,7 +31,8 @@ public class ChefData : GameBehaviour
     [SerializeField]
     GameObject targetFood;
     [SerializeField]
-    FoodClass targetFoodData;
+    FoodClass targetFoodClass;
+    FoodData targetFoodData;
     [SerializeField]
     GameObject targetWorkStation;
     Transform targetPassPoint;
@@ -144,6 +145,8 @@ public class ChefData : GameBehaviour
                     //if food is complete go to pass
                     if (targetFood.GetComponent<FoodData>().CheckIfComplete())
                     {
+                        targetFoodData.foodState = FoodData.FoodState.Finished;
+
                         //pick food back up
                         PickUpFood();
 
@@ -182,7 +185,7 @@ public class ChefData : GameBehaviour
 
                 if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
                 {
-                    targetFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.OnPass; //stops food from trying to travel from conveyerbelt
+                    targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
                     targetFood.transform.position = targetPassPoint.position;
 
                     //remove from need prep and add to finished
@@ -212,7 +215,7 @@ public class ChefData : GameBehaviour
     void PickUpFood()
     {
         if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood); //remove food from queue
-        targetFood.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld; //stops food from trying to travel from conveyerbelt
+        targetFoodData.foodMovement = FoodData.FoodMovement.BeingHeld; //stops food from trying to travel from conveyerbelt
         isHoldingFood = true;
     }
 
@@ -227,27 +230,28 @@ public class ChefData : GameBehaviour
         for (int i = 0; i < _FM.foodNeedPreperation_list.Count; i++)
         {
             targetFood = _FM.foodNeedPreperation_list[i].gameObject;
-            targetFoodData = targetFood.GetComponent<FoodData>().foodData;
+            targetFoodClass = targetFood.GetComponent<FoodData>().foodData;
+            targetFoodData = targetFood.GetComponent<FoodData>();
 
-            if (chefData.kneadSkill && targetFoodData.needsKneading)
+            if (chefData.kneadSkill && targetFoodClass.needsKneading)
             {
                 //print("I can kneed it");
                 workingOnSkill = WorkingOnSkill.Kneading;
                 isFoodFound = true;
             }
-            else if (chefData.cutSkill && targetFoodData.needsCutting)
+            else if (chefData.cutSkill && targetFoodClass.needsCutting)
             {
                 //print("I can cut it");
                 workingOnSkill = WorkingOnSkill.Cutting;
                 isFoodFound = true;
             }
-            else if (chefData.cookSkill && targetFoodData.needsCooking)
+            else if (chefData.cookSkill && targetFoodClass.needsCooking)
             {
                 //print("I can cook it");
                 workingOnSkill |= WorkingOnSkill.Cooking;
                 isFoodFound = true;
             }
-            else if (chefData.mixSkill && targetFoodData.needsMixing)
+            else if (chefData.mixSkill && targetFoodClass.needsMixing)
             {
                 //print("I can mix it");
                 workingOnSkill &= WorkingOnSkill.Mixing;
@@ -290,16 +294,16 @@ public class ChefData : GameBehaviour
         switch(workingOnSkill) 
         {
             case WorkingOnSkill.Cooking:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.cookWorkTime);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.cookWorkTime);
                 break;
             case WorkingOnSkill.Mixing:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.mixWorkTime);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.mixWorkTime);
                 break;
             case WorkingOnSkill.Cutting:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.cutWorkTime);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.cutWorkTime);
                 break;
             case WorkingOnSkill.Kneading:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodData.kneadWorkTime);
+                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.kneadWorkTime);
                 break;
         
         }
@@ -321,16 +325,16 @@ public class ChefData : GameBehaviour
         switch (workingOnSkill)
         {
             case WorkingOnSkill.Cooking:
-                isCurrentWorkComplete = targetFoodData.cookWorkComplete;
+                isCurrentWorkComplete = targetFoodClass.cookWorkComplete;
                 break;
             case WorkingOnSkill.Mixing:
-                isCurrentWorkComplete = targetFoodData.mixWorkComplete;
+                isCurrentWorkComplete = targetFoodClass.mixWorkComplete;
                 break;
             case WorkingOnSkill.Cutting:
-                isCurrentWorkComplete = targetFoodData.cutWorkComplete;
+                isCurrentWorkComplete = targetFoodClass.cutWorkComplete;
                 break;
             case WorkingOnSkill.Kneading:
-                isCurrentWorkComplete = targetFoodData.kneadedWorkComplete;
+                isCurrentWorkComplete = targetFoodClass.kneadedWorkComplete;
                 break;
 
         }
@@ -356,6 +360,7 @@ public class ChefData : GameBehaviour
     {
         //print("Reset chef");
         targetFood = null;
+        targetFoodClass = null;
         targetFoodData = null;
         isHoldingFood = false;
         targetWorkStation = null;

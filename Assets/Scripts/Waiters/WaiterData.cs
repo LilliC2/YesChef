@@ -22,6 +22,7 @@ public class WaiterData : GameBehaviour
 
     [Header("Seating Customer")]
     GameObject customer;
+    CustomerData customerData;
     bool isCustomerFollowing;
     [SerializeField] float customerBreakingDistance;
     [SerializeField] float tableBreakingDistance;
@@ -53,6 +54,9 @@ public class WaiterData : GameBehaviour
 
     private void Update()
     {
+        //set customer data
+        if(customer != null && customerData == null) { customerData = customer.GetComponent<CustomerData>(); }
+
         switch(tasks)
         {
             case Task.Idle:
@@ -67,6 +71,7 @@ public class WaiterData : GameBehaviour
                     {
                         _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
                         customer = _CustM.customersInQueue[0];
+                        customerData = customer.GetComponent<CustomerData>();
                         tasks = Task.SeatCustomer;
 
                     }
@@ -79,6 +84,7 @@ public class WaiterData : GameBehaviour
                     {
                         _CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened = true;
                         customer = _CustM.customersReadyToOrder[0];
+                        customerData = customer.GetComponent<CustomerData>();
                         tasks = Task.TakeCustomerOrder;
 
                     }
@@ -93,7 +99,8 @@ public class WaiterData : GameBehaviour
                     {
                         targetOrder = _FM.finishedFood_list.FirstOrDefault();
                         customer = targetOrder.GetComponent<FoodData>().order.customer;
-                        customer.GetComponent<CustomerData>().beingAttened = true;
+                        customerData = customer.GetComponent<CustomerData>();
+                        customerData.beingAttened = true;
                         tasks = Task.GetFood;
                     }
                 }
@@ -113,7 +120,7 @@ public class WaiterData : GameBehaviour
                         {
                             isCustomerFollowing = true;
                             print("close to customre");
-                            customer.GetComponent<CustomerData>().StartFollowWaiter(gameObject);
+                            customerData.StartFollowWaiter(gameObject);
                             //set customer to follow
                         }
 
@@ -137,8 +144,8 @@ public class WaiterData : GameBehaviour
                             //seat customer
 
                             print("at table");
-                            customer.GetComponent<CustomerData>().BeSeated(targetTable); //give them their table
-                            customer.GetComponent<CustomerData>().beingAttened = false; //no longer atteneding this customer
+                            customerData.BeSeated(targetTable); //give them their table
+                            customerData.beingAttened = false; //no longer atteneding this customer
                             ResetWaiter();
 
                             //reset
@@ -173,14 +180,28 @@ public class WaiterData : GameBehaviour
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     //change food status
-                    targetOrder.GetComponent<FoodMovement>().foodState = FoodMovement.FoodState.BeingHeld;
+                    targetOrder.GetComponent<FoodData>().foodMovement = FoodData.FoodMovement.BeingHeld; 
 
                     targetOrder.transform.position = holdFoodSpot.position;
-
+                    tasks = Task.DeliverFood;
                 }
 
                 break;
             case Task.DeliverFood:
+                targetOrder.transform.position = holdFoodSpot.position;
+
+                agent.SetDestination(customer.transform.position);
+
+                if (Vector3.Distance(transform.position, customer.transform.position) <= customerBreakingDistance)
+                {
+                    //place food
+                    targetOrder.transform.position = customerData.plateSpot.position;
+                    customerData.orderGO = targetOrder;
+                    customerData.task = CustomerData.Task.EatFood;
+                    ResetWaiter();
+
+                }
+
                 break;
         }
     }
@@ -190,7 +211,7 @@ public class WaiterData : GameBehaviour
         if (!isTakingOrder)
         {
             isTakingOrder = true;
-            _FM.OrderUp(customer.GetComponent<CustomerData>().order);
+            _FM.OrderUp(customerData.order);
             ExecuteAfterSeconds(1,()=> ResetWaiter());
 
         }
@@ -200,6 +221,7 @@ public class WaiterData : GameBehaviour
     {
         //seating customer
         customer = null;
+        customerData = null;
         targetTable = null;
         isCustomerFollowing = false;
         agent.isStopped = false;
