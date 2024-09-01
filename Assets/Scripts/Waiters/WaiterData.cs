@@ -164,7 +164,10 @@ public class WaiterData : GameBehaviour
                     agent.SetDestination(customer.transform.position);
 
                     if (Vector3.Distance(transform.position, customer.transform.position) <= customerBreakingDistance)
-                    {                        
+                    {
+                        //end customer timer
+                        customer.GetComponent<CustomerData>().OrderHasBeenTaken();
+
                         TakeOrder();
                     }
 

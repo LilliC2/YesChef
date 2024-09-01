@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,42 +28,18 @@ public class CustomerData : GameBehaviour
     public Transform plateSpot;
 
     [Header("Select From Menu")]
-    public Order order;
+    public OrderClass order;
     public GameObject orderGO;
     bool hasSelectedOrder;
 
     [Header("Eat Food")]
     bool isEating;
 
-    //public GameObject order;
-    //public bool hasBeenAttened;
-    //[SerializeField]
-    //Image orderDisplay;
+    [Header("Timers")]
+    float queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime;
+    float currentTime;
+    bool isTimerActive;
 
-    //[SerializeField]
-    //GameObject moneyEarned;
-
-    //GameObject seat;
-    //public GameObject plateSpot;
-
-    //NavMeshAgent agent;
-    //public bool leaving;
-
-    //public bool isOrderCooked;
-
-    //public GameObject currentFoodSprite;
-    // Start is called before the first frame update
-    //void Start()
-    //{
-
-    //    currentFoodSprite.SetActive(false);
-
-    //    agent = GetComponent<NavMeshAgent>();
-    //    FindSeat();
-
-    //    _GM.event_startOfDay.AddListener(OrderFood);
-    //    _CustM.event_newSeatAvalible.AddListener(FindSeat);
-    //}
 
     private void Start()
     {
@@ -73,10 +50,18 @@ public class CustomerData : GameBehaviour
 
     private void Update()
     {
+        if(isTimerActive)
+        {
+            currentTime += currentTime + Time.deltaTime;
+        }
+
         switch(task)
         {
             //In any position other than 0
             case Task.Queue:
+
+                //start timer
+                StartTimer();
 
                 //if not at correct queue position
                 if(queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
@@ -95,6 +80,7 @@ public class CustomerData : GameBehaviour
                         if(queueIndex == 0)
                         {
                             _EM.event_customerReadyToBeSeated.Invoke();
+                            queueWaitTime = StopTimer();
                             task = Task.WaitToBeSeated;
                         }
                     }
@@ -128,8 +114,11 @@ public class CustomerData : GameBehaviour
 
                 if(!hasSelectedOrder)
                 {
+                    //start timer
+                    StartTimer();
+
                     hasSelectedOrder = true;
-                    order = _FM.menu[Random.Range(0, _FM.menu.Count-1)];
+                    order = _FM.menu[UnityEngine.Random.Range(0, _FM.menu.Count-1)];
                     order.customer = gameObject; //set customer as itself
                     print("Want to order " +  order.foodPrefab.name);
                     _CustM.customersReadyToOrder.Add(gameObject);
@@ -137,10 +126,16 @@ public class CustomerData : GameBehaviour
 
 
                 break;
+            case Task.WaitForFood:
+                StartTimer();
+
+                break;
             case Task.EatFood:
 
                 if(!isEating)
                 {
+                    orderArrivalWaitTime = StopTimer();
+
                     isEating = true;
                     ExecuteAfterSeconds(order.eatTime, () => FinishedEating());
                 }
@@ -149,11 +144,34 @@ public class CustomerData : GameBehaviour
                 break;
             case Task.PayAndLeave:
 
-                if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    _CustM.RemoveCustomer(gameObject);
+                }
 
 
                 break;
         }
+    }
+
+    public void OrderHasBeenTaken()
+    {
+        takeOrderWaitTime = StopTimer();
+        task = Task.WaitForFood;
+
+    }
+
+    void StartTimer()
+    {
+        isTimerActive = true;
+    }
+
+    float StopTimer()
+    {
+        isTimerActive = false;
+        TimeSpan time = TimeSpan.FromSeconds(currentTime);
+        currentTime = 0;
+        return time.Seconds;
     }
 
     void FinishedEating()
@@ -167,7 +185,10 @@ public class CustomerData : GameBehaviour
         _GM.PlayerMoneyIncrease(order.orderCost);
 
         //set leave destination
-        agent.SetDestination(_CustM.leavePoints[Random.Range(0, _CustM.leavePoints.Length)].position);
+        agent.SetDestination(_CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position);
+
+        //calculate rating
+        _CustM.CalculateResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
 
         task = Task.PayAndLeave;
 

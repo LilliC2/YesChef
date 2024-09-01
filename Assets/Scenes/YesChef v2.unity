@@ -1190,6 +1190,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3457277712027227445, guid: cbe529dac89c9be40b4e89f76c9d6277, type: 3}
   m_PrefabInstance: {fileID: 1513341561}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &696646617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5764009172609972559, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
+  m_PrefabInstance: {fileID: 704631143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &704631143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1262,10 +1267,14 @@ PrefabInstance:
       propertyPath: menu.Array.data[0].foodPrefab
       value: 
       objectReference: {fileID: 863991338456687275, guid: 96b238534f310544cbd62b403fc61107, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6745652539058378179, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5764009172609972559, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 910443471}
   m_SourcePrefab: {fileID: 100100000, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
 --- !u!1 &736706720
 GameObject:
@@ -1855,6 +1864,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 787154166275978534, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
   m_PrefabInstance: {fileID: 704631143}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &910443471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696646617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f826ccd8398ff448d4d54078804211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroy: 0
+  menu:
+  - foodPrefab: {fileID: 863991338456687275, guid: 96b238534f310544cbd62b403fc61107, type: 3}
+    customer: {fileID: 0}
+    isComplete: 0
+    isBeingPickedUp: 0
+    orderCost: 5
+    eatTime: 1
+  orderedFood: []
+  foodNeedPreperation_list: []
+  finishedFood_list: []
+  conveyerbeltSpeed: 1
+  foodSpawnEase: 0
 --- !u!224 &916963214 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3616982031560777799, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
@@ -4309,6 +4343,12 @@ MonoBehaviour:
   - {fileID: 1623608459}
   - {fileID: 1441312942}
   - {fileID: 413382165}
+  minQueueWaitTime: 7
+  maxQueueWaitTime: 13
+  minOrderTakeWaitTime: 5
+  maxOrderTakeWaitTime: 10
+  minOrderArrivalTime: 5
+  maxOrderArrivalTime: 10
 --- !u!1 &2058081824
 GameObject:
   m_ObjectHideFlags: 0

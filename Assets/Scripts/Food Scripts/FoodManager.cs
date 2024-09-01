@@ -6,7 +6,7 @@ using DG.Tweening;
 #region Classes
 [System.Serializable]
 // Order class contains any information related to customers or waiters
-public class Order
+public class OrderClass
 {
     public GameObject foodPrefab;
     public GameObject customer;
@@ -55,9 +55,9 @@ public class FoodClass
 public class FoodManager : Singleton<FoodManager>
 {
 
-    public List<Order> menu = new List<Order>();
+    public List<OrderClass> menu = new List<OrderClass>();
 
-    public List<Order> orderedFood = new List<Order>();
+    public List<OrderClass> orderedFood = new List<OrderClass>();
 
     public List<GameObject> foodNeedPreperation_list = new List<GameObject>();
 
@@ -70,7 +70,7 @@ public class FoodManager : Singleton<FoodManager>
 
 
 
-    public void OrderUp(Order _order)
+    public void OrderUp(OrderClass _order)
     {
         if(!orderedFood.Contains(_order)) orderedFood.Add(_order);
         var prefab = _order.foodPrefab;

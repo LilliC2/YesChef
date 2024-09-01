@@ -28,6 +28,13 @@ public class CustomerManager : Singleton<CustomerManager>
 
     public Transform[] leavePoints;
 
+    [Header("Resturant Ratings")]
+    [SerializeField] float minQueueWaitTime, maxQueueWaitTime;
+    [SerializeField] float minOrderTakeWaitTime, maxOrderTakeWaitTime;
+    [SerializeField] float minOrderArrivalTime, maxOrderArrivalTime;
+
+    int resturantRatingTotal_currentDay;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +55,7 @@ public class CustomerManager : Singleton<CustomerManager>
         {
             var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
             customersInQueue.Add(newCustomers);
+            customersInResturant.Add(newCustomers);
             //customersList.Add(newCustomers);
             yield return new WaitForSeconds(0.2f);
 
@@ -59,7 +67,72 @@ public class CustomerManager : Singleton<CustomerManager>
     /// </summary>
     public void RemoveCustomer(GameObject _customer)
     {
+        if (customersInQueue.Contains(_customer)) customersInQueue.Remove(_customer);
+        if (customersReadyToOrder.Contains(_customer)) customersReadyToOrder.Remove(_customer);
+
         //check they are not on any lists
-        //if()
+        customersInResturant.Remove(_customer);
+
+        Destroy(_customer);
+    }
+
+    public void CalculateResturantRating(float _queueWaitTime, float _orderaTakeWaitTime, float _orderArrivalWaitTime)
+    {
+        //3 levels
+        int customersRating = 0;
+
+        //if served less than min time
+        #region Positive Rating
+        if (_queueWaitTime < minQueueWaitTime)
+        {
+            customersRating += 1;
+        }
+        if (_orderaTakeWaitTime < minOrderTakeWaitTime)
+        {
+            customersRating += 1;
+        }
+        if (_orderArrivalWaitTime < minOrderArrivalTime)
+        {
+            customersRating += 1;
+        }
+
+        #endregion
+        //if betwneen min and max time (currently 0 but leaving here in case I want to change it
+        #region Neutral Rating
+        if (_queueWaitTime > minQueueWaitTime && _queueWaitTime < maxQueueWaitTime)
+        {
+            customersRating += 0;
+        }
+        if (_orderaTakeWaitTime > minOrderTakeWaitTime && _orderaTakeWaitTime < maxOrderTakeWaitTime)
+        {
+            customersRating += 0;
+        }
+        if (_orderArrivalWaitTime > minOrderArrivalTime && _orderArrivalWaitTime < maxOrderArrivalTime)
+        {
+            customersRating += 0;
+        }
+
+        #endregion
+
+        //if over max time
+        #region Negative Rating
+        if (_queueWaitTime > maxQueueWaitTime)
+        {
+            customersRating -= 1;
+        }
+        if (_orderaTakeWaitTime > maxOrderTakeWaitTime)
+        {
+            customersRating -= 1;
+        }
+        if (_orderArrivalWaitTime > maxOrderArrivalTime)
+        {
+            customersRating -= 1;
+        }
+        #endregion
+
+        print("Queue WT: " + _queueWaitTime + " TakeOrder WT: " + _orderaTakeWaitTime + " OrderArrival WT: " + _orderArrivalWaitTime);
+        print("Rating of " + customersRating);
+
+        resturantRatingTotal_currentDay += customersRating;
     }
 }
