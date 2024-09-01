@@ -6,18 +6,60 @@ using UnityEngine.Events;
 public class GameManager : Singleton<GameManager>
 {
 
-    [Header("Player Stats")]
+    [Header("Player Progress")]
     public int dayCount;
     public float money;
 
     [SerializeField] GameObject tempFood;
+
+    //[Header("Game States")]
+    public enum PlayState { Open, Closed };
+    public PlayState playState; //while game is actively being played
+    public enum GameState { Playing, Paused}
+    public GameState gameState;
+
+    [SerializeField] float openDayLength = 300; //300 = 5 minutes
+    [SerializeField] float currentTime_OpenDay; 
+    float currentTime_lerp;
+
+    //called to change states
+    public UnityEvent event_playStateOpen;
+    public UnityEvent event_playStateClose;
+    public UnityEvent event_gameStatePlaying;
+    public UnityEvent event_gameStatePause;
 
     [Header("Moving Food")]
     public Transform[] conveyerbeltPoints;
 
     private void Start()
     {
+        event_playStateClose.AddListener(ChangePlayStateToClose);
+
         StartCoroutine(SummonWave(dayCount));
+    }
+
+    private void Update()
+    {
+        switch(playState)
+        {
+            case PlayState.Open:
+
+                if(currentTime_lerp <= openDayLength)
+                {
+                    currentTime_lerp += Time.deltaTime;
+                    currentTime_OpenDay =  Mathf.Lerp(0, openDayLength, currentTime_lerp/openDayLength);
+
+                    _UI.UpdateOpenDayDial(currentTime_OpenDay, openDayLength);
+                    //print(currentTime_OpenDay);
+                }
+                else
+                {
+                    event_playStateClose.Invoke();
+                }
+
+
+                break;
+        }
     }
 
     IEnumerator SummonWave(int dayNum)
@@ -41,7 +83,10 @@ public class GameManager : Singleton<GameManager>
         money += _amount;
     }
 
-
+    void ChangePlayStateToClose()
+    {
+        playState = PlayState.Closed;
+    }
 
     //public float reputation = 100;
     //public List<GameObject> receipesUnlocked;
