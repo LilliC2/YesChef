@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class CustomerManager : Singleton<CustomerManager>
 {
+    public List<GameObject> customersInResturant = new List<GameObject>();
+
     [Header("Queue")]
     public List<Transform> customerOutsideQueueSpots = new List<Transform>();
     public List<GameObject> customersInQueue = new List<GameObject>();

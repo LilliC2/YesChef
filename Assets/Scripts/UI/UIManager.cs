@@ -16,12 +16,43 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     CircularProgressBar openDayDial_CircularProgressBar;
 
+    [Header("Player Profile")]
+    [SerializeField] TMP_Text moneyValue_TMPText;
+    [SerializeField] TMP_Text levelValue_TMPText;
+    [SerializeField] Slider currentEXPValue_Slider;
 
-
+    private void Start()
+    {
+        //set stats to start
+        UpdatePlayerEXP();
+        UpdatePlayerMoney();
+        UpdatePlayerLevel(10, 1); //temp
+    }
 
     public void UpdateOpenDayDial(float _currentTime, float _maxTime)
     {
         openDayDial_CircularProgressBar.Percentage = (_currentTime / _maxTime) * 100;
+    }
+
+    public void UpdatePlayerLevel(int _newMaxEXPCap, int _playerlevel)
+    {
+        //update level
+        levelValue_TMPText.text = _playerlevel.ToString();
+
+        //update slider max value
+        currentEXPValue_Slider.maxValue = _newMaxEXPCap;
+    }
+
+    public void UpdatePlayerEXP()
+    {
+        currentEXPValue_Slider.value = _GM.currentPlayerEXP;
+    }
+
+    public void UpdatePlayerMoney()
+    {
+        //add roll effect for text
+
+        moneyValue_TMPText.text = _GM.money.ToString();
     }
 
     //[Header("Audio")]

@@ -10,6 +10,12 @@ public class GameManager : Singleton<GameManager>
     public int dayCount;
     public float money;
 
+    public int playerLevel;
+    public int currentPlayerEXP; //how much exp the player currently has
+    int nextLvlEXPCap; //how much EXP the player needs to level up
+
+    public float resturantRating;
+
     [SerializeField] GameObject tempFood;
 
     //[Header("Game States")]
@@ -27,6 +33,7 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent event_playStateClose;
     public UnityEvent event_gameStatePlaying;
     public UnityEvent event_gameStatePause;
+    public UnityEvent event_playerLevelUp;
 
     [Header("Moving Food")]
     public Transform[] conveyerbeltPoints;
@@ -34,8 +41,11 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         event_playStateClose.AddListener(ChangePlayStateToClose);
+        event_playerLevelUp.AddListener(PlayerLevelUp);
 
         StartCoroutine(SummonWave(dayCount));
+
+
     }
 
     private void Update()
@@ -86,6 +96,30 @@ public class GameManager : Singleton<GameManager>
     void ChangePlayStateToClose()
     {
         playState = PlayState.Closed;
+    }
+
+    void PlayerLevelUp()
+    {
+        //reset current exp to 0
+        currentPlayerEXP = 0;
+        _UI.UpdatePlayerEXP();
+
+        _UI.UpdatePlayerLevel(nextLvlEXPCap, playerLevel);
+    }
+
+    public void PlayerGainEXP(int _gainAmount)
+    {
+        currentPlayerEXP += _gainAmount;
+
+        //if leveled up
+        if(currentPlayerEXP >= nextLvlEXPCap)
+        {
+            event_playerLevelUp.Invoke();
+        }
+        else
+        {
+            _UI.UpdatePlayerEXP();
+        }
     }
 
     //public float reputation = 100;
