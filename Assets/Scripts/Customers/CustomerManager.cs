@@ -35,6 +35,9 @@ public class CustomerManager : Singleton<CustomerManager>
 
     int resturantRatingTotal_currentDay;
 
+    [Header("Resturant Ratings")]
+    int currentDayCustomerIntake = 0;
+     
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +65,11 @@ public class CustomerManager : Singleton<CustomerManager>
         }
     }
 
+    //int CalculateCurrentCustomerIntake()
+    //{
+
+    //}
+
     /// <summary>
     /// When a customer leaves the play area
     /// </summary>
@@ -76,7 +84,7 @@ public class CustomerManager : Singleton<CustomerManager>
         Destroy(_customer);
     }
 
-    public void CalculateResturantRating(float _queueWaitTime, float _orderaTakeWaitTime, float _orderArrivalWaitTime)
+    public void CalculateResturantRating(double _queueWaitTime, double _orderaTakeWaitTime, double _orderArrivalWaitTime)
     {
         //3 levels
         int customersRating = 0;

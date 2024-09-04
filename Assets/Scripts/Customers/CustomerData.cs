@@ -35,10 +35,11 @@ public class CustomerData : GameBehaviour
     [Header("Eat Food")]
     bool isEating;
 
-    [Header("Timers")]
-    float queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime;
-    float currentTime;
-    bool isTimerActive;
+    [Header("Stopwatch")]
+    double queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime;
+    [SerializeField]
+    float currentTime = 0;
+    bool isTimerActive = true;
 
 
     private void Start()
@@ -52,7 +53,7 @@ public class CustomerData : GameBehaviour
     {
         if(isTimerActive)
         {
-            currentTime += currentTime + Time.deltaTime;
+            currentTime = currentTime + Time.deltaTime;
         }
 
         switch(task)
@@ -61,10 +62,11 @@ public class CustomerData : GameBehaviour
             case Task.Queue:
 
                 //start timer
-                StartTimer();
+                if(!isTimerActive) StartTimer();
+
 
                 //if not at correct queue position
-                if(queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
+                if (queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
                 {
                     agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
 
@@ -115,7 +117,7 @@ public class CustomerData : GameBehaviour
                 if(!hasSelectedOrder)
                 {
                     //start timer
-                    StartTimer();
+                    if (!isTimerActive) StartTimer();
 
                     hasSelectedOrder = true;
                     order = _FM.menu[UnityEngine.Random.Range(0, _FM.menu.Count-1)];
@@ -127,7 +129,7 @@ public class CustomerData : GameBehaviour
 
                 break;
             case Task.WaitForFood:
-                StartTimer();
+                if (!isTimerActive) StartTimer();
 
                 break;
             case Task.EatFood:
@@ -159,19 +161,22 @@ public class CustomerData : GameBehaviour
         takeOrderWaitTime = StopTimer();
         task = Task.WaitForFood;
 
+
     }
 
     void StartTimer()
     {
+        currentTime = 0;
         isTimerActive = true;
+
     }
 
-    float StopTimer()
+    double StopTimer()
     {
         isTimerActive = false;
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        currentTime = 0;
-        return time.Seconds;
+        print(time.Minutes.ToString() + ":" + time.Seconds.ToString());
+        return time.TotalSeconds;
     }
 
     void FinishedEating()
@@ -222,130 +227,4 @@ public class CustomerData : GameBehaviour
 
     }
 
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    currentFoodSprite.transform.LookAt(Camera.main.transform.position);
-
-    //    if (leaving && Vector3.Distance(transform.position, _CustM.resturantDoor.transform.position) < 2)
-    //    {
-    //        currentFoodSprite.SetActive(false);
-    //        Destroy(gameObject);
-
-    //    }
-    //}
-    //public void ServedFood()
-    //{
-
-    //    currentFoodSprite.SetActive(false);
-
-    //    print("YUM!");
-
-    //    isOrderCooked = order.GetComponent<FoodData>().foodData.isCooked;
-    //    print("Order is cooked is " + isOrderCooked);
-    //    //begin eating after X seconds
-    //    ExecuteAfterSeconds(order.GetComponent<FoodData>().foodData.eatTime,()=> LeaveResturant());
-
-    //    //eating aniamtion??
-
-
-    //    //destroy food
-
-    //    //leave resturant
-
-
-
-    //}
-
-    //void OrderFood()
-    //{
-    //    print("order food");
-    //    if(order == null)
-    //    {
-    //        order = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-    //        _FM.orderedFood.Add(order);
-    //        currentFoodSprite.SetActive(true);
-    //        orderDisplay.sprite = order.GetComponent<FoodData>().foodData.pfp;
-    //    }
-
-
-    //}
-
-    //void FindSeat()
-    //{
-    //    if(seat == null && !leaving)
-    //    {
-    //        //queue outside
-    //        if (_CustM.emptyChairQueue.Count == 0)
-    //        {
-    //            _CustM.customerQueueWaiting.Add(gameObject);
-    //            bool foundSpot = false;
-
-    //            for (int i = 0; i < _CustM.customerQueueSpots.Count; i++)
-    //            {
-    //                if (!foundSpot)
-    //                {
-    //                    if(_CustM.customerQueueWaitingCheck[i] == false)
-    //                    {
-    //                        foundSpot = true;
-    //                        _CustM.customerQueueWaitingCheck[i] = true;
-    //                        agent.SetDestination(_CustM.customerQueueSpots[i].transform.position);
-    //                    }
-    //                }
-    //            }
-
-    //           // agent.SetDestination(_CustM.customerQueueSpots[_CustM.customerQueueWaiting.IndexOf(gameObject)].transform.position);
-    //        }
-    //        else
-    //        {
-    //            _CustM.customerQueueWaiting.Remove(gameObject);
-    //            seat = _CustM.emptyChairQueue[0];
-    //            agent.SetDestination(seat.transform.position);
-    //            _CustM.emptyChairQueue.Remove(_CustM.emptyChairQueue[0]);
-
-    //            plateSpot = seat.transform.GetChild(0).gameObject;
-    //        }
-    //    }
-
-
-    //}
-
-    //void LeaveResturant()
-    //{
-    //    leaving = true;
-    //    currentFoodSprite.SetActive(true);
-    //    //pay
-    //    if (isOrderCooked)
-    //    {
-
-    //        _GM.money += order.GetComponent<FoodData>().foodData.orderCost;
-    //        orderDisplay.sprite = _CustM.happyCustomer;
-
-    //    }
-    //    else
-    //    {
-    //        orderDisplay.sprite = _CustM.sadCustomer;
-
-    //        _GM.money += order.GetComponent<FoodData>().foodData.orderCost / 2;
-    //        _GM.reputation -= order.GetComponent<FoodData>().foodData.reputationLoss;
-    //    }
-
-    //    ExecuteAfterSeconds(1, () => currentFoodSprite.SetActive(false));
-
-    //    moneyEarned.SetActive(true);
-
-    //    _GM.event_updateMoney.Invoke();
-    //    _UI.UpdateReputationSlider();
-    //        Destroy(order);
-    //        _CustM.customersList.Remove(gameObject);
-    //        _FM.foodInWave.Remove(order);
-    //        _FM.queuedFood.Remove(order);
-
-    //        //stop eating animation
-    //        _CustM.emptyChairQueue.Add(seat);
-    //    _CustM.event_newSeatAvalible.Invoke();
-
-    //        agent.SetDestination(_CustM.resturantDoor.transform.position);
-    //}
 }
