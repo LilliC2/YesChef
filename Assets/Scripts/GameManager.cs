@@ -45,31 +45,40 @@ public class GameManager : Singleton<GameManager>
 
         StartCoroutine(SummonWave(dayCount));
 
+        event_playStateOpen.Invoke();
 
     }
 
     private void Update()
     {
-        switch(playState)
+        switch(gameState)
         {
-            case PlayState.Open:
+            case GameState.Playing:
 
-                if(currentTime_lerp <= openDayLength)
+                switch (playState)
                 {
-                    currentTime_lerp += Time.deltaTime;
-                    currentTime_OpenDay =  Mathf.Lerp(0, openDayLength, currentTime_lerp/openDayLength);
+                    case PlayState.Open:
 
-                    _UI.UpdateOpenDayDial(currentTime_OpenDay, openDayLength);
-                    //print(currentTime_OpenDay);
-                }
-                else
-                {
-                    event_playStateClose.Invoke();
-                }
+                        if (currentTime_lerp <= openDayLength)
+                        {
+                            currentTime_lerp += Time.deltaTime;
+                            currentTime_OpenDay = Mathf.Lerp(0, openDayLength, currentTime_lerp / openDayLength);
 
+                            _UI.UpdateOpenDayDial(currentTime_OpenDay, openDayLength);
+                            //print(currentTime_OpenDay);
+                        }
+                        else
+                        {
+                            event_playStateClose.Invoke();
+                        }
+
+
+                        break;
+                }
 
                 break;
         }
+       
     }
 
     IEnumerator SummonWave(int dayNum)

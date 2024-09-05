@@ -54,6 +54,11 @@ public class FoodClass
 #endregion
 public class FoodManager : Singleton<FoodManager>
 {
+    [Header("Produce")]
+    public int grainTotal_produce, diaryTotal_produce, fruitTotal_produce, vegTotal_produce, protienTotal_produce;
+    public int grainPrice_produce, diaryPrice_produce, fruitPrice_produce, vegPrice_produce, protienPrice_produce;
+
+    [Header("Cooking")]
 
     public List<OrderClass> menu = new List<OrderClass>();
 
@@ -66,9 +71,6 @@ public class FoodManager : Singleton<FoodManager>
     public float conveyerbeltSpeed;
 
     public Ease foodSpawnEase;
-
-
-
 
     public void OrderUp(OrderClass _order)
     {
@@ -90,4 +92,6 @@ public class FoodManager : Singleton<FoodManager>
         print("added order");
 
     }
+
+
 }

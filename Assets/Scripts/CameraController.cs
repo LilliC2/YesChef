@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    float cameraSpeed;
+    float cameraSpeed, minZ, maxZ;
 
     Vector3 startPos;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
         {
             print("go up");
             //move up
-            if(transform.position.z < - 6.71)
+            if(transform.position.z < maxZ)
             {
                 transform.Translate(Vector3.forward * cameraSpeed * Time.deltaTime, Space.World);
 
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
         {
             print("go down");
 
-            if (transform.position.z > -26) transform.Translate(Vector3.back * cameraSpeed * Time.deltaTime, Space.World);
+            if (transform.position.z > minZ) transform.Translate(Vector3.back * cameraSpeed * Time.deltaTime, Space.World);
 
 
         }

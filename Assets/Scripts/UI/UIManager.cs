@@ -9,6 +9,7 @@ using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using Ricimi;
+using DG.Tweening;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -21,14 +22,27 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TMP_Text levelValue_TMPText;
     [SerializeField] Slider currentEXPValue_Slider;
 
+    [Header("Button Panel")]
+    [SerializeField] GameObject buttonPanel_GO;
+    [SerializeField] Vector3 openPos_V3;
+    [SerializeField] Vector3 closePos_V3;
+
+    [Header("Purchase Produce")]
+    [SerializeField] GameObject producePanel_GO;
+    [SerializeField] Camera produceCamera_Cam;
+
     private void Start()
     {
         //set stats to start
         UpdatePlayerEXP();
         UpdatePlayerMoney();
         UpdatePlayerLevel(10, 1); //temp
+
+        _GM.event_playStateClose.AddListener(ActivateButtonPanel);
+        _GM.event_playStateOpen.AddListener(ActivateButtonPanel);
     }
 
+    #region Update Functions
     public void UpdateOpenDayDial(float _currentTime, float _maxTime)
     {
         openDayDial_CircularProgressBar.Percentage = (_currentTime / _maxTime) * 100;
@@ -54,6 +68,38 @@ public class UIManager : Singleton<UIManager>
 
         moneyValue_TMPText.text = _GM.money.ToString();
     }
+
+    #endregion
+
+    #region Open Functions
+    /// <summary>
+    /// Open during game phase Closed
+    /// </summary>
+    public void ActivateButtonPanel()
+    {
+        switch (_GM.playState)
+        {
+            //resturant open
+            case GameManager.PlayState.Open:
+                buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(closePos_V3, 1);
+                ExecuteAfterSeconds(1, () => buttonPanel_GO.SetActive(false));
+                break;
+            case GameManager.PlayState.Closed:
+                buttonPanel_GO.SetActive(true);
+                buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
+                break;
+        }
+
+    }
+
+    public void ActivatePurchaseProducePanel()
+    {
+        //will turn on or off depending on current state
+        producePanel_GO.SetActive(!producePanel_GO.activeSelf);
+        produceCamera_Cam.gameObject.SetActive(!produceCamera_Cam.gameObject.activeSelf);
+    }
+
+    #endregion
 
     //[Header("Audio")]
     //public AudioMixerSnapshot paused;
