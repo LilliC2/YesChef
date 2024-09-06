@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         if(vertical >0)
         {
-            print("go up");
+            //print("go up");
             //move up
             if(transform.position.z < maxZ)
             {
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         }
         else if(vertical < 0) //move down
         {
-            print("go down");
+            //print("go down");
 
             if (transform.position.z > minZ) transform.Translate(Vector3.back * cameraSpeed * Time.deltaTime, Space.World);
 

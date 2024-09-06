@@ -40,7 +40,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        event_playStateClose.AddListener(ChangePlayStateToClose);
         event_playerLevelUp.AddListener(PlayerLevelUp);
 
         StartCoroutine(SummonWave(dayCount));
@@ -65,11 +64,16 @@ public class GameManager : Singleton<GameManager>
                             currentTime_OpenDay = Mathf.Lerp(0, openDayLength, currentTime_lerp / openDayLength);
 
                             _UI.UpdateOpenDayDial(currentTime_OpenDay, openDayLength);
-                            //print(currentTime_OpenDay);
+
                         }
                         else
                         {
-                            event_playStateClose.Invoke();
+                            if(_CustM.customersInResturant.Count == 0)
+                            {
+                                playState = PlayState.Closed;
+                                event_playStateClose.Invoke();
+                            }
+                            
                         }
 
 
@@ -102,10 +106,6 @@ public class GameManager : Singleton<GameManager>
         money += _amount;
     }
 
-    void ChangePlayStateToClose()
-    {
-        playState = PlayState.Closed;
-    }
 
     void PlayerLevelUp()
     {

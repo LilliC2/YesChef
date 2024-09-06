@@ -138,8 +138,8 @@ public class CustomerManager : Singleton<CustomerManager>
         }
         #endregion
 
-        print("Queue WT: " + _queueWaitTime + " TakeOrder WT: " + _orderaTakeWaitTime + " OrderArrival WT: " + _orderArrivalWaitTime);
-        print("Rating of " + customersRating);
+        //print("Queue WT: " + _queueWaitTime + " TakeOrder WT: " + _orderaTakeWaitTime + " OrderArrival WT: " + _orderArrivalWaitTime);
+        //print("Rating of " + customersRating);
 
         resturantRatingTotal_currentDay += customersRating;
     }

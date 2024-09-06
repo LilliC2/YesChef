@@ -122,7 +122,7 @@ public class CustomerData : GameBehaviour
                     hasSelectedOrder = true;
                     order = _FM.menu[UnityEngine.Random.Range(0, _FM.menu.Count-1)];
                     order.customer = gameObject; //set customer as itself
-                    print("Want to order " +  order.foodPrefab.name);
+                    //print("Want to order " +  order.foodPrefab.name);
                     _CustM.customersReadyToOrder.Add(gameObject);
                 }
 
@@ -175,13 +175,15 @@ public class CustomerData : GameBehaviour
     {
         isTimerActive = false;
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        print(time.Minutes.ToString() + ":" + time.Seconds.ToString());
+        //print(time.Minutes.ToString() + ":" + time.Seconds.ToString());
         return time.TotalSeconds;
     }
 
     void FinishedEating()
     {
-        orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
+        //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
+        _FM.RemoveFood(orderGO);
+        
         PayForOrder();
     }
 
@@ -201,7 +203,7 @@ public class CustomerData : GameBehaviour
 
     public void StartFollowWaiter(GameObject _waiter)
     {
-        print("Follow waiter");
+        //print("Follow waiter");
         waiterFollow = _waiter;
         task = Task.FollowWaiter;
     }
@@ -211,7 +213,7 @@ public class CustomerData : GameBehaviour
     /// </summary>
     public void BeSeated(GameObject _table)
     {
-        print("seated");
+        //print("seated");
         var tableData = _table.GetComponent<Table>();
         var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
 

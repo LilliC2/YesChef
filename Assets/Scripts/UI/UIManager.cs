@@ -10,9 +10,12 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using Ricimi;
 using DG.Tweening;
+using static ChefData;
+
 
 public class UIManager : Singleton<UIManager>
 {
+    #region Variables
     [Header("Open/Close Dial")]
     [SerializeField]
     CircularProgressBar openDayDial_CircularProgressBar;
@@ -30,6 +33,16 @@ public class UIManager : Singleton<UIManager>
     [Header("Purchase Produce")]
     [SerializeField] GameObject producePanel_GO;
     [SerializeField] Camera produceCamera_Cam;
+
+    [Header("Purchase Produce")]
+    [SerializeField] GameObject orderPanel;
+    [SerializeField] Transform orderBar_Panel;
+    public List<GameObject> ordersGO_List = new List<GameObject>();
+    [SerializeField] float quaterWidth, thirdsWidth, halfWidth, singleWidth;
+
+    [SerializeField] Color progressBarColour;
+
+    #endregion
 
     private void Start()
     {
@@ -77,6 +90,7 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public void ActivateButtonPanel()
     {
+
         switch (_GM.playState)
         {
             //resturant open
@@ -98,6 +112,111 @@ public class UIManager : Singleton<UIManager>
         producePanel_GO.SetActive(!producePanel_GO.activeSelf);
         produceCamera_Cam.gameObject.SetActive(!produceCamera_Cam.gameObject.activeSelf);
     }
+
+    #endregion
+
+    #region Orders
+
+    public void AddOrder(OrderClass _order)
+    {
+        var order = Instantiate(orderPanel, orderBar_Panel);
+        print("add order");
+        var script = order.GetComponent<OrderTicketUI>();
+
+        //set up visuals
+
+        script.foodImage.sprite = _order.pfp;
+
+        var foodData = _order.foodPrefab.GetComponent<FoodData>().foodData;
+
+        //turn on produce
+        script.fruit_Image.SetActive(foodData.requiredProduce_fruit > 0);
+        script.veg_Image.SetActive(foodData.requiredProduce_veg > 0);
+        script.dairy_Image.SetActive(foodData.requiredProduce_dairy > 0);
+        script.protien_Image.SetActive(foodData.requiredProduce_protein > 0);
+        script.grain_Image.SetActive(foodData.requiredProduce_grain > 0);
+
+        //set up progress bar
+        List<GameObject> progressBarSegments = new(); 
+
+        script.progressSkillKneading_GO.SetActive(foodData.needsKneading);
+        script.progressSkillCooking_GO.SetActive(foodData.needsCooking);
+        script.progressSkillCutting_GO.SetActive(foodData.needsCutting);
+        script.progressSkillMixing_GO.SetActive(foodData.needsMixing);
+        if (foodData.needsKneading)
+        {   progressBarSegments.Add(script.progressSkillKneading_GO); 
+            progressBarSegments.Add(script.progressSkillKneading_Image.gameObject); 
+        }
+        if (foodData.needsCooking)
+        {
+            progressBarSegments.Add(script.progressSkillCooking_GO);
+            progressBarSegments.Add(script.progressSkillCooking_Image.gameObject);
+        }
+        if (foodData.needsCutting)
+        {
+            progressBarSegments.Add(script.progressSkillCutting_GO);
+            progressBarSegments.Add(script.progressSkillCutting_Image.gameObject);
+        }
+        if (foodData.needsMixing)
+        {
+            progressBarSegments.Add(script.progressSkillMixing_GO);
+            progressBarSegments.Add(script.progressSkillMixing_Image.gameObject);
+        }
+
+        //update segments
+
+        switch(progressBarSegments.Count)
+        {
+            case 2:
+
+                foreach (GameObject go in progressBarSegments)
+                {
+                    var rt = go.GetComponent<RectTransform>();
+                    rt.sizeDelta = new Vector2(singleWidth, rt.sizeDelta.y);
+                }
+                
+
+                break;
+            case 4:
+
+                foreach (GameObject go in progressBarSegments)
+                {
+                    var rt2 = go.GetComponent<RectTransform>();
+                    rt2.sizeDelta = new Vector2(halfWidth, rt2.sizeDelta.y);
+                }
+
+                break;
+            case 6:
+
+                foreach (GameObject go in progressBarSegments)
+                {
+                    var rt3 = go.GetComponent<RectTransform>();
+                    rt3.sizeDelta = new Vector2(thirdsWidth, rt3.sizeDelta.y);
+                }
+                break;
+
+            case 8:
+                foreach (GameObject go in progressBarSegments)
+                {
+                    var rt4 = go.GetComponent<RectTransform>();
+                    rt4.sizeDelta = new Vector2(quaterWidth, rt4.sizeDelta.y);
+                }
+                break;
+        }
+
+        ordersGO_List.Add(order);
+    }
+
+    public void RemoveOrder(int index)
+    {
+        var go = ordersGO_List[index];
+        ordersGO_List.RemoveAt(index);
+        Destroy(go);
+
+    }
+
+  
+    
 
     #endregion
 

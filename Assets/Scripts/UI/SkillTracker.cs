@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillTracker : MonoBehaviour
+public class SkillTracker : GameBehaviour
 {
     [SerializeField]
     Image cookingImg;
@@ -81,18 +81,20 @@ public class SkillTracker : MonoBehaviour
         switch(skill)
         {
             case "Cooking":
-                currentImage = cookingImg;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)+1].GetComponent<OrderTicketUI>().progressSkillCooking_Image;
                 break;
             case "Cutting":
-                currentImage = cuttingImg;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillCutting_Image;
                 break;
             case "Kneading":
-                currentImage = kneadingImg;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillKneading_Image;
                 break;
             case "Mixing":
-                currentImage = cuttingImg;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillMixing_Image;
                 break;
         }
+
+        currentImage.gameObject.SetActive(true);
 
     }
 
@@ -115,7 +117,10 @@ public class SkillTracker : MonoBehaviour
                 foodData.mixWorkComplete = true;
                 break;
         }
-        
+
+
+        //_UI.UpdateOrderProgressBar(transform.parent.gameObject);
+
     }
 
 

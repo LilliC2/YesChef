@@ -188,8 +188,12 @@ public class ChefData : GameBehaviour
                     targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
                     targetFood.transform.position = targetPassPoint.position;
 
+                    //get rid of order ticket UI
+                    _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
+
+
                     //remove from need prep and add to finished
-                    if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
+                    if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
                     _FM.finishedFood_list.Add(targetFood);
                     isHoldingFood = false;
                     ResetChef();

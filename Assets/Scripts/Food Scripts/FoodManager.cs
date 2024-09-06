@@ -10,6 +10,7 @@ public class OrderClass
 {
     public GameObject foodPrefab;
     public GameObject customer;
+    public Sprite pfp;
 
     //for waiter
     public bool isComplete;
@@ -28,7 +29,6 @@ public class FoodClass
     //for player
     public string name;
     public string description;
-    public Sprite pfp;
 
     public float unlockCost;
     public float reputationLoss;
@@ -50,6 +50,13 @@ public class FoodClass
     public float mixWorkTime;
     public bool mixWorkComplete;
 
+    //produce
+    public float requiredProduce_grain; 
+    public float requiredProduce_fruit; 
+    public float requiredProduce_veg; 
+    public float requiredProduce_dairy; 
+    public float requiredProduce_protein; 
+
 }
 #endregion
 public class FoodManager : Singleton<FoodManager>
@@ -62,7 +69,8 @@ public class FoodManager : Singleton<FoodManager>
 
     public List<OrderClass> menu = new List<OrderClass>();
 
-    public List<OrderClass> orderedFood = new List<OrderClass>();
+    public List<GameObject> orderedFood_GO = new List<GameObject>();
+    public List<OrderClass> orderedFood_orderClass = new List<OrderClass>();
 
     public List<GameObject> foodNeedPreperation_list = new List<GameObject>();
 
@@ -74,9 +82,9 @@ public class FoodManager : Singleton<FoodManager>
 
     public void OrderUp(OrderClass _order)
     {
-        if(!orderedFood.Contains(_order)) orderedFood.Add(_order);
+        if(!orderedFood_orderClass.Contains(_order)) orderedFood_orderClass.Add(_order);
         var prefab = _order.foodPrefab;
-
+        orderedFood_GO.Add(prefab);
         //spawn point
         var conveyorPoint = _GM.conveyerbeltPoints[Random.Range(0, _GM.conveyerbeltPoints.Length)].transform.position;
 
@@ -89,9 +97,22 @@ public class FoodManager : Singleton<FoodManager>
         food.GetComponent<FoodData>().order = _order;
 
 
-        print("added order");
+        //print("added order");
 
     }
 
+    public void RemoveFood(GameObject _food)
+    {
+        if(finishedFood_list.Contains(_food)) finishedFood_list.Remove(_food);
+        if(orderedFood_GO.Contains(_food)) orderedFood_GO.Remove(_food);
+        Destroy(_food);
+    }
 
+
+    public OrderClass GetOrderClassFromFoodGameObject(GameObject _food)
+    {
+        int index = _FM.orderedFood_GO.IndexOf(_food) + 1;
+
+        return orderedFood_orderClass[index];
+    }
 }
