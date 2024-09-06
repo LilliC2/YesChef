@@ -16,6 +16,9 @@ using static ChefData;
 public class UIManager : Singleton<UIManager>
 {
     #region Variables
+    [Header("HUD")]
+    [SerializeField] Image resturantRating_Image;
+
     [Header("Open/Close Dial")]
     [SerializeField]
     CircularProgressBar openDayDial_CircularProgressBar;
@@ -80,6 +83,11 @@ public class UIManager : Singleton<UIManager>
         //add roll effect for text
 
         moneyValue_TMPText.text = _GM.money.ToString();
+    }
+
+    public void UpdateResturantRating()
+    {
+        resturantRating_Image.fillAmount = (_GM.resturantRating / 100);
     }
 
     #endregion

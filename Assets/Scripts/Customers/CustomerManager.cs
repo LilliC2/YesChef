@@ -42,7 +42,7 @@ public class CustomerManager : Singleton<CustomerManager>
     // Start is called before the first frame update
     void Start()
     {
-
+        _GM.event_playStateClose.AddListener(AddResturantRating);
         //customerQueueWaitingCheck = new bool[customerQueueSpots.Count];
 
         //testing, spawn customers immedately
@@ -65,10 +65,6 @@ public class CustomerManager : Singleton<CustomerManager>
         }
     }
 
-    //int CalculateCurrentCustomerIntake()
-    //{
-
-    //}
 
     /// <summary>
     /// When a customer leaves the play area
@@ -82,6 +78,16 @@ public class CustomerManager : Singleton<CustomerManager>
         customersInResturant.Remove(_customer);
 
         Destroy(_customer);
+    }
+
+    void AddResturantRating()
+    {
+        _GM.resturantRating += resturantRatingTotal_currentDay;
+        if(_GM.resturantRating > 100) _GM.resturantRating = 100;
+        if (_GM.resturantRating < 0) _GM.resturantRating = 0;
+        _UI.UpdateResturantRating();
+
+        resturantRatingTotal_currentDay = 0;
     }
 
     public void CalculateResturantRating(double _queueWaitTime, double _orderaTakeWaitTime, double _orderArrivalWaitTime)
