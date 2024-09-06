@@ -37,13 +37,16 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] GameObject producePanel_GO;
     [SerializeField] Camera produceCamera_Cam;
 
-    [Header("Purchase Produce")]
+    [Header("Orders")]
     [SerializeField] GameObject orderPanel;
     [SerializeField] Transform orderBar_Panel;
     public List<GameObject> ordersGO_List = new List<GameObject>();
     [SerializeField] float quaterWidth, thirdsWidth, halfWidth, singleWidth;
 
     [SerializeField] Color progressBarColour;
+
+    [Header("Hire Staff")]
+    [SerializeField] GameObject chefBuyPanel_GO, waiterBuyPanel_GO, staffBuyPanel_GO;
 
     #endregion
 
@@ -114,6 +117,24 @@ public class UIManager : Singleton<UIManager>
 
     }
 
+    public void OpenChefPurchasePanel()
+    {
+        chefBuyPanel_GO.SetActive(true);
+        waiterBuyPanel_GO.SetActive(false);
+    }
+    
+    public void OpenWaiterPurchasePanel()
+    {
+        waiterBuyPanel_GO.SetActive(true);
+        chefBuyPanel_GO.SetActive(false);
+    }
+
+
+    public void ActivateStaffPurchasePanel()
+    {
+        staffBuyPanel_GO.SetActive(!staffBuyPanel_GO.activeSelf);
+
+    }
     public void ActivatePurchaseProducePanel()
     {
         //will turn on or off depending on current state
