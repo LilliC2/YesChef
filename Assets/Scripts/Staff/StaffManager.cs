@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class StaffManager : Singleton<StaffManager>
 {
+    [Header("Staff")]
+    public List<GameObject> allWaiterStaff; //all staff in game waiter
+    public List<GameObject> allChefStaff; //all staff in game chef
+
+    //staff unlocked by player
+    public List<GameObject> activeStaff; //staff on the floor rn
+    public List<GameObject> hiredStaff; //all staff player has unlocked
+
     [Header("Work Zones")]
     public Vector3 staffRoomZone, kitchenZone, FOHZone;
 
@@ -20,5 +28,31 @@ public class StaffManager : Singleton<StaffManager>
     void Update()
     {
         
+    }
+
+    public void HireStaff()
+    {
+
+    }
+
+
+    public void ActivateStaff(GameObject _staff)
+    {
+        if(hiredStaff.Contains(_staff))
+        {
+            //add to activestaff
+            activeStaff.Add(_staff);
+            _staff.SetActive(true);
+        }
+    }
+
+    public void DeactivateStaff(GameObject _staff)
+    {
+        if (hiredStaff.Contains(_staff))
+        {
+            //add to activestaff
+            activeStaff.Remove(_staff);
+            _staff.SetActive(false);
+        }
     }
 }

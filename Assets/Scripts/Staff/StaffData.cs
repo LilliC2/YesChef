@@ -69,7 +69,6 @@ public class StaffData : GameBehaviour
         {
             if (!inWorkArea)
             {
-                print("go to work");
                 NavMeshHit navMeshHit;
                 agent.SamplePathPosition(NavMesh.AllAreas, 1f, out navMeshHit);
                 //walk to appropriate zone

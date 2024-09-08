@@ -368,6 +368,29 @@ public class UIManager : Singleton<UIManager>
 
     #endregion
 
+    #region Staff
+
+    public void ActivateStaff(GameObject _staff)
+    {
+        if(_staff.activeSelf)
+        {
+            _SM.DeactivateStaff(_staff);
+
+        }
+        else
+        {
+            _SM.ActivateStaff(_staff);
+
+        }
+    }
+
+    public void UnlockStaff()
+    {
+
+    }
+
+    #endregion
+
     #endregion
 
     //[Header("Audio")]
