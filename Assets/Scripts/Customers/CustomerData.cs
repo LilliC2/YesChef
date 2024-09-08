@@ -56,104 +56,127 @@ public class CustomerData : GameBehaviour
             currentTime = currentTime + Time.deltaTime;
         }
 
-        switch(task)
+        if(_GM.playState == GameManager.PlayState.Open)
         {
-            //In any position other than 0
-            case Task.Queue:
+            switch (task)
+            {
+                //In any position other than 0
+                case Task.Queue:
 
-                //start timer
-                if(!isTimerActive) StartTimer();
-
-
-                //if not at correct queue position
-                if (queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
-                {
-                    agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
-
-                    //check if at position
-                    if (agent.remainingDistance <= agent.stoppingDistance)
-                    {
-
-                        //move down queue
-                        queueIndex--;
-                        agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
-
-                        //check if at front of queue
-                        if(queueIndex == 0)
-                        {
-                            _EM.event_customerReadyToBeSeated.Invoke();
-                            queueWaitTime = StopTimer();
-                            task = Task.WaitToBeSeated;
-                        }
-                    }
-                }
-
-
-                break;
-            case Task.WaitToBeSeated:
-            
-                
-                break;
-            case Task.FollowWaiter:
-
-                //remove from outside queue
-                if(_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
-
-                if(waiterFollow != null)
-                {
-                    if (Vector3.Distance(transform.position, waiterFollow.transform.position) > waiterFollowDistance)
-                    {
-                        agent.SetDestination(waiterFollow.transform.position);
-                    }
-                }
-                
-
-                break;
-            case Task.SelectFromMenu:
-
-                //check they have sat down
-                if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
-
-                if(!hasSelectedOrder)
-                {
                     //start timer
                     if (!isTimerActive) StartTimer();
 
-                    hasSelectedOrder = true;
-                    order = _FM.menu[UnityEngine.Random.Range(0, _FM.menu.Count-1)];
-                    order.customer = gameObject; //set customer as itself
-                    //print("Want to order " +  order.foodPrefab.name);
-                    _CustM.customersReadyToOrder.Add(gameObject);
-                }
+
+                    //if not at correct queue position
+                    if (queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
+                    {
+                        agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
+
+                        //check if at position
+                        if (agent.remainingDistance <= agent.stoppingDistance)
+                        {
+
+                            //move down queue
+                            queueIndex--;
+                            agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
+
+                            //check if at front of queue
+                            if (queueIndex == 0)
+                            {
+                                _EM.event_customerReadyToBeSeated.Invoke();
+                                queueWaitTime = StopTimer();
+                                task = Task.WaitToBeSeated;
+                            }
+                        }
+                    }
 
 
-                break;
-            case Task.WaitForFood:
-                if (!isTimerActive) StartTimer();
-
-                break;
-            case Task.EatFood:
-
-                if(!isEating)
-                {
-                    orderArrivalWaitTime = StopTimer();
-
-                    isEating = true;
-                    ExecuteAfterSeconds(order.eatTime, () => FinishedEating());
-                }
+                    break;
+                case Task.WaitToBeSeated:
 
 
-                break;
-            case Task.PayAndLeave:
+                    break;
+                case Task.FollowWaiter:
 
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    _CustM.RemoveCustomer(gameObject);
-                }
+                    //check if resturant is open
 
 
-                break;
+                    //remove from outside queue
+                    if (_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
+
+                    if (waiterFollow != null)
+                    {
+                        if (Vector3.Distance(transform.position, waiterFollow.transform.position) > waiterFollowDistance)
+                        {
+                            agent.SetDestination(waiterFollow.transform.position);
+                        }
+                    }
+
+
+                    break;
+                case Task.SelectFromMenu:
+
+                    //check they have sat down
+                    if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
+
+                    if (!hasSelectedOrder)
+                    {
+                        //start timer
+                        if (!isTimerActive) StartTimer();
+
+                        hasSelectedOrder = true;
+                        if (_FM.avalibleMenu.Count != 0)
+                        {
+                            order = _FM.avalibleMenu[UnityEngine.Random.Range(0, _FM.avalibleMenu.Count - 1)];
+                            order.customer = gameObject; //set customer as itself
+                                                         //print("Want to order " +  order.foodPrefab.name);
+                            _CustM.customersReadyToOrder.Add(gameObject);
+                        }
+                        else
+                        {
+                            //if no avalible items, leave
+                            LeaveResturant();
+                        }
+                    }
+
+
+                    break;
+                case Task.WaitForFood:
+                    if (!isTimerActive) StartTimer();
+
+                    break;
+                case Task.EatFood:
+
+                    if (!isEating)
+                    {
+                        orderArrivalWaitTime = StopTimer();
+
+                        isEating = true;
+                        ExecuteAfterSeconds(order.eatTime, () => FinishedEating());
+                    }
+
+
+                    break;
+                case Task.PayAndLeave:
+
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        _CustM.RemoveCustomer(gameObject);
+                    }
+
+
+                    break;
+            }
         }
+        else
+        {
+            if (agent.destination == null) LeaveResturant();
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                _CustM.RemoveCustomer(gameObject);
+            }
+        }
+       
     }
 
     public void OrderHasBeenTaken()
@@ -191,12 +214,17 @@ public class CustomerData : GameBehaviour
     {
         _GM.PlayerMoneyIncrease(order.orderCost);
 
-        //set leave destination
-        agent.SetDestination(_CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position);
-
+        
         //calculate rating
         _CustM.CalculateResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
 
+        LeaveResturant();
+    }
+
+    void LeaveResturant()
+    {
+        //set leave destination
+        agent.SetDestination(_CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position);
         task = Task.PayAndLeave;
 
     }

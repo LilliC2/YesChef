@@ -40,13 +40,15 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        
+
         event_playerLevelUp.AddListener(PlayerLevelUp);
 
         StartCoroutine(SummonWave(dayCount));
         _UI.UpdateResturantRating();
 
-        event_playStateOpen.Invoke();
-
+        _GM.playState = PlayState.Closed;
+        event_playStateClose.Invoke();
     }
 
     private void Update()

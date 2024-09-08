@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 3616982031560777799}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7811786717817899686
 MonoBehaviour:
@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
+  resturantRating_Image: {fileID: 0}
+  openResturantButton_GO: {fileID: 0}
   openDayDial_CircularProgressBar: {fileID: 7300884095360126656}
   moneyValue_TMPText: {fileID: 7572348389456434748}
   levelValue_TMPText: {fileID: 7572348388085955467}
@@ -55,6 +57,18 @@ MonoBehaviour:
   closePos_V3: {x: 1027, y: -50.224976, z: 0}
   producePanel_GO: {fileID: 6672369038871591567}
   produceCamera_Cam: {fileID: 0}
+  vegButton_Image: {fileID: 0}
+  fruitButton_Image: {fileID: 0}
+  proteinButton_Image: {fileID: 0}
+  dairyButton_Image: {fileID: 0}
+  grainButton_Image: {fileID: 0}
+  cannotAfford_Colour: {r: 0, g: 0, b: 0, a: 0}
+  canAfford_Colour: {r: 0, g: 0, b: 0, a: 0}
+  vegButton_Txt: {fileID: 0}
+  fruitButton_Txt: {fileID: 0}
+  proteinButton_Txt: {fileID: 0}
+  dairyButton_Txt: {fileID: 0}
+  grainButton_Txt: {fileID: 0}
   orderPanel: {fileID: 1620981933699458871, guid: 3560e84b277cd064db92e60feb7a8f51, type: 3}
   orderBar_Panel: {fileID: 9015161883073605068}
   ordersGO_List: []
@@ -62,7 +76,9 @@ MonoBehaviour:
   thirdsWidth: 60
   halfWidth: 90
   singleWidth: 185
-  progressBarColour: {r: 0.45660377, g: 1, b: 0.50926816, a: 1}
+  chefBuyPanel_GO: {fileID: 0}
+  waiterBuyPanel_GO: {fileID: 0}
+  staffBuyPanel_GO: {fileID: 0}
 --- !u!1 &1364198862963327496
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,9 +568,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4386396867202117983}
   - {fileID: 3806321557528163173}
   - {fileID: 515290942590744168}
-  - {fileID: 4386396867202117983}
   m_Father: {fileID: 3616982031560777799}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

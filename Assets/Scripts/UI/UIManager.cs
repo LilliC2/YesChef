@@ -18,6 +18,7 @@ public class UIManager : Singleton<UIManager>
     #region Variables
     [Header("HUD")]
     [SerializeField] Image resturantRating_Image;
+    [SerializeField] GameObject openResturantButton_GO;
 
     [Header("Open/Close Dial")]
     [SerializeField]
@@ -36,14 +37,16 @@ public class UIManager : Singleton<UIManager>
     [Header("Purchase Produce")]
     [SerializeField] GameObject producePanel_GO;
     [SerializeField] Camera produceCamera_Cam;
+    [SerializeField] Image vegButton_Image, fruitButton_Image, proteinButton_Image, dairyButton_Image, grainButton_Image;
+    [SerializeField] Color cannotAfford_Colour;
+    [SerializeField] Color canAfford_Colour;
+    [SerializeField] TMP_Text vegButton_Txt, fruitButton_Txt, proteinButton_Txt, dairyButton_Txt, grainButton_Txt;
 
     [Header("Orders")]
     [SerializeField] GameObject orderPanel;
     [SerializeField] Transform orderBar_Panel;
     public List<GameObject> ordersGO_List = new List<GameObject>();
     [SerializeField] float quaterWidth, thirdsWidth, halfWidth, singleWidth;
-
-    [SerializeField] Color progressBarColour;
 
     [Header("Hire Staff")]
     [SerializeField] GameObject chefBuyPanel_GO, waiterBuyPanel_GO, staffBuyPanel_GO;
@@ -57,8 +60,19 @@ public class UIManager : Singleton<UIManager>
         UpdatePlayerMoney();
         UpdatePlayerLevel(10, 1); //temp
 
+        UpdatePurchaseButtons_Produce();
+
         _GM.event_playStateClose.AddListener(ActivateButtonPanel);
+        _GM.event_playStateClose.AddListener(ClosedButtonsActive);
         _GM.event_playStateOpen.AddListener(ActivateButtonPanel);
+    }
+
+    public void OpenResturant()
+    {
+        _GM.playState = GameManager.PlayState.Open;
+        _GM.event_playStateOpen.Invoke();
+
+        openResturantButton_GO.SetActive(false);
     }
 
     #region Update Functions
@@ -129,6 +143,11 @@ public class UIManager : Singleton<UIManager>
         chefBuyPanel_GO.SetActive(false);
     }
 
+    void ClosedButtonsActive()
+    {
+        openResturantButton_GO.SetActive(true);
+
+    }
 
     public void ActivateStaffPurchasePanel()
     {
@@ -244,8 +263,110 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-  
+
+
+
+    #endregion
+
+    #region Shops
+
+    #region Produce
+
+    public void BuyGrainProduce()
+    {
+        if(_GM.money >= _FM.grainPrice_produce)
+        {
+            _FM.grainTotal_produce += 5;
+            _GM.money -= _FM.grainPrice_produce;
+            UpdatePurchaseButtons_Produce();
+
+        }
+
+    }
+    public void BuyDairyProduce()
+    {
+        if(_GM.money >= _FM.dairyPrice_produce)
+        {
+            _FM.dairyTotal_produce += 5;
+            _GM.money -= _FM.dairyPrice_produce;
+
+            UpdatePurchaseButtons_Produce();
+
+        }
+
+    }
     
+    public void BuyFruitProduce()
+    {
+        if(_GM.money >= _FM.fruitPrice_produce)
+        {
+            _FM.fruitTotal_produce += 5;
+            _GM.money -= _FM.fruitPrice_produce;
+
+            UpdatePurchaseButtons_Produce();
+
+        }
+
+    }
+    
+    public void BuyVegProduce()
+    {
+        if(_GM.money >= _FM.vegPrice_produce)
+        {
+            _FM.vegTotal_produce += 5;
+            _GM.money -= _FM.vegPrice_produce;
+
+            UpdatePurchaseButtons_Produce();
+
+        }
+
+    }
+    
+    public void BuyProteinProduce()
+    {
+        if(_GM.money >= _FM.protienPrice_produce)
+        {
+            _FM.protienTotal_produce += 5;
+            _GM.money -= _FM.protienPrice_produce;
+
+            UpdatePurchaseButtons_Produce();
+
+        }
+
+    }
+
+    /// <summary>
+    /// Update UI to reflect if player has enough money to buy the produce
+    /// </summary>
+    void UpdatePurchaseButtons_Produce()
+    {
+        grainButton_Txt.text = _FM.grainTotal_produce.ToString();
+
+        dairyButton_Txt.text = _FM.dairyTotal_produce.ToString();
+
+        fruitButton_Txt.text = _FM.fruitTotal_produce.ToString();
+
+        vegButton_Txt.text = _FM.vegTotal_produce.ToString();
+
+        proteinButton_Txt.text = _FM.protienTotal_produce.ToString();
+
+        if (_GM.money < _FM.grainPrice_produce) grainButton_Image.color = cannotAfford_Colour;
+        else grainButton_Image.color = canAfford_Colour;
+        
+        if (_GM.money < _FM.dairyPrice_produce) dairyButton_Image.color = cannotAfford_Colour;
+        else dairyButton_Image.color = canAfford_Colour;
+        
+        if (_GM.money < _FM.protienPrice_produce) proteinButton_Image.color = cannotAfford_Colour;
+        else proteinButton_Image.color = canAfford_Colour;
+        
+        if (_GM.money < _FM.fruitPrice_produce) fruitButton_Image.color = cannotAfford_Colour;
+        else fruitButton_Image.color = canAfford_Colour;
+        
+        if (_GM.money < _FM.vegPrice_produce) vegButton_Image.color = cannotAfford_Colour;
+        else vegButton_Image.color = canAfford_Colour;
+    }
+
+    #endregion
 
     #endregion
 
