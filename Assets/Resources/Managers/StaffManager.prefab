@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3442149495515951842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5859935228829446529}
+  - component: {fileID: 7779378400752352614}
+  m_Layer: 0
+  m_Name: StaffManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5859935228829446529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442149495515951842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7779378400752352614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442149495515951842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2201d0b2c853ea24f93657760404ee85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroy: 0
+  allWaiterStaff:
+  - {fileID: 1301813619833109851, guid: 7156ab84c3cbfb949a0f63949ddf5729, type: 3}
+  allChefStaff:
+  - {fileID: 4545598714552739806, guid: cbe529dac89c9be40b4e89f76c9d6277, type: 3}
+  activeStaff: []
+  hiredStaff: []
+  staffRoomZone: {x: 6.6567, y: 0, z: -5.003}
+  kitchenZone: {x: -3.4700003, y: 0, z: 0}
+  FOHZone: {x: -4.6264, y: 0, z: -10.07}
+  returnToWorkSpeed: 5
+  casualSpeed: 3

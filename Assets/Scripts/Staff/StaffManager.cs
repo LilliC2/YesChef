@@ -8,7 +8,11 @@ public class StaffManager : Singleton<StaffManager>
     public List<GameObject> allWaiterStaff; //all staff in game waiter
     public List<GameObject> allChefStaff; //all staff in game chef
 
+    public int maxActiveStaff;
+
     //staff unlocked by player
+    int unlockedChefs;
+    int unlockedWaiters;
     public List<GameObject> activeStaff; //staff on the floor rn
     public List<GameObject> hiredStaff; //all staff player has unlocked
 
@@ -30,8 +34,64 @@ public class StaffManager : Singleton<StaffManager>
         
     }
 
-    public void HireStaff()
+    public bool CanHireMoreStaff(string _staffType)
     {
+        if (_staffType == "Chef")
+        {
+            if(unlockedChefs == allChefStaff.Count)
+                return false;
+        }
+        else if (_staffType == "Waiter")
+        {
+            if (unlockedWaiters == allWaiterStaff.Count)
+                return false;
+        }
+          
+        return true;
+    }
+
+    public GameObject HireStaff(string _staffType)
+    {
+        GameObject staffHired = null;
+
+        if(_staffType == "Chef")
+        {
+            staffHired = allChefStaff[Random.Range(0, allChefStaff.Count)];
+
+            //keep randomising until we get one that is not in hired staff
+            while(hiredStaff.Contains(staffHired))
+            {
+                staffHired = allChefStaff[Random.Range(0, allChefStaff.Count)];
+
+            }
+
+            unlockedChefs++;
+        }
+        else if(_staffType == "Waiter")
+        {
+            staffHired = allWaiterStaff[Random.Range(0, allWaiterStaff.Count)];
+
+            //keep randomising until we get one that is not in hired staff
+            while (hiredStaff.Contains(staffHired))
+            {
+                staffHired = allWaiterStaff[Random.Range(0, allWaiterStaff.Count)];
+
+            }
+
+            unlockedWaiters++;
+        }
+
+        hiredStaff.Add(staffHired);
+
+        //activate on purchase
+        if(activeStaff.Count != maxActiveStaff)
+        {
+            ActivateStaff(staffHired);
+            _UI.ToggleStaffOn(staffHired.name);
+
+        }
+
+        return staffHired;
 
     }
 

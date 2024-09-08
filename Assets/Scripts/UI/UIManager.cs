@@ -49,7 +49,10 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] float quaterWidth, thirdsWidth, halfWidth, singleWidth;
 
     [Header("Hire Staff")]
-    [SerializeField] GameObject chefBuyPanel_GO, waiterBuyPanel_GO, staffBuyPanel_GO;
+    [SerializeField] GameObject chefOrganisePanel_GO, waiterOrganisePanel_GO, staffOrganisePanel_GO;
+    [SerializeField] GameObject unlockChoicePanel_GO, unlockScreen_GO, unlockCamera_GO, modelsParent_GO;
+    [SerializeField] TMP_Text unlockStaffName_Txt;
+    [SerializeField] List<GameObject> unlockStaffModels_ListGO, organiseStaffButtons_GO;
 
     #endregion
 
@@ -69,6 +72,7 @@ public class UIManager : Singleton<UIManager>
 
     public void OpenResturant()
     {
+        CloseAllPanels(null);
         _GM.playState = GameManager.PlayState.Open;
         _GM.event_playStateOpen.Invoke();
 
@@ -133,14 +137,14 @@ public class UIManager : Singleton<UIManager>
 
     public void OpenChefPurchasePanel()
     {
-        chefBuyPanel_GO.SetActive(true);
-        waiterBuyPanel_GO.SetActive(false);
+        chefOrganisePanel_GO.SetActive(true);
+        waiterOrganisePanel_GO.SetActive(false);
     }
     
     public void OpenWaiterPurchasePanel()
     {
-        waiterBuyPanel_GO.SetActive(true);
-        chefBuyPanel_GO.SetActive(false);
+        waiterOrganisePanel_GO.SetActive(true);
+        chefOrganisePanel_GO.SetActive(false);
     }
 
     void ClosedButtonsActive()
@@ -151,14 +155,52 @@ public class UIManager : Singleton<UIManager>
 
     public void ActivateStaffPurchasePanel()
     {
-        staffBuyPanel_GO.SetActive(!staffBuyPanel_GO.activeSelf);
+        CloseAllPanels(staffOrganisePanel_GO);
+        staffOrganisePanel_GO.SetActive(!staffOrganisePanel_GO.activeSelf);
 
     }
     public void ActivatePurchaseProducePanel()
     {
+        CloseAllPanels(producePanel_GO);
         //will turn on or off depending on current state
         producePanel_GO.SetActive(!producePanel_GO.activeSelf);
         produceCamera_Cam.gameObject.SetActive(!produceCamera_Cam.gameObject.activeSelf);
+    }
+
+    public void ActivateUnlockStaffPanel()
+    {
+        CloseAllPanels(unlockChoicePanel_GO);
+
+        unlockChoicePanel_GO.SetActive(!unlockChoicePanel_GO.activeSelf);
+
+    }
+
+    /// <summary>
+    /// Close all panels
+    /// </summary>
+    /// <param name="keepOpen">Will not close this panel</param>
+    public void CloseAllPanels(GameObject keepOpen)
+    {
+        List<GameObject> list = new List<GameObject>() { producePanel_GO, unlockChoicePanel_GO, staffOrganisePanel_GO,
+                                                         produceCamera_Cam.gameObject,unlockCamera_GO};
+        if (keepOpen != null)
+        {
+            foreach (GameObject go in list)
+            {
+                if (keepOpen != go) go.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject go in list)
+            {
+               go.SetActive(false);
+            }
+        }
+
+        // for cameras
+        produceCamera_Cam.gameObject.SetActive(producePanel_GO.activeSelf);
+        unlockCamera_GO.gameObject.SetActive(unlockChoicePanel_GO.activeSelf);
     }
 
     #endregion
@@ -370,6 +412,10 @@ public class UIManager : Singleton<UIManager>
 
     #region Staff
 
+    /// <summary>
+    /// Activate staff GO
+    /// </summary>
+    /// <param name="_staff"></param>
     public void ActivateStaff(GameObject _staff)
     {
         if(_staff.activeSelf)
@@ -384,11 +430,84 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void UnlockStaff()
+    public void UnlockStaffScreen(string _staffType)
     {
+        //check if any more staff can be unlocked
+        if(_SM.CanHireMoreStaff(_staffType))
+        {
+            unlockChoicePanel_GO.SetActive(false);
+
+            unlockCamera_GO.SetActive(true);
+            unlockScreen_GO.SetActive(true);
+
+            var GO = _SM.HireStaff(_staffType);
+
+            //set name
+            if (_staffType == "Chef")
+            {
+                unlockStaffName_Txt.text = GO.GetComponent<ChefData>().chefData.name;
+            }
+            else unlockStaffName_Txt.text = GO.GetComponent<WaiterData>().waiterData.name;
+
+            //turn on model
+            foreach (var item in unlockStaffModels_ListGO)
+            {
+                if (item.name.Contains(unlockStaffName_Txt.text))
+                {
+                    item.SetActive(true);
+                    break;
+                }
+            }
+
+            ActivateOrganiseStaffButton(unlockStaffName_Txt.text);
+
+            //after x seconds, close screen
+            ExecuteAfterSeconds(5, () => CloseUnlockStaffScreen());
+
+        }
+
+
 
     }
 
+    void CloseUnlockStaffScreen()
+    {
+        unlockChoicePanel_GO.SetActive(true);
+
+        unlockCamera_GO.SetActive(false);
+        unlockScreen_GO.SetActive(false);
+
+        foreach (var item in unlockStaffModels_ListGO)
+        {
+            item.SetActive(false);
+        }
+    }
+
+    void ActivateOrganiseStaffButton(string name)
+    {
+        foreach (var item in organiseStaffButtons_GO)
+        {
+            if (item.name.Contains(name)) item.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Match UI if staff is toggled when bought
+    /// </summary>
+    public void ToggleStaffOn(string name)
+    {
+        //find button
+        GameObject obj = null;
+        foreach (var item in organiseStaffButtons_GO)
+        {
+            if(item.name.Contains(name)) obj = item;
+
+        }
+
+        var toggle = obj.transform.Find("Toggle").GetComponent<Toggle>();
+        toggle.isOn = true;
+
+    }
     #endregion
 
     #endregion
