@@ -10,6 +10,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static GameManager _GM { get { return GameManager.INSTANCE; } }
     protected static UIManager _UI { get { return UIManager.INSTANCE; } }
     protected static ChefManager _ChefM { get { return ChefManager.INSTANCE; } }
+    protected static StaffManager _SM { get { return StaffManager.INSTANCE; } }
     protected static FoodManager _FM { get { return FoodManager.INSTANCE; } }
     protected static DayCycle _DC { get { return DayCycle.INSTANCE; } }
     protected static CustomerManager _CustM { get { return CustomerManager.INSTANCE; } }

@@ -418,6 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653637087345382751}
   - component: {fileID: 3297669673234983190}
+  - component: {fileID: 228810810276669715}
   - component: {fileID: 8989287226875399529}
   - component: {fileID: -5999908702350300189}
   m_Layer: 0
@@ -443,7 +444,7 @@ Transform:
   - {fileID: 8000502142519149314}
   - {fileID: 7167195231180395476}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -132, z: 0}
 --- !u!195 &3297669673234983190
 NavMeshAgent:
@@ -465,8 +466,23 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 8
+  m_WalkableMask: 72
   m_ObstacleAvoidanceType: 4
+--- !u!114 &228810810276669715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301813619833109851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9cbd1fa14f7ee49974f0f25caffe53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staffroomInteractions: 0
+  staffRoomZone: {x: 6.6567, y: 0, z: -3.9653}
+  wanderRadius: 3
 --- !u!136 &8989287226875399529
 CapsuleCollider:
   m_ObjectHideFlags: 0

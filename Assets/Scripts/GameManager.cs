@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
@@ -37,6 +38,8 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Moving Food")]
     public Transform[] conveyerbeltPoints;
+
+
 
     private void Start()
     {

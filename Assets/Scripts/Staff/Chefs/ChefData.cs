@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +19,9 @@ public class ChefData : GameBehaviour
 
     public enum Task { Idle, FindFood, GetFood, GoToStation, WorkOnFood, GoToPass }
     public Task tasks;
+
+
+    #region Open
 
     [Header("AI and Travel")]
     bool isHoldingFood;
@@ -57,6 +61,8 @@ public class ChefData : GameBehaviour
     [SerializeField]
     Collider[] rawFoodInRange;
     public bool placed;
+    #endregion
+
 
     // Start is called before the first frame update
     void Start()
@@ -71,145 +77,160 @@ public class ChefData : GameBehaviour
     void Update()
     {
         //walk to food
-        switch (tasks)
+        switch(_GM.playState)
         {
-            case Task.Idle:
-
-                if(targetFood == null)
+            #region Open
+            case GameManager.PlayState.Open:
+                switch (tasks)
                 {
-                    if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
-                    if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
-                }
-                
+                    case Task.Idle:
 
+                        //if not in kitchen, navigate to kitchen
+
+
+
+                        if (targetFood == null)
+                        {
+                            if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
+                            if (workingOnSkill != WorkingOnSkill.None) workingOnSkill = WorkingOnSkill.None; //reset
+                        }
+
+
+                        break;
+
+                    case Task.FindFood: //Find compaitble food
+
+
+                        if (SearchForFood())
+                        {
+                            tasks = Task.GetFood;
+                        }
+
+                        break;
+
+                    case Task.GetFood: //travel to food
+
+                        agent.SetDestination(targetFood.transform.position);
+
+                        //if in range
+                        if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
+                        {
+                            PickUpFood();
+                            tasks = Task.GoToStation;
+
+                        }
+                        break;
+
+                    case Task.GoToStation:
+
+
+
+
+                        if (targetWorkStation == null)
+                        {
+                            //find workstation then travel there
+                            targetWorkStation = SearchForWorkstation();
+
+                            agent.SetDestination(targetWorkStation.transform.position);
+                        }
+                        if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
+                        {
+                            agent.isStopped = true;
+
+                            //place food
+                            targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+
+                            tasks = Task.WorkOnFood;
+                        }
+                        else
+                        {
+                            //chef holding food
+                            targetFood.transform.position = holdFoodSpot.transform.position;
+
+                        }
+                        break;
+
+                    case Task.WorkOnFood:
+
+                        if (!isWorking) WorkOnFood();
+
+                        if (CheckFoodStatus())
+                        {
+                            //if food is complete go to pass
+                            if (targetFood.GetComponent<FoodData>().CheckIfComplete())
+                            {
+                                targetFoodData.foodState = FoodData.FoodState.Finished;
+
+                                //pick food back up
+                                PickUpFood();
+
+                                //go to pass
+                                tasks = Task.GoToPass;
+                                //print("go to pass called");
+                            }
+
+                        }
+
+
+                        //look at food
+                        if (targetFood != null) transform.LookAt(targetFood.transform.position);
+                        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
+
+
+                        break;
+
+                    case Task.GoToPass:
+
+
+                        if (agent.isStopped) agent.isStopped = false;
+
+                        if (targetPassPoint == null)
+                        {
+                            //print("go to pass");
+                            //add workstation back to unoccupied list
+                            _WSM.ChangeToUnoccupied(targetWorkStation);
+
+                            targetPassPoint = FindPassPoint();
+                            _PM.unoccupiedPassPoints.Remove(targetPassPoint);
+                        }
+
+                        agent.SetDestination(targetPassPoint.position);
+
+                        if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
+                        {
+                            targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
+                            targetFood.transform.position = targetPassPoint.position;
+
+                            //get rid of order ticket UI
+                            _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
+
+
+                            //remove from need prep and add to finished
+                            if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
+                            _FM.finishedFood_list.Add(targetFood);
+                            isHoldingFood = false;
+                            ResetChef();
+                        }
+                        else
+                        {
+                            //hold food
+                            targetFood.transform.position = holdFoodSpot.transform.position;
+                        }
+
+
+
+
+                        break;
+
+                }
                 break;
+            #endregion
 
-            case Task.FindFood: //Find compaitble food
-
-
-                if (SearchForFood())
-                {
-                    tasks = Task.GetFood;
-                }
-
-                break;
-
-            case Task.GetFood: //travel to food
-
-                agent.SetDestination(targetFood.transform.position);
-
-                //if in range
-                if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
-                {
-                    PickUpFood();
-                    tasks = Task.GoToStation;
-
-                }
-                break;
-
-            case Task.GoToStation:
-
-                
-
-
-                if (targetWorkStation == null)
-                {
-                    //find workstation then travel there
-                    targetWorkStation = SearchForWorkstation();
-    
-                    agent.SetDestination(targetWorkStation.transform.position);
-                }
-                if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
-                {
-                    agent.isStopped = true;
-
-                    //place food
-                    targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
-
-                    tasks = Task.WorkOnFood;
-                }
-                else
-                {
-                    //chef holding food
-                    targetFood.transform.position = holdFoodSpot.transform.position;
-
-                }
-                break;
-
-            case Task.WorkOnFood:
-
-                if (!isWorking) WorkOnFood();
-
-                if(CheckFoodStatus())
-                {
-                    //if food is complete go to pass
-                    if (targetFood.GetComponent<FoodData>().CheckIfComplete())
-                    {
-                        targetFoodData.foodState = FoodData.FoodState.Finished;
-
-                        //pick food back up
-                        PickUpFood();
-
-                        //go to pass
-                        tasks = Task.GoToPass;
-                        //print("go to pass called");
-                    }
-
-                }
-
-
-                //look at food
-                if (targetFood != null) transform.LookAt(targetFood.transform.position);
-                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-
-
-
-                break;
-
-            case Task.GoToPass:
-
-
-                if (agent.isStopped) agent.isStopped = false;
-
-                if (targetPassPoint == null)
-                {
-                    //print("go to pass");
-                    //add workstation back to unoccupied list
-                    _WSM.ChangeToUnoccupied(targetWorkStation);
-
-                    targetPassPoint = FindPassPoint();
-                    _PM.unoccupiedPassPoints.Remove(targetPassPoint);
-                }
-
-                agent.SetDestination(targetPassPoint.position);
-
-                if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
-                {
-                    targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
-                    targetFood.transform.position = targetPassPoint.position;
-
-                    //get rid of order ticket UI
-                    _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
-
-
-                    //remove from need prep and add to finished
-                    if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
-                    _FM.finishedFood_list.Add(targetFood);
-                    isHoldingFood = false;
-                    ResetChef();
-                }
-                else
-                {
-                    //hold food
-                    targetFood.transform.position = holdFoodSpot.transform.position;
-                }
-
-
-
-
-                break;
-
+            
         }
+
+        
 
     }
 
