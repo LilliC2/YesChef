@@ -25,8 +25,8 @@ public class GameManager : Singleton<GameManager>
     public enum GameState { Playing, Paused}
     public GameState gameState;
 
-    [SerializeField] float openDayLength = 300; //300 = 5 minutes
-    [SerializeField] float currentTime_OpenDay; 
+    public float openDayLength = 300; //300 = 5 minutes
+    public float currentTime_OpenDay; 
     float currentTime_lerp;
 
     //called to change states

@@ -21,6 +21,7 @@ public class WaiterData : GameBehaviour
 
 
     [Header("Seating Customer")]
+    [SerializeField]
     GameObject customer;
     CustomerData customerData;
     bool isCustomerFollowing;
@@ -64,7 +65,7 @@ public class WaiterData : GameBehaviour
                 //task check
 
                 //Seating Customer
-                if(_CustM.customersInQueue.Count != 0)
+                if(_CustM.customersInQueue.Count > 0)
                 {
                     //check if customer is being attended AND there is a table avalible
                     if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened && _FOHM.unoccupiedTables.Count != 0)

@@ -37,32 +37,114 @@ public class CustomerManager : Singleton<CustomerManager>
 
     [Header("Resturant Ratings")]
     int currentDayCustomerIntake = 0;
-     
+
+    [Header("Customer Spawn Rates")]
+    [SerializeField] float customerSpawnRate;
+
+    public enum Deviations { D1, D2, D3, D4, D5, D6}
+    public Deviations deviations;
+    float sixthOfDayLength = 50;// 5 min days = 300secondsd 
+    float d1,d2,d3,d4,d5,d6;
+    [SerializeField] float customerSpawnChance;
+    int customersSpawned;
 
     // Start is called before the first frame update
     void Start()
     {
+        sixthOfDayLength = _GM.openDayLength / 6;
+        SetDeviationInts();
         _GM.event_playStateClose.AddListener(AddResturantRating);
+        _GM.event_playStateOpen.AddListener(StartSpawning);
+        _GM.event_playStateClose.AddListener(EndSpawning);
         //customerQueueWaitingCheck = new bool[customerQueueSpots.Count];
 
         //testing, spawn customers immedately
-        StartCoroutine(SpawnCustomers());
+        //StartCoroutine(SpawnCustomers());
         //_GM.event_endOfDay.AddListener(SpawnCustomersEventListener);
 
     }
 
-    IEnumerator SpawnCustomers()
+    private void Update()
     {
-        //spawn amount temp
-        for (int i = 0; i < 1; i++)
+        if(_GM.playState == GameManager.PlayState.Open)
         {
-            var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
-            customersInQueue.Add(newCustomers);
-            customersInResturant.Add(newCustomers);
-            //customersList.Add(newCustomers);
-            yield return new WaitForSeconds(0.2f);
-
+            CalculateCurrentDeviations();
+            SetCustomerSpawnChance();
         }
+    }
+
+    /*
+     * 1. take day length and divide into six for each deviation
+     * 2. set deviations using day length
+     * 3. increase/decrease spawn rate in each deviation (X% of customer intake)
+     * 4. spawn customer
+     */
+
+    void SetDeviationInts()
+    {
+        d1 = sixthOfDayLength * 1;
+        d2 = sixthOfDayLength * 2;
+        d3 = sixthOfDayLength * 3;
+        d4 = sixthOfDayLength * 4;
+        d5 = sixthOfDayLength * 5;
+        d6 = sixthOfDayLength * 6;
+    }
+
+    void CalculateCurrentDeviations()
+    {
+        if (_GM.currentTime_OpenDay < d1)
+            deviations = Deviations.D1;
+        else if(_GM.currentTime_OpenDay > d1 && _GM.currentTime_OpenDay < d2)
+            deviations = Deviations.D2;
+        else if (_GM.currentTime_OpenDay > d2 && _GM.currentTime_OpenDay < d3)
+            deviations = Deviations.D3;
+        else if (_GM.currentTime_OpenDay > d3 && _GM.currentTime_OpenDay < d4)
+            deviations = Deviations.D4;
+        else if (_GM.currentTime_OpenDay > d4 && _GM.currentTime_OpenDay < d5)
+            deviations = Deviations.D5;
+        else if (_GM.currentTime_OpenDay > d5 && _GM.currentTime_OpenDay < d6)
+            deviations = Deviations.D6;
+
+    }
+
+    void SetCustomerSpawnChance()
+    {
+        if(deviations == Deviations.D1 || deviations == Deviations.D6)
+            customerSpawnChance = 2.3f;
+        else if (deviations == Deviations.D2 || deviations == Deviations.D5)
+            customerSpawnChance = 13.6f;
+        else if (deviations == Deviations.D3 || deviations == Deviations.D4)
+            customerSpawnChance = 34.1f;
+
+    }
+
+    void StartSpawning()
+    {
+        InvokeRepeating("CalculateCustomerSpawnnChance", 0, customerSpawnRate);
+    }
+
+    void EndSpawning()
+    {
+        print(customersSpawned);
+        CancelInvoke("CalculateCustomerSpawnnChance");
+    }
+
+    void CalculateCustomerSpawnnChance()
+    {
+        var r = Random.Range(0, 101);
+
+        if(r < customerSpawnChance)
+        {
+            SpawnCustomer();
+        }
+    }
+
+    void SpawnCustomer()
+    {
+        var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
+        customersInQueue.Add(newCustomers);
+        customersInResturant.Add(newCustomers);
+        customersSpawned++;
     }
 
 

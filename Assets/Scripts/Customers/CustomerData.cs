@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -26,6 +28,7 @@ public class CustomerData : GameBehaviour
     [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
     GameObject waiterFollow;
     public Transform plateSpot;
+    GameObject table;
 
     [Header("Select From Menu")]
     public OrderClass order;
@@ -41,6 +44,7 @@ public class CustomerData : GameBehaviour
     float currentTime = 0;
     bool isTimerActive = true;
 
+    [SerializeField] TMP_Text currentState;
 
     private void Start()
     {
@@ -58,6 +62,8 @@ public class CustomerData : GameBehaviour
 
         if(_GM.playState == GameManager.PlayState.Open)
         {
+            currentState.text = task.DisplayName();
+
             switch (task)
             {
                 //In any position other than 0
@@ -223,6 +229,9 @@ public class CustomerData : GameBehaviour
 
     void LeaveResturant()
     {
+        //set table as unoccupied
+        _FOHM.ChangeToUnoccupied(table);
+
         //set leave destination
         agent.SetDestination(_CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position);
         task = Task.PayAndLeave;
@@ -248,6 +257,7 @@ public class CustomerData : GameBehaviour
         //plate spot first child of chair
         plateSpot = targetChair.GetChild(0);
 
+        table = _table;
         tableData.ChangeToOccupied(targetChair);
 
         agent.SetDestination(targetChair.position);

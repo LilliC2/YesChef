@@ -200,7 +200,6 @@ public class UIManager : Singleton<UIManager>
 
         // for cameras
         produceCamera_Cam.gameObject.SetActive(producePanel_GO.activeSelf);
-        unlockCamera_GO.gameObject.SetActive(unlockChoicePanel_GO.activeSelf);
     }
 
     #endregion
