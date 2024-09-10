@@ -86,8 +86,10 @@ public class StaffManager : Singleton<StaffManager>
         //activate on purchase
         if(activeStaff.Count != maxActiveStaff)
         {
-            ActivateStaff(staffHired);
-            _UI.ToggleStaffOn(staffHired.name);
+            //ActivateStaff(staffHired);
+
+            _UI.ToggleStaffOn(staffHired);
+            
 
         }
 
@@ -103,7 +105,9 @@ public class StaffManager : Singleton<StaffManager>
             //add to activestaff
             activeStaff.Add(_staff);
             _staff.SetActive(true);
+
         }
+
     }
 
     public void DeactivateStaff(GameObject _staff)

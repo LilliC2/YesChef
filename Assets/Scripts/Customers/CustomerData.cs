@@ -38,6 +38,9 @@ public class CustomerData : GameBehaviour
     [Header("Eat Food")]
     bool isEating;
 
+    [Header("Leave")]
+    Vector3 leavePos;
+
     [Header("Stopwatch")]
     double queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime;
     [SerializeField]
@@ -62,7 +65,7 @@ public class CustomerData : GameBehaviour
 
         if(_GM.playState == GameManager.PlayState.Open)
         {
-            currentState.text = task.DisplayName();
+            currentState.text = task.ToString();
 
             switch (task)
             {
@@ -165,7 +168,8 @@ public class CustomerData : GameBehaviour
                     break;
                 case Task.PayAndLeave:
 
-                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    agent.SetDestination(leavePos);
+                    if (Vector3.Distance(transform.position,leavePos)<1f)
                     {
                         _CustM.RemoveCustomer(gameObject);
                     }
@@ -229,11 +233,13 @@ public class CustomerData : GameBehaviour
 
     void LeaveResturant()
     {
+        agent.isStopped = false;
         //set table as unoccupied
         _FOHM.ChangeToUnoccupied(table);
 
+        leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;
         //set leave destination
-        agent.SetDestination(_CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position);
+        
         task = Task.PayAndLeave;
 
     }

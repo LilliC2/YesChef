@@ -199,6 +199,11 @@ public class ChefData : GameBehaviour
 
                         if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
                         {
+                            //remove from need prep and add to finished
+                            if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
+                            _FM.finishedFood_list.Add(targetFood);
+
+
                             targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
                             targetFood.transform.position = targetPassPoint.position;
 
@@ -206,9 +211,7 @@ public class ChefData : GameBehaviour
                             _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
 
 
-                            //remove from need prep and add to finished
-                            if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
-                            _FM.finishedFood_list.Add(targetFood);
+                            
                             isHoldingFood = false;
                             ResetChef();
                         }
