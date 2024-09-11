@@ -58,6 +58,11 @@ public class CustomerManager : Singleton<CustomerManager>
         _GM.event_playStateClose.AddListener(AddResturantRating);
         _GM.event_playStateOpen.AddListener(StartSpawning);
         _GM.event_playStateClose.AddListener(EndSpawning);
+        _GM.event_playStateClose.AddListener(CalcuateCustomerIntake);
+
+        // test may remove
+        CalcuateCustomerIntake();
+
         //customerQueueWaitingCheck = new bool[customerQueueSpots.Count];
 
         //testing, spawn customers immedately
@@ -82,6 +87,7 @@ public class CustomerManager : Singleton<CustomerManager>
      * 4. spawn customer
      */
 
+    #region Customer Spawning
     void SetDeviationInts()
     {
         d1 = sixthOfDayLength * 1;
@@ -119,7 +125,10 @@ public class CustomerManager : Singleton<CustomerManager>
     void SetCustomerSpawnPercentage()
     {
         if (deviations == Deviations.D1 || deviations == Deviations.D6)
+        {
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 2.3f) / 100f);
+            print((currentDayCustomerIntake * 2.3f) / 100f);
+        }
         //customerSpawnChance = 2.3f;
         else if (deviations == Deviations.D2 || deviations == Deviations.D5)
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 13.6f) / 100f);
@@ -149,6 +158,7 @@ public class CustomerManager : Singleton<CustomerManager>
             if (r < customerSpawnChance)
             {
                 SpawnCustomer();
+                customersSpawnedThisDeviation++;
             }
         }
 
@@ -163,7 +173,7 @@ public class CustomerManager : Singleton<CustomerManager>
         customersSpawnedOverDay++;
     }
 
-
+    #endregion
     /// <summary>
     /// When a customer leaves the play area
     /// </summary>
@@ -188,7 +198,21 @@ public class CustomerManager : Singleton<CustomerManager>
         resturantRatingTotal_currentDay = 0;
     }
 
-    public void CalculateResturantRating(double _queueWaitTime, double _orderaTakeWaitTime, double _orderArrivalWaitTime)
+    void CalcuateCustomerIntake()
+    {
+        float dayLengthMins = 5;
+
+        int minCustomerIntake = Mathf.RoundToInt((_FOHM.numOfChairs) * (dayLengthMins / 2));
+        //if(minCustomerIntake < 0) minCustomerIntake = _FOHM.numOfChairs * 3;
+
+        int customerIntakeIncrease = Mathf.RoundToInt(0.5f * _GM.resturantRating + -10);
+
+        currentDayCustomerIntake = minCustomerIntake + customerIntakeIncrease;
+        print("Min intake: " + minCustomerIntake + " customerIntakeIncrease: " + customerIntakeIncrease);
+
+    }
+
+    public void CalculateCustomersResturantRating(double _queueWaitTime, double _orderaTakeWaitTime, double _orderArrivalWaitTime)
     {
         //3 levels
         int customersRating = 0;
