@@ -36,7 +36,7 @@ public class CustomerManager : Singleton<CustomerManager>
     int resturantRatingTotal_currentDay;
 
     [Header("Resturant Ratings")]
-    int currentDayCustomerIntake = 0;
+    [SerializeField] int currentDayCustomerIntake = 0;
 
     [Header("Customer Spawn Rates")]
     [SerializeField] float customerSpawnRate;
@@ -46,7 +46,9 @@ public class CustomerManager : Singleton<CustomerManager>
     float sixthOfDayLength = 50;// 5 min days = 300secondsd 
     float d1,d2,d3,d4,d5,d6;
     [SerializeField] float customerSpawnChance;
-    int customersSpawned;
+    [SerializeField] int customersSpawnedOverDay;
+    [SerializeField] int customersSpawningThisDeviation;
+    [SerializeField] int customersSpawnedThisDeviation;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +71,7 @@ public class CustomerManager : Singleton<CustomerManager>
         if(_GM.playState == GameManager.PlayState.Open)
         {
             CalculateCurrentDeviations();
-            SetCustomerSpawnChance();
+            SetCustomerSpawnPercentage();
         }
     }
 
@@ -92,6 +94,8 @@ public class CustomerManager : Singleton<CustomerManager>
 
     void CalculateCurrentDeviations()
     {
+        var currentD = deviations;
+
         if (_GM.currentTime_OpenDay < d1)
             deviations = Deviations.D1;
         else if(_GM.currentTime_OpenDay > d1 && _GM.currentTime_OpenDay < d2)
@@ -105,16 +109,23 @@ public class CustomerManager : Singleton<CustomerManager>
         else if (_GM.currentTime_OpenDay > d5 && _GM.currentTime_OpenDay < d6)
             deviations = Deviations.D6;
 
+        if (deviations != currentD)
+        {
+            print(currentD + " spawned " + customersSpawnedThisDeviation);
+            customersSpawnedThisDeviation = 0;
+        }
     }
 
-    void SetCustomerSpawnChance()
+    void SetCustomerSpawnPercentage()
     {
-        if(deviations == Deviations.D1 || deviations == Deviations.D6)
-            customerSpawnChance = 2.3f;
+        if (deviations == Deviations.D1 || deviations == Deviations.D6)
+            customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 2.3f) / 100f);
+        //customerSpawnChance = 2.3f;
         else if (deviations == Deviations.D2 || deviations == Deviations.D5)
-            customerSpawnChance = 13.6f;
+            customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 13.6f) / 100f);
+        //customerSpawnChance = 13.6f;
         else if (deviations == Deviations.D3 || deviations == Deviations.D4)
-            customerSpawnChance = 34.1f;
+            customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 34.1f) / 100f);
 
     }
 
@@ -125,18 +136,23 @@ public class CustomerManager : Singleton<CustomerManager>
 
     void EndSpawning()
     {
-        print(customersSpawned);
+        print(customersSpawnedOverDay);
         CancelInvoke("CalculateCustomerSpawnnChance");
     }
 
     void CalculateCustomerSpawnnChance()
     {
         var r = Random.Range(0, 101);
-
-        if(r < customerSpawnChance)
+        
+        if(customersSpawnedThisDeviation < customersSpawningThisDeviation)
         {
-            SpawnCustomer();
+            if (r < customerSpawnChance)
+            {
+                SpawnCustomer();
+            }
         }
+
+        
     }
 
     void SpawnCustomer()
@@ -144,7 +160,7 @@ public class CustomerManager : Singleton<CustomerManager>
         var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
         customersInQueue.Add(newCustomers);
         customersInResturant.Add(newCustomers);
-        customersSpawned++;
+        customersSpawnedOverDay++;
     }
 
 

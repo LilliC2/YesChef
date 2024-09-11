@@ -898,6 +898,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: 0
   holdFoodPos: {fileID: 0}
+--- !u!114 &577558408 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7163697720812568591, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+  m_PrefabInstance: {fileID: 1248660672766110352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &647675534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1775,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1697975327589468409, guid: a0d4a4bcd3293c64bb1a67b547256d40, type: 3}
   m_PrefabInstance: {fileID: 7875177616970322703}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &956357634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7237302518266515727, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+  m_PrefabInstance: {fileID: 1248660672766110352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &958470160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2671,6 +2693,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f824e11a22b93c42902b1b35f5579bc, type: 3}
+--- !u!114 &1334545168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7811786717817899686, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+  m_PrefabInstance: {fileID: 1248660672766110352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b4fcee83bee5c4db5577a38a08dc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1339917490
 GameObject:
   m_ObjectHideFlags: 0
@@ -4049,6 +4082,22 @@ PrefabInstance:
       propertyPath: m_IsOn
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1545350284824110793, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: graphic
+      value: 
+      objectReference: {fileID: 577558408}
+    - target: {fileID: 1545350284824110793, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 956357634}
+    - target: {fileID: 1545350284824110793, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1334545168}
+    - target: {fileID: 1545350284824110793, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1047327756}
     - target: {fileID: 2024158959785187142, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4498,6 +4547,14 @@ PrefabInstance:
       propertyPath: customerSpawnPoint
       value: 
       objectReference: {fileID: 1522040665}
+    - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
+      propertyPath: customerSpawnChance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
+      propertyPath: currentDayCustomerIntake
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
       propertyPath: leavePoints.Array.data[0]
       value: 

@@ -86,7 +86,7 @@ public class StaffManager : Singleton<StaffManager>
         //activate on purchase
         if(activeStaff.Count != maxActiveStaff)
         {
-            ActivateStaff(staffHired);
+            //ActivateStaff(staffHired);
             _UI.ToggleStaffOn(staffHired.name);
 
         }
