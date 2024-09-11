@@ -493,18 +493,24 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// Match UI if staff is toggled when bought
     /// </summary>
-    public void ToggleStaffOn(string name)
+    public void ToggleStaffOn(GameObject staff)
     {
-        //find button
-        GameObject obj = null;
-        foreach (var item in organiseStaffButtons_GO)
+        string name = staff.name;
+
+        if(!_SM.activeStaff.Contains(staff))
         {
-            if(item.name.Contains(name)) obj = item;
+            //find button
+            GameObject obj = null;
+            foreach (var item in organiseStaffButtons_GO)
+            {
+                if (item.name.Contains(name)) obj = item;
+
+            }
+
+            var toggle = obj.transform.Find("Toggle").GetComponent<Toggle>();
+            toggle.isOn = true;
 
         }
-
-        var toggle = obj.transform.Find("Toggle").GetComponent<Toggle>();
-        toggle.isOn = true;
 
     }
     #endregion

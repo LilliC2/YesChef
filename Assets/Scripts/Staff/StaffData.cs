@@ -40,7 +40,7 @@ public class StaffData : GameBehaviour
                     //Get positiont to walk to
                     if (wanderDestination == Vector3.zero)
                     {
-                        print("get new pos");
+                        //print("get new pos");
                         wanderDestination = GetWanderPoint(_SM.staffRoomZone, "Staff");
                         reachedWanderPos = false;
 
@@ -117,7 +117,7 @@ public class StaffData : GameBehaviour
         NavMeshHit hit;
         if(NavMesh.SamplePosition(randomPoint, out hit, 1, 1 << NavMesh.GetAreaFromName(area)))
         {
-            print("valid pos");
+            //print("valid pos");
             result = hit.position;
             return result;
 
