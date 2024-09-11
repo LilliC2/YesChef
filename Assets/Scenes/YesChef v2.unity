@@ -4083,6 +4083,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3817018644406554694, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817018644406554694, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817018644406554694, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817018644406554694, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5769407463160346333, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4100,6 +4116,38 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5769407463160346333, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358640055601638822, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358640055601638822, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358640055601638822, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358640055601638822, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174067360077425993, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174067360077425993, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174067360077425993, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174067360077425993, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -4126,12 +4174,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
       propertyPath: customerSpawnRate
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
       propertyPath: customerSpawnPoint
       value: 
       objectReference: {fileID: 1522040665}
+    - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
+      propertyPath: customerSpawnChance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
+      propertyPath: currentDayCustomerIntake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
       propertyPath: leavePoints.Array.data[0]
       value: 
@@ -4404,6 +4460,10 @@ PrefabInstance:
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
+      propertyPath: resturantRating
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
       propertyPath: conveyerbeltPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1490638644}
@@ -4456,6 +4516,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1411792290}
     m_Modifications:
+    - target: {fileID: 1252048380329248222, guid: a0d4a4bcd3293c64bb1a67b547256d40, type: 3}
+      propertyPath: numOfChairs
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1697975327589468409, guid: a0d4a4bcd3293c64bb1a67b547256d40, type: 3}
       propertyPath: m_RootOrder
       value: -1
