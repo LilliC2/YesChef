@@ -46,13 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroy: 0
   allWaiterStaff:
-  - {fileID: 1301813619833109851, guid: 7156ab84c3cbfb949a0f63949ddf5729, type: 3}
+  - {fileID: 0}
   allChefStaff:
-  - {fileID: 4545598714552739806, guid: cbe529dac89c9be40b4e89f76c9d6277, type: 3}
+  - {fileID: 0}
+  maxActiveStaff: 10
   activeStaff: []
   hiredStaff: []
-  staffRoomZone: {x: 6.6567, y: 0, z: -5.003}
-  kitchenZone: {x: -3.4700003, y: 0, z: 0}
-  FOHZone: {x: -4.6264, y: 0, z: -10.07}
+  staffRoomZone: {fileID: 0}
+  kitchenZone: {fileID: 0}
+  FOHZone: {fileID: 0}
   returnToWorkSpeed: 5
   casualSpeed: 3

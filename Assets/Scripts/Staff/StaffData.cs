@@ -41,7 +41,7 @@ public class StaffData : GameBehaviour
                     if (wanderDestination == Vector3.zero)
                     {
                         //print("get new pos");
-                        wanderDestination = GetWanderPoint(_SM.staffRoomZone, "Staff");
+                        wanderDestination = GetWanderPoint(_SM.staffRoomZone.position, "Staff");
                         reachedWanderPos = false;
 
                         if(wanderDestination != Vector3.zero)
@@ -95,12 +95,12 @@ public class StaffData : GameBehaviour
     {
         if(gameObject.tag == "Chef")
         {
-            stationPos = GetWanderPoint(_SM.kitchenZone,gameObject.tag);
+            stationPos = GetWanderPoint(_SM.kitchenZone.position,gameObject.tag);
             agent.speed = _SM.returnToWorkSpeed;
         }
         if(gameObject.tag == "Waiter")
         {
-            stationPos = GetWanderPoint(_SM.FOHZone, gameObject.tag);
+            stationPos = GetWanderPoint(_SM.FOHZone.position, gameObject.tag);
             agent.speed = _SM.returnToWorkSpeed;
 
         }

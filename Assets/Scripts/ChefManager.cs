@@ -90,7 +90,7 @@ public class ChefManager : Singleton<ChefManager>
                         currentChefs.Add(newChef);
 
                         //subtract cost of chef from money
-                        _GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
+                        //_GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
                        // _GM.event_updateMoney.Invoke();
 

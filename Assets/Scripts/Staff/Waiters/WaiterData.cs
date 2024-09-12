@@ -79,7 +79,7 @@ public class WaiterData : GameBehaviour
                 }
                 
                 //Taking Order
-                if(_CustM.customersReadyToOrder.Count != 0)
+                if(_CustM.customersReadyToOrder.Count > 0)
                 {
                     if (customer == null && !_CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened)
                     {

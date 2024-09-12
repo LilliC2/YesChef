@@ -17,7 +17,7 @@ public class StaffManager : Singleton<StaffManager>
     public List<GameObject> hiredStaff; //all staff player has unlocked
 
     [Header("Work Zones")]
-    public Vector3 staffRoomZone, kitchenZone, FOHZone;
+    public Transform staffRoomZone, kitchenZone, FOHZone;
 
     public float returnToWorkSpeed;
     public float casualSpeed;

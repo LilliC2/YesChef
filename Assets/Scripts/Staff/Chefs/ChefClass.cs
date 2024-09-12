@@ -6,15 +6,9 @@ using UnityEngine;
 public class ChefClass 
 {
     public string name;
-    public string description;
-    public float hireCost;
     public float movSpeed;
 
-    public int level;
-
     public Sprite pfp;
-
-    public float range;
 
     public bool kneadSkill;
     public float kneadEffectivness;

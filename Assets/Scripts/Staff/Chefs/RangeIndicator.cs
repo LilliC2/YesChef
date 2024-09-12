@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RangeIndicator : MonoBehaviour
 {
-    float range;
+    //float range;
 
-    // Update is called once per frame
-    void Update()
-    {
-        range = GetComponentInParent<ChefData>().chefData.range;
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    range = GetComponentInParent<ChefData>().chefData.range;
 
-        transform.localScale = new Vector3(range, range, range);
-    }
+    //    transform.localScale = new Vector3(range, range, range);
+    //}
 }
