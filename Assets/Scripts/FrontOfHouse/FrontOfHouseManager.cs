@@ -8,6 +8,7 @@ public class FrontOfHouseManager : Singleton<FrontOfHouseManager>
     public List<GameObject> unoccupiedTables = new List<GameObject>();
     public List<GameObject> dirtyTables = new List<GameObject>();
 
+    public int numOfChairs;
     // Start is called before the first frame update
     void Start()
     {

@@ -226,7 +226,7 @@ public class CustomerData : GameBehaviour
 
         
         //calculate rating
-        _CustM.CalculateResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
+        _CustM.CalculateCustomersResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
 
         LeaveResturant();
     }
