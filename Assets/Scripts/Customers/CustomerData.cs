@@ -191,6 +191,8 @@ public class CustomerData : GameBehaviour
 
     public void OrderHasBeenTaken()
     {
+        _CustM.customersReadyToOrder.Remove(gameObject);
+
         takeOrderWaitTime = StopTimer();
         task = Task.WaitForFood;
 

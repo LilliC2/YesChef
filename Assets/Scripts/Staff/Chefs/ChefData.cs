@@ -194,8 +194,11 @@ public class ChefData : GameBehaviour
                             targetPassPoint = FindPassPoint();
                             _PM.unoccupiedPassPoints.Remove(targetPassPoint);
                         }
+                        else
+                        {
+                            agent.SetDestination(targetPassPoint.position);
 
-                        agent.SetDestination(targetPassPoint.position);
+                        }
 
                         if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
                         {
