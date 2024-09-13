@@ -24,7 +24,7 @@ public class SkillTracker : GameBehaviour
     GameObject mixingImgObj;
 
 
-    FoodData itemFoodData;
+    FoodClass itemFoodData;
 
     float timeElapsed;
     float lerpDuration = 3;
@@ -39,12 +39,12 @@ public class SkillTracker : GameBehaviour
 
     private void Start()
     {
-        itemFoodData = GetComponentInParent<FoodData>();
+        itemFoodData = GetComponentInParent<FoodData>().order.foodClass;
 
-        cookingImgObj.SetActive(itemFoodData.foodData.needsCooking);
-        cuttingImgObj.SetActive(itemFoodData.foodData.needsCutting);
-        kneadingImgObj.SetActive(itemFoodData.foodData.needsKneading);
-        mixingImgObj.SetActive(itemFoodData.foodData.needsMixing);
+        cookingImgObj.SetActive(itemFoodData.needsCooking);
+        cuttingImgObj.SetActive(itemFoodData.needsCutting);
+        kneadingImgObj.SetActive(itemFoodData.needsKneading);
+        mixingImgObj.SetActive(itemFoodData.needsMixing);
     }
 
     // Update is called once per frame
@@ -101,20 +101,19 @@ public class SkillTracker : GameBehaviour
     public void EndFoodProgress(string skill)
     {
 
-        var foodData = itemFoodData.foodData;
         switch (skill)
         {
             case "Cooking":
-                foodData.cookWorkComplete = true;
+                itemFoodData.cookWorkComplete = true;
                 break;
             case "Cutting":
-                foodData.cutWorkComplete = true;
+                itemFoodData.cutWorkComplete = true;
                 break;
             case "Kneading":
-                foodData.kneadedWorkComplete = true;
+                itemFoodData.kneadedWorkComplete = true;
                 break;
             case "Mixing":
-                foodData.mixWorkComplete = true;
+                itemFoodData.mixWorkComplete = true;
                 break;
         }
 

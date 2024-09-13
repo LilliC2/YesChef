@@ -31,8 +31,8 @@ public class CustomerData : GameBehaviour
     GameObject table;
 
     [Header("Select From Menu")]
-    public OrderClass order;
-    public GameObject orderGO;
+    public GameObject order;
+    public OrderClass orderClass;
     bool hasSelectedOrder;
 
     [Header("Eat Food")]
@@ -77,26 +77,22 @@ public class CustomerData : GameBehaviour
 
 
                     //if not at correct queue position
-                    if (queueIndex != _CustM.customersInQueue.IndexOf(gameObject))
+                    agent.SetDestination(_CustM.customerOutsideQueueSpots[_CustM.customersInQueue.IndexOf(gameObject)].position);
+
+                    //check if at position
+                    //if (agent.remainingDistance <= agent.stoppingDistance)
+                    //{
+
+                    //    //move down queue
+                    //    queueIndex--;
+                    //    agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
+
+                    //check if at front of queue
+                    if (queueIndex == 0 && agent.remainingDistance <= agent.stoppingDistance)
                     {
-                        agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
-
-                        //check if at position
-                        if (agent.remainingDistance <= agent.stoppingDistance)
-                        {
-
-                            //move down queue
-                            queueIndex--;
-                            agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
-
-                            //check if at front of queue
-                            if (queueIndex == 0)
-                            {
-                                _EM.event_customerReadyToBeSeated.Invoke();
-                                queueWaitTime = StopTimer();
-                                task = Task.WaitToBeSeated;
-                            }
-                        }
+                        _EM.event_customerReadyToBeSeated.Invoke();
+                        queueWaitTime = StopTimer();
+                        task = Task.WaitToBeSeated;
                     }
 
 
@@ -137,7 +133,7 @@ public class CustomerData : GameBehaviour
                         if (_FM.avalibleMenu.Count != 0)
                         {
                             order = _FM.avalibleMenu[UnityEngine.Random.Range(0, _FM.avalibleMenu.Count - 1)];
-                            order.customer = gameObject; //set customer as itself
+                            orderClass = order.GetComponent<FoodData>().order;
                                                          //print("Want to order " +  order.foodPrefab.name);
                             _CustM.customersReadyToOrder.Add(gameObject);
                         }
@@ -160,8 +156,10 @@ public class CustomerData : GameBehaviour
                     {
                         orderArrivalWaitTime = StopTimer();
 
+
+
                         isEating = true;
-                        ExecuteAfterSeconds(order.eatTime, () => FinishedEating());
+                        ExecuteAfterSeconds(orderClass.eatTime, () => FinishedEating());
                     }
 
 
@@ -193,6 +191,7 @@ public class CustomerData : GameBehaviour
     {
         takeOrderWaitTime = StopTimer();
         task = Task.WaitForFood;
+        
 
 
     }
@@ -215,14 +214,14 @@ public class CustomerData : GameBehaviour
     void FinishedEating()
     {
         //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
-        _FM.RemoveFood(orderGO);
+        _FM.RemoveFood(order);
         
         PayForOrder();
     }
 
     void PayForOrder()
     {
-        _GM.PlayerMoneyIncrease(order.orderCost);
+        _GM.PlayerMoneyIncrease(orderClass.orderCost);
 
         
         //calculate rating

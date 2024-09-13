@@ -78,6 +78,11 @@ public class CustomerManager : Singleton<CustomerManager>
             CalculateCurrentDeviations();
             SetCustomerSpawnPercentage();
         }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnCustomer();
+        }
     }
 
     /*
@@ -206,6 +211,7 @@ public class CustomerManager : Singleton<CustomerManager>
         //if(minCustomerIntake < 0) minCustomerIntake = _FOHM.numOfChairs * 3;
 
         int customerIntakeIncrease = Mathf.RoundToInt(0.5f * _GM.resturantRating + -10);
+        if (customerIntakeIncrease < 0) customerIntakeIncrease = 0;
 
         currentDayCustomerIntake = minCustomerIntake + customerIntakeIncrease;
         print("Min intake: " + minCustomerIntake + " customerIntakeIncrease: " + customerIntakeIncrease);

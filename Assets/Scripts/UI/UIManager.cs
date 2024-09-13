@@ -216,7 +216,7 @@ public class UIManager : Singleton<UIManager>
 
         script.foodImage.sprite = _order.pfp;
 
-        var foodData = _order.foodPrefab.GetComponent<FoodData>().foodData;
+        var foodData = _order.foodClass;
 
         //turn on produce
         script.fruit_Image.SetActive(foodData.requiredProduce_fruit > 0);

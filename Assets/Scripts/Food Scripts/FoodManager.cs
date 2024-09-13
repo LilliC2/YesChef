@@ -70,11 +70,10 @@ public class FoodManager : Singleton<FoodManager>
 
     [Header("Cooking")]
 
-    public List<OrderClass> menu = new List<OrderClass>();
-    public List<OrderClass> avalibleMenu = new List<OrderClass>();
+    public List<GameObject> menu = new List<GameObject>();
+    public List<GameObject> avalibleMenu = new List<GameObject>();
 
     public List<GameObject> orderedFood_GO = new List<GameObject>();
-    public List<OrderClass> orderedFood_orderClass = new List<OrderClass>();
 
     public List<GameObject> foodNeedPreperation_list = new List<GameObject>();
 
@@ -89,29 +88,27 @@ public class FoodManager : Singleton<FoodManager>
         _GM.event_playStateOpen.AddListener(UpdateMenuBasedOnProduce);
     }
 
-    public void OrderUp(OrderClass _order)
+    public void OrderUp(GameObject _orderGO, GameObject _customer)
     {
-        if(!orderedFood_orderClass.Contains(_order)) orderedFood_orderClass.Add(_order);
-        var prefab = _order.foodPrefab;
-        orderedFood_GO.Add(prefab);
+        var _order = _orderGO.GetComponent<FoodData>().order;
+        orderedFood_GO.Add(_orderGO);
         //spawn point
         var conveyorPoint = _GM.conveyerbeltPoints[Random.Range(0, _GM.conveyerbeltPoints.Length)].transform.position;
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-        var food = Instantiate(prefab, conveyorPoint, Quaternion.identity);
+        var food = Instantiate(_orderGO, conveyorPoint, Quaternion.identity);
         foodNeedPreperation_list.Add(food);
 
-        //print("Ordered food: " + food.name);
+        _order.customer = _customer;
 
-        food.GetComponent<FoodData>().order = _order;
-        food.GetComponent<FoodData>().foodData = _order.foodClass;
+        var foodClass = food.GetComponent<FoodData>().order.foodClass;
 
         //remove produce
-        dairyTotal_produce -= _order.foodClass.requiredProduce_dairy;
-        protienTotal_produce -= _order.foodClass.requiredProduce_protein;
-        grainTotal_produce -= _order.foodClass.requiredProduce_grain;
-        fruitTotal_produce -= _order.foodClass.requiredProduce_fruit;
-        vegTotal_produce -= _order.foodClass.requiredProduce_veg;
+        dairyTotal_produce -= foodClass.requiredProduce_dairy;
+        protienTotal_produce -= foodClass.requiredProduce_protein;
+        grainTotal_produce -= foodClass.requiredProduce_grain;
+        fruitTotal_produce -= foodClass.requiredProduce_fruit;
+        vegTotal_produce -= foodClass.requiredProduce_veg;
         UpdateMenuBasedOnProduce();
 
         //print("added order");
@@ -123,25 +120,25 @@ public class FoodManager : Singleton<FoodManager>
     /// </summary>
     public void UpdateMenuBasedOnProduce()
     {
-        List < OrderClass > _menu = new();
+        List < GameObject > _menu = new();
 
         foreach (var item in menu)
         {
             bool hasProduceAvalible = true;
 
-            if (dairyTotal_produce < item.foodClass.requiredProduce_dairy)
+            if (dairyTotal_produce < item.GetComponent<FoodData>().order.foodClass.requiredProduce_dairy)
                 hasProduceAvalible = false;
             
-            if (grainTotal_produce < item.foodClass.requiredProduce_grain)
+            if (grainTotal_produce < item.GetComponent<FoodData>().order.foodClass.requiredProduce_grain)
                 hasProduceAvalible = false;
             
-            if (fruitTotal_produce < item.foodClass.requiredProduce_fruit)
+            if (fruitTotal_produce < item.GetComponent<FoodData>().order.foodClass.requiredProduce_fruit)
                 hasProduceAvalible = false;
             
-            if (vegTotal_produce < item.foodClass.requiredProduce_veg)
+            if (vegTotal_produce < item.GetComponent<FoodData>().order.foodClass.requiredProduce_veg)
                 hasProduceAvalible = false;
             
-            if (protienTotal_produce < item.foodClass.requiredProduce_protein)
+            if (protienTotal_produce < item.GetComponent<FoodData>().order.foodClass.requiredProduce_protein)
                 hasProduceAvalible = false;
 
             if(hasProduceAvalible) _menu.Add(item);
@@ -162,15 +159,9 @@ public class FoodManager : Singleton<FoodManager>
     {
         if(finishedFood_list.Contains(_food)) finishedFood_list.Remove(_food);
         if(orderedFood_GO.Contains(_food)) orderedFood_GO.Remove(_food);
-        Destroy(_food);
+        DestroyImmediate(_food, true);
     }
 
-    public OrderClass GetOrderClassFromFoodGameObject(GameObject _food)
-    {
-        int index = _FM.orderedFood_GO.IndexOf(_food) + 1;
-
-        return orderedFood_orderClass[index];
-    }
 
 
 }

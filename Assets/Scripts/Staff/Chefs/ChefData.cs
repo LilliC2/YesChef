@@ -258,7 +258,7 @@ public class ChefData : GameBehaviour
         for (int i = 0; i < _FM.foodNeedPreperation_list.Count; i++)
         {
             targetFood = _FM.foodNeedPreperation_list[i].gameObject;
-            targetFoodClass = targetFood.GetComponent<FoodData>().foodData;
+            targetFoodClass = targetFood.GetComponent<FoodData>().order.foodClass;
             targetFoodData = targetFood.GetComponent<FoodData>();
 
             if (chefData.kneadSkill && targetFoodClass.needsKneading)

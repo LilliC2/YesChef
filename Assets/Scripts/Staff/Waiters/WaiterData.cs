@@ -81,14 +81,19 @@ public class WaiterData : GameBehaviour
                 //Taking Order
                 if(_CustM.customersReadyToOrder.Count > 0)
                 {
-                    if (customer == null && !_CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened)
+                    foreach (var _customer in _CustM.customersReadyToOrder)
                     {
-                        _CustM.customersReadyToOrder[0].GetComponent<CustomerData>().beingAttened = true;
-                        customer = _CustM.customersReadyToOrder[0];
-                        customerData = customer.GetComponent<CustomerData>();
-                        tasks = Task.TakeCustomerOrder;
+                        if (customer == null && !_customer.GetComponent<CustomerData>().beingAttened)
+                        {
+                            _customer.GetComponent<CustomerData>().beingAttened = true;
+                            customer = _CustM.customersReadyToOrder[0];
+                            customerData = customer.GetComponent<CustomerData>();
+                            tasks = Task.TakeCustomerOrder;
+                            break;
 
+                        }
                     }
+                    
                 }
 
 
@@ -202,7 +207,7 @@ public class WaiterData : GameBehaviour
                 {
                     //place food
                     targetOrder.transform.position = customerData.plateSpot.position;
-                    customerData.orderGO = targetOrder;
+                    customerData.order = targetOrder; //change their order to the intantiated object and not the root prefab asset
                     customerData.task = CustomerData.Task.EatFood;
                     ResetWaiter();
 
@@ -217,8 +222,8 @@ public class WaiterData : GameBehaviour
         if (!isTakingOrder)
         {
             isTakingOrder = true;
-            _FM.OrderUp(customerData.order);
-            _UI.AddOrder(customerData.order);
+            _FM.OrderUp(customerData.order, customer);
+            _UI.AddOrder(customerData.orderClass);
             ExecuteAfterSeconds(1,()=> ResetWaiter());
 
         }

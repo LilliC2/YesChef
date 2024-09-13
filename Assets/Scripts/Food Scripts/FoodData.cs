@@ -10,7 +10,6 @@ public class FoodData : GameBehaviour
     public enum FoodMovement { OnConveyerbelt, OnPass, BeingHeld }
     public FoodMovement foodMovement;
 
-    public FoodClass foodData;
     bool isComplete;
 
     public OrderClass order;
@@ -81,13 +80,13 @@ public class FoodData : GameBehaviour
         isComplete = true;
 
         //check if all the skills it required are complete
-        if(foodData.needsKneading && !foodData.kneadedWorkComplete) isComplete = false;
+        if(order.foodClass.needsKneading && !order.foodClass.kneadedWorkComplete) isComplete = false;
 
-        if (foodData.needsCooking && !foodData.cookWorkComplete) isComplete = false;
+        if (order.foodClass.needsCooking && !order.foodClass.cookWorkComplete) isComplete = false;
 
-        if(foodData.needsMixing && !foodData.mixWorkComplete) isComplete = false;
+        if(order.foodClass.needsMixing && !order.foodClass.mixWorkComplete) isComplete = false;
         
-        if(foodData.needsCutting && !foodData.cutWorkComplete) isComplete = false ;
+        if(order.foodClass.needsCutting && !order.foodClass.cutWorkComplete) isComplete = false ;
 
 
         return isComplete;
