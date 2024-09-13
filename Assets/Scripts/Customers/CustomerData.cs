@@ -34,6 +34,8 @@ public class CustomerData : GameBehaviour
     public GameObject order;
     public OrderClass orderClass;
     bool hasSelectedOrder;
+    bool isSeated;
+    Vector3 seat;
 
     [Header("Eat Food")]
     bool isEating;
@@ -67,8 +69,16 @@ public class CustomerData : GameBehaviour
         {
             currentState.text = task.ToString();
 
+            if(isSeated)
+            {
+                //sit at chair spot
+                transform.position = seat;
+            }
+
             switch (task)
             {
+
+
                 //In any position other than 0
                 case Task.Queue:
 
@@ -106,6 +116,7 @@ public class CustomerData : GameBehaviour
                         _CustM.customersInQueue.Remove(gameObject);
                     }
 
+                    //follow waiter
                     if (waiterFollow != null)
                     {
                         if (Vector3.Distance(transform.position, waiterFollow.transform.position) > waiterFollowDistance)
@@ -114,12 +125,25 @@ public class CustomerData : GameBehaviour
                         }
                     }
 
+                    //sit down
+                    else if (table != null)
+                    { 
+                        agent.SetDestination(seat);
 
-                    break;
+                        if (Vector3.Distance(transform.position, seat) > 1)
+                        {
+                            isSeated = true;
+                        }
+
+                    }
+
+
+                break;
+                    
                 case Task.SelectFromMenu:
 
                     //check they have sat down
-                    if (agent.remainingDistance <= agent.stoppingDistance) agent.isStopped = true;
+                    
 
                     if (!hasSelectedOrder)
                     {
@@ -189,14 +213,7 @@ public class CustomerData : GameBehaviour
        
     }
 
-    public void OrderHasBeenTaken()
-    {
-        _CustM.customersReadyToOrder.Remove(gameObject);
-
-        takeOrderWaitTime = StopTimer();
-        task = Task.WaitForFood;
-
-    }
+    #region Timer
 
     void StartTimer()
     {
@@ -213,38 +230,15 @@ public class CustomerData : GameBehaviour
         return time.TotalSeconds;
     }
 
-    void FinishedEating()
+    #endregion
+
+    #region Order Functions
+    public void OrderHasBeenTaken()
     {
-        //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
-        _FM.RemoveFood(order);
-        
-        PayForOrder();
-    }
+        _CustM.customersReadyToOrder.Remove(gameObject);
 
-    void PayForOrder()
-    {
-        if (_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
-        if (_CustM.customersReadyToOrder.Contains(gameObject)) _CustM.customersReadyToOrder.Remove(gameObject);
-
-        _GM.PlayerMoneyIncrease(orderClass.orderCost);
-
-        
-        //calculate rating
-        _CustM.CalculateCustomersResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
-
-        LeaveResturant();
-    }
-
-    void LeaveResturant()
-    {
-        agent.isStopped = false;
-        //set table as unoccupied
-        _FOHM.ChangeToUnoccupied(table);
-
-        leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;
-        //set leave destination
-        
-        task = Task.PayAndLeave;
+        takeOrderWaitTime = StopTimer();
+        task = Task.WaitForFood;
 
     }
 
@@ -267,14 +261,69 @@ public class CustomerData : GameBehaviour
         //plate spot first child of chair
         plateSpot = targetChair.GetChild(0);
 
+
+        seat = targetChair.GetChild(1).transform.position;
+
+        waiterFollow = null;
+
+
         table = _table;
         tableData.ChangeToOccupied(targetChair);
 
-        agent.SetDestination(targetChair.position);
+        //agent.SetDestination(targetChair.position);
         ExecuteAfterSeconds(1, () => task = Task.SelectFromMenu);
 
 
 
     }
 
+    #endregion
+
+    #region Leave Resturant
+
+    void FinishedEating()
+    {
+        //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
+        _FM.RemoveFood(order);
+
+        PayForOrder();
+    }
+
+    void PayForOrder()
+    {
+        if (_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
+        if (_CustM.customersReadyToOrder.Contains(gameObject)) _CustM.customersReadyToOrder.Remove(gameObject);
+
+        _GM.PlayerMoneyIncrease(orderClass.orderCost);
+
+
+        //calculate rating
+        _CustM.CalculateCustomersResturantRating(queueWaitTime, takeOrderWaitTime, orderArrivalWaitTime);
+
+        LeaveResturant();
+    }
+
+    void LeaveResturant()
+    {
+        agent.isStopped = false;
+        //set table as unoccupied
+        _FOHM.ChangeToUnoccupied(table);
+
+        leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;
+        //set leave destination
+
+        task = Task.PayAndLeave;
+
+    }
+
+    #endregion
+
+    #region Setter
+
+    public GameObject GetCustomerTable()
+    {
+        return table;
+    }
+
+    #endregion
 }

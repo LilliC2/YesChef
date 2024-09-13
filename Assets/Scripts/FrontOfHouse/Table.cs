@@ -7,6 +7,8 @@ public class Table : GameBehaviour
     public enum Status { Unoccupied, Occupied, Dirty }
     public Status status;
 
+    public Transform waiterAttendPosition;
+
     //for groups of multiple customers
     [SerializeField] int numOfSeats;
     public List<Transform> unoccupiedSeats = new List<Transform>();
@@ -17,7 +19,8 @@ public class Table : GameBehaviour
         //get seats
         foreach (Transform t in gameObject.transform)
         {
-            if(t.name.Contains("Chair")) unoccupiedSeats.Add(t);
+            if(t.name.Contains("chair")) unoccupiedSeats.Add(t);
+            if (t.name.Contains("WaiterAttendPosition")) waiterAttendPosition = t;
         }
 
         numOfSeats = unoccupiedSeats.Count;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class StaffManager : Singleton<StaffManager>
 {
@@ -97,6 +98,15 @@ public class StaffManager : Singleton<StaffManager>
 
     }
 
+    /// <summary>
+    /// Pause NavMesh agent for period of time
+    /// </summary>
+    public void PauseAgent(NavMeshAgent _agent, float _time)
+    {
+        print("Pause");
+        _agent.isStopped = true;
+        ExecuteAfterSeconds(_time,()=> _agent.isStopped=false);
+    }
 
     public void ActivateStaff(GameObject _staff)
     {
