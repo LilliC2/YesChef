@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class CustomerData : GameBehaviour
 {
-    public enum Task { Queue, WaitToBeSeated,FollowWaiter ,SelectFromMenu, WaitForFood, EatFood, PayAndLeave}
+    public enum Task { Queue, WaitToBeSeated,FollowWaiter ,SelectFromMenu, ReadyToOrder, WaitForFood, EatFood, PayAndLeave}
     public Task task;
 
     //when interacting with waiters, this will let the other waiters know if the customer is already undergoing a task
@@ -79,17 +79,10 @@ public class CustomerData : GameBehaviour
                     //if not at correct queue position
                     agent.SetDestination(_CustM.customerOutsideQueueSpots[_CustM.customersInQueue.IndexOf(gameObject)].position);
 
-                    //check if at position
-                    //if (agent.remainingDistance <= agent.stoppingDistance)
-                    //{
-
-                    //    //move down queue
-                    //    queueIndex--;
-                    //    agent.SetDestination(_CustM.customerOutsideQueueSpots[queueIndex].position);
-
                     //check if at front of queue
-                    if (queueIndex == 0 && agent.remainingDistance <= agent.stoppingDistance)
+                    if (_CustM.customersInQueue.IndexOf(gameObject) == 0 && Vector3.Distance(transform.position,_CustM.customerOutsideQueueSpots[0].position)<=1.5f)
                     {
+                        _CustM.customerIsWaiting = true;
                         _EM.event_customerReadyToBeSeated.Invoke();
                         queueWaitTime = StopTimer();
                         task = Task.WaitToBeSeated;
@@ -107,7 +100,11 @@ public class CustomerData : GameBehaviour
 
 
                     //remove from outside queue
-                    if (_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
+                    if (_CustM.customersInQueue.Contains(gameObject))
+                    {
+                        _CustM.customerIsWaiting = false;
+                        _CustM.customersInQueue.Remove(gameObject);
+                    }
 
                     if (waiterFollow != null)
                     {
@@ -136,6 +133,7 @@ public class CustomerData : GameBehaviour
                             orderClass = order.GetComponent<FoodData>().order;
                                                          //print("Want to order " +  order.foodPrefab.name);
                             _CustM.customersReadyToOrder.Add(gameObject);
+                            task = Task.ReadyToOrder;
                         }
                         else
                         {
@@ -145,6 +143,8 @@ public class CustomerData : GameBehaviour
                     }
 
 
+                    break;
+                case Task.ReadyToOrder:
                     break;
                 case Task.WaitForFood:
                     if (!isTimerActive) StartTimer();
@@ -169,6 +169,7 @@ public class CustomerData : GameBehaviour
                     agent.SetDestination(leavePos);
                     if (Vector3.Distance(transform.position,leavePos)<1f)
                     {
+                        print("Should be removed");
                         _CustM.RemoveCustomer(gameObject);
                     }
 
@@ -179,7 +180,8 @@ public class CustomerData : GameBehaviour
         else
         {
             if (agent.destination == null) LeaveResturant();
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            print(Vector3.Distance(transform.position, agent.destination));
+            if (Vector3.Distance(transform.position, agent.destination) <=2)
             {
                 _CustM.RemoveCustomer(gameObject);
             }
@@ -191,8 +193,6 @@ public class CustomerData : GameBehaviour
     {
         takeOrderWaitTime = StopTimer();
         task = Task.WaitForFood;
-        
-
 
     }
 
@@ -221,6 +221,9 @@ public class CustomerData : GameBehaviour
 
     void PayForOrder()
     {
+        if (_CustM.customersInQueue.Contains(gameObject)) _CustM.customersInQueue.Remove(gameObject);
+        if (_CustM.customersReadyToOrder.Contains(gameObject)) _CustM.customersReadyToOrder.Remove(gameObject);
+
         _GM.PlayerMoneyIncrease(orderClass.orderCost);
 
         

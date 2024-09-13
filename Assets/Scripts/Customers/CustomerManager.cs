@@ -13,6 +13,7 @@ public class CustomerManager : Singleton<CustomerManager>
     public List<GameObject> customersInQueue = new List<GameObject>();
     [SerializeField]
     Transform customerSpawnPoint;
+    public bool customerIsWaiting;
 
     [Header("Ready to Order")]
     public List<GameObject> customersReadyToOrder = new List<GameObject>();
@@ -184,8 +185,8 @@ public class CustomerManager : Singleton<CustomerManager>
     /// </summary>
     public void RemoveCustomer(GameObject _customer)
     {
-        if (customersInQueue.Contains(_customer)) customersInQueue.Remove(_customer);
-        if (customersReadyToOrder.Contains(_customer)) customersReadyToOrder.Remove(_customer);
+        //if (customersInQueue.Contains(_customer)) customersInQueue.Remove(_customer);
+        //if (customersReadyToOrder.Contains(_customer)) customersReadyToOrder.Remove(_customer);
 
         //check they are not on any lists
         customersInResturant.Remove(_customer);

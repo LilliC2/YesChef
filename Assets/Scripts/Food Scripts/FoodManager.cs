@@ -99,8 +99,8 @@ public class FoodManager : Singleton<FoodManager>
         var food = Instantiate(_orderGO, conveyorPoint, Quaternion.identity);
         foodNeedPreperation_list.Add(food);
 
-        _order.customer = _customer;
-
+        food.GetComponent<FoodData>().order.customer = _customer;
+        print("customer in order up " + food.GetComponent<FoodData>().order.customer);
         var foodClass = food.GetComponent<FoodData>().order.foodClass;
 
         //remove produce
@@ -110,6 +110,7 @@ public class FoodManager : Singleton<FoodManager>
         fruitTotal_produce -= foodClass.requiredProduce_fruit;
         vegTotal_produce -= foodClass.requiredProduce_veg;
         UpdateMenuBasedOnProduce();
+
 
         //print("added order");
 

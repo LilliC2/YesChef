@@ -65,7 +65,7 @@ public class WaiterData : GameBehaviour
                 //task check
 
                 //Seating Customer
-                if(_CustM.customersInQueue.Count > 0)
+                if(_CustM.customersInQueue.Count > 0 && _CustM.customerIsWaiting)
                 {
                     //check if customer is being attended AND there is a table avalible
                     if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened && _FOHM.unoccupiedTables.Count != 0)
@@ -83,10 +83,10 @@ public class WaiterData : GameBehaviour
                 {
                     foreach (var _customer in _CustM.customersReadyToOrder)
                     {
-                        if (customer == null && !_customer.GetComponent<CustomerData>().beingAttened)
+                        if (customer == null && !_customer.GetComponent<CustomerData>().beingAttened && _customer.GetComponent<CustomerData>().task == CustomerData.Task.ReadyToOrder)
                         {
                             _customer.GetComponent<CustomerData>().beingAttened = true;
-                            customer = _CustM.customersReadyToOrder[0];
+                            customer = _customer;
                             customerData = customer.GetComponent<CustomerData>();
                             tasks = Task.TakeCustomerOrder;
                             break;
@@ -106,6 +106,7 @@ public class WaiterData : GameBehaviour
                         targetOrder = _FM.finishedFood_list.FirstOrDefault();
                         _FM.finishedFood_list.Remove(targetOrder);
                         customer = targetOrder.GetComponent<FoodData>().order.customer;
+                        print("Serve to customer " + customer.name);
                         customerData = customer.GetComponent<CustomerData>();
                         customerData.beingAttened = true;
                         tasks = Task.GetFood;
@@ -144,19 +145,23 @@ public class WaiterData : GameBehaviour
 
                             agent.SetDestination(targetTable.transform.position);
                         }
-
-                        //walk to table
-                        if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
+                        else
                         {
-                            //seat customer
+                            //walk to table
+                            if (Vector3.Distance(transform.position, targetTable.transform.position) <= tableBreakingDistance)
+                            {
+                                //seat customer
 
-                            //print("at table");
-                            customerData.BeSeated(targetTable); //give them their table
-                            customerData.beingAttened = false; //no longer atteneding this customer
-                            ResetWaiter();
+                                //print("at table");
+                                customerData.BeSeated(targetTable); //give them their table
+                                customerData.beingAttened = false; //no longer atteneding this customer
+                                ResetWaiter();
 
-                            //reset
+                                //reset
+                            }
                         }
+
+                        
                     }
                 }
                 else tasks = Task.Idle;
@@ -175,7 +180,15 @@ public class WaiterData : GameBehaviour
                         //end customer timer
                         customer.GetComponent<CustomerData>().OrderHasBeenTaken();
 
-                        TakeOrder();
+                        if (!isTakingOrder)
+                        {
+                            isTakingOrder = true;
+                            print("order taken");
+                            _FM.OrderUp(customerData.order, customer);
+                            _UI.AddOrder(customerData.orderClass);
+                            ResetWaiter();
+
+                        }
                     }
 
                 }
@@ -217,21 +230,11 @@ public class WaiterData : GameBehaviour
         }
     }
 
-    void TakeOrder()
-    {
-        if (!isTakingOrder)
-        {
-            isTakingOrder = true;
-            _FM.OrderUp(customerData.order, customer);
-            _UI.AddOrder(customerData.orderClass);
-            ExecuteAfterSeconds(1,()=> ResetWaiter());
-
-        }
-    }
 
     private void ResetWaiter()
     {
         //seating customer
+        print("Reset");
         customer = null;
         customerData = null;
         targetTable = null;
