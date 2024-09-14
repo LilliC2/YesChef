@@ -18,7 +18,7 @@ public class WaiterData : GameBehaviour
 
     NavMeshAgent agent;
 
-
+    bool isPaused;
 
     [Header("Seating Customer")]
     [SerializeField]
@@ -132,12 +132,15 @@ public class WaiterData : GameBehaviour
 
                         if (Vector3.Distance(transform.position, customer.transform.position) <= customerBreakingDistance)
                         {
-                            isCustomerFollowing = true;
                             //print("close to customre");
                             customerData.StartFollowWaiter(gameObject);
-                            //set customer to follow
-                            transform.LookAt(customer.transform.position);
-                            _SM.PauseAgent(agent, 1);
+                            
+                            if(!StartPauseAgent(1f))
+                            {
+                                isCustomerFollowing = true;
+                            }
+
+                            
                         }
 
                     }
@@ -160,7 +163,20 @@ public class WaiterData : GameBehaviour
                             {
                                 customerData.BeSeated(targetTable); //give them their table
                                 customerData.beingAttened = false; //no longer atteneding this customer
-                                ResetWaiter();
+
+                                //pause for a little
+                                if(!isPaused)
+                                {
+                                    isPaused = true;
+                                    //bool time = _SM.PauseAgent(agent, 0.5f);
+                                    if (!agent.isStopped)
+                                    {
+                                        ResetWaiter();
+                                    }
+
+                                }
+                                
+                                
 
                             }
                         }
@@ -185,16 +201,19 @@ public class WaiterData : GameBehaviour
                         if (!isTakingOrder)
                         {
                             isTakingOrder = true;
-                            _SM.PauseAgent(agent, 2);
 
                             _FM.OrderUp(customerData.order, customer);
                             _UI.AddOrder(customerData.orderClass);
-                            ResetWaiter();
+
+                            if (!StartPauseAgent(1f))
+                            {
+                                ResetWaiter();
+
+                            }
 
                         }
                     }
-                     
-                    
+                   
 
                 }
                 else tasks = Task.Idle;
@@ -212,8 +231,18 @@ public class WaiterData : GameBehaviour
                     targetOrder.GetComponent<FoodData>().foodMovement = FoodData.FoodMovement.BeingHeld; 
 
                     targetOrder.transform.position = holdFoodSpot.position;
-                    _SM.PauseAgent(agent, 1);
-                    tasks = Task.DeliverFood;
+
+                    //set pass spot to unoccupied
+                    _PM.UnoccupiedPassPoint(targetOrder.GetComponent<FoodData>().ReturnPassPoint());
+
+                    if (!StartPauseAgent(1f))
+                    {
+                        tasks = Task.DeliverFood;
+
+                    }
+
+
+
                 }
 
                 break;
@@ -226,9 +255,12 @@ public class WaiterData : GameBehaviour
                     targetOrder.transform.position = customerData.plateSpot.position;
                     customerData.order = targetOrder; //change their order to the intantiated object and not the root prefab asset
                     customerData.task = CustomerData.Task.EatFood;
-                    _SM.PauseAgent(agent, 1);
+                    //pause for a little
+                    if (!StartPauseAgent(1f))
+                    {
+                        ResetWaiter() ;
 
-                    ResetWaiter();
+                    }
                 }
 
                 break;
@@ -265,13 +297,33 @@ public class WaiterData : GameBehaviour
         isCustomerFollowing = false;
         agent.isStopped = false;
 
+        isPaused = false;
+
         //taking order
         isTakingOrder = false;
 
         tasks = Task.Idle;
     }
 
+    bool StartPauseAgent(float _time)
+    {
+        //pause for a little
+        if (!isPaused)
+        {
+            isPaused = true;
+            StartCoroutine(_SM.PauseAgent(agent, _time));
+        }
+        else
+        {
+            //check if pause is over bc they can move again
+            if (agent.isStopped)
+            {
+                isPaused = false;
+            }
+        }
 
+        return isPaused;
+    }
     
 }
 

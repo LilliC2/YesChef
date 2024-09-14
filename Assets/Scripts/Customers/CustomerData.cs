@@ -254,24 +254,31 @@ public class CustomerData : GameBehaviour
     /// </summary>
     public void BeSeated(GameObject _table)
     {
-        //print("seated");
-        var tableData = _table.GetComponent<Table>();
-        var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
+        if(table == null)
+        {
+            var tableData = _table.GetComponent<Table>();
+            var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
 
-        //plate spot first child of chair
-        plateSpot = targetChair.GetChild(0);
+            print(targetChair.name);
 
-
-        seat = targetChair.GetChild(1).transform.position;
-
-        waiterFollow = null;
+            tableData.ChangeToOccupied(targetChair);
 
 
-        table = _table;
-        tableData.ChangeToOccupied(targetChair);
+            //plate spot first child of chair
+            plateSpot = targetChair.GetChild(0);
 
-        //agent.SetDestination(targetChair.position);
-        ExecuteAfterSeconds(1, () => task = Task.SelectFromMenu);
+            //set variables
+            table = _table;
+            seat = targetChair.GetChild(1).transform.position;
+
+            //cancle follow
+            waiterFollow = null;
+
+
+            //agent.SetDestination(targetChair.position);
+            ExecuteAfterSeconds(1, () => task = Task.SelectFromMenu);
+        }
+        
 
 
 
@@ -285,6 +292,8 @@ public class CustomerData : GameBehaviour
     {
         //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
         _FM.RemoveFood(order);
+
+        
 
         PayForOrder();
     }
@@ -308,6 +317,7 @@ public class CustomerData : GameBehaviour
         agent.isStopped = false;
         //set table as unoccupied
         _FOHM.ChangeToUnoccupied(table);
+        isSeated = false;
 
         leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;
         //set leave destination

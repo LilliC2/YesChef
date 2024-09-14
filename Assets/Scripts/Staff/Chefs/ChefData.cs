@@ -24,11 +24,10 @@ public class ChefData : GameBehaviour
     #region Open
 
     [Header("AI and Travel")]
-    bool isHoldingFood;
     NavMeshAgent agent;
     [SerializeField]
     GameObject holdFoodSpot;
-    bool foundFood;
+    bool isPaused;
 
     [Header("Targets")]
 
@@ -70,7 +69,6 @@ public class ChefData : GameBehaviour
         //default targeting
         targeting = Targeting.First;
         agent = GetComponent<NavMeshAgent>();
-        foundFood = false;
     }
 
     // Update is called once per frame
@@ -84,8 +82,6 @@ public class ChefData : GameBehaviour
                 switch (tasks)
                 {
                     case Task.Idle:
-
-                        //if not in kitchen, navigate to kitchen
 
 
 
@@ -116,7 +112,14 @@ public class ChefData : GameBehaviour
                         if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
                         {
                             PickUpFood();
-                            tasks = Task.GoToStation;
+                            if (!StartPauseAgent(1f))
+                            {
+                                tasks = Task.GoToStation;
+
+                            }
+                           
+
+                            
 
                         }
                         break;
@@ -139,8 +142,15 @@ public class ChefData : GameBehaviour
 
                             //place food
                             targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+                            //pause for a little
+                            if (!StartPauseAgent(1f))
+                            {
+                                tasks = Task.WorkOnFood;
 
-                            tasks = Task.WorkOnFood;
+                            }
+                            
+
+
                         }
                         else
                         {
@@ -164,9 +174,13 @@ public class ChefData : GameBehaviour
                                 //pick food back up
                                 PickUpFood();
 
-                                //go to pass
-                                tasks = Task.GoToPass;
-                                //print("go to pass called");
+                                //pause for a little
+                                if (!StartPauseAgent(1f))
+                                {
+                                    tasks = Task.GoToPass;
+
+                                }
+                               
                             }
 
                         }
@@ -183,16 +197,17 @@ public class ChefData : GameBehaviour
                     case Task.GoToPass:
 
 
-                        if (agent.isStopped) agent.isStopped = false;
-
+                        //Get position to place food on pass
                         if (targetPassPoint == null)
                         {
+                            if (agent.isStopped) agent.isStopped = false;
+
                             //print("go to pass");
                             //add workstation back to unoccupied list
                             _WSM.ChangeToUnoccupied(targetWorkStation);
 
                             targetPassPoint = FindPassPoint();
-                            _PM.unoccupiedPassPoints.Remove(targetPassPoint);
+                            _PM.OccupiedPassPoint(targetPassPoint);
                         }
                         else
                         {
@@ -214,9 +229,13 @@ public class ChefData : GameBehaviour
                             _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
 
 
-                            
-                            isHoldingFood = false;
-                            ResetChef();
+                            if (!StartPauseAgent(1f))
+                            {
+                                ResetChef();
+
+                            }
+
+
                         }
                         else
                         {
@@ -247,7 +266,6 @@ public class ChefData : GameBehaviour
     {
         if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood); //remove food from queue
         targetFoodData.foodMovement = FoodData.FoodMovement.BeingHeld; //stops food from trying to travel from conveyerbelt
-        isHoldingFood = true;
     }
 
     /// <summary>
@@ -317,7 +335,6 @@ public class ChefData : GameBehaviour
     {
         //execute after x, complete  = true
         isWorking = true;
-        isHoldingFood = false;
 
         var skillProgressBarScript = targetFood.GetComponentInChildren<SkillTracker>();
        
@@ -384,6 +401,26 @@ public class ChefData : GameBehaviour
 
     }
 
+    bool StartPauseAgent(float _time)
+    {
+        //pause for a little
+        if (!isPaused)
+        {
+            isPaused = true;
+            StartCoroutine(_SM.PauseAgent(agent, _time));
+        }
+        else
+        {
+            //check if pause is over bc they can move again
+            if (agent.isStopped)
+            {
+                isPaused = false;
+            }
+        }
+
+        return isPaused;
+    }
+
     /// <summary>
     /// Set target variables to null
     /// </summary>
@@ -393,7 +430,7 @@ public class ChefData : GameBehaviour
         targetFood = null;
         targetFoodClass = null;
         targetFoodData = null;
-        isHoldingFood = false;
+        isPaused = false;
         targetWorkStation = null;
         targetPassPoint = null;
         tasks = Task.Idle;

@@ -14,6 +14,8 @@ public class FoodData : GameBehaviour
 
     public OrderClass order;
 
+    Transform passPoint; //where it is placed on the pass
+
     GameObject uncookedFood;
     GameObject cookedFood;
     GameObject dirtyFood;
@@ -73,6 +75,16 @@ public class FoodData : GameBehaviour
         }
 
 
+    }
+
+    public void SetPassPoint(Transform _passPoint)
+    {
+        passPoint = _passPoint;
+    }
+
+    public Transform ReturnPassPoint()
+    {
+        return passPoint;
     }
 
     public bool CheckIfComplete()

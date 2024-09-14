@@ -133,7 +133,7 @@ public class CustomerManager : Singleton<CustomerManager>
         if (deviations == Deviations.D1 || deviations == Deviations.D6)
         {
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 2.3f) / 100f);
-            print((currentDayCustomerIntake * 2.3f) / 100f);
+            //print((currentDayCustomerIntake * 2.3f) / 100f);
         }
         //customerSpawnChance = 2.3f;
         else if (deviations == Deviations.D2 || deviations == Deviations.D5)

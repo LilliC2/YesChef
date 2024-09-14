@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PassManager : Singleton<PassManager> 
 {
-    public List<Transform> unoccupiedPassPoints;
+    [SerializeField] List<Transform> unoccupiedPassPoints;
 
     private void Awake()
     {
@@ -14,8 +14,30 @@ public class PassManager : Singleton<PassManager>
             unoccupiedPassPoints.Add(t);
         }
     }
+    /// <summary>
+    /// Set pass point to occupied
+    /// </summary>
+    /// <param name="passPoint"></param>
+    public void OccupiedPassPoint(Transform passPoint)
+    {
+        unoccupiedPassPoints.Remove(passPoint);
+    }
+    
+    /// <summary>
+    /// Set pass point to unoccupied
+    /// </summary>
+    /// <param name="passPoint"></param>
+    public void UnoccupiedPassPoint(Transform passPoint)
+    {
+        unoccupiedPassPoints.Add(passPoint);
+    }
 
 
+    /// <summary>
+    /// Find closest pass point to gameobject
+    /// </summary>
+    /// <param name="chef"></param>
+    /// <returns></returns>
     public Transform FindClosestPassPoint(GameObject chef)
     {
         //default start so they have something to compare to

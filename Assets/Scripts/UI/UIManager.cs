@@ -299,7 +299,8 @@ public class UIManager : Singleton<UIManager>
     public void RemoveOrder(int index)
     {
         var go = ordersGO_List[index];
-        ordersGO_List.RemoveAt(index);
+        if(ordersGO_List.Contains(go))
+            ordersGO_List.RemoveAt(index);
         Destroy(go);
 
     }
