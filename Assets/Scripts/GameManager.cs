@@ -17,8 +17,6 @@ public class GameManager : Singleton<GameManager>
 
     public float resturantRating;
 
-    [SerializeField] GameObject tempFood;
-
     //[Header("Game States")]
     public enum PlayState { Open, Closed };
     public PlayState playState; //while game is actively being played

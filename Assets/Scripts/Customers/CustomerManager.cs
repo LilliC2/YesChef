@@ -18,12 +18,8 @@ public class CustomerManager : Singleton<CustomerManager>
     [Header("Ready to Order")]
     public List<GameObject> customersReadyToOrder = new List<GameObject>();
 
-    public Sprite happyCustomer;
-    public Sprite sadCustomer;
-
     public GameObject customer;
 
-    public UnityEvent event_newSeatAvalible;
 
     [Header("Leave")]
 
@@ -54,22 +50,15 @@ public class CustomerManager : Singleton<CustomerManager>
     // Start is called before the first frame update
     void Start()
     {
-        sixthOfDayLength = _GM.openDayLength / 6;
+        sixthOfDayLength = 300 / 6;
         SetDeviationInts();
         _GM.event_playStateClose.AddListener(AddResturantRating);
         _GM.event_playStateOpen.AddListener(StartSpawning);
         _GM.event_playStateClose.AddListener(EndSpawning);
         _GM.event_playStateClose.AddListener(CalcuateCustomerIntake);
 
-        // test may remove
-        CalcuateCustomerIntake();
 
-        //customerQueueWaitingCheck = new bool[customerQueueSpots.Count];
-
-        //testing, spawn customers immedately
-        //StartCoroutine(SpawnCustomers());
-        //_GM.event_endOfDay.AddListener(SpawnCustomersEventListener);
-
+        //CalcuateCustomerIntake();
     }
 
     private void Update()
@@ -133,7 +122,7 @@ public class CustomerManager : Singleton<CustomerManager>
         if (deviations == Deviations.D1 || deviations == Deviations.D6)
         {
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 2.3f) / 100f);
-            //print((currentDayCustomerIntake * 2.3f) / 100f);
+           
         }
         //customerSpawnChance = 2.3f;
         else if (deviations == Deviations.D2 || deviations == Deviations.D5)
@@ -142,17 +131,8 @@ public class CustomerManager : Singleton<CustomerManager>
         else if (deviations == Deviations.D3 || deviations == Deviations.D4)
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 34.1f) / 100f);
 
-    }
 
-    void StartSpawning()
-    {
-        InvokeRepeating("CalculateCustomerSpawnnChance", 0, customerSpawnRate);
-    }
-
-    void EndSpawning()
-    {
-        print(customersSpawnedOverDay);
-        CancelInvoke("CalculateCustomerSpawnnChance");
+        
     }
 
     void CalculateCustomerSpawnnChance()
@@ -177,6 +157,17 @@ public class CustomerManager : Singleton<CustomerManager>
         customersInQueue.Add(newCustomers);
         customersInResturant.Add(newCustomers);
         customersSpawnedOverDay++;
+    }
+
+    void StartSpawning()
+    {
+        InvokeRepeating("CalculateCustomerSpawnnChance", 0, customerSpawnRate);
+    }
+
+    void EndSpawning()
+    {
+        print(customersSpawnedOverDay);
+        CancelInvoke("CalculateCustomerSpawnnChance");
     }
 
     #endregion
@@ -207,14 +198,12 @@ public class CustomerManager : Singleton<CustomerManager>
     void CalcuateCustomerIntake()
     {
         float dayLengthMins = 5;
-
         int minCustomerIntake = Mathf.RoundToInt((_FOHM.numOfChairs) * (dayLengthMins / 2));
-        //if(minCustomerIntake < 0) minCustomerIntake = _FOHM.numOfChairs * 3;
 
         int customerIntakeIncrease = Mathf.RoundToInt(0.5f * _GM.resturantRating + -10);
         if (customerIntakeIncrease < 0) customerIntakeIncrease = 0;
-
         currentDayCustomerIntake = minCustomerIntake + customerIntakeIncrease;
+        
         print("Min intake: " + minCustomerIntake + " customerIntakeIncrease: " + customerIntakeIncrease);
 
     }

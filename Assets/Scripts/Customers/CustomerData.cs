@@ -32,7 +32,7 @@ public class CustomerData : GameBehaviour
     public OrderClass orderClass;
     bool hasSelectedOrder;
     bool isSeated;
-    Vector3 seat;
+    Transform seat;
 
     [Header("Eat Food")]
     bool isEating;
@@ -68,7 +68,7 @@ public class CustomerData : GameBehaviour
             if(isSeated)
             {
                 //sit at chair spot
-                transform.position = seat;
+                transform.position = seat.position;
             }
 
             switch (task)
@@ -98,6 +98,7 @@ public class CustomerData : GameBehaviour
                     break;
                 case Task.WaitToBeSeated:
 
+                    if (beingAttened) print("Being Attended");
 
                     break;
                 case Task.FollowWaiter:
@@ -124,11 +125,11 @@ public class CustomerData : GameBehaviour
                     //sit down
                     else if (table != null)
                     { 
-                        agent.SetDestination(seat);
+                        agent.SetDestination(seat.position);
 
-                        if (Vector3.Distance(transform.position, seat) < 1.5f)
+                        if (Vector3.Distance(transform.position, seat.position) < 1.5f)
                         {
-                            transform.DOMove(seat, 0.5f);
+                            transform.DOMove(seat.position, 0.5f);
                             ExecuteAfterSeconds(0.5f, () => isSeated = true);
                             
                         }
@@ -232,6 +233,7 @@ public class CustomerData : GameBehaviour
     #region Order Functions
     public void OrderHasBeenTaken()
     {
+        print("Remove from ready to order");
         _CustM.customersReadyToOrder.Remove(gameObject);
 
         takeOrderWaitTime = StopTimer();
@@ -266,7 +268,7 @@ public class CustomerData : GameBehaviour
 
             //set variables
             table = _table;
-            seat = targetChair.GetChild(1).transform.position;
+            seat = targetChair.GetChild(1).transform;
 
             //cancle follow
             waiterFollow = null;
@@ -290,8 +292,6 @@ public class CustomerData : GameBehaviour
         //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
         _FM.RemoveFood(order, true);
 
-        
-
         PayForOrder();
     }
 
@@ -314,6 +314,8 @@ public class CustomerData : GameBehaviour
         agent.isStopped = false;
         //set table as unoccupied
         _FOHM.ChangeToUnoccupied(table);
+
+
         isSeated = false;
 
         leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;

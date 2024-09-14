@@ -48,18 +48,12 @@ public class ChefData : GameBehaviour
     AudioSource kneadingAudio;
 
     [Header("Working")]
-    float startTime;
     bool isWorking;
 
-    public GameObject rangeIndicator;
 
     public Animator anim;
 
-    public bool validPos;
 
-    [SerializeField]
-    Collider[] rawFoodInRange;
-    public bool placed;
     #endregion
 
 
@@ -438,13 +432,4 @@ public class ChefData : GameBehaviour
         tasks = Task.Idle;
     }
 
-    private void OnMouseDown()
-    {
-        if (placed)
-        {
-            anim.SetTrigger("Spawn");
-            //_UI.OpenChefPopUp(this.gameObject);
-        }
-
-    }
 }

@@ -12,6 +12,7 @@ public class Table : GameBehaviour
     //for groups of multiple customers
     [SerializeField] int numOfSeats;
     public List<Transform> unoccupiedSeats = new List<Transform>();
+    public List<Transform> allSeats = new List<Transform>();
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,11 @@ public class Table : GameBehaviour
         //get seats
         foreach (Transform t in gameObject.transform)
         {
-            if(t.name.Contains("chair")) unoccupiedSeats.Add(t);
+            if (t.name.Contains("chair"))
+            {
+                allSeats.Add(t);
+                unoccupiedSeats.Add(t);
+            }
             if (t.name.Contains("WaiterAttendPosition")) waiterAttendPosition = t;
         }
 
@@ -38,5 +43,10 @@ public class Table : GameBehaviour
 
     }
 
+    public void UnoccupiedTableReset()
+    {
+        List<Transform> unoccupiedSeats = new List<Transform>(allSeats);
+
+    }
 
 }

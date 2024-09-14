@@ -28,6 +28,7 @@ public class FrontOfHouseManager : Singleton<FrontOfHouseManager>
     public void ChangeToUnoccupied(GameObject _table)
     {
         _table.GetComponent<Table>().status = Table.Status.Unoccupied;
+        _table.GetComponent<Table>().UnoccupiedTableReset();
         if(!unoccupiedTables.Contains(_table) ) unoccupiedTables.Add(_table);
 
     }

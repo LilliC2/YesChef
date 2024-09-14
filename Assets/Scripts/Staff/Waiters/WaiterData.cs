@@ -12,8 +12,6 @@ public class WaiterData : GameBehaviour
     public Task tasks;
 
 
-    public bool placed;
-
     public Animator anim;
 
     NavMeshAgent agent;
@@ -66,7 +64,7 @@ public class WaiterData : GameBehaviour
                 //task check
 
                 //Seating Customer
-                if(_CustM.customersInQueue.Count > 0 && _CustM.customerIsWaiting)
+                if(_CustM.customersInQueue.Count > 0 && _CustM.customerIsWaiting && tasks == Task.Idle)
                 {
                     //check if customer is being attended AND there is a table avalible
                     if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened && _FOHM.unoccupiedTables.Count != 0)
@@ -80,12 +78,13 @@ public class WaiterData : GameBehaviour
                 }
                 
                 //Taking Order
-                if(_CustM.customersReadyToOrder.Count > 0)
+                if(_CustM.customersReadyToOrder.Count > 0 && tasks == Task.Idle)
                 {
                     foreach (var _customer in _CustM.customersReadyToOrder)
                     {
                         if (customer == null && !_customer.GetComponent<CustomerData>().beingAttened && _customer.GetComponent<CustomerData>().task == CustomerData.Task.ReadyToOrder)
                         {
+                            print("Start taking order");
                             _customer.GetComponent<CustomerData>().beingAttened = true;
                             customer = _customer;
                             customerData = customer.GetComponent<CustomerData>();
@@ -101,7 +100,7 @@ public class WaiterData : GameBehaviour
 
 
                 //Serving Finished Food
-                if(_FM.finishedFood_list.Count != 0)
+                if(_FM.finishedFood_list.Count != 0 && tasks == Task.Idle)
                 {
                     //when finished food is grabbed by waiter it will be removed from list
                     if(targetOrder == null)
@@ -166,19 +165,12 @@ public class WaiterData : GameBehaviour
                                 customerData.BeSeated(targetTable); //give them their table
                                 customerData.beingAttened = false; //no longer atteneding this customer
 
-                                //pause for a little
-                                if (!isPaused)
+                                if (!StartPauseAgent(1f))
                                 {
-                                    isPaused = true;
-                                    //bool time = _SM.PauseAgent(agent, 0.5f);
-                                    if (!agent.isStopped)
-                                    {
-                                        ResetWaiter();
-                                    }
-
+                                    ResetWaiter();
                                 }
-                                
-                                
+
+
 
                             }
                         }

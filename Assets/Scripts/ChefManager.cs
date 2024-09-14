@@ -36,96 +36,96 @@ public class ChefManager : Singleton<ChefManager>
     void Update()
     {
 
-        if(placingChef)
-        {
-            //have chef follow mouse
-            //Vector3 mousePos = Input.mousePosition;
-            //Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
-            //Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
+        //if(placingChef)
+        //{
+        //    //have chef follow mouse
+        //    //Vector3 mousePos = Input.mousePosition;
+        //    //Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
+        //    //Vector3 chefPos = new Vector3(newMousePos.x, 0.5f, newMousePos.z);
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit,100, ground))
-            {
-                chefPos = new Vector3(hit.point.x, hit.point.y+1,hit.point.z);
-                newChef.transform.position = chefPos;
-                validPos = !Physics.CheckSphere(newChef.transform.position, 1, collisionMask);
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
+        //    if(Physics.Raycast(ray, out hit,100, ground))
+        //    {
+        //        chefPos = new Vector3(hit.point.x, hit.point.y+1,hit.point.z);
+        //        newChef.transform.position = chefPos;
+        //        validPos = !Physics.CheckSphere(newChef.transform.position, 1, collisionMask);
 
-                GameObject collisionVisualiser = newChef.transform.Find("CollisionVisualiser").gameObject;
+        //        GameObject collisionVisualiser = newChef.transform.Find("CollisionVisualiser").gameObject;
 
-                UpdateCollisionVisualiser(collisionVisualiser, validPos);
+        //        UpdateCollisionVisualiser(collisionVisualiser, validPos);
 
-                if (validPos)
-                {
-                    //check if chef is in a valid posistion
-                    //print("Can place");
+        //        if (validPos)
+        //        {
+        //            //check if chef is in a valid posistion
+        //            //print("Can place");
 
                     
 
 
-                    //check chef is not too close to another chef
+        //            //check chef is not too close to another chef
 
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        newChef.transform.Find("Chef").gameObject.SetActive(true);
-                        Destroy(collisionVisualiser);
+        //            if (Input.GetKeyDown(KeyCode.Mouse0))
+        //            {
+        //                newChef.transform.Find("Chef").gameObject.SetActive(true);
+        //                Destroy(collisionVisualiser);
 
-                        newChef.layer = 8;
-                        newChef.GetComponent<CapsuleCollider>().isTrigger = false;
+        //                newChef.layer = 8;
+        //                newChef.GetComponent<CapsuleCollider>().isTrigger = false;
 
-                        //place chef
-                        placingChef = false;
-                        newChef.GetComponent<ChefData>().placed = true;
-                        newChef.GetComponent<ChefData>().anim.SetTrigger("Spawn");
-                        newChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
-
-
-                        //placing animation
-                        newChef.transform.DOMoveY(0, placingEaseTime).SetEase(placingEase);
+        //                //place chef
+        //                placingChef = false;
+        //                newChef.GetComponent<ChefData>().placed = true;
+        //                newChef.GetComponent<ChefData>().anim.SetTrigger("Spawn");
+        //                newChef.GetComponent<ChefData>().rangeIndicator.SetActive(false);
 
 
-                        _AM.placingChef.Play();
+        //                //placing animation
+        //                newChef.transform.DOMoveY(0, placingEaseTime).SetEase(placingEase);
 
 
-                        currentChefs.Add(newChef);
+        //                _AM.placingChef.Play();
 
-                        //subtract cost of chef from money
-                        //_GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
 
-                       // _GM.event_updateMoney.Invoke();
+        //                currentChefs.Add(newChef);
 
-                    }
-                }
+        //                //subtract cost of chef from money
+        //                //_GM.money -= newChef.GetComponent<ChefData>().chefData.hireCost;
+
+        //               // _GM.event_updateMoney.Invoke();
+
+        //            }
+        //        }
                 
-            }
+        //    }
 
            
            
-            if(Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                Destroy(newChef);
-                //place chef
-                placingChef = false;
-            }
-        }
+        //    if(Input.GetKeyDown(KeyCode.Mouse1))
+        //    {
+        //        Destroy(newChef);
+        //        //place chef
+        //        placingChef = false;
+        //    }
+        //}
     }
 
-    void UpdateCollisionVisualiser(GameObject _collisionVisuliser, bool _validPos)
-    {
-        var children = _collisionVisuliser.GetComponentsInChildren<MeshRenderer>();
+    //void UpdateCollisionVisualiser(GameObject _collisionVisuliser, bool _validPos)
+    //{
+    //    var children = _collisionVisuliser.GetComponentsInChildren<MeshRenderer>();
 
-        foreach (var child in children)
-        {
-            if (validPos) child.material = canPlaceMat;
-            else child.material = cannotPlaceMat;
+    //    foreach (var child in children)
+    //    {
+    //        if (validPos) child.material = canPlaceMat;
+    //        else child.material = cannotPlaceMat;
 
-        }
-    }
+    //    }
+    //}
 
-    public void CreateNewChef(GameObject _chef)
-    {
-        placingChef = true;
-        newChef = Instantiate(Resources.Load<GameObject>("Prefabs/Chefs/" + _chef.GetComponent<ChefData>().chefData.name));
+    //public void CreateNewChef(GameObject _chef)
+    //{
+    //    placingChef = true;
+    //    newChef = Instantiate(Resources.Load<GameObject>("Prefabs/Chefs/" + _chef.GetComponent<ChefData>().chefData.name));
 
-    }
+    //}
 }
