@@ -77,20 +77,22 @@ public class SkillTracker : GameBehaviour
 
     public void StartFoodProgress(string skill, float duration)
     {
+        print(transform.parent.gameObject);
+        print(_FM.orderedFood_GO.IndexOf(transform.parent.gameObject));
         workingSkill = skill;
         switch(skill)
         {
             case "Cooking":
-                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)+1].GetComponent<OrderTicketUI>().progressSkillCooking_Image;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)].GetComponent<OrderTicketUI>().progressSkillCooking_Image;
                 break;
             case "Cutting":
-                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillCutting_Image;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)].GetComponent<OrderTicketUI>().progressSkillCutting_Image;
                 break;
             case "Kneading":
-                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillKneading_Image;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)].GetComponent<OrderTicketUI>().progressSkillKneading_Image;
                 break;
             case "Mixing":
-                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject) + 1].GetComponent<OrderTicketUI>().progressSkillMixing_Image;
+                currentImage = _UI.ordersGO_List[_FM.orderedFood_GO.IndexOf(transform.parent.gameObject)].GetComponent<OrderTicketUI>().progressSkillMixing_Image;
                 break;
         }
 

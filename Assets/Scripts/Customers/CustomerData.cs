@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
 public class CustomerData : GameBehaviour
@@ -19,10 +20,6 @@ public class CustomerData : GameBehaviour
 
     [Header("Movement")]
     NavMeshAgent agent;
-
-    [Header("Queue")]
-    [SerializeField]
-    int queueIndex;
 
     [Header("Follow Waiter")]
     [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
@@ -55,7 +52,6 @@ public class CustomerData : GameBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         //track index when customer is spawned
-        queueIndex = _CustM.customerOutsideQueueSpots.Count - 1;
     }
 
     private void Update()
@@ -130,9 +126,11 @@ public class CustomerData : GameBehaviour
                     { 
                         agent.SetDestination(seat);
 
-                        if (Vector3.Distance(transform.position, seat) > 1)
+                        if (Vector3.Distance(transform.position, seat) < 1.5f)
                         {
-                            isSeated = true;
+                            transform.DOMove(seat, 0.5f);
+                            ExecuteAfterSeconds(0.5f, () => isSeated = true);
+                            
                         }
 
                     }
@@ -191,9 +189,8 @@ public class CustomerData : GameBehaviour
                 case Task.PayAndLeave:
 
                     agent.SetDestination(leavePos);
-                    if (Vector3.Distance(transform.position,leavePos)<1f)
+                    if (Vector3.Distance(transform.position,leavePos)<1.5f)
                     {
-                        print("Should be removed");
                         _CustM.RemoveCustomer(gameObject);
                     }
 
@@ -291,7 +288,7 @@ public class CustomerData : GameBehaviour
     void FinishedEating()
     {
         //orderGO.GetComponent<FoodData>().foodState = FoodData.FoodState.Dirty;
-        _FM.RemoveFood(order);
+        _FM.RemoveFood(order, true);
 
         
 

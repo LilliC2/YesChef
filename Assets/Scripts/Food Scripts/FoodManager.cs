@@ -91,13 +91,13 @@ public class FoodManager : Singleton<FoodManager>
     public void OrderUp(GameObject _orderGO, GameObject _customer)
     {
         var _order = _orderGO.GetComponent<FoodData>().order;
-        orderedFood_GO.Add(_orderGO);
         //spawn point
         var conveyorPoint = _GM.conveyerbeltPoints[Random.Range(0, _GM.conveyerbeltPoints.Length)].transform.position;
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         var food = Instantiate(_orderGO, conveyorPoint, Quaternion.identity);
         foodNeedPreperation_list.Add(food);
+        orderedFood_GO.Add(food);
 
         food.GetComponent<FoodData>().order.customer = _customer;
         print("customer in order up " + food.GetComponent<FoodData>().order.customer);
@@ -156,11 +156,12 @@ public class FoodManager : Singleton<FoodManager>
 
     }
 
-    public void RemoveFood(GameObject _food)
+    public void RemoveFood(GameObject _food, bool destroy)
     {
         if(finishedFood_list.Contains(_food)) finishedFood_list.Remove(_food);
         if(orderedFood_GO.Contains(_food)) orderedFood_GO.Remove(_food);
-        DestroyImmediate(_food, true);
+        if(destroy) DestroyImmediate(_food, true);
+
     }
 
 

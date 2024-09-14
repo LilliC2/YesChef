@@ -5,6 +5,7 @@ using UnityEngine;
 public class PassManager : Singleton<PassManager> 
 {
     [SerializeField] List<Transform> unoccupiedPassPoints;
+    [SerializeField] List<Transform> occupiedPassPoints;
 
     private void Awake()
     {
@@ -20,7 +21,12 @@ public class PassManager : Singleton<PassManager>
     /// <param name="passPoint"></param>
     public void OccupiedPassPoint(Transform passPoint)
     {
-        unoccupiedPassPoints.Remove(passPoint);
+        if(!occupiedPassPoints.Contains(passPoint))
+        {
+            unoccupiedPassPoints.Remove(passPoint);
+            occupiedPassPoints.Add(passPoint);
+        }
+        
     }
     
     /// <summary>
@@ -29,7 +35,13 @@ public class PassManager : Singleton<PassManager>
     /// <param name="passPoint"></param>
     public void UnoccupiedPassPoint(Transform passPoint)
     {
-        unoccupiedPassPoints.Add(passPoint);
+
+        if(!unoccupiedPassPoints.Contains(passPoint))
+        {
+            unoccupiedPassPoints.Add(passPoint);
+            occupiedPassPoints.Remove(passPoint);
+        }
+        
     }
 
 

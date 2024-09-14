@@ -208,6 +208,7 @@ public class ChefData : GameBehaviour
 
                             targetPassPoint = FindPassPoint();
                             _PM.OccupiedPassPoint(targetPassPoint);
+                            targetFoodData.SetPassPoint(targetPassPoint);
                         }
                         else
                         {
@@ -226,11 +227,12 @@ public class ChefData : GameBehaviour
                             targetFood.transform.position = targetPassPoint.position;
 
                             //get rid of order ticket UI
-                            _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood) + 1);
 
 
-                            if (!StartPauseAgent(1f))
+                            if (!StartPauseAgent(0.5f))
                             {
+                                _UI.RemoveOrder(_FM.orderedFood_GO.IndexOf(targetFood));
+                                _FM.RemoveFood(targetFood, false);
                                 ResetChef();
 
                             }

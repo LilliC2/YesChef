@@ -18,6 +18,7 @@ public class WaiterData : GameBehaviour
 
     NavMeshAgent agent;
 
+    [SerializeField]
     bool isPaused;
 
     [Header("Seating Customer")]
@@ -161,11 +162,12 @@ public class WaiterData : GameBehaviour
 
                             if (TravelToTable(targetTable))
                             {
+                                //if customer close enough to table
                                 customerData.BeSeated(targetTable); //give them their table
                                 customerData.beingAttened = false; //no longer atteneding this customer
 
                                 //pause for a little
-                                if(!isPaused)
+                                if (!isPaused)
                                 {
                                     isPaused = true;
                                     //bool time = _SM.PauseAgent(agent, 0.5f);
@@ -205,12 +207,16 @@ public class WaiterData : GameBehaviour
                             _FM.OrderUp(customerData.order, customer);
                             _UI.AddOrder(customerData.orderClass);
 
+                            
+
+                        }
+                        else
+                        {
                             if (!StartPauseAgent(1f))
                             {
                                 ResetWaiter();
 
                             }
-
                         }
                     }
                    
@@ -235,13 +241,12 @@ public class WaiterData : GameBehaviour
                     //set pass spot to unoccupied
                     _PM.UnoccupiedPassPoint(targetOrder.GetComponent<FoodData>().ReturnPassPoint());
 
-                    if (!StartPauseAgent(1f))
+                    if (!StartPauseAgent(0.5f))
                     {
+                        print("go deliver");
                         tasks = Task.DeliverFood;
 
                     }
-
-
 
                 }
 
@@ -290,7 +295,7 @@ public class WaiterData : GameBehaviour
     private void ResetWaiter()
     {
         //seating customer
-        print("Reset");
+        print("Reset Waiter");
         customer = null;
         customerData = null;
         targetTable = null;
@@ -316,7 +321,7 @@ public class WaiterData : GameBehaviour
         else
         {
             //check if pause is over bc they can move again
-            if (agent.isStopped)
+            if (!agent.isStopped)
             {
                 isPaused = false;
             }

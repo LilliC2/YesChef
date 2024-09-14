@@ -47,7 +47,6 @@ public class GameManager : Singleton<GameManager>
 
         event_playerLevelUp.AddListener(PlayerLevelUp);
 
-        StartCoroutine(SummonWave(dayCount));
         _UI.UpdateResturantRating();
 
         _GM.playState = PlayState.Closed;
@@ -91,25 +90,10 @@ public class GameManager : Singleton<GameManager>
        
     }
 
-    IEnumerator SummonWave(int dayNum)
-    {
-        //temp spawn food every x seconds while coding chefs
-        for (int i = 0; i < 5; i++)
-        {
-            //give buffer for orders to come in
-            //_FM.InstantiateFood(tempFood);
-            //if (i == 0)
-            //else _FM.InstantiateFood(i);
-
-            yield return new WaitForSeconds(1);
-        }
-
-
-    }
-
     public void PlayerMoneyIncrease(float _amount)
     {
         money += _amount;
+        _UI.UpdatePlayerMoney();
     }
 
 

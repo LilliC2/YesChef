@@ -298,10 +298,15 @@ public class UIManager : Singleton<UIManager>
 
     public void RemoveOrder(int index)
     {
-        var go = ordersGO_List[index];
-        if(ordersGO_List.Contains(go))
-            ordersGO_List.RemoveAt(index);
-        Destroy(go);
+        print(index);
+        //-1 means false/could not find
+        if(index != -1)
+        {
+            var go = ordersGO_List[index];
+            ordersGO_List.Remove(go);
+            Destroy(go);
+
+        }
 
     }
 
@@ -320,6 +325,8 @@ public class UIManager : Singleton<UIManager>
         {
             _FM.grainTotal_produce += 5;
             _GM.money -= _FM.grainPrice_produce;
+            UpdatePlayerMoney();
+
             UpdatePurchaseButtons_Produce();
 
         }
@@ -332,6 +339,7 @@ public class UIManager : Singleton<UIManager>
             _FM.dairyTotal_produce += 5;
             _GM.money -= _FM.dairyPrice_produce;
 
+            UpdatePlayerMoney();
             UpdatePurchaseButtons_Produce();
 
         }
@@ -344,6 +352,7 @@ public class UIManager : Singleton<UIManager>
         {
             _FM.fruitTotal_produce += 5;
             _GM.money -= _FM.fruitPrice_produce;
+            UpdatePlayerMoney();
 
             UpdatePurchaseButtons_Produce();
 
@@ -357,6 +366,7 @@ public class UIManager : Singleton<UIManager>
         {
             _FM.vegTotal_produce += 5;
             _GM.money -= _FM.vegPrice_produce;
+            UpdatePlayerMoney();
 
             UpdatePurchaseButtons_Produce();
 
@@ -370,6 +380,7 @@ public class UIManager : Singleton<UIManager>
         {
             _FM.protienTotal_produce += 5;
             _GM.money -= _FM.protienPrice_produce;
+            UpdatePlayerMoney();
 
             UpdatePurchaseButtons_Produce();
 

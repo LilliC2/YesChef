@@ -103,7 +103,7 @@ public class StaffManager : Singleton<StaffManager>
     /// </summary>
     public IEnumerator PauseAgent(NavMeshAgent _agent, float _time)
     {
-        print("Pause");
+        //print("Pause");
         _agent.isStopped = true;
         yield return new WaitForSeconds(_time);
         _agent.isStopped = false;
