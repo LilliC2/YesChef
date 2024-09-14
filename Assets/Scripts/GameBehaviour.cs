@@ -12,16 +12,13 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static ChefManager _ChefM { get { return ChefManager.INSTANCE; } }
     protected static StaffManager _SM { get { return StaffManager.INSTANCE; } }
     protected static FoodManager _FM { get { return FoodManager.INSTANCE; } }
-    protected static DayCycle _DC { get { return DayCycle.INSTANCE; } }
     protected static CustomerManager _CustM { get { return CustomerManager.INSTANCE; } }
     protected static AudioManager _AM { get { return AudioManager.INSTANCE; } }
     protected static WaiterManager _WM { get { return WaiterManager.INSTANCE; } }
-    protected static UpgradeManager _UM { get { return UpgradeManager.INSTANCE; } }
     protected static WorkStationManager _WSM { get { return WorkStationManager.INSTANCE; } }
     protected static PassManager _PM { get { return PassManager.INSTANCE; } }
     protected static EventManager _EM { get { return EventManager.INSTANCE; } }
     protected static FrontOfHouseManager _FOHM { get { return FrontOfHouseManager.INSTANCE; } }
-    protected static RenderFeatureToggler _RFT { get { return RenderFeatureToggler.INSTANCE; } }
 
 
 }
