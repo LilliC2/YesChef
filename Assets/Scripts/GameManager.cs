@@ -44,7 +44,7 @@ public class GameManager : Singleton<GameManager>
         
 
         event_playerLevelUp.AddListener(PlayerLevelUp);
-
+        event_playStateClose.AddListener(ClosedResturant);
         _UI.UpdateResturantRating();
 
         _GM.playState = PlayState.Closed;
@@ -94,6 +94,11 @@ public class GameManager : Singleton<GameManager>
         _UI.UpdatePlayerMoney();
     }
 
+    void ClosedResturant()
+    {
+        dayCount++;
+        _UI.UpdateDay();
+    }
 
     void PlayerLevelUp()
     {

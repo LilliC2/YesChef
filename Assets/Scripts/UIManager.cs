@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Image resturantRating_Image;
     [SerializeField] GameObject openResturantButton_GO;
     [SerializeField] GameObject ordersPanel_GO;
+    [SerializeField] TMP_Text day_Text;
     [SerializeField] TMP_Text error_Text;
 
     [Header("Open/Close Dial")]
@@ -122,6 +123,11 @@ public class UIManager : Singleton<UIManager>
     public void UpdateResturantRating()
     {
         resturantRating_Image.fillAmount = (_GM.resturantRating / 100);
+    }
+
+    public void UpdateDay()
+    {
+        day_Text.text = "Day " + _GM.dayCount.ToString();
     }
 
     #endregion
