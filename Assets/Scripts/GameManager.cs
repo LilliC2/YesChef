@@ -119,6 +119,39 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    /// <summary>
+    /// Check if all nessecary requirements are met to open the resturant
+    /// </summary>
+    public bool CheckIfSafeToOpen()
+    {
+        bool safe = true;
+        if(_SM.chefActiveStaff.Count < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No chefs active");
+        }
+        if(_SM.waiterActiveStaff.Count < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No waiters active");
+        }
+        if(_FM.menu.Count < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No menu items");
+        }
+
+        int totalOfAllProduce = _FM.grainTotal_produce + _FM.dairyTotal_produce + _FM.fruitTotal_produce + _FM.vegTotal_produce + _FM.protienTotal_produce;
+
+        if (totalOfAllProduce == 0)
+        {
+            safe = false;
+            _UI.ErrorText("No produce bought");
+        }
+
+        return safe;
+    }
+
     //public float reputation = 100;
     //public List<GameObject> receipesUnlocked;
 

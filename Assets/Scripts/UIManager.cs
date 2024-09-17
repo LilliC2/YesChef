@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Image resturantRating_Image;
     [SerializeField] GameObject openResturantButton_GO;
     [SerializeField] GameObject ordersPanel_GO;
+    [SerializeField] TMP_Text error_Text;
 
     [Header("Open/Close Dial")]
     [SerializeField]
@@ -73,15 +74,23 @@ public class UIManager : Singleton<UIManager>
 
     public void OpenResturant()
     {
-        CloseAllPanels(null);
-        _GM.playState = GameManager.PlayState.Open;
-        _GM.event_playStateOpen.Invoke();
+        if(_GM.CheckIfSafeToOpen())
+        {
+            CloseAllPanels(null);
+            _GM.playState = GameManager.PlayState.Open;
+            _GM.event_playStateOpen.Invoke();
 
-        openResturantButton_GO.SetActive(false);
-
+            openResturantButton_GO.SetActive(false);
+        }
         
     }
 
+    public void ErrorText(string text)
+    {
+        error_Text.gameObject.SetActive(true);
+        error_Text.text = "ERROR: " + text;
+        ExecuteAfterSeconds(3, () => error_Text.gameObject.SetActive(false));
+    }
 
     #region Update Functions
     public void UpdateOpenDayDial(float _currentTime, float _maxTime)
@@ -313,11 +322,21 @@ public class UIManager : Singleton<UIManager>
             var go = ordersGO_List[index];
             ordersGO_List.Remove(go);
             Destroy(go);
+            UpdateOrderVisibility();
 
         }
 
+
     }
 
+    void UpdateOrderVisibility()
+    {
+        foreach (GameObject orderTicket in ordersGO_List)
+        {
+            if (ordersGO_List.IndexOf(orderTicket) >= 8) orderTicket.SetActive(false);
+            else orderTicket.SetActive(true);
+        }
+    }
 
 
 
@@ -517,7 +536,7 @@ public class UIManager : Singleton<UIManager>
     {
         string name = staff.name;
 
-        if(!_SM.activeStaff.Contains(staff))
+        if(!_SM.totalActiveStaff.Contains(staff))
         {
             //find button
             GameObject obj = null;
