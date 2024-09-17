@@ -19,6 +19,7 @@ public class UIManager : Singleton<UIManager>
     [Header("HUD")]
     [SerializeField] Image resturantRating_Image;
     [SerializeField] GameObject openResturantButton_GO;
+    [SerializeField] GameObject ordersPanel_GO;
 
     [Header("Open/Close Dial")]
     [SerializeField]
@@ -77,7 +78,10 @@ public class UIManager : Singleton<UIManager>
         _GM.event_playStateOpen.Invoke();
 
         openResturantButton_GO.SetActive(false);
+
+        
     }
+
 
     #region Update Functions
     public void UpdateOpenDayDial(float _currentTime, float _maxTime)
@@ -124,11 +128,15 @@ public class UIManager : Singleton<UIManager>
         {
             //resturant open
             case GameManager.PlayState.Open:
+                ordersPanel_GO.SetActive(true);
+
                 buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(closePos_V3, 1);
                 ExecuteAfterSeconds(1, () => buttonPanel_GO.SetActive(false));
                 break;
             case GameManager.PlayState.Closed:
                 buttonPanel_GO.SetActive(true);
+                ordersPanel_GO.SetActive(false);
+
                 buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
                 break;
         }
