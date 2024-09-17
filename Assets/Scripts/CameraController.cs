@@ -5,7 +5,14 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    float cameraSpeed, minZ, maxZ;
+    float panSpeed, minZ, maxZ;
+
+    // Mouse Input Vars
+    private Vector3 dragOrigin;
+    private Vector3 cameraDragOrigin;
+    private Vector3 currentPosition;
+    Vector3 lastMousePosition;
+
 
     Vector3 startPos;
     // Start is called before the first frame update
@@ -17,25 +24,57 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float vertical = Input.GetAxis("Vertical");
-        if(vertical >0)
+        ButtonInputs();
+        MouseInputs();
+
+    }
+
+    void ButtonInputs()
+    {
+        float inputZ = 0f;
+        float inputX = 0f;
+
+        if (Input.GetKey("w"))
         {
-            //print("go up");
-            //move up
-            if(transform.position.z < maxZ)
-            {
-                transform.Translate(Vector3.forward * cameraSpeed * Time.deltaTime, Space.World);
-
-            }
+            inputZ += panSpeed * Time.deltaTime;
         }
-        else if(vertical < 0) //move down
+        if (Input.GetKey("s"))
         {
-            //print("go down");
-
-            if (transform.position.z > minZ) transform.Translate(Vector3.back * cameraSpeed * Time.deltaTime, Space.World);
-
-
+            inputZ -= panSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey("d"))
+        {
+            inputX += panSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey("a"))
+        {
+            inputX -= panSpeed * Time.deltaTime;
         }
 
+        MoveCamera(inputX, inputZ);
+    }
+
+    void MouseInputs()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            lastMousePosition = Input.mousePosition;
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            Vector3 delta = Input.mousePosition - lastMousePosition;
+
+            MoveCamera(delta.x, delta.y);
+
+            lastMousePosition = Input.mousePosition;
+        }
+    }
+
+    void MoveCamera(float xInput, float zInput)
+    {
+        float zMove = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180) * zInput - Mathf.Sin(transform.eulerAngles.y * Mathf.PI / 180) * xInput;
+        float xMove = Mathf.Sin(transform.eulerAngles.y * Mathf.PI / 180) * zInput + Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180) * xInput;
+
+        transform.position = transform.position + new Vector3(xMove, 0, zMove);
     }
 }
