@@ -2,9 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static StaffManager;
+
+[System.Serializable]
+public class StaffBehaviour
+{
+    public PersonalityTypes personality;
+    
+    public enum MovementState { Idle, Wander, TravelToDestination, Sit}
+    public MovementState movementState;
+
+    public enum ActionState { Idle, AlertPlayer, AskPlayerQuestion, TalkToPlayer, TalkToStaff}
+    public ActionState actionState;
+}
+[System.Serializable]
+public class Personality
+{
+    public PersonalityTypes name;
+
+    public enum StateProbability { Low, Medium, High }
+    public StateProbability idle;
+    public StateProbability wander;
+    public StateProbability sit;
+
+    public StateProbability talkToPlayer;
+    public StateProbability askPlayerQuestion;
+    public StateProbability talkToStaff;
+
+    public float ActionPercentageProbability(StateProbability actionProbabilty)
+    {
+        float probability = 0;
+        switch (actionProbabilty)
+        {
+            case StateProbability.Low:
+                probability = 20;
+                break;
+                case StateProbability.Medium:
+                probability = 50;
+                break;
+                case StateProbability.High:
+                probability = 70;
+                break;
+        }
+
+        return probability;
+    }
+
+}
+
 
 public class StaffManager : Singleton<StaffManager>
 {
+    public enum PersonalityTypes { Chatty, Loner, Cynical, Sassy, AirHead, Hardy, Timid, Chill}
+    public Personality[] personalityBehaviours;
+
+
     [Header("Staff")]
     public List<GameObject> allWaiterStaff; //all staff in game waiter
     public List<GameObject> allChefStaff; //all staff in game chef

@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3442149495515951842}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7779378400752352614
 MonoBehaviour:
@@ -45,13 +45,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
+  personalityBehaviours:
+  - name: 0
+    idle: 0
+    wander: 1
+    sit: 0
+    talkToPlayer: 2
+    askPlayerQuestion: 2
+    talkToStaff: 1
+  - name: 1
+    idle: 1
+    wander: 1
+    sit: 0
+    talkToPlayer: 0
+    askPlayerQuestion: 0
+    talkToStaff: 1
+  - name: 2
+    idle: 1
+    wander: 1
+    sit: 0
+    talkToPlayer: 0
+    askPlayerQuestion: 1
+    talkToStaff: 0
+  - name: 3
+    idle: 1
+    wander: 1
+    sit: 1
+    talkToPlayer: 1
+    askPlayerQuestion: 0
+    talkToStaff: 1
+  - name: 4
+    idle: 1
+    wander: 2
+    sit: 2
+    talkToPlayer: 1
+    askPlayerQuestion: 2
+    talkToStaff: 1
+  - name: 5
+    idle: 1
+    wander: 1
+    sit: 1
+    talkToPlayer: 1
+    askPlayerQuestion: 1
+    talkToStaff: 1
+  - name: 6
+    idle: 2
+    wander: 1
+    sit: 1
+    talkToPlayer: 1
+    askPlayerQuestion: 1
+    talkToStaff: 2
+  - name: 7
+    idle: 2
+    wander: 2
+    sit: 2
+    talkToPlayer: 1
+    askPlayerQuestion: 0
+    talkToStaff: 1
   allWaiterStaff:
   - {fileID: 0}
   allChefStaff:
   - {fileID: 0}
   maxActiveStaff: 10
-  activeStaff: []
-  hiredStaff: []
+  totalActiveStaff: []
+  chefActiveStaff: []
+  waiterActiveStaff: []
+  totalHiredStaff: []
   staffRoomZone: {fileID: 0}
   kitchenZone: {fileID: 0}
   FOHZone: {fileID: 0}

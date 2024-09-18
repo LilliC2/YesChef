@@ -6,6 +6,10 @@ using UnityEngine.AI;
 
 public class StaffData : GameBehaviour
 {
+    public PersonalityTypes personality;
+
+    StaffBehaviour staffbehaviour;
+
     public enum StaffroomInteractions { Wander, Idle }
     public StaffroomInteractions staffroomInteractions;
 
@@ -24,8 +28,8 @@ public class StaffData : GameBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        SetPersonalityBehaviour();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -126,4 +130,35 @@ public class StaffData : GameBehaviour
         return result;
     }
 
+    void SetPersonalityBehaviour()
+    {
+        switch(personality)
+        {
+            case StaffManager.PersonalityTypes.Chatty:
+                staffbehaviour = personalityBehaviours[0];
+                break;
+            case StaffManager.PersonalityTypes.Loner:
+                staffbehaviour = personalityBehaviours[1];
+                break;
+            case StaffManager.PersonalityTypes.Cynical:
+                staffbehaviour = personalityBehaviours[2];
+                break;
+            case StaffManager.PersonalityTypes.Sassy:
+                staffbehaviour = personalityBehaviours[3];
+                break;
+            case StaffManager.PersonalityTypes.Airhead:
+                staffbehaviour = personalityBehaviours[4];
+                break;
+            case StaffManager.PersonalityTypes.Hardy:
+                staffbehaviour = personalityBehaviours[5];
+                break;
+            case StaffManager.PersonalityTypes.Timid:
+                staffbehaviour = personalityBehaviours[6];
+                break;
+            case StaffManager.PersonalityTypes.Chill:
+                staffbehaviour = personalityBehaviours[7];
+                break;
+        }
+
+    }
 }
