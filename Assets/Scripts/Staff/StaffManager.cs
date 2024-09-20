@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using static Personality;
 using static StaffManager;
 
 [System.Serializable]
 public class StaffBehaviour
 {
-    public PersonalityTypes personality;
+    public PersonalityTypes personalityType;
+
+    public Personality personalityData;
     
-    public enum MovementState { Idle, Wander, TravelToDestination, Sit}
+    public enum MovementState { NotSet, Idle, Wander, TravelToDestination, Sit}
     public MovementState movementState;
 
-    public enum ActionState { Idle, AlertPlayer, AskPlayerQuestion, TalkToPlayer, TalkToStaff}
+    public enum ActionState { NotSet, Idle, AskPlayerQuestion, TalkToPlayer, TalkToStaff}
     public ActionState actionState;
 }
 [System.Serializable]
@@ -23,30 +27,15 @@ public class Personality
     public enum StateProbability { Low, Medium, High }
     public StateProbability idle;
     public StateProbability wander;
+    public StateProbability travelToDestination;
     public StateProbability sit;
+
 
     public StateProbability talkToPlayer;
     public StateProbability askPlayerQuestion;
     public StateProbability talkToStaff;
 
-    public float ActionPercentageProbability(StateProbability actionProbabilty)
-    {
-        float probability = 0;
-        switch (actionProbabilty)
-        {
-            case StateProbability.Low:
-                probability = 20;
-                break;
-                case StateProbability.Medium:
-                probability = 50;
-                break;
-                case StateProbability.High:
-                probability = 70;
-                break;
-        }
 
-        return probability;
-    }
 
 }
 
@@ -55,6 +44,7 @@ public class StaffManager : Singleton<StaffManager>
 {
     public enum PersonalityTypes { Chatty, Loner, Cynical, Sassy, AirHead, Hardy, Timid, Chill}
     public Personality[] personalityBehaviours;
+
 
 
     [Header("Staff")]
@@ -77,17 +67,11 @@ public class StaffManager : Singleton<StaffManager>
     public float returnToWorkSpeed;
     public float casualSpeed;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("AI")]
+    public Sprite staffQuestionSprite;
+    public Sprite staffTalkSprite;
+
 
     public bool CanHireMoreStaff(string _staffType)
     {
@@ -139,14 +123,13 @@ public class StaffManager : Singleton<StaffManager>
         totalHiredStaff.Add(staffHired);
 
         //activate on purchase
-        if(totalActiveStaff.Count != maxActiveStaff)
+        if (totalActiveStaff.Count != maxActiveStaff)
         {
             //ActivateStaff(staffHired);
             if(_staffType == "Waiter") waiterActiveStaff.Add(staffHired);
             else if (_staffType == "Chef") chefActiveStaff.Add(staffHired);
 
             _UI.ToggleStaffOn(staffHired);
-            
 
         }
 
@@ -192,5 +175,24 @@ public class StaffManager : Singleton<StaffManager>
             else if (chefActiveStaff.Contains(_staff)) chefActiveStaff.Remove(_staff);
             _staff.SetActive(false);
         }
+    }
+
+    public int ActionPercentageProbability(StateProbability actionProbabilty)
+    {
+        int probability = 0;
+        switch (actionProbabilty)
+        {
+            case StateProbability.Low:
+                probability = 20;
+                break;
+            case StateProbability.Medium:
+                probability = 50;
+                break;
+            case StateProbability.High:
+                probability = 70;
+                break;
+        }
+
+        return probability;
     }
 }

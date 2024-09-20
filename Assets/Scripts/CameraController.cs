@@ -1,32 +1,64 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : GameBehaviour
 {
     [SerializeField]
     float panSpeed, minZ, maxZ;
 
+    Camera cam;
     // Mouse Input Vars
     private Vector3 dragOrigin;
     private Vector3 cameraDragOrigin;
     private Vector3 currentPosition;
     Vector3 lastMousePosition;
+    [SerializeField] float defaultCameraSize;
 
+    public enum CameraState { PlayerControl, TalkToStaff}
+    public CameraState state;
 
     Vector3 startPos;
     // Start is called before the first frame update
     void Start()
     {
+        cam = GetComponent<Camera>();
         startPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ButtonInputs();
-        MouseInputs();
+        switch(state)
+        {
+            case CameraState.PlayerControl:
+                ButtonInputs();
+                MouseInputs();
+                break;
+        }
+        
 
+    }
+
+    public void CameraFocusStaff(GameObject _staff)
+    {
+        state = CameraState.TalkToStaff;
+        Vector3 focusPos = new Vector3(_staff.transform.position.x - 6, transform.position.y, _staff.transform.position.z - 6);
+
+        float orthographicSize = 2.8f;
+        
+        transform.DOMove(focusPos, 1);
+        cam.DOOrthoSize(orthographicSize, 1);
+
+        
+    }
+
+    public void CameraPlayerControl()
+    {
+        transform.DOMove(currentPosition, 1);
+        cam.DOOrthoSize(defaultCameraSize, 1);
+        ExecuteAfterSeconds(1,()=> state = CameraState.PlayerControl);
     }
 
     void ButtonInputs()
