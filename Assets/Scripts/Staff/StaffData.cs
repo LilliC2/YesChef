@@ -140,8 +140,15 @@ public class StaffData : GameBehaviour
 
     void BeginDialog()
     {
+        alertPlayerImage.gameObject.SetActive(false);
+
         agent.isStopped = true; //so player cant move
-        talkingToPlayer = true;
+        talkingToPlayer = true; //so new action cannot be started mid convo
+
+        _UI.OpenDialogBox();
+
+        //_UI.LoadDialog();
+
         print("being dialog");
     }
 
@@ -414,7 +421,7 @@ public class StaffData : GameBehaviour
         //idle
         float idle = _SM.ActionPercentageProbability(staffBehaviour.personalityData.idle);
         allMovementStateProbabilities.Add(idle);
-        print("idle" + idle);
+        //print("idle" + idle);
         totalProbability += idle;
 
         //question
@@ -430,7 +437,7 @@ public class StaffData : GameBehaviour
         //convert allActionStateProbabilities into a percentage of totalProbability
         foreach (int actionProbability in allMovementStateProbabilities)
         {
-            print(actionProbability + "/" + totalProbability);
+            //print(actionProbability + "/" + totalProbability);
             float result = (actionProbability / totalProbability) * 100;
             movementStatePercentage.Add(Mathf.RoundToInt(result));
         }

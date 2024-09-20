@@ -57,6 +57,13 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TMP_Text unlockStaffName_Txt;
     [SerializeField] List<GameObject> unlockStaffModels_ListGO, organiseStaffButtons_GO;
 
+    [Header("Staff Dialog")]
+    [SerializeField] GameObject dialogBox_GO;
+    [SerializeField] TMP_Text dialogStaffName_TMPText;
+    [SerializeField] TMP_Text dialogBox_TMPText;
+    [SerializeField] List<string> currentDialogString_List = new List<string>();
+    int currentDialogIndex = -1;
+
     #endregion
 
     private void Start()
@@ -205,7 +212,7 @@ public class UIManager : Singleton<UIManager>
     public void CloseAllPanels(GameObject keepOpen)
     {
         List<GameObject> list = new List<GameObject>() { producePanel_GO, unlockChoicePanel_GO, staffOrganisePanel_GO,
-                                                         produceCamera_Cam.gameObject,unlockCamera_GO};
+                                                         produceCamera_Cam.gameObject,unlockCamera_GO, dialogBox_GO};
         if (keepOpen != null)
         {
             foreach (GameObject go in list)
@@ -560,6 +567,68 @@ public class UIManager : Singleton<UIManager>
     }
     #endregion
 
+    #endregion
+
+    #region Dialog
+
+    //temporary
+    //add param for question later
+    public void LoadDialog(List<string> _conversation, string staffName)
+    {
+        dialogStaffName_TMPText.text = staffName;
+
+        currentDialogString_List = _conversation;
+
+        currentDialogIndex = 0;
+    }
+
+    public void UpdateDialogText()
+    {
+        if(currentDialogIndex != -1)
+        {
+            //if dialoglist set
+            if (currentDialogIndex < currentDialogString_List.Count)
+            {
+                dialogBox_TMPText.text = currentDialogString_List[currentDialogIndex].ToString();
+
+                currentDialogIndex++;
+            }
+            else
+            {
+                CloseDialogBox();
+            }
+        }
+        else
+        {
+            CloseDialogBox();
+
+        }
+
+
+    }
+
+    public void OpenDialogBox()
+    {
+        buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(closePos_V3, 1);
+        ExecuteAfterSeconds(1, () => buttonPanel_GO.SetActive(false));
+
+        openResturantButton_GO.SetActive(false);
+
+        dialogBox_GO.SetActive(true);
+
+    }
+
+    public void CloseDialogBox()
+    {
+        openResturantButton_GO.SetActive(true);
+        buttonPanel_GO.SetActive(true);
+        buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
+
+        currentDialogIndex = -1;
+
+        dialogBox_GO.SetActive(false);
+
+    }
     #endregion
 
     //[Header("Audio")]
