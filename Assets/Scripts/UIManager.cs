@@ -573,17 +573,19 @@ public class UIManager : Singleton<UIManager>
 
     //temporary
     //add param for question later
-    public void LoadDialog(List<string> _conversation, string staffName)
+    public void LoadDialog(Dialog _dialog, string staffName)
     {
         dialogStaffName_TMPText.text = staffName;
 
-        currentDialogString_List = _conversation;
+        currentDialogString_List = _dialog.list;
+        dialogBox_TMPText.text = currentDialogString_List[0].ToString();
 
-        currentDialogIndex = 0;
+        currentDialogIndex = 1;
     }
 
     public void UpdateDialogText()
     {
+        print("update dialog");
         if(currentDialogIndex != -1)
         {
             //if dialoglist set
@@ -623,6 +625,8 @@ public class UIManager : Singleton<UIManager>
         openResturantButton_GO.SetActive(true);
         buttonPanel_GO.SetActive(true);
         buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
+
+        Camera.main.GetComponent<CameraController>().CameraPlayerControl();
 
         currentDialogIndex = -1;
 

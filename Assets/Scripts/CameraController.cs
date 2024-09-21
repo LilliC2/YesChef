@@ -12,7 +12,7 @@ public class CameraController : GameBehaviour
     // Mouse Input Vars
     private Vector3 dragOrigin;
     private Vector3 cameraDragOrigin;
-    private Vector3 currentPosition;
+    private Vector3 prevPos;
     Vector3 lastMousePosition;
     [SerializeField] float defaultCameraSize;
 
@@ -43,6 +43,7 @@ public class CameraController : GameBehaviour
 
     public void CameraFocusStaff(GameObject _staff)
     {
+        prevPos = cam.transform.position;
         state = CameraState.TalkToStaff;
         Vector3 focusPos = new Vector3(_staff.transform.position.x - 6, transform.position.y, _staff.transform.position.z - 6);
 
@@ -56,7 +57,7 @@ public class CameraController : GameBehaviour
 
     public void CameraPlayerControl()
     {
-        transform.DOMove(currentPosition, 1);
+        transform.DOMove(prevPos, 1);
         cam.DOOrthoSize(defaultCameraSize, 1);
         ExecuteAfterSeconds(1,()=> state = CameraState.PlayerControl);
     }

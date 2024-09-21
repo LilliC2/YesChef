@@ -5,11 +5,18 @@ using static ChefData;
 using UnityEngine.AI;
 using System.Reflection.Emit;
 using UnityEngine.UI;
+using DG.Tweening;
+[System.Serializable]
+public class  Dialog
+{
+    public bool isQuestion;
+    public List<string> list;
+}
 
 public class StaffData : GameBehaviour
 {
 
-    public StaffBehaviour staffBehaviour;
+    public StaffBehaviour staffBehaviour; 
 
     //generate action
     [SerializeField]
@@ -19,12 +26,15 @@ public class StaffData : GameBehaviour
 
     NavMeshAgent agent;
 
-
+    [Header("Talk to Staff")]
+    [SerializeField]
+    List<Dialog> dialogList;
+    [SerializeField]
 
     [Header("Alert Player")]
     bool alertPlayer; //does the staff member want to talk to player
     bool talkingToPlayer;
-    [SerializeField]
+    [SerializeField]    
     Image alertPlayerImage;
 
     [Header("Wander")]
@@ -32,8 +42,12 @@ public class StaffData : GameBehaviour
     [SerializeField] Vector3 wanderDestination;
     bool reachedWanderPos;
 
+    [Header("Sit")]
+    GameObject targetChair;
+
     [Header("Return to Station")]
     Vector3 stationPos;
+    
     bool inWorkArea = false;
 
     // Start is called before the first frame update
@@ -88,7 +102,24 @@ public class StaffData : GameBehaviour
                     print("idle");
                     break;
                 case StaffBehaviour.MovementState.Sit:
-                    print("sit");
+                    if(targetChair == null)
+                    {
+                        targetChair = _SRM.FindClosestChair(gameObject);
+                        _SRM.ChangeObjectToOccupied(targetChair);
+                    }
+                    else
+                    {
+                        //check how far away from chair
+                        if (Vector3.Distance(gameObject.transform.position, targetChair.transform.position) < 1)
+                        {
+                            agent.isStopped = true;
+                            //sit on chair here
+                        }
+                        else
+                            agent.SetDestination(targetChair.transform.position);
+                    }
+
+
                     break;
             }
             #endregion
@@ -147,9 +178,9 @@ public class StaffData : GameBehaviour
 
         _UI.OpenDialogBox();
 
-        //_UI.LoadDialog();
+        _UI.LoadDialog(dialogList[Random.Range(0,dialogList.Count)], gameObject.name);
 
-        print("being dialog");
+        print("begin dialog");
     }
 
     private void OnMouseDown()
@@ -196,6 +227,8 @@ public class StaffData : GameBehaviour
                     TalkTooPlayerQuestionAction();
                     GenerateMovementState();
 
+
+
                     break;
 
                 case StaffBehaviour.ActionState.TalkToStaff:
@@ -221,10 +254,22 @@ public class StaffData : GameBehaviour
     {
         if (!talkingToPlayer)
         {
+            agent.isStopped = false;
+
             float movementLength = Random.Range(7, 15); //how long after the begin the action until they generate a new one
 
             staffBehaviour.movementState = movementStatePercentage[Random.Range(0, 100)];
             print(staffBehaviour.movementState);
+
+            //check if chairs are avalible
+            if(staffBehaviour.movementState == StaffBehaviour.MovementState.Sit)
+            {
+                //if no chairs, generate new movement state
+                if (_SRM.unoccupiedChairs.Count == 0)
+                    GenerateMovementState();
+            }
+
+
 
             StartCoroutine(StopActionAfterActionLength(movementLength));
         }
