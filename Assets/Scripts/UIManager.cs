@@ -58,11 +58,16 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] List<GameObject> unlockStaffModels_ListGO, organiseStaffButtons_GO;
 
     [Header("Staff Dialog")]
+    [SerializeField] GameObject staffDialog_GO;
     [SerializeField] GameObject dialogBox_GO;
+    [SerializeField] GameObject dialogBoxNextButton_GO;
+    [SerializeField] GameObject dialogBoxAnswers_GO;
     [SerializeField] TMP_Text dialogStaffName_TMPText;
     [SerializeField] TMP_Text dialogBox_TMPText;
+    [SerializeField] TMP_Text dialogBoxAnswer1_TMPText, dialogBoxAnswer2_TMPText;
     [SerializeField] List<string> currentDialogString_List = new List<string>();
     int currentDialogIndex = -1;
+    [SerializeField] Dialog currentDialog_Dialog;
 
     #endregion
 
@@ -523,7 +528,6 @@ public class UIManager : Singleton<UIManager>
 
     void CloseUnlockStaffScreen()
     {
-        unlockChoicePanel_GO.SetActive(true);
 
         unlockCamera_GO.SetActive(false);
         unlockScreen_GO.SetActive(false);
@@ -573,31 +577,63 @@ public class UIManager : Singleton<UIManager>
 
     //temporary
     //add param for question later
-    public void LoadDialog(Dialog _dialog, string staffName)
+    public void LoadDialog(Dialog _dialog, string staffName, GameObject _staff)
     {
+        staffDialog_GO = _staff;
         dialogStaffName_TMPText.text = staffName;
 
         currentDialogString_List = _dialog.list;
         dialogBox_TMPText.text = currentDialogString_List[0].ToString();
 
-        currentDialogIndex = 1;
+        currentDialog_Dialog = _dialog;
+        currentDialogIndex = 0;
+        dialogBoxAnswers_GO.SetActive(false);
+        _UI.OpenDialogBox();
+
+    }
+
+    void LoadResponseDialog(List<string> responseList)
+    {
+        print("LoadResponseDialog");
+        currentDialogString_List = responseList;
+
+        print(currentDialogString_List[0].ToString());
+        dialogBox_TMPText.text = currentDialogString_List[0].ToString();
+
+        currentDialogIndex = 0;
+
     }
 
     public void UpdateDialogText()
     {
-        print("update dialog");
         if(currentDialogIndex != -1)
         {
+            print("currentDialogIndex" + currentDialogIndex);
             //if dialoglist set
             if (currentDialogIndex < currentDialogString_List.Count)
             {
                 dialogBox_TMPText.text = currentDialogString_List[currentDialogIndex].ToString();
+                dialogBoxAnswers_GO.SetActive(false);
 
+                //determine if this is a question
+                if (currentDialog_Dialog.isQuestion && currentDialogIndex == currentDialog_Dialog.questionIndex)
+                {
+                    //turn on buttons
+                    dialogBoxAnswers_GO.SetActive(true);
+
+                    //turn off normal next question button
+                    dialogBoxNextButton_GO.SetActive(false);
+
+                    dialogBoxAnswer1_TMPText.text = currentDialog_Dialog.playerResponse1;
+                    dialogBoxAnswer2_TMPText.text = currentDialog_Dialog.playerResponse2;
+                }
                 currentDialogIndex++;
+
             }
             else
             {
                 CloseDialogBox();
+
             }
         }
         else
@@ -606,6 +642,24 @@ public class UIManager : Singleton<UIManager>
 
         }
 
+    }
+
+    public void AnswerDialogQuestion(int _response)
+    {
+        print("AnswerDialogQuestion " + _response);
+
+        if(_response == 1)
+            LoadResponseDialog(currentDialog_Dialog.response1);
+        else if (_response == 2)
+            LoadResponseDialog(currentDialog_Dialog.response2);
+
+        //turn off buttons
+        dialogBoxAnswers_GO.SetActive(false);
+
+        //turn on normal next question button
+        dialogBoxNextButton_GO.SetActive(true);
+
+        UpdateDialogText();
 
     }
 
@@ -615,13 +669,14 @@ public class UIManager : Singleton<UIManager>
         ExecuteAfterSeconds(1, () => buttonPanel_GO.SetActive(false));
 
         openResturantButton_GO.SetActive(false);
-
+        print("OpenDialogBox");
         dialogBox_GO.SetActive(true);
 
     }
 
     public void CloseDialogBox()
     {
+        staffDialog_GO.GetComponent<StaffData>().EndDialog();
         openResturantButton_GO.SetActive(true);
         buttonPanel_GO.SetActive(true);
         buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
@@ -631,7 +686,7 @@ public class UIManager : Singleton<UIManager>
         currentDialogIndex = -1;
 
         dialogBox_GO.SetActive(false);
-
+        dialogBoxAnswers_GO.SetActive(false );
     }
     #endregion
 

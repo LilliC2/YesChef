@@ -9,8 +9,14 @@ using DG.Tweening;
 [System.Serializable]
 public class  Dialog
 {
-    public bool isQuestion;
     public List<string> list;
+    public bool isQuestion;
+    public int questionIndex; //which index in the list has the question
+    public string playerResponse1; //what shows up on the answer
+    public string playerResponse2; //what shows up on the answer
+    public List<string> response1; //response after answer 1 to question
+    public List<string> response2; //response after answer 2 to question
+
 }
 
 public class StaffData : GameBehaviour
@@ -19,17 +25,16 @@ public class StaffData : GameBehaviour
     public StaffBehaviour staffBehaviour; 
 
     //generate action
-    [SerializeField]
     List<StaffBehaviour.ActionState> actionStatePercentage =new List<StaffBehaviour.ActionState>();
-    [SerializeField]
     List<StaffBehaviour.MovementState> movementStatePercentage =new List<StaffBehaviour.MovementState>();
 
     NavMeshAgent agent;
 
     [Header("Talk to Staff")]
     [SerializeField]
-    List<Dialog> dialogList;
+    List<Dialog> dialogList_Talk;
     [SerializeField]
+    List<Dialog> dialogList_Question;
 
     [Header("Alert Player")]
     bool alertPlayer; //does the staff member want to talk to player
@@ -57,6 +62,8 @@ public class StaffData : GameBehaviour
         SetPersonalityBehaviour();
         GenerateActionState();
 
+
+
     }
     // Update is called once per frame
     void Update()
@@ -65,6 +72,16 @@ public class StaffData : GameBehaviour
         {
             if(agent.speed != _SM.casualSpeed) agent.speed = _SM.casualSpeed;
             if (inWorkArea) inWorkArea = false;
+
+            #region Debug
+
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                print("Force GenerateActionState");
+                GenerateActionState();
+            }
+
+            #endregion
 
             #region Movement
             switch (staffBehaviour.movementState)
@@ -159,8 +176,7 @@ public class StaffData : GameBehaviour
         alertPlayerImage.gameObject.SetActive(true);
         alertPlayerImage.sprite = _SM.staffQuestionSprite;
     }
-    
-    void TalkTooPlayerQuestionAction()
+    void TalkToPlayerQuestionAction()
     {
         alertPlayer = true;
 
@@ -171,16 +187,32 @@ public class StaffData : GameBehaviour
 
     void BeginDialog()
     {
+        print("BeginDialogTalk");
         alertPlayerImage.gameObject.SetActive(false);
 
         agent.isStopped = true; //so player cant move
         talkingToPlayer = true; //so new action cannot be started mid convo
 
-        _UI.OpenDialogBox();
+        if (staffBehaviour.actionState == StaffBehaviour.ActionState.TalkToPlayer)
+        {
+            _UI.LoadDialog(dialogList_Talk[Random.Range(0, dialogList_Talk.Count)], gameObject.name,gameObject);
 
-        _UI.LoadDialog(dialogList[Random.Range(0,dialogList.Count)], gameObject.name);
+        }
+        else if (staffBehaviour.actionState == StaffBehaviour.ActionState.AskPlayerQuestion)
+        {
+            _UI.LoadDialog(dialogList_Question[Random.Range(0, dialogList_Talk.Count)], gameObject.name, gameObject);
 
-        print("begin dialog");
+        }
+
+    }
+
+    public void EndDialog()
+    {
+        print("EndDialog");
+        alertPlayer = false;
+        talkingToPlayer = false;
+        GenerateActionState();
+
     }
 
     private void OnMouseDown()
@@ -188,9 +220,16 @@ public class StaffData : GameBehaviour
         //If staff wants to talk to player
         if(alertPlayer)
         {
+            //stop movement
+            agent.isStopped = true; 
+            staffBehaviour.movementState = StaffBehaviour.MovementState.Idle;
+            agent.SetDestination(transform.position);
+
             //move camera to focus on gameobject
             Camera.main.GetComponent<CameraController>().CameraFocusStaff(gameObject);
             BeginDialog();
+            
+            
         }
     }
 
@@ -200,6 +239,8 @@ public class StaffData : GameBehaviour
     {
         if (!talkingToPlayer)
         {
+            StopCoroutine(StopActionAfterActionLength(0));
+
             float actionLength = Random.Range(7, 15); //how long after the begin the action until they generate a new one
 
             //should they generate a new state if they want to talk/question to player??
@@ -224,7 +265,7 @@ public class StaffData : GameBehaviour
 
                 case StaffBehaviour.ActionState.TalkToPlayer:
 
-                    TalkTooPlayerQuestionAction();
+                    TalkToPlayerQuestionAction();
                     GenerateMovementState();
 
 
@@ -234,6 +275,7 @@ public class StaffData : GameBehaviour
                 case StaffBehaviour.ActionState.TalkToStaff:
 
                     //dont generate movement state, will direction set travel to destination here
+                    GenerateMovementState();
 
                     break;
             }
@@ -242,7 +284,7 @@ public class StaffData : GameBehaviour
             //bc some action states require specific movement e.g go talk to a specifc staff member
 
 
-            print(staffBehaviour.actionState);
+            print("Action State: " + staffBehaviour.actionState);
 
             StartCoroutine(StopActionAfterActionLength(actionLength));
         }
@@ -254,12 +296,13 @@ public class StaffData : GameBehaviour
     {
         if (!talkingToPlayer)
         {
+
             agent.isStopped = false;
 
             float movementLength = Random.Range(7, 15); //how long after the begin the action until they generate a new one
 
             staffBehaviour.movementState = movementStatePercentage[Random.Range(0, 100)];
-            print(staffBehaviour.movementState);
+            print("Movement State: " + staffBehaviour.movementState);
 
             //check if chairs are avalible
             if(staffBehaviour.movementState == StaffBehaviour.MovementState.Sit)
@@ -271,7 +314,7 @@ public class StaffData : GameBehaviour
 
 
 
-            StartCoroutine(StopActionAfterActionLength(movementLength));
+            StartCoroutine(StopMovementAfterMovementLength(movementLength));
         }
          
 
@@ -285,6 +328,10 @@ public class StaffData : GameBehaviour
     IEnumerator StopActionAfterActionLength(float _actionLength)
     {
         yield return new WaitForSeconds(_actionLength);
+        alertPlayer = false;
+        talkingToPlayer = false;
+        alertPlayerImage.gameObject.SetActive(false);
+
 
         GenerateActionState();
     }
