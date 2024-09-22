@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using System.Reflection.Emit;
 using UnityEngine.UI;
 using DG.Tweening;
+using static UnityEngine.GraphicsBuffer;
 [System.Serializable]
 public class  Dialog
 {
@@ -48,6 +49,8 @@ public class StaffData : GameBehaviour
     bool talkingToPlayer;
     [SerializeField]    
     Image alertPlayerImage;
+    [SerializeField] GameObject staffHead;//with ripped ACNH, find 'Neck' in their armature
+    Vector3 defaultHeadPos;
 
     [Header("Wander")]
     [SerializeField] float wanderRadius;
@@ -65,6 +68,7 @@ public class StaffData : GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultHeadPos = staffHead.transform.localPosition;
         agent = GetComponent<NavMeshAgent>();
         SetPersonalityBehaviour();
         GenerateActionState();
@@ -91,6 +95,7 @@ public class StaffData : GameBehaviour
             #endregion
 
             #region Movement
+            
             switch (staffBehaviour.movementState)
             {
                 case StaffBehaviour.MovementState.Wander:
@@ -174,6 +179,76 @@ public class StaffData : GameBehaviour
 
     }
 
+    #region Misc
+
+    //public void LookHeadAtObject(GameObject _target)
+    //{
+    //    //need to add clamping here
+
+    //    staffHead.transform.DOLookAt(_target.transform.position,1, AxisConstraint.None, Vector3.up);
+    //}
+
+    //public void ReturnHeadToDefault()
+    //{
+    //    staffHead.transform.DOMove(defaultHeadPos, 1);
+    //}
+
+    /// <summary>
+    /// Return to work zone NavMesh, either Kitchen or Front Of House
+    /// </summary>
+    void ReturnToWork()
+    {
+        if (gameObject.tag == "Chef")
+        {
+            stationPos = GetWanderPoint(_SM.kitchenZone.position, gameObject.tag);
+            agent.speed = _SM.returnToWorkSpeed;
+        }
+        if (gameObject.tag == "Waiter")
+        {
+            stationPos = GetWanderPoint(_SM.FOHZone.position, gameObject.tag);
+            agent.speed = _SM.returnToWorkSpeed;
+
+        }
+
+        staffBehaviour.movementState = StaffBehaviour.MovementState.NotSet;
+        staffBehaviour.actionState = StaffBehaviour.ActionState.NotSet;
+
+        alertPlayer = false;
+        talkingToPlayer = false;
+        alertPlayerImage.gameObject.SetActive(false);
+
+        StopAllCoroutines();
+
+        agent.SetDestination(stationPos);
+
+
+    }
+
+    /// <summary>
+    /// Get random position in given area within radius of center
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="area"></param>
+    /// <returns></returns>
+    Vector3 GetWanderPoint(Vector3 center, string area)
+    {
+        Vector3 result = Vector3.zero;
+        Vector3 randomPoint = center + Random.insideUnitSphere * wanderRadius;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1, 1 << NavMesh.GetAreaFromName(area)))
+        {
+            //print("valid pos");
+            result = hit.position;
+            return result;
+
+
+        }
+        return result;
+    }
+
+
+    #endregion
+
     #region Talk/Question Player
     void AskPlayerQuestionAction()
     {
@@ -195,10 +270,13 @@ public class StaffData : GameBehaviour
     void BeginDialog()
     {
         print("BeginDialogTalk");
+        //LookHeadAtObject(Camera.main.gameObject); //look at camera
         alertPlayerImage.gameObject.SetActive(false);
 
         agent.isStopped = true; //so player cant move
         talkingToPlayer = true; //so new action cannot be started mid convo
+        StopCoroutine(StopMovementAfterMovementLength(0));
+        staffBehaviour.movementState = StaffBehaviour.MovementState.NotSet;
 
         if (staffBehaviour.actionState == StaffBehaviour.ActionState.TalkToPlayer)
         {
@@ -219,7 +297,7 @@ public class StaffData : GameBehaviour
         alertPlayer = false;
         talkingToPlayer = false;
         alertPlayerImage.gameObject.SetActive(false);
-
+        //ReturnHeadToDefault();
         GenerateActionState();
 
     }
@@ -243,6 +321,7 @@ public class StaffData : GameBehaviour
     }
 
     #endregion
+    
     #region Generating Action and Movement States
     void GenerateActionState()
     {
@@ -352,60 +431,6 @@ public class StaffData : GameBehaviour
         GenerateMovementState();
     }
     #endregion
-
-    /// <summary>
-    /// Return to work zone NavMesh, either Kitchen or Front Of House
-    /// </summary>
-    void ReturnToWork()
-    {
-        if(gameObject.tag == "Chef")
-        {
-            stationPos = GetWanderPoint(_SM.kitchenZone.position,gameObject.tag);
-            agent.speed = _SM.returnToWorkSpeed;
-        }
-        if(gameObject.tag == "Waiter")
-        {
-            stationPos = GetWanderPoint(_SM.FOHZone.position, gameObject.tag);
-            agent.speed = _SM.returnToWorkSpeed;
-
-        }
-
-        staffBehaviour.movementState = StaffBehaviour.MovementState.NotSet;
-        staffBehaviour.actionState = StaffBehaviour.ActionState.NotSet;
-
-        alertPlayer = false;
-        talkingToPlayer = false;
-        alertPlayerImage.gameObject.SetActive(false);
-
-        StopAllCoroutines();
-
-        agent.SetDestination(stationPos);
-
-
-    }
-
-   /// <summary>
-   /// Get random position in given area within radius of center
-   /// </summary>
-   /// <param name="center"></param>
-   /// <param name="area"></param>
-   /// <returns></returns>
-    Vector3 GetWanderPoint(Vector3 center, string area)
-    {
-        Vector3 result = Vector3.zero;
-        Vector3 randomPoint = center + Random.insideUnitSphere * wanderRadius;
-        NavMeshHit hit;
-        if(NavMesh.SamplePosition(randomPoint, out hit, 1, 1 << NavMesh.GetAreaFromName(area)))
-        {
-            //print("valid pos");
-            result = hit.position;
-            return result;
-
-
-        }
-        return result;
-    }
-   
     #region Personality
 
     /// <summary>

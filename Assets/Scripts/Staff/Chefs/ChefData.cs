@@ -9,7 +9,7 @@ public class ChefData : GameBehaviour
 {
 
     public ChefClass chefData; //data used by chef, including percentages
-    public ChefClass baseStatsChefData; //holds base stats, used when calculating percentages
+    StaffData staffData;
 
     public enum Targeting { First, Last, Strongest }
     public Targeting targeting;
@@ -63,6 +63,8 @@ public class ChefData : GameBehaviour
         //default targeting
         targeting = Targeting.First;
         agent = GetComponent<NavMeshAgent>();
+        staffData = GetComponent<StaffData>();
+
     }
 
     // Update is called once per frame
@@ -168,9 +170,14 @@ public class ChefData : GameBehaviour
                                 //pick food back up
                                 PickUpFood();
 
+                                //look at food
+                                //staffData.LookHeadAtObject(targetFood);
+
                                 //pause for a little
                                 if (!StartPauseAgent(1f))
                                 {
+                                    //staffData.ReturnHeadToDefault();
+
                                     tasks = Task.GoToPass;
 
                                 }

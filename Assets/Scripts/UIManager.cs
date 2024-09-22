@@ -613,7 +613,7 @@ public class UIManager : Singleton<UIManager>
         dialogBox_TMPText.text = currentDialogString_List[0].ToString();
 
         currentDialog_Dialog = _dialog;
-        currentDialogIndex = 0;
+        currentDialogIndex = 1;
         dialogBoxAnswers_GO.SetActive(false);
         _UI.OpenDialogBox();
 
@@ -627,7 +627,7 @@ public class UIManager : Singleton<UIManager>
         print(currentDialogString_List[0].ToString());
         dialogBox_TMPText.text = currentDialogString_List[0].ToString();
 
-        currentDialogIndex = 0;
+        currentDialogIndex = 1;
 
     }
 

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class WaiterData : GameBehaviour
 {
     public WaiterClass waiterData;
+    StaffData staffData;
 
     public enum Task { Idle, SeatCustomer ,TakeCustomerOrder, GetFood, DeliverFood }
     public Task tasks;
@@ -42,6 +43,7 @@ public class WaiterData : GameBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        staffData = GetComponent<StaffData>();
 
         holdFoodSpot = transform.Find("HoldFoodSpot").gameObject.transform;
         agent = GetComponent<NavMeshAgent>();

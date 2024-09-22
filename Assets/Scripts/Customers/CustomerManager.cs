@@ -18,7 +18,7 @@ public class CustomerManager : Singleton<CustomerManager>
     [Header("Ready to Order")]
     public List<GameObject> customersReadyToOrder = new List<GameObject>();
 
-    public GameObject customer;
+    public GameObject[] customerPrefabs;
 
 
     [Header("Leave")]
@@ -154,7 +154,7 @@ public class CustomerManager : Singleton<CustomerManager>
 
     void SpawnCustomer()
     {
-        var newCustomers = Instantiate(customer, customerSpawnPoint.position, Quaternion.identity);
+        var newCustomers = Instantiate(customerPrefabs[Random.Range(0,customerPrefabs.Length)], customerSpawnPoint.position, Quaternion.identity);
         customersInQueue.Add(newCustomers);
         customersInResturant.Add(newCustomers);
         customersSpawnedOverDay++;

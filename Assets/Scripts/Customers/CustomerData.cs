@@ -18,6 +18,7 @@ public class CustomerData : GameBehaviour
     //when interacting with waiters, this will let the other waiters know if the customer is already undergoing a task
     public bool beingAttened = false;
 
+
     [Header("Movement")]
     NavMeshAgent agent;
 
