@@ -203,9 +203,13 @@ public class CustomerData : GameBehaviour
         {
             if (agent.destination == null) LeaveResturant();
             print(Vector3.Distance(transform.position, agent.destination));
-            if (Vector3.Distance(transform.position, agent.destination) <=2)
+            //walk to exit door then nav to leave pos
+            if (Vector3.Distance(transform.position, _CustM.exitDoor.position) <=2)
             {
-                _CustM.RemoveCustomer(gameObject);
+                agent.SetDestination(leavePos);
+                if (Vector3.Distance(transform.position, leavePos) <= 2)
+                    _CustM.RemoveCustomer(gameObject);
+
             }
         }
        
@@ -315,7 +319,7 @@ public class CustomerData : GameBehaviour
         //set table as unoccupied
         _FOHM.ChangeToUnoccupied(table);
 
-
+        agent.SetDestination(_CustM.exitDoor.position);
         isSeated = false;
 
         leavePos = _CustM.leavePoints[UnityEngine.Random.Range(0, _CustM.leavePoints.Length)].position;

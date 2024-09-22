@@ -24,6 +24,7 @@ public class CustomerManager : Singleton<CustomerManager>
     [Header("Leave")]
 
     public Transform[] leavePoints;
+    public Transform exitDoor;
 
     [Header("Resturant Ratings")]
     [SerializeField] float minQueueWaitTime, maxQueueWaitTime;

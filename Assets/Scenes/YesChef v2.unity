@@ -5465,6 +5465,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.7999997, y: 0.19999996, z: 7.9999995}
   m_Center: {x: 0, y: 0.09999998, z: 0}
+--- !u!1 &692236033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692236034}
+  m_Layer: 0
+  m_Name: ExitNav
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692236034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692236033}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.38, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1321751388}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &696646617 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5764009172609972559, guid: 43b7b3b60ff0738489561234329c62b6, type: 3}
@@ -7813,7 +7844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7605214805510297431, guid: fb5c93fcdf789b34dbf8a9622080ac73, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5297499
+      value: 3.9499998
       objectReference: {fileID: 0}
     - target: {fileID: 7605214805510297431, guid: fb5c93fcdf789b34dbf8a9622080ac73, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10392,6 +10423,7 @@ Transform:
   - {fileID: 913364935}
   - {fileID: 338145724}
   - {fileID: 1786938371}
+  - {fileID: 692236034}
   m_Father: {fileID: 555222848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1324627561 stripped
@@ -11521,7 +11553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7605214805510297431, guid: fb5c93fcdf789b34dbf8a9622080ac73, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5297503
+      value: 3.95
       objectReference: {fileID: 0}
     - target: {fileID: 7605214805510297431, guid: fb5c93fcdf789b34dbf8a9622080ac73, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16870,6 +16902,10 @@ PrefabInstance:
       propertyPath: 
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
+      propertyPath: exitDoor
+      value: 
+      objectReference: {fileID: 692236034}
     - target: {fileID: 1421569288571107763, guid: 5638b3d1255c6d146890865b7d627e04, type: 3}
       propertyPath: customerSpawnPoint
       value: 
