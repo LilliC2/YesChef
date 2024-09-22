@@ -361,6 +361,9 @@ public class StaffData : GameBehaviour
 
         }
 
+        staffBehaviour.movementState = StaffBehaviour.MovementState.NotSet;
+        staffBehaviour.actionState = StaffBehaviour.ActionState.NotSet;
+
         agent.SetDestination(stationPos);
 
     }

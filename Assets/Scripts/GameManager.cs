@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Player Progress")]
     public int dayCount;
     public float money;
+    public string resturantName;
 
     public int playerLevel;
     public int currentPlayerEXP; //how much exp the player currently has

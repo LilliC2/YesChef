@@ -9,12 +9,22 @@ public class StaffRoomManager : Singleton<StaffRoomManager>
     List<GameObject> occupiedChairs = new List<GameObject>();
     public List<GameObject> unoccupiedChairs = new List<GameObject>();
 
+    [SerializeField] GameObject staffRoomRoof;
+
     // Start is called before the first frame update
     void Start()
     {
         //get all objects with StaffChair tag
-        var chairs = (GameObject.FindGameObjectsWithTag("StaffChair")).ToList();
-        unoccupiedChairs = (chairs).ToList();
+        //var chairs = (GameObject.FindGameObjectsWithTag("StaffChair")).ToList();
+        //unoccupiedChairs = (chairs).ToList();
+
+        _GM.event_playStateClose.AddListener(CloseOrOpenRoof);
+        _GM.event_playStateOpen.AddListener(CloseOrOpenRoof);
+    }
+
+    void CloseOrOpenRoof()
+    {
+        staffRoomRoof.SetActive(!staffRoomRoof.activeSelf);
     }
 
     public void ChangeObjectToOccupied(GameObject obj)

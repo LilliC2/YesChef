@@ -69,6 +69,12 @@ public class UIManager : Singleton<UIManager>
     int currentDialogIndex = -1;
     [SerializeField] Dialog currentDialog_Dialog;
 
+    [Header("Outside")]
+    [SerializeField] TMP_Text resturantSign_TMPText;
+    [SerializeField] GameObject renameResturantPanel_GO;
+
+
+
     #endregion
 
     private void Start()
@@ -142,6 +148,13 @@ public class UIManager : Singleton<UIManager>
         day_Text.text = "Day " + _GM.dayCount.ToString();
     }
 
+    public void UpdateResturantSign(string _sign)
+    {
+        _GM.resturantName = _sign;
+        resturantSign_TMPText.text = _sign;
+    }
+
+
     #endregion
 
     #region Open Functions
@@ -208,6 +221,19 @@ public class UIManager : Singleton<UIManager>
 
         unlockChoicePanel_GO.SetActive(!unlockChoicePanel_GO.activeSelf);
 
+
+    }
+
+    public void ActivateResturantSignRenamePanel()
+    {
+        CloseAllPanels(renameResturantPanel_GO);
+        renameResturantPanel_GO.SetActive(!renameResturantPanel_GO.activeSelf);
+
+        //so player doesnt move cam while typing
+        if(renameResturantPanel_GO.activeSelf)
+            Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.DisablePlayerControl;
+        else Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.PlayerControl;
+
     }
 
     /// <summary>
@@ -217,7 +243,7 @@ public class UIManager : Singleton<UIManager>
     public void CloseAllPanels(GameObject keepOpen)
     {
         List<GameObject> list = new List<GameObject>() { producePanel_GO, unlockChoicePanel_GO, staffOrganisePanel_GO,
-                                                         produceCamera_Cam.gameObject,unlockCamera_GO, dialogBox_GO};
+                                                         produceCamera_Cam.gameObject,unlockCamera_GO, dialogBox_GO,renameResturantPanel_GO};
         if (keepOpen != null)
         {
             foreach (GameObject go in list)
@@ -491,6 +517,9 @@ public class UIManager : Singleton<UIManager>
         //check if any more staff can be unlocked
         if(_SM.CanHireMoreStaff(_staffType))
         {
+            //so player doesnt move cam while typing
+            Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.DisablePlayerControl;
+
             unlockChoicePanel_GO.SetActive(false);
 
             unlockCamera_GO.SetActive(true);
@@ -531,6 +560,7 @@ public class UIManager : Singleton<UIManager>
 
         unlockCamera_GO.SetActive(false);
         unlockScreen_GO.SetActive(false);
+        Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.PlayerControl;
 
         foreach (var item in unlockStaffModels_ListGO)
         {

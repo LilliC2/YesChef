@@ -16,7 +16,7 @@ public class CameraController : GameBehaviour
     Vector3 lastMousePosition;
     [SerializeField] float defaultCameraSize;
 
-    public enum CameraState { PlayerControl, TalkToStaff}
+    public enum CameraState { PlayerControl, TalkToStaff, DisablePlayerControl}
     public CameraState state;
 
     Vector3 startPos;

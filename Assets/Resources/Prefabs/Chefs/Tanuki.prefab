@@ -197,7 +197,7 @@ GameObject:
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3457277712027227445
 Transform:
   m_ObjectHideFlags: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   staffBehaviour:
     personalityType: 1
     personalityData:
-      name: 0
+      name: 1
       idle: 0
       wander: 0
       travelToDestination: 0
@@ -316,6 +316,31 @@ MonoBehaviour:
       talkToStaff: 0
     movementState: 0
     actionState: 0
+  dialogList_Talk:
+  - list:
+    - Hi!
+    - This is a test of the dialog system.
+    - So cool!
+    isQuestion: 0
+    questionIndex: 0
+    playerResponse1: 
+    playerResponse2: 
+    response1: []
+    response2: []
+  dialogList_Question:
+  - list:
+    - Hi!
+    - This is a test of the dialog system.
+    - So cool!
+    - What do you think?
+    isQuestion: 1
+    questionIndex: 3
+    playerResponse1: Yeah its sick!
+    playerResponse2: It kinda blows.
+    response1:
+    - Glad you think so too!
+    response2:
+    - Oh...
   alertPlayerImage: {fileID: 4603323950407548036}
   wanderRadius: 6
   wanderDestination: {x: 0, y: 0, z: 0}
