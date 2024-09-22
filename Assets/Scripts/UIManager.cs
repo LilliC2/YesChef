@@ -528,11 +528,7 @@ public class UIManager : Singleton<UIManager>
             var GO = _SM.HireStaff(_staffType);
 
             //set name
-            if (_staffType == "Chef")
-            {
-                unlockStaffName_Txt.text = GO.GetComponent<ChefData>().chefData.name;
-            }
-            else unlockStaffName_Txt.text = GO.GetComponent<WaiterData>().waiterData.name;
+            unlockStaffName_Txt.text = GO.GetComponent<StaffData>().name;
 
             //turn on model
             foreach (var item in unlockStaffModels_ListGO)
@@ -579,9 +575,8 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// Match UI if staff is toggled when bought
     /// </summary>
-    public void ToggleStaffOn(GameObject staff)
+    public void ToggleStaffOn(GameObject staff, string staffName)
     {
-        string name = staff.name;
 
         if(!_SM.totalActiveStaff.Contains(staff))
         {
@@ -589,9 +584,11 @@ public class UIManager : Singleton<UIManager>
             GameObject obj = null;
             foreach (var item in organiseStaffButtons_GO)
             {
-                if (item.name.Contains(name)) obj = item;
+                if (item.name.Contains(staffName)) obj = item;
 
             }
+
+            print(obj.name);
 
             var toggle = obj.transform.Find("Toggle").GetComponent<Toggle>();
             toggle.isOn = true;

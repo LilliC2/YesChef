@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class ChefClass 
 {
-    public string name;
     public float movSpeed;
 
     public Sprite pfp;

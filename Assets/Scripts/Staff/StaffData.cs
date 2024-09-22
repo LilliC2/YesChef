@@ -22,6 +22,8 @@ public class  Dialog
 public class StaffData : GameBehaviour
 {
 
+
+
     public StaffBehaviour staffBehaviour; 
 
     //generate action
@@ -29,6 +31,11 @@ public class StaffData : GameBehaviour
     List<StaffBehaviour.MovementState> movementStatePercentage =new List<StaffBehaviour.MovementState>();
 
     NavMeshAgent agent;
+    [Header("Staff Details")]
+    public string name;
+    public string description;
+    //if i ever need IDs add here
+
 
     [Header("Talk to Staff")]
     [SerializeField]
@@ -211,6 +218,8 @@ public class StaffData : GameBehaviour
         print("EndDialog");
         alertPlayer = false;
         talkingToPlayer = false;
+        alertPlayerImage.gameObject.SetActive(false);
+
         GenerateActionState();
 
     }
@@ -364,7 +373,14 @@ public class StaffData : GameBehaviour
         staffBehaviour.movementState = StaffBehaviour.MovementState.NotSet;
         staffBehaviour.actionState = StaffBehaviour.ActionState.NotSet;
 
+        alertPlayer = false;
+        talkingToPlayer = false;
+        alertPlayerImage.gameObject.SetActive(false);
+
+        StopAllCoroutines();
+
         agent.SetDestination(stationPos);
+
 
     }
 

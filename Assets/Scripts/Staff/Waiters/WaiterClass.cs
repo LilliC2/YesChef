@@ -5,8 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class WaiterClass 
 {
-    public string name;
-    public string description;
+
     public float hireCost;
 
     public Sprite pfp;
