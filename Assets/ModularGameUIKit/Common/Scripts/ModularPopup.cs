@@ -16,7 +16,9 @@ namespace Ricimi
 		[Header("Text")]
 		public TextMeshProUGUI Title;
 		public TextMeshProUGUI Subtitle;
-		public TextMeshProUGUI Message;
+		public TextMeshProUGUI Description;
+		public TextMeshProUGUI Personality;
+		public Slider friendshipValueSlider;
 
 		[Space]
 		[Header("Image")]
@@ -30,9 +32,11 @@ namespace Ricimi
 
         public void Initialize(ModularPopupOpener opener)
         {
-			SetLabel(Title, opener.Title);
+			SetLabel(Title, opener.Name);
 			SetLabel(Subtitle, opener.Subtitle);
-			SetLabel(Message, opener.Message);
+			SetLabel(Description, opener.Description);
+			SetLabel(Personality, opener.Personality);
+			SetSlider(friendshipValueSlider, opener.Friendship);
 
 			SetImage(Image, opener.Image, opener.TintColor);
 			SetLabel(Caption, opener.Caption);
@@ -110,6 +114,20 @@ namespace Ricimi
 			if (info.ClosePopupWhenClicked)
 			{
 				button.onClick.AddListener(Close);
+			}
+		}
+
+		void SetSlider(Slider slider, int value)
+        {
+			if (slider == null)
+				return;
+
+			slider.gameObject.SetActive(true);
+			slider.value = value;
+			var label = slider.GetComponentInChildren<TextMeshProUGUI>();
+			if (label != null)
+			{
+				label.text = value.ToString();
 			}
 		}
     }

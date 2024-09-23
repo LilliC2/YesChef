@@ -12,10 +12,18 @@ namespace Ricimi
     public class ModularPopupOpener : PopupOpener
     {
 		[Header("Text")]
-		public string Title;
+		public StaffData StaffData;
+
+		[Header("Text")]
+		public string Name;
 		public string Subtitle;
+		[HideInInspector]
+		public string Personality;
+		[HideInInspector]
+		public int Friendship;
+
 		[TextArea(minLines: 3, maxLines: 3)]
-		public string Message;
+		public string Description;
 
 		[Space]
 		[Header("Image")]
@@ -27,8 +35,13 @@ namespace Ricimi
 		[Header("Buttons")]
 		public List<ButtonInfo> Buttons;
 
+
         public override void OpenPopup()
         {
+			Friendship = StaffData.friendshipLevel;
+			Personality = StaffData.staffBehaviour.personalityType.ToString();
+			Description = StaffData.description;
+			Name = StaffData.staffName;
             base.OpenPopup();
             m_popup.GetComponent<ModularPopup>().Initialize(this);
         }

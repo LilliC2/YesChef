@@ -22,9 +22,6 @@ public class  Dialog
 
 public class StaffData : GameBehaviour
 {
-
-
-
     public StaffBehaviour staffBehaviour; 
 
     //generate action
@@ -33,8 +30,10 @@ public class StaffData : GameBehaviour
 
     NavMeshAgent agent;
     [Header("Staff Details")]
-    public string name;
+    public string staffName;
+    [TextArea(minLines: 3, maxLines: 3)]
     public string description;
+    public int friendshipLevel;
     //if i ever need IDs add here
 
 
@@ -49,7 +48,7 @@ public class StaffData : GameBehaviour
     bool talkingToPlayer;
     [SerializeField]    
     Image alertPlayerImage;
-    [SerializeField] GameObject staffHead;//with ripped ACNH, find 'Neck' in their armature
+    [SerializeField] GameObject staffHead; //with ripped ACNH, find 'Neck' in their armature
     Vector3 defaultHeadPos;
 
     [Header("Wander")]
@@ -431,6 +430,7 @@ public class StaffData : GameBehaviour
         GenerateMovementState();
     }
     #endregion
+  
     #region Personality
 
     /// <summary>

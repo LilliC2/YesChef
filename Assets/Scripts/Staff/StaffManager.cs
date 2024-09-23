@@ -129,7 +129,7 @@ public class StaffManager : Singleton<StaffManager>
             if(_staffType == "Waiter") waiterActiveStaff.Add(staffHired);
             else if (_staffType == "Chef") chefActiveStaff.Add(staffHired);
 
-            _UI.ToggleStaffOn(staffHired,staffHired.GetComponent<StaffData>().name);
+            _UI.ToggleStaffOn(staffHired,staffHired.GetComponent<StaffData>().staffName);
 
         }
 

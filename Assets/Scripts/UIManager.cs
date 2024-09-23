@@ -528,7 +528,7 @@ public class UIManager : Singleton<UIManager>
             var GO = _SM.HireStaff(_staffType);
 
             //set name
-            unlockStaffName_Txt.text = GO.GetComponent<StaffData>().name;
+            unlockStaffName_Txt.text = GO.GetComponent<StaffData>().staffName;
 
             //turn on model
             foreach (var item in unlockStaffModels_ListGO)
