@@ -8,6 +8,8 @@ using DG.Tweening;
 // Order class contains any information related to customers or waiters
 public class OrderClass
 {
+    public string orderID;
+
     public GameObject foodPrefab;
     public GameObject customer;
     public Sprite pfp;
@@ -63,6 +65,11 @@ public class FoodClass
 #endregion
 public class FoodManager : Singleton<FoodManager>
 {
+    [Header("All Orders")]
+    //all orders in game
+    public List<GameObject> allOrders = new List<GameObject>();
+
+
     [Header("Produce")]
     
     public int grainTotal_produce, dairyTotal_produce, fruitTotal_produce, vegTotal_produce, protienTotal_produce;
@@ -70,8 +77,11 @@ public class FoodManager : Singleton<FoodManager>
 
     [Header("Cooking")]
 
+    //all menu options player has unlocked
     public List<GameObject> menu = new List<GameObject>();
+    //which menu options are avalible to order based on player produce
     public List<GameObject> avalibleMenu = new List<GameObject>();
+
 
     public List<GameObject> orderedFood_GO = new List<GameObject>();
 
