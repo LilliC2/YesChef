@@ -7584,7 +7584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
-  allOrders: []
+  allOrders:
+  - {fileID: 863991338456687275, guid: cf96afc8ca59b904388dda00043bdc7f, type: 3}
   grainTotal_produce: 50
   dairyTotal_produce: 50
   fruitTotal_produce: 50
@@ -13151,6 +13152,10 @@ PrefabInstance:
     - target: {fileID: 4565647852620924642, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
+      propertyPath: resturantName
+      value: Default Resturant Name
       objectReference: {fileID: 0}
     - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
       propertyPath: conveyerbeltPoints.Array.size

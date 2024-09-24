@@ -11,6 +11,11 @@ public class SaveManager : Singleton<SaveManager>
         
     }
 
+    public void NewSaveFile()
+    {
+
+    }
+
     public void LoadGame()
     {
         PlayerSaveData playerData = SaveSystem.LoadPlayerProgress();
