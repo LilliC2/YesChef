@@ -49,6 +49,7 @@ MonoBehaviour:
   - name: 0
     idle: 0
     wander: 1
+    travelToDestination: 0
     sit: 0
     talkToPlayer: 2
     askPlayerQuestion: 2
@@ -56,6 +57,7 @@ MonoBehaviour:
   - name: 1
     idle: 1
     wander: 1
+    travelToDestination: 0
     sit: 0
     talkToPlayer: 0
     askPlayerQuestion: 0
@@ -63,6 +65,7 @@ MonoBehaviour:
   - name: 2
     idle: 1
     wander: 1
+    travelToDestination: 0
     sit: 0
     talkToPlayer: 0
     askPlayerQuestion: 1
@@ -70,6 +73,7 @@ MonoBehaviour:
   - name: 3
     idle: 1
     wander: 1
+    travelToDestination: 0
     sit: 1
     talkToPlayer: 1
     askPlayerQuestion: 0
@@ -77,6 +81,7 @@ MonoBehaviour:
   - name: 4
     idle: 1
     wander: 2
+    travelToDestination: 0
     sit: 2
     talkToPlayer: 1
     askPlayerQuestion: 2
@@ -84,6 +89,7 @@ MonoBehaviour:
   - name: 5
     idle: 1
     wander: 1
+    travelToDestination: 0
     sit: 1
     talkToPlayer: 1
     askPlayerQuestion: 1
@@ -91,6 +97,7 @@ MonoBehaviour:
   - name: 6
     idle: 2
     wander: 1
+    travelToDestination: 0
     sit: 1
     talkToPlayer: 1
     askPlayerQuestion: 1
@@ -98,21 +105,21 @@ MonoBehaviour:
   - name: 7
     idle: 2
     wander: 2
+    travelToDestination: 0
     sit: 2
     talkToPlayer: 1
     askPlayerQuestion: 0
     talkToStaff: 1
-  allWaiterStaff:
+  allStaffData:
   - {fileID: 0}
-  allChefStaff:
   - {fileID: 0}
   maxActiveStaff: 10
   totalActiveStaff: []
-  chefActiveStaff: []
-  waiterActiveStaff: []
   totalHiredStaff: []
   staffRoomZone: {fileID: 0}
   kitchenZone: {fileID: 0}
   FOHZone: {fileID: 0}
   returnToWorkSpeed: 5
   casualSpeed: 3
+  staffQuestionSprite: {fileID: 21300000, guid: 2981479eee1814ebf8657e474ff0f795, type: 3}
+  staffTalkSprite: {fileID: 21300000, guid: 4d6645170359e4477b776b863499db7f, type: 3}

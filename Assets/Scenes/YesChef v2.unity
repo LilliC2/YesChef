@@ -3592,6 +3592,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5785115708011946632, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
+      propertyPath: popupPrefab
+      value: 
+      objectReference: {fileID: 4009948470333452306, guid: 40bd0e7078d0453448661bad0455aa07, type: 3}
     - target: {fileID: 7358640055601638822, guid: 3573c8cf5fb8a154face854bac1ba9a6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -16469,6 +16473,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 878465634}
     m_Modifications:
     - target: {fileID: 3802623653940519900, guid: e710520010eb8764092171adeb63e741, type: 3}
+      propertyPath: ID
+      value: 002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802623653940519900, guid: e710520010eb8764092171adeb63e741, type: 3}
       propertyPath: staffHead
       value: 
       objectReference: {fileID: 2027967989}
@@ -16668,9 +16676,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 878465634}
     m_Modifications:
     - target: {fileID: 29032404546786081, guid: 86c359bb09a79324eb6ab0c60f480d31, type: 3}
+      propertyPath: ID
+      value: 001
+      objectReference: {fileID: 0}
+    - target: {fileID: 29032404546786081, guid: 86c359bb09a79324eb6ab0c60f480d31, type: 3}
       propertyPath: staffHead
       value: 
       objectReference: {fileID: 322276401}
+    - target: {fileID: 29032404546786081, guid: 86c359bb09a79324eb6ab0c60f480d31, type: 3}
+      propertyPath: staffName
+      value: Tanuki
+      objectReference: {fileID: 0}
     - target: {fileID: 2330214026751383868, guid: 86c359bb09a79324eb6ab0c60f480d31, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.76
@@ -17009,21 +17025,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1392309549}
     - target: {fileID: 7779378400752352614, guid: 2ea69bce01bfff04ab7138885ad107d3, type: 3}
-      propertyPath: staffTalkSprite
+      propertyPath: allStaffData.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 4d6645170359e4477b776b863499db7f, type: 3}
+      objectReference: {fileID: 4545598716450740473}
     - target: {fileID: 7779378400752352614, guid: 2ea69bce01bfff04ab7138885ad107d3, type: 3}
-      propertyPath: staffQuestionSprite
+      propertyPath: allStaffData.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 2981479eee1814ebf8657e474ff0f795, type: 3}
-    - target: {fileID: 7779378400752352614, guid: 2ea69bce01bfff04ab7138885ad107d3, type: 3}
-      propertyPath: allChefStaff.Array.data[0]
-      value: 
-      objectReference: {fileID: 4545598716450740469}
-    - target: {fileID: 7779378400752352614, guid: 2ea69bce01bfff04ab7138885ad107d3, type: 3}
-      propertyPath: allWaiterStaff.Array.data[0]
-      value: 
-      objectReference: {fileID: 1301813620732463441}
+      objectReference: {fileID: 1301813620732463444}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

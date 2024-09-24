@@ -33,7 +33,7 @@ public class StaffData : GameBehaviour
     public string staffName;
     [TextArea(minLines: 3, maxLines: 3)]
     public string description;
-    public int friendshipLevel;
+    public int friendshipLevel = new int();
     public string ID;
     GameObject prefab;
 

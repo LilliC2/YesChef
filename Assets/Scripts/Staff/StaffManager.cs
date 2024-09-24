@@ -50,8 +50,8 @@ public class StaffManager : Singleton<StaffManager>
     [Header("Staff")]
     //All staff in game
     public List<StaffData> allStaffData;
-    List<GameObject> allChefStaff;
-    List<GameObject> allWaiterStaff;
+    List<GameObject> allChefStaff = new List<GameObject>();
+    List<GameObject> allWaiterStaff = new List<GameObject>();
 
 
     [Header("Staff Unlocked")]
@@ -62,10 +62,10 @@ public class StaffManager : Singleton<StaffManager>
     int unlockedChefs;
     int unlockedWaiters;
 
-    public List<GameObject> totalActiveStaff; //staff on the floor rn
-    public List<GameObject> totalHiredStaff; //all staff player has unlocked
-    List<GameObject> waiterActiveStaff;
-    List<GameObject> chefActiveStaff;
+    public List<GameObject> totalActiveStaff = new List<GameObject>(); //staff on the floor rn
+    public List<GameObject> totalHiredStaff = new List<GameObject>(); //all staff player has unlocked
+    List<GameObject> waiterActiveStaff = new List<GameObject>();
+    List<GameObject> chefActiveStaff = new List<GameObject>();
     [Header("Work Zones")]
     public Transform staffRoomZone, kitchenZone, FOHZone;
 
@@ -183,8 +183,8 @@ public class StaffManager : Singleton<StaffManager>
     {
         foreach (var item in allStaffData)
         {
-            if (item.tag == "Chef") allChefStaff.Add(item.gameObject);
-            else if (item.tag == "Waiter") allWaiterStaff.Add(item.gameObject);
+            if (item.gameObject.tag == "Chef") allChefStaff.Add(item.gameObject);
+            else if (item.gameObject.tag == "Waiter") allWaiterStaff.Add(item.gameObject);
         }
     }
 

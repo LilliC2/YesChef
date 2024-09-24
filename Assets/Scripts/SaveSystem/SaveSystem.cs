@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening.Core.Easing;
 using UnityEditor.EditorTools;
+using System;
 
 public static class SaveSystem
 {
@@ -11,6 +12,32 @@ public static class SaveSystem
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player.yesChefSave";
         FileStream stream = new FileStream(path, FileMode.Create);
+
+        //call constructor
+        PlayerSaveData playerData = new PlayerSaveData(gameManager, foodManager);
+
+        //insert into file
+        formatter.Serialize(stream, playerData);
+
+        //close file after
+        stream.Close();
+    }
+    
+    public static void ClearPlayerProgress(GameManager gameManager, FoodManager foodManager)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/player.yesChefSave";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        //set values to default
+        gameManager.dayCount = 0;
+        gameManager.playerLevel = 0;
+        gameManager.currentPlayerEXP = 0;
+        gameManager.resturantName = "Default Resturant Name";
+        gameManager.resturantRating = 0;
+        gameManager.money = 100;
+
+
 
         //call constructor
         PlayerSaveData playerData = new PlayerSaveData(gameManager, foodManager);
@@ -46,6 +73,8 @@ public static class SaveSystem
         }
 
     }
+
+   
 
     public static void SaveStaffData(StaffManager staffManager)
     {
