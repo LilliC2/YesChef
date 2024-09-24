@@ -507,7 +507,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            _SM.ActivateStaff(_staff);
+            _SM.ActivateStaffDuringPlay(_staff);
 
         }
     }

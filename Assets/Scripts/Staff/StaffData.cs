@@ -34,7 +34,8 @@ public class StaffData : GameBehaviour
     [TextArea(minLines: 3, maxLines: 3)]
     public string description;
     public int friendshipLevel;
-    //if i ever need IDs add here
+    public string ID;
+    GameObject prefab;
 
 
     [Header("Talk to Staff")]

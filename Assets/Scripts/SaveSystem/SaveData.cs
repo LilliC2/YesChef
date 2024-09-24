@@ -36,7 +36,9 @@ public class PlayerSaveData
 
 public class StaffSaveData
 {
-    public int[] ID_001; //tanuki
+    public List<string[]> staffStrArrays;
+    string[] ID_001 = new string[] { "001", "0", "0", "0" }; //tanuki/temp chef
+    string[] ID_002 = new string[] { "002", "0", "0", "0" }; //shiba/temp waiter
 
     /* 0 = ID
      * 1 = Hired (bool 0,1)
@@ -44,10 +46,41 @@ public class StaffSaveData
      * 3 friendship level
      */
 
+    public void AssignStaffID()
+    {
+        staffStrArrays.Add(ID_001);
+        staffStrArrays.Add(ID_002);
+    }
 
-    public StaffSaveData(StaffData staffData)
+    public string[] GetStaffInArrayOnID(string id)
     {
 
+        foreach (var item in staffStrArrays)
+        {
+            if (item[0] == id)
+                return item;
+        }
+
+        return null;
+    }
+    public StaffSaveData(List<StaffData> staffData, StaffManager staffManager)
+    {
+        //get storage int
+        AssignStaffID();
+
+
+        foreach (var item in staffData)
+        {
+            var storageStrArray = GetStaffInArrayOnID(item.ID);
+
+            if (storageStrArray != null)
+            {
+                storageStrArray[0] = staffManager.totalHiredStaff.Contains(item.gameObject) ? "True" : "False";
+                storageStrArray[1] = staffManager.totalActiveStaff.Contains(item.gameObject) ? "True" : "False";
+                storageStrArray[2] = item.friendshipLevel.ToString();
+            }
+        }
+        
     }
 }
 

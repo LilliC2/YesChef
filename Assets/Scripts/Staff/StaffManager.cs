@@ -48,19 +48,24 @@ public class StaffManager : Singleton<StaffManager>
 
 
     [Header("Staff")]
-    public List<GameObject> allWaiterStaff; //all staff in game waiter
-    public List<GameObject> allChefStaff; //all staff in game chef
+    //All staff in game
+    public List<StaffData> allStaffData;
+    List<GameObject> allChefStaff;
+    List<GameObject> allWaiterStaff;
+
+
+    [Header("Staff Unlocked")]
 
     public int maxActiveStaff;
 
     //staff unlocked by player
     int unlockedChefs;
     int unlockedWaiters;
-    public List<GameObject> totalActiveStaff; //staff on the floor rn
-    public List<GameObject> chefActiveStaff; //staff on the floor rn
-    public List<GameObject> waiterActiveStaff; //staff on the floor rn
-    public List<GameObject> totalHiredStaff; //all staff player has unlocked
 
+    public List<GameObject> totalActiveStaff; //staff on the floor rn
+    public List<GameObject> totalHiredStaff; //all staff player has unlocked
+    List<GameObject> waiterActiveStaff;
+    List<GameObject> chefActiveStaff;
     [Header("Work Zones")]
     public Transform staffRoomZone, kitchenZone, FOHZone;
 
@@ -72,6 +77,10 @@ public class StaffManager : Singleton<StaffManager>
     public Sprite staffQuestionSprite;
     public Sprite staffTalkSprite;
 
+    private void Start()
+    {
+        LoadStaffIntoLists();
+    }
 
     public bool CanHireMoreStaff(string _staffType)
     {
@@ -125,12 +134,8 @@ public class StaffManager : Singleton<StaffManager>
         //activate on purchase
         if (totalActiveStaff.Count != maxActiveStaff)
         {
-            //ActivateStaff(staffHired);
-            if(_staffType == "Waiter") waiterActiveStaff.Add(staffHired);
-            else if (_staffType == "Chef") chefActiveStaff.Add(staffHired);
-
-            _UI.ToggleStaffOn(staffHired,staffHired.GetComponent<StaffData>().staffName);
-
+            ActivateStaffOnLoad(staffHired);
+           
         }
 
         return staffHired;
@@ -151,7 +156,16 @@ public class StaffManager : Singleton<StaffManager>
 
     }
 
-    public void ActivateStaff(GameObject _staff)
+    public void ActivateStaffOnLoad(GameObject _staff)
+    {
+        if (_staff.tag == "Waiter") waiterActiveStaff.Add(_staff);
+        else if (_staff.tag == "Chef") chefActiveStaff.Add(_staff);
+
+        _UI.ToggleStaffOn(_staff, _staff.GetComponent<StaffData>().staffName);
+
+    }
+
+    public void ActivateStaffDuringPlay(GameObject _staff)
     {
         if(totalHiredStaff.Contains(_staff))
         {
@@ -163,6 +177,15 @@ public class StaffManager : Singleton<StaffManager>
 
         }
 
+    }
+
+    void LoadStaffIntoLists()
+    {
+        foreach (var item in allStaffData)
+        {
+            if (item.tag == "Chef") allChefStaff.Add(item.gameObject);
+            else if (item.tag == "Waiter") allWaiterStaff.Add(item.gameObject);
+        }
     }
 
     public void DeactivateStaff(GameObject _staff)
