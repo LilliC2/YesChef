@@ -13,7 +13,8 @@ public class SaveManager : Singleton<SaveManager>
 
     public void NewSaveFile()
     {
-
+        SaveSystem.ClearPlayerProgress(_GM,_FM);
+        SaveSystem.ClearStaffData(_SM);
     }
 
     public void LoadGame()

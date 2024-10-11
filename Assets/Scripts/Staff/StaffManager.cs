@@ -167,7 +167,9 @@ public class StaffManager : Singleton<StaffManager>
 
     public void ActivateStaffDuringPlay(GameObject _staff)
     {
-        if(totalHiredStaff.Contains(_staff))
+        print(_staff.name);
+
+        if (totalHiredStaff.Contains(_staff))
         {
             //add to activestaff
             if (_staff.tag == "Waiter") waiterActiveStaff.Add(_staff);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace LC
 {
@@ -47,6 +48,19 @@ namespace LC
         {
             return UnityEngine.Random.Range(num1, num2);
 
+        }
+
+        public Scene[] GetLoadedScenes()
+        {
+            int countLoaded = SceneManager.sceneCount;
+            Scene[] loadedScenes = new Scene[countLoaded];
+
+            for (int i = 0; i < countLoaded; i++)
+            {
+                loadedScenes[i] = SceneManager.GetSceneAt(i);
+            }
+
+            return loadedScenes;
         }
 
         #region Coroutine Helpers

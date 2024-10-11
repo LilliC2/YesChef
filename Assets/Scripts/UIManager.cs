@@ -79,6 +79,10 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
+        //will change to when scene is loaded
+        
+        LoadDataIntoOrganiseStaffButtons();
+
         //set stats to start
         UpdatePlayerEXP();
         UpdatePlayerMoney();
@@ -110,6 +114,24 @@ public class UIManager : Singleton<UIManager>
         error_Text.text = "ERROR: " + text;
         ExecuteAfterSeconds(3, () => error_Text.gameObject.SetActive(false));
     }
+
+    #region Scenes
+
+    public void OpenGameScene()
+    {
+        _SC.LoadAsyncScene("Yes Chef v2");
+        _SC.UnLoadScene("TitleScreen");
+        _SC.SetActiveScene("Yes Chef v2");
+    }
+
+    public void OpenTitleScreenScene()
+    {
+        _SC.LoadAsyncScene("TitleScreen");
+        _SC.UnLoadScene("Yes Chef v2");
+        _SC.SetActiveScene("TitleScreen");
+    }    
+
+    #endregion
 
     #region Update Functions
     public void UpdateOpenDayDial(float _currentTime, float _maxTime)
@@ -596,6 +618,38 @@ public class UIManager : Singleton<UIManager>
 
         }
 
+    }
+
+    void LoadDataIntoOrganiseStaffButtons()
+    {
+        foreach (var button in organiseStaffButtons_GO)
+        {
+            var splitString = button.name.Split("-");
+            string staffName = splitString[0];
+
+            StaffData staffData = new();
+
+            print(_SM.allStaffData.Count);
+            //find  staff data
+            foreach (var item in _SM.allStaffData)
+            {
+                
+                if (item.staffName == staffName)
+                {
+                    staffData = item;
+                    break;
+                }
+            }
+
+            button.GetComponent<ModularPopupOpener>().StaffData = staffData;
+
+            var toggle = button.transform.Find("Toggle").GetComponent<Toggle>();
+
+            print(staffData.gameObject);
+
+            toggle.onValueChanged.AddListener(delegate { ActivateStaff(staffData.gameObject); });
+
+        }
     }
     #endregion
 

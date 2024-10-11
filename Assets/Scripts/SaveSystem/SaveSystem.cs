@@ -37,8 +37,6 @@ public static class SaveSystem
         gameManager.resturantRating = 0;
         gameManager.money = 100;
 
-
-
         //call constructor
         PlayerSaveData playerData = new PlayerSaveData(gameManager, foodManager);
 
@@ -91,6 +89,27 @@ public static class SaveSystem
         stream.Close();
 
 
+    }
+
+    public static void ClearStaffData(StaffManager staffManager)
+    {
+        var loadStaffData = LoadStaffData();
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/staff.yesChefSave";
+        FileStream stream = new FileStream(path, FileMode.Create);
+        
+        
+        
+
+
+        StaffSaveData staffSaveData = new StaffSaveData(staffManager.allStaffData, staffManager);
+
+        //insert into file
+        formatter.Serialize(stream, staffSaveData);
+
+        //close file after
+        stream.Close();
     }
 
     public static StaffSaveData LoadStaffData()

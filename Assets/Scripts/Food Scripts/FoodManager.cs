@@ -93,6 +93,10 @@ public class FoodManager : Singleton<FoodManager>
 
     public Ease foodSpawnEase;
 
+    [Header("Moving Food")]
+    public Transform[] conveyerbeltPoints;
+
+
     private void Start()
     {
         _GM.event_playStateOpen.AddListener(UpdateMenuBasedOnProduce);
@@ -102,7 +106,7 @@ public class FoodManager : Singleton<FoodManager>
     {
         var _order = _orderGO.GetComponent<FoodData>().order;
         //spawn point
-        var conveyorPoint = _GM.conveyerbeltPoints[Random.Range(0, _GM.conveyerbeltPoints.Length)].transform.position;
+        var conveyorPoint = conveyerbeltPoints[Random.Range(0, conveyerbeltPoints.Length)].transform.position;
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
         var food = Instantiate(_orderGO, conveyorPoint, Quaternion.identity);

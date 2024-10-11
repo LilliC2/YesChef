@@ -94,8 +94,6 @@ public class StaffSaveData
         {
             var storageStrArray = GetStaffInArrayOnID(item.ID);
 
-            Debug.Log(storageStrArray);
-
             if (storageStrArray != null)
             {
                 storageStrArray[1] = staffManager.totalHiredStaff.Contains(item.gameObject) ? "True" : "False";

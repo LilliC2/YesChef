@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class GameBehaviour : LC.Behaviour //inherits from
 {
     //unquie to this project
@@ -20,6 +19,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static EventManager _EM { get { return EventManager.INSTANCE; } }
     protected static FrontOfHouseManager _FOHM { get { return FrontOfHouseManager.INSTANCE; } }
     protected static StaffRoomManager _SRM { get { return StaffRoomManager.INSTANCE; } }
+    protected static SceneController _SC { get { return SceneController.INSTANCE; } }
 
 
 }
