@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
 {
+    [ContextMenu("Save Game")]
     public void SaveGame()
     {
         SaveSystem.SavePlayerProgress(_GM,_FM);
@@ -11,12 +12,14 @@ public class SaveManager : Singleton<SaveManager>
         
     }
 
+    [ContextMenu("New Game")]
     public void NewSaveFile()
     {
         SaveSystem.ClearPlayerProgress(_GM,_FM);
         SaveSystem.ClearStaffData(_SM);
     }
 
+    [ContextMenu("Load Game")]
     public void LoadGame()
     {
         PlayerSaveData playerData = SaveSystem.LoadPlayerProgress();
@@ -56,8 +59,6 @@ public class SaveManager : Singleton<SaveManager>
             staffData.friendshipLevel = int.Parse(item[3]);
         }
 
-
-        
 
     }
 

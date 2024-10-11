@@ -613,7 +613,7 @@ public class UIManager : Singleton<UIManager>
 
             print(obj.name);
 
-            var toggle = obj.transform.Find("Toggle").GetComponent<Toggle>();
+            var toggle = obj.GetComponentInChildren<Toggle>();
             toggle.isOn = true;
 
         }
