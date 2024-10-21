@@ -23,11 +23,11 @@ public class Table : GameBehaviour
             if (t.name.Contains("chair"))
             {
                 allSeats.Add(t);
-                unoccupiedSeats.Add(t);
             }
             if (t.name.Contains("WaiterAttendPosition")) waiterAttendPosition = t;
         }
 
+        UnoccupiedTableReset();
         numOfSeats = unoccupiedSeats.Count;
         
     }
@@ -45,7 +45,9 @@ public class Table : GameBehaviour
 
     public void UnoccupiedTableReset()
     {
-        List<Transform> unoccupiedSeats = new List<Transform>(allSeats);
+        unoccupiedSeats.Clear();
+        unoccupiedSeats = new List<Transform>(allSeats);
+        status = Status.Unoccupied;
 
     }
 

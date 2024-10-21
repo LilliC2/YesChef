@@ -38,6 +38,7 @@ public class ChefData : GameBehaviour
     FoodData targetFoodData;
     [SerializeField]
     GameObject targetWorkStation;
+    Transform targetWorkStationStandPos;
     Transform targetPassPoint;
 
     [Header("Audio")]
@@ -129,12 +130,15 @@ public class ChefData : GameBehaviour
                         {
                             //find workstation then travel there
                             targetWorkStation = SearchForWorkstation();
+                            targetWorkStationStandPos = _WSM.GetWorkstationStandPos(targetWorkStation);
 
-                            agent.SetDestination(targetWorkStation.transform.position);
+                            agent.SetDestination(targetWorkStationStandPos.transform.position);
                         }
-                        if (Vector3.Distance(transform.position, targetWorkStation.transform.position) < 2f)
+                        if (Vector3.Distance(transform.position, targetWorkStationStandPos.transform.position) < 0.5f)
                         {
                             agent.isStopped = true;
+
+                            //look at food here
 
                             //place food
                             targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;

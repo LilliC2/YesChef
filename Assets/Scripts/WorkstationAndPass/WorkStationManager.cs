@@ -77,6 +77,12 @@ public class WorkStationManager : Singleton<WorkStationManager>
         return closestsStation;
     }
 
+    public Transform GetWorkstationStandPos(GameObject workstation)
+    {
+        return workstation.transform.Find("StandPos");
+
+    }
+
     public void ChangeToUnoccupied(GameObject workstation)
     {
         workstation.GetComponent<WorkStation>().status = WorkStation.Status.Unoccupied;

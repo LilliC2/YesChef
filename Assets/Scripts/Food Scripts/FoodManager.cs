@@ -100,6 +100,9 @@ public class FoodManager : Singleton<FoodManager>
     private void Start()
     {
         _GM.event_playStateOpen.AddListener(UpdateMenuBasedOnProduce);
+
+        if (conveyerbeltPoints.Length == 0) Debug.LogError("conveyerbeltPoints must have at least one element");
+
     }
 
     public void OrderUp(GameObject _orderGO, GameObject _customer)

@@ -629,7 +629,6 @@ public class UIManager : Singleton<UIManager>
 
             StaffData staffData = new();
 
-            print(_SM.allStaffData.Count);
             //find  staff data
             foreach (var item in _SM.allStaffData)
             {
@@ -647,7 +646,10 @@ public class UIManager : Singleton<UIManager>
 
             print(staffData.gameObject);
 
-            toggle.onValueChanged.AddListener(delegate { ActivateStaff(staffData.gameObject); });
+            toggle.onValueChanged.AddListener(delegate 
+            {
+                ActivateStaff(staffData.gameObject); 
+            });
 
         }
     }
@@ -682,7 +684,7 @@ public class UIManager : Singleton<UIManager>
         print(currentDialogString_List[0].ToString());
         dialogBox_TMPText.text = currentDialogString_List[0].ToString();
 
-        currentDialogIndex = 1;
+        currentDialogIndex = 0;
 
     }
 

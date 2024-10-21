@@ -9,7 +9,7 @@ public class SceneController : Singleton<SceneController>
     // Start is called before the first frame update
     void Start()
     {
-        print(SceneManager.GetActiveScene().name);
+        //print(SceneManager.GetActiveScene().name);
     }
 
     public void LoadEssentials()

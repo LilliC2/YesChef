@@ -167,7 +167,7 @@ public class CustomerManager : Singleton<CustomerManager>
 
     void EndSpawning()
     {
-        print(customersSpawnedOverDay);
+        print("Customers spawned over day: " + customersSpawnedOverDay);
         CancelInvoke("CalculateCustomerSpawnnChance");
     }
 

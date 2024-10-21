@@ -128,7 +128,7 @@ public class StaffData : GameBehaviour
 
                     break;
                 case StaffBehaviour.MovementState.Idle:
-                    print("idle");
+                    //print("idle");
                     break;
                 case StaffBehaviour.MovementState.Sit:
                     if(targetChair == null)

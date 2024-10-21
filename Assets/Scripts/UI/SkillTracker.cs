@@ -5,25 +5,6 @@ using UnityEngine.UI;
 
 public class SkillTracker : GameBehaviour
 {
-    [SerializeField]
-    Image cookingImg;
-    [SerializeField]
-    Image cuttingImg;
-    [SerializeField]
-    Image kneadingImg;
-    [SerializeField]
-    Image mixingImg;
-
-    [SerializeField]
-    GameObject cookingImgObj;
-    [SerializeField]
-    GameObject cuttingImgObj;
-    [SerializeField]
-    GameObject kneadingImgObj;
-    [SerializeField]
-    GameObject mixingImgObj;
-
-
     FoodClass itemFoodData;
 
     float timeElapsed;
@@ -41,17 +22,13 @@ public class SkillTracker : GameBehaviour
     {
         itemFoodData = GetComponentInParent<FoodData>().order.foodClass;
 
-        cookingImgObj.SetActive(itemFoodData.needsCooking);
-        cuttingImgObj.SetActive(itemFoodData.needsCutting);
-        kneadingImgObj.SetActive(itemFoodData.needsKneading);
-        mixingImgObj.SetActive(itemFoodData.needsMixing);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         //look at camera
-        transform.LookAt(Camera.main.transform.position);
 
         if(currentImage != null)
         {
