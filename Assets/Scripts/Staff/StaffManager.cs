@@ -82,6 +82,16 @@ public class StaffManager : Singleton<StaffManager>
         LoadStaffIntoLists();
     }
 
+    public int ReturnActiveWaiterCount()
+    {
+        return waiterActiveStaff.Count;
+    }
+    
+    public int ReturnActiveChefCount()
+    {
+        return chefActiveStaff.Count;
+    }
+
     public bool CanHireMoreStaff(string _staffType)
     {
         if (_staffType == "Chef")

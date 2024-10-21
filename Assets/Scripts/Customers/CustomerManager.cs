@@ -70,12 +70,14 @@ public class CustomerManager : Singleton<CustomerManager>
             SetCustomerSpawnPercentage();
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        #region Debug
+        if (Input.GetKeyDown(KeyCode.Space) && !_GM.demoMode)
         {
             SpawnCustomer();
         }
+        #endregion
     }
-
+        
     /*
      * 1. take day length and divide into six for each deviation
      * 2. set deviations using day length
@@ -132,7 +134,7 @@ public class CustomerManager : Singleton<CustomerManager>
         else if (deviations == Deviations.D3 || deviations == Deviations.D4)
             customersSpawningThisDeviation = Mathf.RoundToInt((currentDayCustomerIntake * 34.1f) / 100f);
 
-
+        if (customersSpawningThisDeviation <= 0) customersSpawningThisDeviation = 1;
         
     }
 

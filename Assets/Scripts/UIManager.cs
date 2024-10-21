@@ -23,6 +23,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TMP_Text day_Text;
     [SerializeField] TMP_Text error_Text;
 
+    [Header("Demo")]
+    [SerializeField] GameObject demoPanel_GO;
+
     [Header("Open/Close Dial")]
     [SerializeField]
     CircularProgressBar openDayDial_CircularProgressBar;
@@ -93,6 +96,7 @@ public class UIManager : Singleton<UIManager>
         _GM.event_playStateClose.AddListener(ActivateButtonPanel);
         _GM.event_playStateClose.AddListener(ClosedButtonsActive);
         _GM.event_playStateOpen.AddListener(ActivateButtonPanel);
+        if (_GM.demoMode) ActivateDemo();
     }
 
     public void OpenResturant()
@@ -114,6 +118,18 @@ public class UIManager : Singleton<UIManager>
         error_Text.text = "ERROR: " + text;
         ExecuteAfterSeconds(3, () => error_Text.gameObject.SetActive(false));
     }
+
+    #region Demo
+
+    public void ActivateDemo()
+    {
+        demoPanel_GO.SetActive(!demoPanel_GO.activeSelf);
+
+    }
+
+
+
+    #endregion
 
     #region Scenes
 

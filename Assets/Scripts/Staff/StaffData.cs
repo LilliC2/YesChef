@@ -73,6 +73,8 @@ public class StaffData : GameBehaviour
         SetPersonalityBehaviour();
         GenerateActionState();
 
+        _GM.event_playStateClose.AddListener(GenerateActionState);
+        _GM.event_playStateClose.AddListener(GenerateMovementState);
 
 
     }
@@ -84,9 +86,11 @@ public class StaffData : GameBehaviour
             if(agent.speed != _SM.casualSpeed) agent.speed = _SM.casualSpeed;
             if (inWorkArea) inWorkArea = false;
 
+            
+
             #region Debug
 
-            if(Input.GetKeyDown(KeyCode.K))
+            if(Input.GetKeyDown(KeyCode.K) && !_GM.demoMode)
             {
                 print("Force GenerateActionState");
                 GenerateActionState();

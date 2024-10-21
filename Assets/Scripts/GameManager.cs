@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Debug")]
+    public bool demoMode;
 
     [Header("Player Progress")]
     public int dayCount;
@@ -51,7 +53,18 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        switch(gameState)
+
+        #region Debug
+
+        if(Input.GetKeyUp(KeyCode.F) && !_GM.demoMode)
+        {
+            playState = PlayState.Closed;
+            event_playStateClose.Invoke();
+        }
+
+        #endregion
+
+        switch (gameState)
         {
             case GameState.Playing:
 
@@ -128,21 +141,21 @@ public class GameManager : Singleton<GameManager>
     public bool CheckIfSafeToOpen()
     {
         bool safe = true;
-        //if(_SM.chefActiveStaff.Count < 1)
-        //{
-        //    safe = false;
-        //    _UI.ErrorText("No chefs active");
-        //}
-        //if(_SM.waiterActiveStaff.Count < 1)
-        //{
-        //    safe = false;
-        //    _UI.ErrorText("No waiters active");
-        //}
-        //if(_FM.menu.Count < 1)
-        //{
-        //    safe = false;
-        //    _UI.ErrorText("No menu items");
-        //}
+        if (_SM.ReturnActiveChefCount() < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No chefs active");
+        }
+        if (_SM.ReturnActiveWaiterCount() < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No waiters active");
+        }
+        if (_FM.menu.Count < 1)
+        {
+            safe = false;
+            _UI.ErrorText("No menu items");
+        }
 
         int totalOfAllProduce = _FM.grainTotal_produce + _FM.dairyTotal_produce + _FM.fruitTotal_produce + _FM.vegTotal_produce + _FM.protienTotal_produce;
 
