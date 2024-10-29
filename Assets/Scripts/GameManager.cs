@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
 {
     [Header("Debug")]
     public bool demoMode;
+    public string gameSceneName;
 
     [Header("Player Progress")]
     public int dayCount;

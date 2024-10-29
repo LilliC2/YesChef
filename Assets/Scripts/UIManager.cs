@@ -12,6 +12,7 @@ using Ricimi;
 using DG.Tweening;
 using static ChefData;
 using static AudioManager;
+using static SceneController;
 
 
 public class UIManager : Singleton<UIManager>
@@ -99,7 +100,7 @@ public class UIManager : Singleton<UIManager>
         {
             ActivateTitleScreenUI();
         }
-        else
+        else if(_GM.gameState == GameManager.GameState.Playing)
         {
             ActivateGameHUDUI();
 
@@ -140,6 +141,21 @@ public class UIManager : Singleton<UIManager>
             openResturantButton_GO.SetActive(false);
         }
         
+    }
+
+    public void LoadGameScene(int state)
+    {
+        switch(state)
+        {
+            case 0:
+                _SC.LoadGameScene(GameLoadState.NewGame);
+                break;
+            case 1:
+                _SC.LoadGameScene(GameLoadState.LoadSaveFile);
+                break;
+
+
+        }
     }
 
     public void ErrorText(string text)

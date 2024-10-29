@@ -6,10 +6,49 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : Singleton<SceneController>
 {
+    public enum GameLoadState { NewGame, LoadSaveFile}
     // Start is called before the first frame update
     void Start()
     {
         //print(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadingScreen()
+    {
+        LoadAsyncScene("LoadingScene");
+    }
+
+
+    public IEnumerator LoadGameScene(GameLoadState gameLoadState)
+    {
+        //unload titlescreen
+        UnLoadScene("TitleScene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_GM.gameSceneName, LoadSceneMode.Additive);
+
+        while(!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        if (asyncLoad.isDone)
+        {
+            _GM.gameState = GameManager.GameState.Playing;
+            _GM.event_gameStateOpenGameScene.Invoke();
+
+            switch(gameLoadState)
+            {
+                case GameLoadState.NewGame:
+                    _SAVEM.NewSaveFile();
+                    break;
+                    case GameLoadState.LoadSaveFile:
+                    _SAVEM.LoadGame();
+                    break;
+            }
+
+            UnLoadScene("LoadingScene");
+
+        }
+
     }
 
     public void LoadEssentials()
@@ -18,10 +57,9 @@ public class SceneController : Singleton<SceneController>
         SceneManager.LoadSceneAsync(1);
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CheckIfSceneIsLoaded(string sceneName)
     {
-        
+        return SceneManager.GetSceneByName(sceneName).isLoaded;
     }
 
     public void SetActiveScene(string sceneName)
@@ -42,6 +80,7 @@ public class SceneController : Singleton<SceneController>
 
     public void LoadAsyncScene(string SceneName)
     {
+
         StartCoroutine(LoadYourAsyncScene(SceneName));
     }
 
@@ -59,6 +98,13 @@ public class SceneController : Singleton<SceneController>
         {
             yield return null;
         }
+        if(asyncLoad.isDone && sceneName != "LoadingScene")
+        {
+            yield return true;
+
+            UnLoadScene("LoadingScene");
+        }
+
     }
 
 

@@ -12,6 +12,8 @@ public class SceneLoader : GameBehaviour
         //if Essentials Scene is not loaded
         if (!SceneManager.GetSceneByBuildIndex(1).isLoaded)
         {
+            _SC.LoadingScreen();
+
             _SC.LoadAsyncScene("Essentials");
 
         }
@@ -22,6 +24,7 @@ public class SceneLoader : GameBehaviour
             {
                 case "TitleScene":
 
+                    print("Scene");
                     _GM.gameState = GameManager.GameState.Title;
                     _GM.event_gameStateTitleScreen.Invoke();
                     break;

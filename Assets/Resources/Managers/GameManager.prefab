@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4565647852620924642}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.9181035, y: 1.9694631, z: -2.3690567}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9175888548577854572
 MonoBehaviour:
@@ -45,8 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
+  demoMode: 0
+  gameSceneName: YesChef v2
   dayCount: 0
   money: 100
+  resturantName: Default Resturant Name
   playerLevel: 0
   currentPlayerEXP: 0
   resturantRating: 0
@@ -66,16 +69,12 @@ MonoBehaviour:
   event_gameStatePause:
     m_PersistentCalls:
       m_Calls: []
+  event_gameStateTitleScreen:
+    m_PersistentCalls:
+      m_Calls: []
+  event_gameStateOpenGameScene:
+    m_PersistentCalls:
+      m_Calls: []
   event_playerLevelUp:
     m_PersistentCalls:
       m_Calls: []
-  conveyerbeltPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
