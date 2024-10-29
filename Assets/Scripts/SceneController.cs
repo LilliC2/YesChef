@@ -15,7 +15,7 @@ public class SceneController : Singleton<SceneController>
     public void LoadEssentials()
     {
         Scene essentials = SceneManager.GetSceneByName("Essentials");
-        SceneManager.LoadSceneAsync(essentials.buildIndex);
+        SceneManager.LoadSceneAsync(1);
     }
 
     // Update is called once per frame

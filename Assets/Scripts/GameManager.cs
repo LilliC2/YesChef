@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
     //[Header("Game States")]
     public enum PlayState { Open, Closed };
     public PlayState playState; //while game is actively being played
-    public enum GameState { Playing, Paused}
+    public enum GameState { Playing, Paused, Title}
     public GameState gameState;
 
     public float openDayLength = 300; //300 = 5 minutes
@@ -35,6 +35,8 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent event_playStateClose;
     public UnityEvent event_gameStatePlaying;
     public UnityEvent event_gameStatePause;
+    public UnityEvent event_gameStateTitleScreen;
+    public UnityEvent event_gameStateOpenGameScene;
     public UnityEvent event_playerLevelUp;
 
 

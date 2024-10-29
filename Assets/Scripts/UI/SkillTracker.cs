@@ -54,8 +54,6 @@ public class SkillTracker : GameBehaviour
 
     public void StartFoodProgress(string skill, float duration)
     {
-        print(transform.parent.gameObject);
-        print(_FM.orderedFood_GO.IndexOf(transform.parent.gameObject));
         workingSkill = skill;
         switch(skill)
         {

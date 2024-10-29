@@ -376,7 +376,7 @@ public class StaffData : GameBehaviour
             //bc some action states require specific movement e.g go talk to a specifc staff member
 
 
-            print("Action State: " + staffBehaviour.actionState);
+            //print("Action State: " + staffBehaviour.actionState);
 
             StartCoroutine(StopActionAfterActionLength(actionLength));
         }

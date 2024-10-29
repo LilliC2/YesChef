@@ -43,10 +43,8 @@ public class ChefData : GameBehaviour
 
     [Header("Audio")]
     [SerializeField]
-    AudioSource cuttingAudio;
-    AudioSource cookingAudio;
-    AudioSource mixingAudio;
-    AudioSource kneadingAudio;
+    AudioSource audioSource;
+
 
     [Header("Working")]
     bool isWorking;
@@ -148,8 +146,7 @@ public class ChefData : GameBehaviour
                                 tasks = Task.WorkOnFood;
 
                             }
-                            
-
+                           
 
                         }
                         else
@@ -363,7 +360,13 @@ public class ChefData : GameBehaviour
         
         }
 
-
+        if(audioSource.clip == null)
+        {
+            //Start working audio
+            audioSource.clip = _AM.ReturnChefWorkingAudioClip(workingOnSkill);
+            audioSource.loop = true;
+            audioSource.Play();
+        }
 
     }
 
@@ -392,6 +395,14 @@ public class ChefData : GameBehaviour
                 isCurrentWorkComplete = targetFoodClass.kneadedWorkComplete;
                 break;
 
+        }
+
+        //Stop working audio
+        if(isCurrentWorkComplete)
+        {
+            audioSource.clip = null;
+            audioSource.loop = false;
+            audioSource.Stop();
         }
 
         return isCurrentWorkComplete;

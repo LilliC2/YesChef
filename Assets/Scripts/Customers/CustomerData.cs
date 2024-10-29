@@ -51,6 +51,7 @@ public class CustomerData : GameBehaviour
 
     private void Start()
     {
+        currentState.gameObject.SetActive(!_GM.demoMode);
         agent = GetComponent<NavMeshAgent>();
         //track index when customer is spawned
     }

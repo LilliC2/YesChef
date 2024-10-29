@@ -11,11 +11,15 @@ using UnityEngine.Rendering;
 using Ricimi;
 using DG.Tweening;
 using static ChefData;
+using static AudioManager;
 
 
 public class UIManager : Singleton<UIManager>
 {
     #region Variables
+    [Header("HUD")]
+    [SerializeField] Canvas inGame_Canvas, inTitleScreen_Canvas;
+
     [Header("HUD")]
     [SerializeField] Image resturantRating_Image;
     [SerializeField] GameObject openResturantButton_GO;
@@ -73,7 +77,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Dialog currentDialog_Dialog;
 
     [Header("Outside")]
-    [SerializeField] TMP_Text resturantSign_TMPText;
+    public TMP_Text resturantSign_TMPText;
     [SerializeField] GameObject renameResturantPanel_GO;
 
 
@@ -82,8 +86,39 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
-        //will change to when scene is loaded
         
+
+        _GM.event_playStateClose.AddListener(ActivateButtonPanel);
+        _GM.event_playStateClose.AddListener(ClosedButtonsActive);
+        _GM.event_playStateOpen.AddListener(ActivateButtonPanel);
+        _GM.event_gameStateTitleScreen.AddListener(ActivateTitleScreenUI);
+        _GM.event_gameStateOpenGameScene.AddListener(ActivateGameHUDUI);
+
+        //Set inital UI (either title or in game
+        if(_GM.gameState == GameManager.GameState.Title)
+        {
+            ActivateTitleScreenUI();
+        }
+        else
+        {
+            ActivateGameHUDUI();
+
+        }
+    }
+
+    public void ActivateTitleScreenUI()
+    {
+        inTitleScreen_Canvas.gameObject.SetActive(true);
+        inGame_Canvas.gameObject.SetActive(false);
+    }
+
+    public void ActivateGameHUDUI()
+    {
+        inTitleScreen_Canvas.gameObject.SetActive(false);
+        inGame_Canvas.gameObject.SetActive(true);
+        if (_GM.demoMode) ActivateDemo();
+
+
         LoadDataIntoOrganiseStaffButtons();
 
         //set stats to start
@@ -92,11 +127,6 @@ public class UIManager : Singleton<UIManager>
         UpdatePlayerLevel(10, 1); //temp
 
         UpdatePurchaseButtons_Produce();
-
-        _GM.event_playStateClose.AddListener(ActivateButtonPanel);
-        _GM.event_playStateClose.AddListener(ClosedButtonsActive);
-        _GM.event_playStateOpen.AddListener(ActivateButtonPanel);
-        if (_GM.demoMode) ActivateDemo();
     }
 
     public void OpenResturant()
@@ -432,6 +462,8 @@ public class UIManager : Singleton<UIManager>
     {
         if(_GM.money >= _FM.grainPrice_produce)
         {
+            _AM.PlayUIAudio(UIAudioClips.SuccessfulPurchase);
+
             _FM.grainTotal_produce += 5;
             _GM.money -= _FM.grainPrice_produce;
             UpdatePlayerMoney();
@@ -439,18 +471,30 @@ public class UIManager : Singleton<UIManager>
             UpdatePurchaseButtons_Produce();
 
         }
+        else
+        {
+            //Play audio
+            _AM.PlayUIAudio(UIAudioClips.ErrorPurchase);
+        }
 
     }
     public void BuyDairyProduce()
     {
         if(_GM.money >= _FM.dairyPrice_produce)
         {
+            _AM.PlayUIAudio(UIAudioClips.SuccessfulPurchase);
+
             _FM.dairyTotal_produce += 5;
             _GM.money -= _FM.dairyPrice_produce;
 
             UpdatePlayerMoney();
             UpdatePurchaseButtons_Produce();
 
+        }
+        else
+        {
+            //Play audio
+            _AM.PlayUIAudio(UIAudioClips.ErrorPurchase);
         }
 
     }
@@ -459,12 +503,19 @@ public class UIManager : Singleton<UIManager>
     {
         if(_GM.money >= _FM.fruitPrice_produce)
         {
+            _AM.PlayUIAudio(UIAudioClips.SuccessfulPurchase);
+
             _FM.fruitTotal_produce += 5;
             _GM.money -= _FM.fruitPrice_produce;
             UpdatePlayerMoney();
 
             UpdatePurchaseButtons_Produce();
 
+        }
+        else
+        {
+            //Play audio
+            _AM.PlayUIAudio(UIAudioClips.ErrorPurchase);
         }
 
     }
@@ -473,12 +524,19 @@ public class UIManager : Singleton<UIManager>
     {
         if(_GM.money >= _FM.vegPrice_produce)
         {
+            _AM.PlayUIAudio(UIAudioClips.SuccessfulPurchase);
+
             _FM.vegTotal_produce += 5;
             _GM.money -= _FM.vegPrice_produce;
             UpdatePlayerMoney();
 
             UpdatePurchaseButtons_Produce();
 
+        }
+        else
+        {
+            //Play audio
+            _AM.PlayUIAudio(UIAudioClips.ErrorPurchase);
         }
 
     }
@@ -487,6 +545,7 @@ public class UIManager : Singleton<UIManager>
     {
         if(_GM.money >= _FM.protienPrice_produce)
         {
+            _AM.PlayUIAudio(UIAudioClips.SuccessfulPurchase);
             _FM.protienTotal_produce += 5;
             _GM.money -= _FM.protienPrice_produce;
             UpdatePlayerMoney();
@@ -494,7 +553,11 @@ public class UIManager : Singleton<UIManager>
             UpdatePurchaseButtons_Produce();
 
         }
-
+        else
+        {
+            //Play audio
+            _AM.PlayUIAudio(UIAudioClips.ErrorPurchase);
+        }
     }
 
     /// <summary>
@@ -660,7 +723,7 @@ public class UIManager : Singleton<UIManager>
 
             var toggle = button.transform.Find("Toggle").GetComponent<Toggle>();
 
-            print(staffData.gameObject);
+            //print(staffData.gameObject);
 
             toggle.onValueChanged.AddListener(delegate 
             {
