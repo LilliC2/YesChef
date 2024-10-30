@@ -22,6 +22,8 @@ public class StaffRoomManager : Singleton<StaffRoomManager>
         _GM.event_playStateOpen.AddListener(CloseOrOpenRoof);
     }
 
+
+
     void CloseOrOpenRoof()
     {
         staffRoomRoof.SetActive(!staffRoomRoof.activeSelf);

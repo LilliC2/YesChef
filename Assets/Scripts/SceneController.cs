@@ -23,6 +23,7 @@ public class SceneController : Singleton<SceneController>
     {
         //unload titlescreen
         UnLoadScene("TitleScene");
+        print("LoadGameScene");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_GM.gameSceneName, LoadSceneMode.Additive);
 
         while(!asyncLoad.isDone)
@@ -32,15 +33,19 @@ public class SceneController : Singleton<SceneController>
 
         if (asyncLoad.isDone)
         {
+            print("Game Scene Loaded");
+
             _GM.gameState = GameManager.GameState.Playing;
             _GM.event_gameStateOpenGameScene.Invoke();
 
             switch(gameLoadState)
             {
                 case GameLoadState.NewGame:
+                    print("New game");
                     _SAVEM.NewSaveFile();
                     break;
                     case GameLoadState.LoadSaveFile:
+                    print("Load previous save");
                     _SAVEM.LoadGame();
                     break;
             }
@@ -69,19 +74,20 @@ public class SceneController : Singleton<SceneController>
 
     public void UnLoadScene(string sceneName)
     {
-        SceneManager.UnloadSceneAsync(sceneName);
-    }
-
-    public void LoadScene(string SceneName)
-    {
-        SceneManager.LoadScene(SceneName);
+        if(SceneManager.GetSceneByName(sceneName).isLoaded) SceneManager.UnloadSceneAsync(sceneName);
 
     }
 
-    public void LoadAsyncScene(string SceneName)
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+
+    }
+
+    public void LoadAsyncScene(string sceneName)
     {
 
-        StartCoroutine(LoadYourAsyncScene(SceneName));
+        if (!SceneManager.GetSceneByName(sceneName).isLoaded) StartCoroutine(LoadYourAsyncScene(sceneName));
     }
 
     IEnumerator LoadYourAsyncScene(string sceneName)

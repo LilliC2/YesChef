@@ -148,10 +148,11 @@ public class UIManager : Singleton<UIManager>
         switch(state)
         {
             case 0:
-                _SC.LoadGameScene(GameLoadState.NewGame);
+                StartCoroutine(_SC.LoadGameScene(GameLoadState.NewGame));
+                
                 break;
             case 1:
-                _SC.LoadGameScene(GameLoadState.LoadSaveFile);
+                StartCoroutine(_SC.LoadGameScene(GameLoadState.LoadSaveFile));
                 break;
 
 

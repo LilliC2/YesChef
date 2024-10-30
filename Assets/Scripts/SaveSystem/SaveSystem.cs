@@ -93,15 +93,12 @@ public static class SaveSystem
 
     public static void ClearStaffData(StaffManager staffManager)
     {
-        var loadStaffData = LoadStaffData();
 
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/staff.yesChefSave";
         FileStream stream = new FileStream(path, FileMode.Create);
         
-        
-        
-
+       
 
         StaffSaveData staffSaveData = new StaffSaveData(staffManager.allStaffData, staffManager);
 
@@ -123,7 +120,9 @@ public static class SaveSystem
 
             //open exisiting save file
             FileStream stream = new FileStream(path, FileMode.Open);
-            StaffSaveData staffData = formatter.Deserialize(stream) as StaffSaveData;
+
+            StaffSaveData staffData = null;
+            staffData = formatter.Deserialize(stream) as StaffSaveData;
 
             stream.Close();
 

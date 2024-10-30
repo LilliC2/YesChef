@@ -15,6 +15,7 @@ public class SaveManager : Singleton<SaveManager>
     [ContextMenu("New Game")]
     public void NewSaveFile()
     {
+
         SaveSystem.ClearPlayerProgress(_GM, _FM);
         SaveSystem.ClearStaffData(_SM);
         
