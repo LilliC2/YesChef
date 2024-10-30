@@ -91,7 +91,6 @@ public class CustomerData : GameBehaviour
                     if (_CustM.customersInQueue.IndexOf(gameObject) == 0 && Vector3.Distance(transform.position,_CustM.customerOutsideQueueSpots[0].position)<=1.5f)
                     {
                         _CustM.customerIsWaiting = true;
-                        _EM.event_customerReadyToBeSeated.Invoke();
                         queueWaitTime = StopTimer();
                         task = Task.WaitToBeSeated;
                     }

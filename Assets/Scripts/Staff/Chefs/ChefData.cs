@@ -21,7 +21,7 @@ public class ChefData : GameBehaviour
     public Task tasks;
 
 
-    #region Open
+    #region Variables
 
     [Header("AI and Travel")]
     NavMeshAgent agent;
@@ -340,7 +340,7 @@ public class ChefData : GameBehaviour
         //execute after x, complete  = true
         isWorking = true;
 
-        var skillProgressBarScript = targetFood.GetComponentInChildren<SkillTracker>();
+        var skillProgressBarScript = targetFood.GetComponentInChildren<OrderProgressTracker>();
        
 
         switch(workingOnSkill) 

@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764009172609972559}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.72304916, y: -2.5307088, z: 1.9846954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6745652539058378179
 MonoBehaviour:
@@ -41,16 +41,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5764009172609972559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ef2f0b4f372a854eb0258c07d621819, type: 3}
+  m_Script: {fileID: 11500000, guid: 57f826ccd8398ff448d4d54078804211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
-  foodArray:
-  - {fileID: 863991338456687275, guid: 96b238534f310544cbd62b403fc61107, type: 3}
-  - {fileID: 863991338456687275, guid: c503ada4d65193d4c81a4cd581027278, type: 3}
-  - {fileID: 863991338456687275, guid: baafe42cee9446e4ab588c32c93ceedc, type: 3}
-  - {fileID: 863991338456687275, guid: 8ccf685fd63d9ef4e8bd39b3be1bffac, type: 3}
-  destroyRawFoodPoint: {x: -6.24, y: 1.87, z: -8.7}
-  foodInWave: []
-  orderedFood: []
-  queuedFood: []
+  allOrders: []
+  grainTotal_produce: 0
+  dairyTotal_produce: 0
+  fruitTotal_produce: 0
+  vegTotal_produce: 0
+  protienTotal_produce: 0
+  grainPrice_produce: 0
+  dairyPrice_produce: 0
+  fruitPrice_produce: 0
+  vegPrice_produce: 0
+  protienPrice_produce: 0
+  menu: []
+  avalibleMenu: []
+  orderedFood_GO: []
+  foodNeedPreperation_list: []
+  finishedFood_list: []
+  conveyerbeltSpeed: 0
+  foodSpawnEase: 0
+  conveyerbeltPoints: []
