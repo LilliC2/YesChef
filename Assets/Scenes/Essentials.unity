@@ -585,8 +585,9 @@ GameObject:
   - component: {fileID: 1421853308}
   - component: {fileID: 1421853307}
   - component: {fileID: 1421853306}
+  - component: {fileID: 1421853309}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: EventSystem/Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -642,6 +643,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1421853309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421853305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9715607c49ace3429c4fd5baf320316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroy: 0
+  event_playStateOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  event_playStateClose:
+    m_PersistentCalls:
+      m_Calls: []
+  event_gameStatePlaying:
+    m_PersistentCalls:
+      m_Calls: []
+  event_gameStatePause:
+    m_PersistentCalls:
+      m_Calls: []
+  event_gameStateTitleScreen:
+    m_PersistentCalls:
+      m_Calls: []
+  event_gameStateOpenGameScene:
+    m_PersistentCalls:
+      m_Calls: []
+  event_playerLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1665647931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3912050815857043358, guid: 362c29194d7ed7849900e23f15441290, type: 3}
@@ -711,8 +746,16 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
+      propertyPath: demoMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
       propertyPath: gameState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175888548577854572, guid: 3a2566cc93df8ef4187fa680064d38bf, type: 3}
+      propertyPath: gameSceneName
+      value: GameScene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
