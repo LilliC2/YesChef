@@ -24,11 +24,11 @@ public class PlacementSystem : GameBehaviour
     //two different ones so that you can place furniture on the floor
     GridData floorData, furnitureData;
 
-    List<GameObject> placedGameObjects = new();
     [SerializeField]
     PreviewSystem preview;
 
     Vector3Int lastDetectionPosition = Vector3Int.zero;
+    [SerializeField] ObjectPlacer objectPlacer;
 
     private void Start()
     {
@@ -55,7 +55,6 @@ public class PlacementSystem : GameBehaviour
         preview.StartShowingPlacementPreview(databaseSO.objectsData[selectedObjectIndex].prefab,
             databaseSO.objectsData[selectedObjectIndex].size);
         //Add listeners
-
         inputManager.OnClicked += () => PlaceStructure();
         inputManager.OnExit += () => StopPlacement();
     }
@@ -76,14 +75,13 @@ public class PlacementSystem : GameBehaviour
 
         //add audio call here
 
-        GameObject structure = Instantiate(databaseSO.objectsData[selectedObjectIndex].prefab);
-        structure.transform.position = grid.CellToWorld(gridPosition); //covert back to world pos
-        placedGameObjects.Add(structure);
+        int index = objectPlacer.PlaceObject(databaseSO.objectsData[selectedObjectIndex].prefab, grid.CellToWorld(gridPosition));
+       
         GridData selectedData = databaseSO.objectsData[selectedObjectIndex].ID == 0 ? floorData : furnitureData;
         selectedData.AddObjectAt(gridPosition, //add to dictonary
             databaseSO.objectsData[selectedObjectIndex].size,
             databaseSO.objectsData[selectedObjectIndex].ID,
-            placedGameObjects.Count-1); 
+            index); 
 
         preview.UpdatePosition(grid.CellToWorld(gridPosition),false);
     }
