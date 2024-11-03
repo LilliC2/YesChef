@@ -20,7 +20,7 @@ public class ObjectData
     //each item will have a unquie ID
     public int ID { get; set; }
     [field: SerializeField]
-    public Vector2 size { get; set; }
+    public Vector2Int size { get; set; }
     [field: SerializeField]
     public GameObject prefab { get; set; }
 }
