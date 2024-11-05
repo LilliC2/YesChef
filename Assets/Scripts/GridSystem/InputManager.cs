@@ -12,7 +12,7 @@ public class InputManager : GameBehaviour
     [SerializeField]
     LayerMask placementLayerMask;
 
-    public event Action OnClicked, OnExit;
+    public event Action OnClicked, OnExit, OnRotate;
 
     private void Update()
     {
@@ -20,6 +20,9 @@ public class InputManager : GameBehaviour
             OnClicked?.Invoke();
          if(Input.GetKey(KeyCode.Escape))
             OnExit?.Invoke();
+         if(Input.GetKeyDown(KeyCode.R))
+            OnRotate?.Invoke();
+
 
     }
 

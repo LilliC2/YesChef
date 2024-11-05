@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PreviewSystem : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PreviewSystem : MonoBehaviour
     Material previewMaterialInstance; //instante when you start game so you dont edit material in project
 
     Renderer cellIndicatorRenderer;
+    IBuildingState buildingState;
+
 
     private void Start()
     {
@@ -68,8 +71,26 @@ public class PreviewSystem : MonoBehaviour
 
     }
 
+    public void RotatePreview(IBuildingState buildingState)
+    {
+        //get gameobject
+        Transform previewChild = previewGameObject.transform.GetChild(0);
+
+        float rotateEnd = previewChild.rotation.eulerAngles.y == 270 ? 0 : previewChild.rotation.eulerAngles.y + 90;
+
+        previewChild.DORotate(new Vector3(0, rotateEnd, 0), 1);
+        buildingState.RotateStructure(rotateEnd);
+    }
+
+    public void ResetPreviewRotation()
+    {
+        Transform previewChild = previewGameObject.transform.GetChild(0);
+        previewChild.rotation = Quaternion.identity;
+    }
+
     public void StopShowingPreview()
     {
+
         cellIndicator.SetActive(false );
         Destroy( previewGameObject );
     }
