@@ -18,10 +18,11 @@ public class OrderProgressTracker : GameBehaviour
 
     Image currentImage;
 
+    ICharacterActionState characterActionState;
+
     private void Start()
     {
         itemFoodData = GetComponentInParent<FoodData>().order.foodClass;
-
 
     }
 
@@ -30,30 +31,36 @@ public class OrderProgressTracker : GameBehaviour
     {
         //look at camera
 
-        if(currentImage != null)
+        if(characterActionState != null)
         {
-            currentImage.fillAmount = valueToLerp;
-
-            if (timeElapsed < lerpDuration)
+            if (currentImage != null && characterActionState.IsActionActive)
             {
-                valueToLerp = Mathf.Lerp(0, 1, timeElapsed / lerpDuration);
-                timeElapsed += Time.deltaTime;
+                currentImage.fillAmount = valueToLerp;
+
+                if (timeElapsed < lerpDuration)
+                {
+                    valueToLerp = Mathf.Lerp(0, 1, timeElapsed / lerpDuration);
+                    timeElapsed += Time.deltaTime;
+
+                }
+                else
+                {
+                    valueToLerp = 1;
+                    EndFoodProgress(workingSkill);
+                    currentImage = null;
+                    workingSkill = null;
+                }
 
             }
-            else
-            {
-                valueToLerp = 1;
-                EndFoodProgress(workingSkill);
-                currentImage = null;
-                workingSkill = null;
-            }
-
         }
+        
       
     }
 
-    public void StartFoodProgress(string skill, float duration)
+    public void StartFoodProgress(string skill, ICharacterActionState characterActionState)
     {
+        this.characterActionState = characterActionState;
+
         workingSkill = skill;
         switch(skill)
         {

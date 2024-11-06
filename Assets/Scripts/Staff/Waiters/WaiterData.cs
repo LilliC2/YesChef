@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ public class WaiterData : GameBehaviour
     [SerializeField]
     Transform holdFoodSpot;
 
+    ICharacterActionState characterActionState;
 
     // Start is called before the first frame update
     void Start()
@@ -63,46 +65,31 @@ public class WaiterData : GameBehaviour
         {
             case Task.Idle:
 
-                //task check
-
-                //Seating Customer
-                if(_CustM.customersInQueue.Count > 0 && _CustM.customerIsWaiting && tasks == Task.Idle)
+                #region Seat Customer Check
+                if (_CustM.customersInQueue.Count > 0 && _CustM.customerIsWaiting && tasks == Task.Idle)
                 {
                     //check if customer is being attended AND there is a table avalible
                     if (customer == null && !_CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened && _FOHM.unoccupiedTables.Count != 0)
                     {
-                        _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
-                        customer = _CustM.customersInQueue[0];
-                        customerData = customer.GetComponent<CustomerData>();
-                        tasks = Task.SeatCustomer;
-
+                        StartSeatCustomer();
                     }
                 }
-                
-                //Taking Order
-                if(_CustM.customersReadyToOrder.Count > 0 && tasks == Task.Idle)
+                #endregion
+                #region Taking Customer Order Check
+                if (_CustM.customersReadyToOrder.Count > 0 && tasks == Task.Idle)
                 {
                     foreach (var _customer in _CustM.customersReadyToOrder)
                     {
                         if (customer == null && !_customer.GetComponent<CustomerData>().beingAttened && _customer.GetComponent<CustomerData>().task == CustomerData.Task.ReadyToOrder)
                         {
-                            print("Start taking order");
-                            _customer.GetComponent<CustomerData>().beingAttened = true;
-                            customer = _customer;
-                            customerData = customer.GetComponent<CustomerData>();
-                            targetTable = customerData.GetCustomerTable();
-
-                            tasks = Task.TakeCustomerOrder;
+                            StartTakeCustomerOrder(_customer);
                             break;
-
                         }
-                    }
-                    
+                    }                
                 }
-
-
-                //Serving Finished Food
-                if(_FM.finishedFood_list.Count != 0 && tasks == Task.Idle)
+                #endregion
+                #region Serve Finished Orders Check
+                if (_FM.finishedFood_list.Count != 0 && tasks == Task.Idle)
                 {
                     //when finished food is grabbed by waiter it will be removed from list
                     if(targetOrder == null)
@@ -113,14 +100,14 @@ public class WaiterData : GameBehaviour
 
                         //get customer who ordered it
                         customer = targetOrder.GetComponent<FoodData>().order.customer;
-                        print("Serve to customer " + customer.name);
                         customerData = customer.GetComponent<CustomerData>();
                         targetTable = customerData.GetCustomerTable();
                         customerData.beingAttened = true;
                         tasks = Task.GetFood;
                     }
                 }
-
+                #endregion
+                
                 break;
             case Task.SeatCustomer:
 
@@ -197,12 +184,7 @@ public class WaiterData : GameBehaviour
                         if (!isTakingOrder)
                         {
                             isTakingOrder = true;
-
-                            _FM.OrderUp(customerData.order, customer);
-                            _UI.AddOrder(customerData.orderClass);
-
-                            
-
+                            characterActionState.TakeCustomerOrder(customerData);
                         }
                         else
                         {
@@ -264,6 +246,30 @@ public class WaiterData : GameBehaviour
 
                 break;
         }
+    }
+
+    /// <summary>
+    /// Intalise customer values for taking orders and change task
+    /// </summary>
+    /// <param name="_customer">Customer gameObject</param>
+    private void StartTakeCustomerOrder(GameObject _customer)
+    {
+        _customer.GetComponent<CustomerData>().beingAttened = true;
+        customer = _customer;
+        customerData = customer.GetComponent<CustomerData>();
+        targetTable = customerData.GetCustomerTable();
+
+        tasks = Task.TakeCustomerOrder;
+    }
+    /// <summary>
+    /// Intalise customer values for seating customer and change task
+    /// </summary>
+    private void StartSeatCustomer()
+    {
+        _CustM.customersInQueue[0].GetComponent<CustomerData>().beingAttened = true;
+        customer = _CustM.customersInQueue[0];
+        customerData = customer.GetComponent<CustomerData>();
+        tasks = Task.SeatCustomer;
     }
 
     /// <summary>

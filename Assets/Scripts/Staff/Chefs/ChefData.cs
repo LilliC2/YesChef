@@ -20,6 +20,7 @@ public class ChefData : GameBehaviour
     public enum Task { Idle, FindFood, GetFood, GoToStation, WorkOnFood, GoToPass }
     public Task tasks;
 
+    ICharacterActionState characterActionState;
 
     #region Variables
 
@@ -78,8 +79,6 @@ public class ChefData : GameBehaviour
                 {
                     case Task.Idle:
 
-
-
                         if (targetFood == null)
                         {
                             if (_FM.foodNeedPreperation_list.Count > 0) tasks = Task.FindFood;
@@ -106,22 +105,14 @@ public class ChefData : GameBehaviour
                         //if in range
                         if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
                         {
-                            PickUpFood();
-                            if (!StartPauseAgent(1f))
-                            {
-                                tasks = Task.GoToStation;
+                            characterActionState.PickUpOrder();
+                            tasks = Task.GoToStation;
 
-                            }
-                           
-
-                            
 
                         }
                         break;
 
                     case Task.GoToStation:
-
-
 
 
                         if (targetWorkStation == null)
@@ -136,25 +127,17 @@ public class ChefData : GameBehaviour
                         {
                             agent.isStopped = true;
 
-                            //look at food here
-
                             //place food
-                            targetFood.transform.position = targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position;
+                            characterActionState.PlaceOrder(targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position);
+
                             //pause for a little
                             if (!StartPauseAgent(1f))
                             {
                                 tasks = Task.WorkOnFood;
 
-                            }
-                           
-
+                            }                           
                         }
-                        else
-                        {
-                            //chef holding food
-                            targetFood.transform.position = holdFoodSpot.transform.position;
-
-                        }
+                       
                         break;
 
                     case Task.WorkOnFood:
@@ -169,22 +152,14 @@ public class ChefData : GameBehaviour
                                 targetFoodData.foodState = FoodData.FoodState.Finished;
 
                                 //pick food back up
-                                PickUpFood();
-
-                                //look at food
-                                //staffData.LookHeadAtObject(targetFood);
+                                characterActionState.PickUpOrder();
 
                                 //pause for a little
                                 if (!StartPauseAgent(1f))
                                 {
-                                    //staffData.ReturnHeadToDefault();
-
                                     tasks = Task.GoToPass;
-
-                                }
-                               
+                                }                            
                             }
-
                         }
 
 
@@ -226,7 +201,7 @@ public class ChefData : GameBehaviour
 
 
                             targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
-                            targetFood.transform.position = targetPassPoint.position;
+                            characterActionState.PlaceOrder(targetPassPoint.position);
 
                             //get rid of order ticket UI
 
@@ -241,36 +216,20 @@ public class ChefData : GameBehaviour
 
 
                         }
-                        else
-                        {
-                            //hold food
-                            targetFood.transform.position = holdFoodSpot.transform.position;
-                        }
-
-
-
+                        
 
                         break;
 
                 }
+
+                if (characterActionState != null)
+                    characterActionState.UpdateOrderPosition();
+
                 break;
-            #endregion
-
-            
+            #endregion   
         }
-
-        
-
     }
 
-    /// <summary>
-    /// Pick up food from conveyorbelt
-    /// </summary>
-    void PickUpFood()
-    {
-        if(_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood); //remove food from queue
-        targetFoodData.foodMovement = FoodData.FoodMovement.BeingHeld; //stops food from trying to travel from conveyerbelt
-    }
 
     /// <summary>
     /// Search kitchen for food which can be worked on by chef
@@ -280,11 +239,12 @@ public class ChefData : GameBehaviour
     {
         bool isFoodFound = false;
 
+        //Iterate throughh 
         for (int i = 0; i < _FM.foodNeedPreperation_list.Count; i++)
         {
-            targetFood = _FM.foodNeedPreperation_list[i].gameObject;
-            targetFoodClass = targetFood.GetComponent<FoodData>().order.foodClass;
-            targetFoodData = targetFood.GetComponent<FoodData>();
+             targetFood = _FM.foodNeedPreperation_list[i].gameObject;
+             targetFoodClass = targetFood.GetComponent<FoodData>().order.foodClass;
+             targetFoodData = targetFood.GetComponent<FoodData>();
 
             if (chefData.kneadSkill && targetFoodClass.needsKneading)
             {
@@ -311,6 +271,9 @@ public class ChefData : GameBehaviour
                 isFoodFound = true;
             }
         }
+
+        //set character action state
+        characterActionState = new CharacterActionState(targetFood,holdFoodSpot.transform,targetFoodData,targetFoodClass,_FM);
 
         //make sure no other chef can regiester this has their target food
         _FM.foodNeedPreperation_list.Remove(targetFood);
@@ -340,27 +303,15 @@ public class ChefData : GameBehaviour
         //execute after x, complete  = true
         isWorking = true;
 
+        //set action to true
+        characterActionState.SetAction = isWorking;
+
+        //start lerp of skill in OrderProgress
         var skillProgressBarScript = targetFood.GetComponentInChildren<OrderProgressTracker>();
-       
+        skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), characterActionState);
 
-        switch(workingOnSkill) 
-        {
-            case WorkingOnSkill.Cooking:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.cookWorkTime);
-                break;
-            case WorkingOnSkill.Mixing:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.mixWorkTime);
-                break;
-            case WorkingOnSkill.Cutting:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.cutWorkTime);
-                break;
-            case WorkingOnSkill.Kneading:
-                skillProgressBarScript.StartFoodProgress(workingOnSkill.ToString(), targetFoodClass.kneadWorkTime);
-                break;
-        
-        }
 
-        if(audioSource.clip == null)
+        if (audioSource.clip == null)
         {
             //Start working audio
             audioSource.clip = _AM.ReturnChefWorkingAudioClip(workingOnSkill);
@@ -375,38 +326,23 @@ public class ChefData : GameBehaviour
     /// </summary>
     bool CheckFoodStatus()
     {
-        //print("check status");
-        isWorking = false;
+        //check is food is finished
+        bool isCurrentWorkComplete = characterActionState.CheckOrderProgress(workingOnSkill);
 
-        bool isCurrentWorkComplete = false;
-        //has chef completed current work
-        switch (workingOnSkill)
-        {
-            case WorkingOnSkill.Cooking:
-                isCurrentWorkComplete = targetFoodClass.cookWorkComplete;
-                break;
-            case WorkingOnSkill.Mixing:
-                isCurrentWorkComplete = targetFoodClass.mixWorkComplete;
-                break;
-            case WorkingOnSkill.Cutting:
-                isCurrentWorkComplete = targetFoodClass.cutWorkComplete;
-                break;
-            case WorkingOnSkill.Kneading:
-                isCurrentWorkComplete = targetFoodClass.kneadedWorkComplete;
-                break;
-
-        }
-
-        //Stop working audio
         if(isCurrentWorkComplete)
         {
+            //Stop working audio
             audioSource.clip = null;
             audioSource.loop = false;
             audioSource.Stop();
+
+            //stop action
+            isWorking = false;
+            characterActionState.SetAction = isWorking;
+
         }
 
         return isCurrentWorkComplete;
-
     }
     
     /// <summary>
@@ -444,6 +380,7 @@ public class ChefData : GameBehaviour
     /// </summary>
     void ResetChef()
     {
+        characterActionState = null;
         //print("Reset chef");
         targetFood = null;
         targetFoodClass = null;
