@@ -128,7 +128,7 @@ public class ChefData : GameBehaviour
                             agent.isStopped = true;
 
                             //place food
-                            characterActionState.PlaceOrder(targetWorkStation.GetComponent<WorkStation>().holdFoodPos.position);
+                            characterActionState.PlaceOrder(targetWorkStation.GetComponent<FurnitureItemHolder>().ReturnHoldSpot);
 
                             //pause for a little
                             if (!StartPauseAgent(1f))
@@ -273,7 +273,7 @@ public class ChefData : GameBehaviour
         }
 
         //set character action state
-        characterActionState = new CharacterActionState(targetFood,holdFoodSpot.transform,targetFoodData,targetFoodClass,_FM);
+        characterActionState = new CharacterActionState(targetFood,holdFoodSpot.transform,targetFoodData,targetFoodClass);
 
         //make sure no other chef can regiester this has their target food
         _FM.foodNeedPreperation_list.Remove(targetFood);

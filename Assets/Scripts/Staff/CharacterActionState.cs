@@ -8,8 +8,8 @@ public class CharacterActionState : GameBehaviour, ICharacterActionState
 {
     GameObject orderGO;
     Transform holdOrderTransform;
-    FoodData orderData;
-    FoodClass orderClass;
+    FoodData foodData;
+    FoodClass foodClass;
     bool action;
     bool isHoldingOrder;
 
@@ -21,16 +21,17 @@ public class CharacterActionState : GameBehaviour, ICharacterActionState
     {
         this.orderGO = orderGO;
         this.holdOrderTransform = holdOrderTransform;
-        this.orderData = orderData;
-        this.orderClass = orderClass;
+        this.foodData = orderData;
+        this.foodClass = orderClass;
     }
 
     public bool IsActionActive {  get { return action; } }
     public bool SetAction { set { action = value; } }
+    public bool IsHoldingItem { get { return isHoldingOrder; } }
 
     public GameObject OrderGameObject { get { return orderGO; } }
-    public FoodData OrderData { get {  return orderData; } }
-    public FoodClass OrderClass { get {  return orderClass; } }
+    public FoodData OrderData { get {  return foodData; } }
+    public FoodClass OrderClass { get {  return foodClass; } }
     //check food progress
     public bool CheckOrderProgress(WorkingOnSkill skill)
     {
@@ -39,16 +40,16 @@ public class CharacterActionState : GameBehaviour, ICharacterActionState
         switch (skill)
         {
             case WorkingOnSkill.Cooking:
-                isCurrentWorkComplete = orderClass.cookWorkComplete;
+                isCurrentWorkComplete = foodClass.cookWorkComplete;
                 break;
             case WorkingOnSkill.Mixing:
-                isCurrentWorkComplete = orderClass.mixWorkComplete;
+                isCurrentWorkComplete = foodClass.mixWorkComplete;
                 break;
             case WorkingOnSkill.Cutting:
-                isCurrentWorkComplete = orderClass.cutWorkComplete;
+                isCurrentWorkComplete = foodClass.cutWorkComplete;
                 break;
             case WorkingOnSkill.Kneading:
-                isCurrentWorkComplete = orderClass.kneadedWorkComplete;
+                isCurrentWorkComplete = foodClass.kneadedWorkComplete;
                 break;
 
         }

@@ -317,7 +317,7 @@ public class UIManager : Singleton<UIManager>
         //so player doesnt move cam while typing
         if(renameResturantPanel_GO.activeSelf)
             Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.DisablePlayerControl;
-        else Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.PlayerControl;
+        else Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.FollowPlayer;
 
     }
 
@@ -674,7 +674,7 @@ public class UIManager : Singleton<UIManager>
 
         unlockCamera_GO.SetActive(false);
         unlockScreen_GO.SetActive(false);
-        Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.PlayerControl;
+        Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.FollowPlayer;
 
         foreach (var item in unlockStaffModels_ListGO)
         {

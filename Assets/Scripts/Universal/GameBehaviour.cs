@@ -19,6 +19,7 @@ public class GameBehaviour : LC.Behaviour //inherits from
     protected static StaffRoomManager _SRM { get { return StaffRoomManager.INSTANCE; } }
     protected static SceneController _SC { get { return SceneController.INSTANCE; } }
     protected static SaveManager _SAVEM { get { return SaveManager.INSTANCE; } }
+    protected static PlayerController _PLAYER { get { return PlayerController.INSTANCE; } }
 
 
 }

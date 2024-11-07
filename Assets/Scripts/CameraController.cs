@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CameraController : GameBehaviour
@@ -14,9 +15,9 @@ public class CameraController : GameBehaviour
     private Vector3 cameraDragOrigin;
     private Vector3 prevPos;
     Vector3 lastMousePosition;
-    [SerializeField] float defaultCameraSize;
+    [SerializeField] float defaultCameraSize,zOffset, yOffset, xOffset;
 
-    public enum CameraState { PlayerControl, TalkToStaff, DisablePlayerControl}
+    public enum CameraState { FollowPlayer, TalkToStaff, DisablePlayerControl}
     public CameraState state;
 
     Vector3 startPos;
@@ -32,9 +33,9 @@ public class CameraController : GameBehaviour
     {
         switch(state)
         {
-            case CameraState.PlayerControl:
-                ButtonInputs();
-                MouseInputs();
+            case CameraState.FollowPlayer:
+                gameObject.transform.localPosition = new Vector3(_PLAYER.transform.position.x + xOffset, yOffset, _PLAYER.transform.position.z + zOffset);
+
                 break;
         }
         
@@ -59,7 +60,7 @@ public class CameraController : GameBehaviour
     {
         transform.DOMove(prevPos, 1);
         cam.DOOrthoSize(defaultCameraSize, 1);
-        ExecuteAfterSeconds(1,()=> state = CameraState.PlayerControl);
+        ExecuteAfterSeconds(1,()=> state = CameraState.FollowPlayer);
     }
 
     void ButtonInputs()
@@ -84,7 +85,7 @@ public class CameraController : GameBehaviour
             inputX -= panSpeed * Time.deltaTime;
         }
 
-        MoveCamera(inputX, inputZ);
+        //MoveCamera(inputX, inputZ);
     }
 
     void MouseInputs()
