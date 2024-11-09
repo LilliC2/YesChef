@@ -394,7 +394,7 @@ public class StaffData : GameBehaviour
             float movementLength = Random.Range(7, 15); //how long after the begin the action until they generate a new one
 
             staffBehaviour.movementState = movementStatePercentage[Random.Range(0, 100)];
-            print("Movement State: " + staffBehaviour.movementState);
+            //print("Movement State: " + staffBehaviour.movementState);
 
             //check if chairs are avalible
             if(staffBehaviour.movementState == StaffBehaviour.MovementState.Sit)

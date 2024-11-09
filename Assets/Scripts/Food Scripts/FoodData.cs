@@ -13,6 +13,9 @@ public class FoodData : GameBehaviour
     bool isComplete;
 
     public OrderClass order;
+    [SerializeField]
+    FurnitureItemHolder furnitureItemIsOn;
+    public FurnitureItemHolder FurnitureHolder { get { return furnitureItemIsOn; } set { furnitureItemIsOn = value; } }
 
     Transform passPoint; //where it is placed on the pass
 

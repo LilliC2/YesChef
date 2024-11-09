@@ -700,7 +700,7 @@ public class UIManager : Singleton<UIManager>
         {
             //find button
             GameObject obj = null;
-            print(staffName);
+            //print(staffName);
             foreach (var item in organiseStaffButtons_GO)
             {
                 if (item.name.Contains(staffName)) obj = item;

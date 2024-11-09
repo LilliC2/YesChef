@@ -62,7 +62,7 @@ public class CharacterActionState : GameBehaviour, ICharacterActionState
     public void PickUpOrder()
     {
         isHoldingOrder = true;
-        orderGO.transform.DOMove(holdOrderTransform.position,1);
+        orderGO.transform.position = holdOrderTransform.position;
     }
     public void UpdateOrderPosition()
     {
@@ -73,7 +73,7 @@ public class CharacterActionState : GameBehaviour, ICharacterActionState
     public void PlaceOrder(Vector3 position)
     {
         isHoldingOrder = false;
-        orderGO.transform.DOMove(position, 1);
+        orderGO.transform.position = position;
     }
 
     public void TakeCustomerOrder(CustomerData customer)

@@ -177,7 +177,7 @@ public class StaffManager : Singleton<StaffManager>
 
     public void ActivateStaffDuringPlay(GameObject _staff)
     {
-        print(_staff.name);
+        //print(_staff.name);
 
         if (totalHiredStaff.Contains(_staff))
         {

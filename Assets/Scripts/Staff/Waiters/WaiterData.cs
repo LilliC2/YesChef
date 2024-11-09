@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class WaiterData : GameBehaviour
 {
@@ -94,16 +95,7 @@ public class WaiterData : GameBehaviour
                     //when finished food is grabbed by waiter it will be removed from list
                     if(targetOrder == null)
                     {
-                        //get order
-                        targetOrder = _FM.finishedFood_list.FirstOrDefault();
-                        _FM.finishedFood_list.Remove(targetOrder);
-
-                        //get customer who ordered it
-                        customer = targetOrder.GetComponent<FoodData>().order.customer;
-                        customerData = customer.GetComponent<CustomerData>();
-                        targetTable = customerData.GetCustomerTable();
-                        customerData.beingAttened = true;
-                        tasks = Task.GetFood;
+                        StartServeFinishedOrder();
                     }
                 }
                 #endregion
@@ -184,6 +176,7 @@ public class WaiterData : GameBehaviour
                         if (!isTakingOrder)
                         {
                             isTakingOrder = true;
+                            if (customerData == null) print($"CustomerData variable is null, customer is {customer.name}");
                             characterActionState.TakeCustomerOrder(customerData);
                         }
                         else
@@ -208,14 +201,17 @@ public class WaiterData : GameBehaviour
 
                 if (Vector3.Distance(transform.position, targetOrder.transform.position)<=2f)
                 {
-
+                    var foodData = targetOrder.GetComponent<FoodData>();
                     //change food status
-                    targetOrder.GetComponent<FoodData>().foodMovement = FoodData.FoodMovement.BeingHeld; 
+                    foodData.foodMovement = FoodData.FoodMovement.BeingHeld;
+                    foodData.FurnitureHolder.SetStatus = FurnitureItemHolder.Status.Unoccupied;
+                    foodData.FurnitureHolder = null;
+
 
                     targetOrder.transform.position = holdFoodSpot.position;
 
                     //set pass spot to unoccupied
-                    _PM.UnoccupiedPassPoint(targetOrder.GetComponent<FoodData>().ReturnPassPoint());
+                    _PM.UnoccupiedPassPoint(targetOrder.GetComponent<FoodData>().FurnitureHolder);
 
                     if (!StartPauseAgent(0.5f))
                     {
@@ -234,6 +230,8 @@ public class WaiterData : GameBehaviour
                 {
                     //place food
                     targetOrder.transform.position = customerData.plateSpot.position;
+                    targetOrder.GetComponent<FoodData>().FurnitureHolder = customerData.GetFurnitureItemHolder();
+
                     customerData.order = targetOrder; //change their order to the intantiated object and not the root prefab asset
                     customerData.task = CustomerData.Task.EatFood;
                     //pause for a little
@@ -248,6 +246,23 @@ public class WaiterData : GameBehaviour
         }
     }
 
+    private void StartServeFinishedOrder()
+    {
+        
+        //get order
+        targetOrder = _FM.finishedFood_list.FirstOrDefault();
+        _FM.finishedFood_list.Remove(targetOrder);
+
+        //get customer who ordered it
+        customer = targetOrder.GetComponent<FoodData>().order.customer;
+        customerData = customer.GetComponent<CustomerData>();
+        targetTable = customerData.GetCustomerTable();
+        customerData.beingAttened = true;
+        tasks = Task.GetFood;
+
+        characterActionState = new CharacterActionState(targetOrder, holdFoodSpot, targetOrder.GetComponent<FoodData>(), targetOrder.GetComponent<FoodData>().order.foodClass);
+    }
+
     /// <summary>
     /// Intalise customer values for taking orders and change task
     /// </summary>
@@ -260,6 +275,8 @@ public class WaiterData : GameBehaviour
         targetTable = customerData.GetCustomerTable();
 
         tasks = Task.TakeCustomerOrder;
+        characterActionState = new CharacterActionState(null, holdFoodSpot, null, null);
+
     }
     /// <summary>
     /// Intalise customer values for seating customer and change task
@@ -270,6 +287,8 @@ public class WaiterData : GameBehaviour
         customer = _CustM.customersInQueue[0];
         customerData = customer.GetComponent<CustomerData>();
         tasks = Task.SeatCustomer;
+        //characterActionState = new CharacterActionState(null, holdFoodSpot, null, null);
+
     }
 
     /// <summary>
@@ -303,7 +322,7 @@ public class WaiterData : GameBehaviour
         agent.isStopped = false;
 
         isPaused = false;
-
+        characterActionState = null;
         //taking order
         isTakingOrder = false;
 

@@ -94,14 +94,14 @@ public class FoodManager : Singleton<FoodManager>
     public Ease foodSpawnEase;
 
     [Header("Moving Food")]
-    public Transform[] conveyerbeltPoints;
+    public FurnitureItemHolder[] orderSpawnPoints;
 
 
     private void Start()
     {
         _GM.event_playStateOpen.AddListener(UpdateMenuBasedOnProduce);
 
-        if (conveyerbeltPoints.Length == 0) Debug.LogError("conveyerbeltPoints must have at least one element");
+        if (orderSpawnPoints.Length == 0) Debug.LogError("conveyerbeltPoints must have at least one element");
 
     }
 
@@ -109,16 +109,24 @@ public class FoodManager : Singleton<FoodManager>
     {
         var _order = _orderGO.GetComponent<FoodData>().order;
         //spawn point
-        var conveyorPoint = conveyerbeltPoints[Random.Range(0, conveyerbeltPoints.Length)].transform.position;
+        FurnitureItemHolder furnitureItemHolder = orderSpawnPoints[Random.Range(0, orderSpawnPoints.Length)];
+
+        var spawnPoint = furnitureItemHolder.ReturnHoldSpotV3;
+        furnitureItemHolder.SetStatus = FurnitureItemHolder.Status.Occupied;
+
 
         //var randomFood = _GM.receipesUnlocked[Random.Range(0, _GM.receipesUnlocked.Count)];
-        var food = Instantiate(_orderGO, conveyorPoint, Quaternion.identity);
+        var food = Instantiate(_orderGO, spawnPoint, Quaternion.identity);
+        var foodData = food.GetComponent<FoodData>();
         foodNeedPreperation_list.Add(food);
         orderedFood_GO.Add(food);
 
-        food.GetComponent<FoodData>().order.customer = _customer;
-        print("customer in order up " + food.GetComponent<FoodData>().order.customer);
-        var foodClass = food.GetComponent<FoodData>().order.foodClass;
+        //set furniture item in script
+        foodData.FurnitureHolder = furnitureItemHolder;
+        foodData.order.customer = _customer;
+        
+        print("customer in order up " + foodData.order.customer);
+        var foodClass = foodData.order.foodClass;
 
         //remove produce
         dairyTotal_produce -= foodClass.requiredProduce_dairy;

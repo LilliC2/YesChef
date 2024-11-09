@@ -20,5 +20,6 @@ public class FurnitureItemHolder : GameBehaviour
     public Status SetStatus { set { status = value; } }
     public Status ReturnStatus { get { return status; } }
 
-    public Vector3 ReturnHoldSpot { get { return holdSpotV3; } }
+    public Vector3 ReturnHoldSpotV3 { get { return holdSpotV3; } }
+    public Transform ReturnHoldSpotTransform { get { return holdObjectSpot; } }
 }

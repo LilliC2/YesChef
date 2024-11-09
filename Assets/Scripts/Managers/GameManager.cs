@@ -59,7 +59,7 @@ public class GameManager : Singleton<GameManager>
 
         #region Debug
 
-        if(Input.GetKeyUp(KeyCode.F) && !_GM.demoMode)
+        if (Input.GetKeyUp(KeyCode.C) && !_GM.demoMode)
         {
             playState = PlayState.Closed;
             event_playStateClose.Invoke();

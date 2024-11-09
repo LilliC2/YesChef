@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.UI;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -15,7 +16,8 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] LayerMask interactableLayerMask;
     [SerializeField] HighlightInteractable highlightInteractable;
     [SerializeField] Transform holdItemTransform;
-
+    bool placeDelay; //add delay so you don't pick up an item as soon as you place it
+    [SerializeField] float placeDelayTime;
     private void Start()
     {
         characterActionState = new CharacterActionState(null, holdItemTransform,null, null);
@@ -27,6 +29,11 @@ public class PlayerController : Singleton<PlayerController>
     void Update()
     {
         characterController.Move(movmentV3 * movementSpeed * Time.deltaTime);
+
+        if(characterActionState == null )
+            return;
+        if(characterActionState.IsHoldingItem)
+            characterActionState.UpdateOrderPosition();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -42,7 +49,7 @@ public class PlayerController : Singleton<PlayerController>
     /// Interacting with target object such as workstation
     /// </summary>
     /// <param name="context"></param>
-    public void OnInteractAction(InputAction.CallbackContext context)
+    public void OnWorkStationInteraction(InputAction.CallbackContext context)
     {
         //check if item is on furniture
 
@@ -55,31 +62,10 @@ public class PlayerController : Singleton<PlayerController>
     /// <summary>
     /// Picking up and placing object
     /// </summary>
-    public void OnObjectAction(InputAction.CallbackContext context)
+    public void OnPickUpInteraction(InputAction.CallbackContext context)
     {
-        //check if is already holding object
-        if (characterActionState.IsHoldingItem)
-        {
-            //if HOLDING
-            //check if looking at avalible space to place item
-            if (highlightInteractable.highlightPrefab == null)
-                return;
-            GameObject targetObject = highlightInteractable.highlightPrefab;
-
-            if (targetObject.TryGetComponent(out FurnitureItemHolder furnitureItemHolder))
-            {
-                //if SPACE IS FREE
-                if (furnitureItemHolder.ReturnStatus == FurnitureItemHolder.Status.Unoccupied)
-                {
-                    //place item
-                    characterActionState.PlaceOrder(furnitureItemHolder.ReturnHoldSpot);
-                    furnitureItemHolder.SetStatus = FurnitureItemHolder.Status.Occupied;
-                }
-            }
-            else return;
-        }
         //if NOT HOLDING
-        else
+        if(!characterActionState.IsHoldingItem & !placeDelay)
         {
             if (highlightInteractable.highlightPrefab == null)
                 return;
@@ -91,16 +77,50 @@ public class PlayerController : Singleton<PlayerController>
 
             //if IF LOOKING AT OBJECT
             //pick up object
+            print("Pick up item");
             FoodData foodData = targetObject.GetComponent<FoodData>();
+            foodData.FurnitureHolder.SetStatus = FurnitureItemHolder.Status.Unoccupied;
+
+            foodData.FurnitureHolder = null;
 
             FoodClass foodClass = foodData.order.foodClass;
             characterActionState = new CharacterActionState(targetObject, holdItemTransform, foodData,foodClass);
             characterActionState.PickUpOrder();
+            ExecuteAfterSeconds(placeDelayTime, () => placeDelay = true);
+
+            return;
             
         }
+        else if(placeDelay)
+        {
+            //if HOLDING
+            //check if looking at avalible space to place item
+            if (highlightInteractable.highlightPrefab == null)
+                return;
+            GameObject targetObject = highlightInteractable.highlightPrefab;
+            print("Place");
+            if (targetObject.TryGetComponent(out FurnitureItemHolder furnitureItemHolder))
+            {
+                //if SPACE IS FREE
+                if (furnitureItemHolder.ReturnStatus == FurnitureItemHolder.Status.Unoccupied)
+                {
+                    placeDelay = true;
+                    //place item
+                    furnitureItemHolder.SetStatus = FurnitureItemHolder.Status.Occupied;
+
+                    //get held item here!!!
+                    var foodData = characterActionState.OrderData;
+                    print(foodData);
+                    foodData.FurnitureHolder = furnitureItemHolder;
+                    characterActionState.PlaceOrder(furnitureItemHolder.ReturnHoldSpotV3);
+                    ExecuteAfterSeconds(placeDelayTime, ()=>placeDelay = false);
 
 
-
+                }
+                return;
+            }
+            else return;
+        }
 
 
     }

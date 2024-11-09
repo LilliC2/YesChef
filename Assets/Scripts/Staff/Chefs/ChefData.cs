@@ -40,7 +40,7 @@ public class ChefData : GameBehaviour
     [SerializeField]
     GameObject targetWorkStation;
     Transform targetWorkStationStandPos;
-    Transform targetPassPoint;
+    FurnitureItemHolder targetPassPoint;
 
     [Header("Audio")]
     [SerializeField]
@@ -105,6 +105,10 @@ public class ChefData : GameBehaviour
                         //if in range
                         if (Vector3.Distance(transform.position, targetFood.transform.position) < 2f)
                         {
+                            //change furniture to unoccupied
+                            targetFoodData.FurnitureHolder.SetStatus = FurnitureItemHolder.Status.Unoccupied;
+                            targetFoodData.FurnitureHolder = null;
+
                             characterActionState.PickUpOrder();
                             tasks = Task.GoToStation;
 
@@ -128,7 +132,9 @@ public class ChefData : GameBehaviour
                             agent.isStopped = true;
 
                             //place food
-                            characterActionState.PlaceOrder(targetWorkStation.GetComponent<FurnitureItemHolder>().ReturnHoldSpot);
+                            characterActionState.PlaceOrder(targetWorkStation.GetComponent<FurnitureItemHolder>().ReturnHoldSpotV3);
+                            _WSM.ChangeToOccupied(targetWorkStation);
+                            targetFoodData.FurnitureHolder = targetWorkStation.GetComponent<FurnitureItemHolder>();
 
                             //pause for a little
                             if (!StartPauseAgent(1f))
@@ -153,6 +159,9 @@ public class ChefData : GameBehaviour
 
                                 //pick food back up
                                 characterActionState.PickUpOrder();
+                                targetFoodData.FurnitureHolder = null;
+                                _WSM.ChangeToUnoccupied(targetWorkStation);
+
 
                                 //pause for a little
                                 if (!StartPauseAgent(1f))
@@ -173,7 +182,7 @@ public class ChefData : GameBehaviour
 
                     case Task.GoToPass:
 
-
+                        
                         //Get position to place food on pass
                         if (targetPassPoint == null)
                         {
@@ -181,19 +190,18 @@ public class ChefData : GameBehaviour
 
                             //print("go to pass");
                             //add workstation back to unoccupied list
-                            _WSM.ChangeToUnoccupied(targetWorkStation);
 
                             targetPassPoint = FindPassPoint();
                             _PM.OccupiedPassPoint(targetPassPoint);
-                            targetFoodData.SetPassPoint(targetPassPoint);
+                            targetFoodData.SetPassPoint(targetPassPoint.ReturnHoldSpotTransform);
                         }
                         else
                         {
-                            agent.SetDestination(targetPassPoint.position);
+                            agent.SetDestination(targetPassPoint.ReturnHoldSpotV3);
 
                         }
 
-                        if (Vector3.Distance(transform.position, targetPassPoint.position) < 2f)
+                        if (Vector3.Distance(transform.position, targetPassPoint.ReturnHoldSpotV3) < 2f)
                         {
                             //remove from need prep and add to finished
                             if (_FM.foodNeedPreperation_list.Contains(targetFood)) _FM.foodNeedPreperation_list.Remove(targetFood);
@@ -201,7 +209,8 @@ public class ChefData : GameBehaviour
 
 
                             targetFoodData.foodMovement = FoodData.FoodMovement.OnPass; //stops food from trying to travel from conveyerbelt
-                            characterActionState.PlaceOrder(targetPassPoint.position);
+                            characterActionState.PlaceOrder(targetPassPoint.ReturnHoldSpotV3);
+                            targetFoodData.FurnitureHolder = targetPassPoint;
 
                             //get rid of order ticket UI
 
@@ -349,7 +358,7 @@ public class ChefData : GameBehaviour
     /// Return unoccupied point on the pass
     /// </summary>
     /// <returns></returns>
-    Transform FindPassPoint()
+    FurnitureItemHolder FindPassPoint()
     {
         return _PM.FindClosestPassPoint(gameObject);
 

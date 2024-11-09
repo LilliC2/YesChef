@@ -26,7 +26,9 @@ public class CustomerData : GameBehaviour
     [SerializeField] float waiterFollowDistance; //follow x distance behind waiter
     GameObject waiterFollow;
     public Transform plateSpot;
+    FurnitureItemHolder tableFurniture;
     GameObject table;
+    public FurnitureItemHolder GetFurnitureItemHolder() { return tableFurniture; }
 
     [Header("Select From Menu")]
     public GameObject order;
@@ -99,7 +101,7 @@ public class CustomerData : GameBehaviour
                     break;
                 case Task.WaitToBeSeated:
 
-                    if (beingAttened) print("Being Attended");
+                    //if (beingAttened) print("Being Attended");
 
                     break;
                 case Task.FollowWaiter:
@@ -238,7 +240,6 @@ public class CustomerData : GameBehaviour
     #region Order Functions
     public void OrderHasBeenTaken()
     {
-        print("Remove from ready to order");
         _CustM.customersReadyToOrder.Remove(gameObject);
 
         takeOrderWaitTime = StopTimer();
@@ -264,7 +265,7 @@ public class CustomerData : GameBehaviour
             var targetChair = tableData.unoccupiedSeats.FirstOrDefault();
 
             print(targetChair.name);
-
+            table = _table;
             tableData.ChangeToOccupied(targetChair);
 
 
@@ -272,7 +273,6 @@ public class CustomerData : GameBehaviour
             plateSpot = targetChair.GetChild(0);
 
             //set variables
-            table = _table;
             seat = targetChair.GetChild(1).transform;
 
             //cancle follow
@@ -319,7 +319,7 @@ public class CustomerData : GameBehaviour
         agent.isStopped = false;
         //set table as unoccupied
         _FOHM.ChangeToUnoccupied(table);
-
+        tableFurniture.SetStatus = FurnitureItemHolder.Status.Unoccupied;
         agent.SetDestination(_CustM.exitDoor.position);
         isSeated = false;
 
