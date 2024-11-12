@@ -24,8 +24,8 @@ public class PreviewSystem : MonoBehaviour
     private void Start()
     {
         previewMaterialInstance = new Material(previewMaterialPrefab);
-        cellIndicator.SetActive(false);
         cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
+        cellIndicator.SetActive(false);
     }
 
     public void StartShowingPlacementPreview(GameObject prefab, Vector2Int size)
@@ -42,7 +42,9 @@ public class PreviewSystem : MonoBehaviour
     /// <param name="size"></param>
     private void PrepareCursor(Vector2Int size)
     {
-        if(size.x > 0 || size.y > 0)
+        if(cellIndicatorRenderer == null) cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
+
+        if (size.x > 0 || size.y > 0)
         {
             cellIndicator.transform.localScale = new Vector3(size.x,1,size.y);
             cellIndicatorRenderer.material.mainTextureScale = size;
@@ -61,7 +63,7 @@ public class PreviewSystem : MonoBehaviour
         foreach (Renderer renderer in renderers)
         {
             //change each material to transperent material
-            Material[] materials = renderer.materials;
+            Material[] materials = renderer.sharedMaterials;
             for (int i = 0; i < materials.Length; i++)
             {
                 materials[i] = previewMaterialInstance;

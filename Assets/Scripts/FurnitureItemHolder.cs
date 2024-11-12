@@ -10,6 +10,7 @@ public class FurnitureItemHolder : GameBehaviour
     [SerializeField] Transform holdObjectSpot;
     Vector3 holdSpotV3;
 
+
     private void Awake()
     {
         if (status == Status.Unoccupied) _WSM.ChangeToUnoccupied(gameObject);

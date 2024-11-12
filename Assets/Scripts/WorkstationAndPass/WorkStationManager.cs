@@ -85,7 +85,7 @@ public class WorkStationManager : Singleton<WorkStationManager>
 
     public void ChangeToUnoccupied(GameObject workstation)
     {
-        workstation.GetComponent<FurnitureItemHolder>().status = FurnitureItemHolder.Status.Unoccupied;
+        workstation.GetComponent<FurnitureItemHolder>().SetStatus = FurnitureItemHolder.Status.Unoccupied;
 
         switch (workstation.tag) 
         {

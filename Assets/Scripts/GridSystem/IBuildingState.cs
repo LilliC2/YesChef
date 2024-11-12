@@ -6,4 +6,6 @@ public interface IBuildingState
     void OnAction(Vector3Int gridPosition);
     void UpdateState(Vector3Int gridPosition);
     void RotateStructure(float rotation);
+    void OnPlaceInEditor(int ID, Vector3Int gridPosition);
+
 }

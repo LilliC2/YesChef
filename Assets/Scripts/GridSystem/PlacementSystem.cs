@@ -37,6 +37,23 @@ public class PlacementSystem : GameBehaviour
         furnitureData = new();
     }
 
+    public void PlaceInEditor(int ID, GameObject calledObject)
+    {
+        buildingState = new PlacementState(ID,
+                                           calledObject.transform.eulerAngles.y, //set rotation
+                                           grid,
+                                           preview,
+                                           databaseSO,
+                                           floorData,
+                                           furnitureData,
+                                           objectPlacer,
+                                           true);
+
+        Vector3Int gridPosition = grid.WorldToCell(calledObject.transform.position); //get cell position
+
+        buildingState.OnPlaceInEditor(ID,gridPosition);
+    }
+
     public void StartPlacement(int ID)
     {
         StopPlacement();
@@ -49,7 +66,8 @@ public class PlacementSystem : GameBehaviour
                                            databaseSO,
                                            floorData,
                                            furnitureData,
-                                           objectPlacer);
+                                           objectPlacer,
+                                           false);
         
         //Add listeners
         inputManager.OnClicked += () => PlaceStructure();

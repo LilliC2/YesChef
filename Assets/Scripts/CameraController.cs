@@ -17,7 +17,7 @@ public class CameraController : GameBehaviour
     Vector3 lastMousePosition;
     [SerializeField] float defaultCameraSize,zOffset, yOffset, xOffset;
 
-    public enum CameraState { FollowPlayer, TalkToStaff, DisablePlayerControl}
+    public enum CameraState { FollowPlayer, TalkToStaff, DisablePlayerControl, ZoomOnPlayer}
     public CameraState state;
 
     Vector3 startPos;
@@ -41,6 +41,20 @@ public class CameraController : GameBehaviour
         
 
     }
+    [ContextMenu("Zoom On Player")]
+    public void ZoomOnPlayer()
+    {
+        prevPos = cam.transform.position;
+        state = CameraState.ZoomOnPlayer;
+        state = CameraState.TalkToStaff;
+        Vector3 focusPos = new Vector3(_PLAYER.transform.position.x - 6, transform.position.y+3, _PLAYER.transform.position.z - 6);
+
+        float orthographicSize = 3.5f;
+
+        transform.DOMove(focusPos, 1);
+        cam.DOOrthoSize(orthographicSize, 1);
+
+    }
 
     public void CameraFocusStaff(GameObject _staff)
     {
@@ -56,7 +70,7 @@ public class CameraController : GameBehaviour
         
     }
 
-    public void CameraPlayerControl()
+    public void CameraPlayerFollow()
     {
         transform.DOMove(prevPos, 1);
         cam.DOOrthoSize(defaultCameraSize, 1);

@@ -18,6 +18,10 @@ public class ObjectPlacer : MonoBehaviour
     {
         GameObject structure = Instantiate(prefab);
         structure.transform.position = position; //covert back to world pos
+
+        //add rotation rounder here
+        Debug.Log($"Rotation {rotation}");
+
         structure.transform.GetChild(0).eulerAngles = new Vector3(0,rotation, 0); //set rotation
         placedGameObjects.Add(structure);
 
