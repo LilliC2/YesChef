@@ -28,7 +28,7 @@ public class SceneLoader : GameBehaviour
                     _GM.gameState = GameManager.GameState.Title;
                     _GM.event_gameStateTitleScreen.Invoke();
                     break;
-                case "GameScene":
+                case "YesChef v2":
 
                     _GM.gameState = GameManager.GameState.Playing;
                     _GM.event_gameStateOpenGameScene.Invoke();
