@@ -308,33 +308,6 @@ public class UIManager : Singleton<UIManager>
         produceCamera_Cam.gameObject.SetActive(!produceCamera_Cam.gameObject.activeSelf);
     }
 
-    public void ActivateBuildShop()
-    {
-        //when player is choosing object to place
-
-
-        if (!buildShopPanel_GO.activeSelf)
-        {
-            //Zoom in on player
-            cam.GetComponent<CameraController>().ZoomOnPlayer();
-
-            //bring up build shop UI
-            buildShopPanel_GO.SetActive(true);
-
-        }
-        else
-        {
-
-            //return camera to previous position
-            cam.GetComponent<CameraController>().CameraPlayerFollow();
-
-            //remove UI
-            buildShopPanel_GO.SetActive(false);
-
-        }
-
-
-    }
 
     public void ActivateUnlockStaffPanel()
     {
@@ -351,7 +324,7 @@ public class UIManager : Singleton<UIManager>
         //so player doesnt move cam while typing
         if(renameResturantPanel_GO.activeSelf)
             Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.DisablePlayerControl;
-        else Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.FollowPlayer;
+        else Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.PlayerControlled;
 
     }
 
@@ -708,7 +681,7 @@ public class UIManager : Singleton<UIManager>
 
         unlockCamera_GO.SetActive(false);
         unlockScreen_GO.SetActive(false);
-        Camera.main.GetComponent<CameraController>().state = CameraController.CameraState.FollowPlayer;
+        Camera.main.GetComponent<CameraController>().ZoomCameraOut();
 
         foreach (var item in unlockStaffModels_ListGO)
         {
@@ -925,7 +898,7 @@ public class UIManager : Singleton<UIManager>
         buttonPanel_GO.SetActive(true);
         buttonPanel_GO.GetComponent<RectTransform>().DOAnchorPos(openPos_V3, 1);
 
-        Camera.main.GetComponent<CameraController>().CameraPlayerFollow();
+        Camera.main.GetComponent<CameraController>().ZoomCameraOut();
 
         currentDialogIndex = -1;
 

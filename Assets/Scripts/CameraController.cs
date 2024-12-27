@@ -17,7 +17,7 @@ public class CameraController : GameBehaviour
     Vector3 lastMousePosition;
     [SerializeField] float defaultCameraSize,zOffset, yOffset, xOffset;
 
-    public enum CameraState { FollowPlayer, TalkToStaff, DisablePlayerControl, ZoomOnPlayer}
+    public enum CameraState { PlayerControlled, TalkToStaff, DisablePlayerControl, ZoomOnPlayer}
     public CameraState state;
 
     Vector3 startPos;
@@ -33,27 +33,20 @@ public class CameraController : GameBehaviour
     {
         switch(state)
         {
-            case CameraState.FollowPlayer:
-                gameObject.transform.localPosition = new Vector3(_PLAYER.transform.position.x + xOffset, yOffset, _PLAYER.transform.position.z + zOffset);
-
+            case CameraState.PlayerControlled:
+                ButtonInputs();
                 break;
         }
         
 
     }
-    [ContextMenu("Zoom On Player")]
-    public void ZoomOnPlayer()
+    [ContextMenu("Zoom On Player")] 
+
+
+    public void ZoomCameraOut()
     {
-        prevPos = cam.transform.position;
-        state = CameraState.ZoomOnPlayer;
-        state = CameraState.TalkToStaff;
-        Vector3 focusPos = new Vector3(_PLAYER.transform.position.x - 6, transform.position.y+3, _PLAYER.transform.position.z - 6);
-
-        float orthographicSize = 3.5f;
-
-        transform.DOMove(focusPos, 1);
-        cam.DOOrthoSize(orthographicSize, 1);
-
+        transform.DOMove(prevPos, 1);
+        cam.DOOrthoSize(defaultCameraSize, 1);
     }
 
     public void CameraFocusStaff(GameObject _staff)
@@ -70,12 +63,6 @@ public class CameraController : GameBehaviour
         
     }
 
-    public void CameraPlayerFollow()
-    {
-        transform.DOMove(prevPos, 1);
-        cam.DOOrthoSize(defaultCameraSize, 1);
-        ExecuteAfterSeconds(1,()=> state = CameraState.FollowPlayer);
-    }
 
     void ButtonInputs()
     {
@@ -99,7 +86,7 @@ public class CameraController : GameBehaviour
             inputX -= panSpeed * Time.deltaTime;
         }
 
-        //MoveCamera(inputX, inputZ);
+        MoveCamera(inputX, inputZ);
     }
 
     void MouseInputs()
