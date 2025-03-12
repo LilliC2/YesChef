@@ -45,7 +45,9 @@ public class CameraController : GameBehaviour
 
     public void ZoomCameraOut()
     {
-        transform.DOMove(prevPos, 1);
+        state = CameraState.PlayerControlled;
+        if(prevPos != Vector3.zero) transform.DOMove(prevPos, 1);
+
         cam.DOOrthoSize(defaultCameraSize, 1);
     }
 
